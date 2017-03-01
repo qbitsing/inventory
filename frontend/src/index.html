@@ -1,0 +1,49 @@
+<html>
+<head>
+    <base href="/">
+    <title>inventoy-prines</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- project:css -->
+    <!-- endinject -->
+
+    <!-- libs:css -->
+    <!-- endinject -->
+
+    <!-- inject:css -->
+    <!-- endinject -->
+</head>
+
+<!-- 3. Display the application -->
+<body>
+    <app>Loading...</app>
+
+    <script>
+        // Fixes undefined module function in SystemJS bundle
+        function module () {
+        }
+    </script>
+
+    <!-- 1. Load libraries -->
+    <!-- IE required polyfills, in this exact order -->
+    <!-- shims:js -->
+    <!-- endinject -->
+
+    <!-- libs:js -->
+    <!-- endinject -->
+
+    <!-- project:js -->
+    <!-- endinject -->
+
+    <!-- inject:js -->
+    <!-- endinject -->
+
+    <% if (ENV === 'dev') { %>
+    <script>
+        System.import('app').catch(function (err) {
+            console.error(err);
+        });
+    </script>
+    <% } %>
+</body>
+</html>
