@@ -8,8 +8,13 @@ const personaSchema = Schema({
   nombre : String,
   direccion : String,
   telefono : Number,
-  correo : {type : String , unique: true},
-  contrasena : String
+  correo : {type : String , unique : true , required : true},
+  contrasena : String,
+  rol : Array,
+  ciudad : ObjectId,
+  contacto: String,
+  fax : String,
+  cargo: String
 });
 
 module.exports = mongoose.model('persona' , personaSchema);
