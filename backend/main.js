@@ -27,6 +27,14 @@ app.put('/persona/:id', controllers.personas.actualizar);
 app.delete('/persona/:id', controllers.personas.eliminar);
 // Fin BLoque de Rutas de personas
 
+// Bloque de rutas de ciudades
+app.get('/ciudades', controllers.ciudades.listarAll);
+
+app.get('/ciudades/:id' , controllers.ciudades.listarById);
+
+app.post('/ciudades' , controllers.ciudades.crear);
+// Fin Bloque de rutas de ciudades
+
 mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
 	if(err){
 		return console.log(`ERROR al conectar con la BD: ${err}`);
