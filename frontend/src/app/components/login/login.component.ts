@@ -15,19 +15,17 @@ import { WebServerService } from './../../shared/services/src/web-server.service
 export class LoginComponent {
 	constructor(private WebServerService: WebServerService){   }
 	login={};
+	posts: any = [];
 	Login(): void {
-		this.WebServerService.EnviarDatos('/login',this.login,'get').subscribe(
-            result => {
-                console.log(result);
+		this.WebServerService.EnviarDatos('personas/login',this.login,'post').subscribe(result => {
+                console.log(result.datos);
             },
             error => {                 
                 if(<any>error !== null){
                     console.log(<any>error);
                     alert("Error en la petición");
                 }
-            }
-        );
-	    console.log(this.login);
+            });
 	}
 
 }
