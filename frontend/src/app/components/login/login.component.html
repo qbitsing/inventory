@@ -1,0 +1,11 @@
+<form  #FormLogin = "ngForm">
+	<div>
+		<label for="userInput">Usuario</label>
+		<input type="text" id="userInput" placeholder="Usuario" [(ngModel)]="login.user" ngControl = "usuario" required>
+	</div>
+    <div>
+		<label for="PasswordInput">Password</label>
+		<input type="password" id="PasswordInput" placeholder="Contraseña" [(ngModel)]="login.password" ngControl = "password" required>
+	</div>
+    <button (click)="Login()" [disabled]="!FormLogin.form.valid">Iniciar Sesión</button>
+</form>
