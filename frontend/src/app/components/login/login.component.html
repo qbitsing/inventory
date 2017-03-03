@@ -1,0 +1,23 @@
+<div class="row">
+	<div class=" col s12 m10 push-m2 l4 push-l4 card">
+		<form  #FormLogin = "ngForm">
+			<div class="input-field">
+				<i class="material-icons prefix">account_circle</i>
+				<input type="text" id="user" [(ngModel)]="login.user" ngControl = "usuario" required>
+				<label for="user">Usuario</label>
+			</div>
+		    <div class="input-field">
+		    	<i class="material-icons prefix">lock_open</i>
+				<input type="password" id="Password" [(ngModel)]="login.password" ngControl = "password" required>
+				<label for="Password">Password</label>
+			</div>
+			<div class="row">
+				<button (click)="Login()" [disabled]="!FormLogin.form.valid" class=" col s12 waves-effect waves-light btn-large">Iniciar Sesión</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+
+
