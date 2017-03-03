@@ -1,89 +1,62 @@
-// bower:scss
-// endbower
-
-.browsehappy {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:400,600,700');
+*{
+  font-family: 'Josefin Sans', sans-serif;
 }
-
-body {
-  padding: 0;
+/* label color */
+.input-field label {
+  color: #000 !important;
+  font-size: 18px !important;
 }
-
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-  padding-left: 15px;
-  padding-right: 15px;
+.input-field input{
+  font-size: 20px !important;
 }
-
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-  margin-bottom: 10px;
-
-  /* Make the masthead heading the same height as the navigation */
-  h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: 40px;
-    padding-bottom: 19px;
+/* label focus color */
+.input-field input:focus + label {
+  color: #2962ff !important;
+  font-size: 20px;
+}
+/* label underline focus color */
+.input-field input:focus {
+  border-bottom: 1px solid #2962ff !important;
+  box-shadow: 0 1px 0 0 #2962ff !important;
+}
+/* valid color */
+.input-field input.valid {
+  border-bottom: 1px solid #000 !important;
+  box-shadow: 0 1px 0 0 #000 ;
+}
+/* invalid color */
+.input-field input.invalid {
+  border-bottom: 1px solid #d50000;
+  box-shadow: 0 1px 0 0 #d50000;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+  color: #2962ff !important;
+}
+.btn-large[disabled]{
+  background-color: #448aff !important;
+  color:#e0e0e0 !important;
+}
+.content{
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom:0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to left, #1A2980 , #26D0CE);
+  .centro{
+    width:100%;
+    padding:0 1em;
   }
 }
-
-/* Custom page footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
-}
-
-.container-narrow > hr {
-  margin: 30px 0;
-}
-
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
-
-  .btn {
-    font-size: 21px;
-    padding: 14px 24px;
-  }
-}
-
-/* Supporting marketing content */
-.marketing {
-  margin: 40px 0;
-
-  p + h4 {
-    margin-top: 28px;
-  }
-}
-
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
-
-  /* Remove the padding we set earlier */
-  .header,
-  .marketing,
-  .footer {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-    border-bottom: 0;
-  }
+.col h3{
+  margin-top:0;
+  margin-bottom: 30px;
+  margin-left: -0.75rem;
+  margin-right: -0.75rem;
+  padding: 1em 0;
 }

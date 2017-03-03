@@ -21,7 +21,7 @@ var $ = require('gulp-load-plugins')();
 var processLess = function(src, board, app, tmp, filename) {
   return gulp.src(src)
     .pipe($.concat(filename))
-    .pipe($.less())
+    .pipe($.sass())
     .pipe($.postcss([$.autoprefixer]))
     .pipe(minifyCss())
     .pipe($.replace("app/styles", "app/styles"))
@@ -30,7 +30,7 @@ var processLess = function(src, board, app, tmp, filename) {
     .pipe(gulp.dest(tmp));
 };
 var srcStyles = [
-  "app/styles/less/main.less"
+  "app/styles/main.scss"
 ];
  
 gulp.task("styles", function() {
@@ -142,7 +142,7 @@ gulp.task('wiredep', function() {
     'angular-scenario'
   ];
 
-  gulp.src('app/styles/*.less')
+  gulp.src('app/styles/*.scss')
     .pipe(wiredep())
     .pipe(gulp.dest('app/styles'));
 
@@ -166,7 +166,7 @@ gulp.task('watch', ['connect'], function() {
     'app/images/**/*'
   ]).on('change', $.livereload.changed);
 
-  gulp.watch('app/styles/**/*.less', ['styles']);
+  gulp.watch('app/styles/**/*.scss', ['styles']);
   gulp.watch('bower.json', ['wiredep']);
 });
 

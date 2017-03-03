@@ -10,11 +10,31 @@
  */
 angular
   .module('frontendApp', [
+    'ui.router',
     'ngAnimate',
     'ngAria',
     'ngCookies',
     'ngMessages',
     'ngResource',
     'ngSanitize',
-    'ngTouch'
-  ]);
+    'ngTouch',
+    'LocalStorageModule',
+    'perfect_scrollbar',
+    'ui.grid',
+    'ui.grid.autoResize',
+    'ui.grid.resizeColumns',
+    'ui.grid.moveColumns',
+    'ui.grid.pagination', 
+    'ui.grid.cellNav',
+    'mdo-angular-cryptography',
+    'uiCropper'
+  ])
+   .config(function ($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/Login');
+    $stateProvider
+      .state('Login',{
+        url: '/Login',
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl'
+      })
+  })

@@ -2,7 +2,7 @@
   "name": "frontend",
   "private": true,
   "devDependencies": {
-   "apache-server-configs": "^2.14.0",
+    "apache-server-configs": "^2.14.0",
     "autoprefixer-core": "^6.0.1",
     "chai": "^3.5.0",
     "connect": "^3.5.0",
@@ -47,7 +47,8 @@
     "serve-index": "^1.8.0",
     "serve-static": "^1.11.1",
     "wiredep": "^4.0.0",
-    "yargs": "^6.3.0"
+    "yargs": "^6.3.0",
+    "gulp-sass": "^3.1.0"
   },
   "engines": {
     "node": ">=0.10.0"
