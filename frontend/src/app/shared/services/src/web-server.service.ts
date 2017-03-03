@@ -11,19 +11,22 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class WebServerService {
-	urlBackend="http://localhost:3000/";
+	urlBackend="http://localhost:5000/";
 	constructor(private http:Http){
 	}
 	EnviarDatos(ruta:string,data:any,verbo:string){
-		let headers = new Headers({ 'Content-Type': 'application/json' });
+		const headers = new Headers();
+        headers.append('Access-Control-Allow-Headers', 'Content-Type');
+        headers.append('Access-Control-Allow-Methods', 'GET');
+        headers.append('Access-Control-Allow-Origin', '*');
 		if(verbo=='get'){
-			return this.http.get(this.urlBackend).map(res => res.json());
+			return this.http.get(this.urlBackend+ruta,headers).map(res => res.json());
 		}
 		if(verbo=='post'){
-			return this.http.post(this.urlBackend+ruta, data , {headers: headers}).map(res => res.json());
+			return this.http.post(this.urlBackend+ruta, data , headers).map(res => res.json());
 		}
 		if(verbo=='put'){
-			return this.http.put(this.urlBackend+ruta, data , {headers: headers}).map(res => res.json());
+			return this.http.put(this.urlBackend+ruta, data , headers).map(res => res.json());
 		}
 		if(verbo=='delete'){
 			return this.http.delete(this. urlBackend).map((res) => res.json());
