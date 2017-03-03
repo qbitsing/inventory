@@ -16,10 +16,11 @@ export class WebServerService {
 	}
 	EnviarDatos(ruta:string,data:any,verbo:string){
 		const headers = new Headers();
-		headers.set('', '');
-		headers.set('');
+        headers.append('Access-Control-Allow-Headers', 'Content-Type');
+        headers.append('Access-Control-Allow-Methods', 'GET');
+        headers.append('Access-Control-Allow-Origin', '*');
 		if(verbo=='get'){
-			return this.http.get(this.urlBackend,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'}).map(res => res.json());
+			return this.http.get(this.urlBackend+ruta,headers).map(res => res.json());
 		}
 		if(verbo=='post'){
 			return this.http.post(this.urlBackend+ruta, data , headers).map(res => res.json());
