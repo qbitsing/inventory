@@ -4,11 +4,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const personaSchema = Schema({
-  documento : {type : String , unique : true , index : true},
+  documento : {type : String , unique : true , required : true},
   nombre : String,
   direccion : String,
   telefono : Number,
-  correo : String,
+  correo : {type : String , unique: true},
   contrasena : String
 });
 
