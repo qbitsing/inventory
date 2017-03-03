@@ -4,8 +4,9 @@
  */
 $enable-flex : true;
 
+
 @import 'variables';
 
-@import '../../node_modules/bootstrap/scss/bootstrap';
+@import '../../node_modules/materialize-css/sass/materialize';
 
 $fa-font-path : '../../node_modules/font-awesome/fonts';
