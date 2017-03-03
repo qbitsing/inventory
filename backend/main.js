@@ -8,30 +8,25 @@ const controllers = require('./app/controllers/all-controllers');
 
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// Bloque de Rutas de personas
 app.get('/personas', controllers.personas.listarAll);
 
-app.get('/persona/:id' , (req , res) => {
-	res.send(`Se listara la persona ${req.params.id}`);
-});
+app.get('/persona/:id' , controllers.personas.listarById);
 
-app.post('/personas', (req , res) => {
-	res.send(`Se creara una persona`);
-});
+app.post('/personas', controllers.personas.crear);
 
-app.put('/persona/:id', (req , res) => {
-	res.send(`Se actualizara la persona ${req.params.id}`);
-});
+app.post('/personas/login', controllers.personas.login);
 
-app.delete('/persona/:id', (req , res) => {
-	res.send(`Se eliminara la persona ${req.params.id}`);
-});
+app.put('/persona/:id', controllers.personas.actualizar);
 
-console.log(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`);
+app.delete('/persona/:id', controllers.personas.eliminar);
+// Fin BLoque de Rutas de personas
+
 mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
 	if(err){
 		return console.log(`ERROR al conectar con la BD: ${err}`);
@@ -41,5 +36,3 @@ mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.dat
 		console.log(`Api REST corriendo en: http://localhost:${port}`);
 	});
 });
-
-
