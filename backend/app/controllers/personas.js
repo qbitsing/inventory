@@ -27,7 +27,7 @@ function actualizar (req, res) {
 }
 
 function login (req, res){
-	res.send(`se realiza el login`);
+	res.status(200)send({datos : req.body , message : "Datos enviados por el cliente"});
 }
 function eliminar (req, res) {
 	let personaId = req.params.id;
