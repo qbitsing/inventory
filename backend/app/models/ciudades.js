@@ -9,7 +9,7 @@ const cuidadSchema = Schema({
       required : 'el nombre de la cuidad es requido'
   },
   departamento : {
-      type : String,
+      type : Number,
       required : [
           true,
           'el departamento de la cuidad es requido'
@@ -25,4 +25,4 @@ const cuidadSchema = Schema({
   }
 });
 
-module.exports = mongoose.model('cuidad' , cuidadSchema);
+module.exports = mongoose.model('ciudades' , cuidadSchema);
