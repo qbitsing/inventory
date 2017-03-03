@@ -16,7 +16,7 @@ export class LoginComponent {
 	constructor(private WebServerService: WebServerService){   }
 	login={};
 	Login(): void {
-		this.WebServerService.EnviarDatos('/login',this.login,'get').subscribe(
+		this.WebServerService.EnviarDatos('personas/',this.login,'get').subscribe(
             result => {
                 console.log(result);
             },
