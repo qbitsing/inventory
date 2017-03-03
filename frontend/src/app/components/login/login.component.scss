@@ -1,1 +1,60 @@
 
+/* label color */
+.input-field label {
+	color: #000;
+	font-size: 18px;
+}
+.input-field input{
+	font-size: 20px;
+}
+/* label focus color */
+.input-field input:focus + label {
+	color: #2962ff;
+	font-size: 20px;
+}
+/* label underline focus color */
+.input-field input:focus {
+	border-bottom: 1px solid #2962ff;
+	box-shadow: 0 1px 0 0 #2962ff;
+}
+/* valid color */
+.input-field input.valid {
+	border-bottom: 1px solid #000;
+	box-shadow: 0 1px 0 0 #000;
+}
+/* invalid color */
+.input-field input.invalid {
+	border-bottom: 1px solid #d50000;
+	box-shadow: 0 1px 0 0 #d50000;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+	color: #2962ff;
+}
+.btn-large[disabled]{
+	background-color: #448aff !important;
+	color:#e0e0e0 !important;
+}
+
+.content{
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom:0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(to left, #1A2980 , #26D0CE);
+	.centro{
+		width:100%;
+		padding:0 1em;
+	}
+}
+.col h3{
+	margin-top:0;
+	margin-bottom: 30px;
+	margin-left: -0.75rem;
+	margin-right: -0.75rem;
+	padding: 1em 0;
+}
