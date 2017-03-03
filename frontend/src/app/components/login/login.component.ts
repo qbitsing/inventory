@@ -27,7 +27,6 @@ export class LoginComponent {
                 }
             }
         );
-	    console.log(this.login);
 	}
 
 }
