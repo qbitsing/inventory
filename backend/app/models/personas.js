@@ -4,14 +4,28 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const personaSchema = Schema({
-  documento : {type : String , unique : true , required : true},
+  documento : {
+    type : String,
+    unique : [
+      true, 
+      'el documento debe ser unico'
+    ], 
+    required : true, 
+  },
   nombre : String,
   direccion : String,
   telefono : Number,
-  correo : {type : String , unique : true , required : true},
+  correo : {
+    type : String, 
+    unique : true, 
+    required : [
+      true, 
+      'el correo es requerido'
+    ]
+  },
   contrasena : String,
   rol : Array,
-  ciudad : ObjectId,
+  ciudad : String,
   contacto: String,
   fax : String,
   cargo: String
