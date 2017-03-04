@@ -11,8 +11,11 @@ angular.module('frontendApp')
   .service('SesionUsuario', function (localStorageService) {
     return{
     	CrearSesion:function (user){
-    		localStorageService.set("Usuario" , user);
+    		localStorageService.set('Usuario' , user);
     		return true;
+    	},
+    	CerrarSesion(){
+    		return localStorageService.remove('Usuario');
     	}
     }
   });

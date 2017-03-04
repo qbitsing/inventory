@@ -29,29 +29,35 @@ angular
     'mdo-angular-cryptography',
     'uiCropper'
   ])
-   .config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/Login');
-    $stateProvider
-      .state('plain', {
-        abstract: true,
-        url: '',
-        templateUrl: 'views/layouts/plain.html',
-      })
-      .state('Login',{
-        url: '/Login',
-        templateUrl: 'views/pages/login.html',
-        controller: 'LoginCtrl'
-      })
-      .state('Home',{
-        url: '/Home',
-        parent: 'Dashboard',
-        templateUrl: 'views/pages/home.html',
-        controller: 'HomeCtrl'
-      })
-      .state('Dashboard', {
-          url: '/Dashboard',
-          parent: 'plain',
-          templateUrl: 'views/layouts/dashboard.html',
-          controller: 'DashboardCtrl'
-      })
+  .config(function (localStorageServiceProvider) {
+    localStorageServiceProvider
+      .setPrefix('inventoryPrinesApp')
+      .setStorageType('sessionStorage')
+      .setNotify(true, true)
+  })
+  .config(function ($stateProvider, $urlRouterProvider) {
+  $urlRouterProvider.otherwise('/Login');
+  $stateProvider
+    .state('plain', {
+      abstract: true,
+      url: '',
+      templateUrl: 'views/layouts/plain.html',
+    })
+    .state('Login',{
+      url: '/Login',
+      templateUrl: 'views/pages/login.html',
+      controller: 'LoginCtrl'
+    })
+    .state('Home',{
+      url: '/Home',
+      parent: 'Dashboard',
+      templateUrl: 'views/pages/home.html',
+      controller: 'HomeCtrl'
+    })
+    .state('Dashboard', {
+        url: '/Dashboard',
+        parent: 'plain',
+        templateUrl: 'views/layouts/dashboard.html',
+        controller: 'DashboardCtrl'
+    })
   })

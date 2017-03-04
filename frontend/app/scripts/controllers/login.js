@@ -13,15 +13,11 @@ angular.module('frontendApp')
   	$scope.login=function(){
   		webServer.getResource('personas/login',$scope.userLogin,'post')
   		.then(function(data){
-  			if (data.status==200) {
-	  			if(SesionUsuario.CrearSesion(data.data.datos)){
-            $state.go('Home');
-	  			}
-  			}else{
-          alert('Datos incorrectos');
-        }
+  			if(SesionUsuario.CrearSesion(data.data.userLogin)){
+          $state.go('Home');
+  			}
   		},function(data){
-  			console.log(data);
+          alert(data.data.message);
   		});
   	}
   });
