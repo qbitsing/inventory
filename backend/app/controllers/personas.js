@@ -3,17 +3,55 @@
 const personaModel = require('../models/personas');
 
 function listarAll (req, res){
-	res.send(`Se van a listar todas las personas`);
+	personaModel.find((err , personasStored) => {
+		if(err){
+			return res.status(500).send({
+				message : `ERROR al tratar de listar las personas: ${err}`
+			});
+		}
+
+		if(!personasStored){
+			return res.status(404).send({
+				message : `No hay personas registradas en la BD`
+			});
+		}
+
+		return res.status(200).send({
+			personasStored
+		});
+
+	});
 }
 
 function listarById (req, res) {
-	res.send(`Se van a listar todas las personas`);
+	let personaId = req.params.id;
+	personaModel.findById(personaId , (err , personaStored)=>{
+		if(err){
+			return res.status(500).send({
+				message : `ERROR al tratar de listar la persona: ${err}`
+			});
+		}
+
+		if(!personaStored){
+			return res.status(404).send({
+				message : `No Existe una persona registrada con ese id`
+			});
+		}
+
+		return res.status(200).send({
+			personaStored
+		});
+	});
 }
 
 function crear (req, res) {
 	var persona = new personaModel(req.body);
 	persona.save((err, personaStored)=>{
-		if(err) return res.status(500).send({message : `Error al guardar la persona en la base de datos ${err}`});
+		if(err){
+			return res.status(500).send({
+				message : `Error al guardar la persona en la base de datos: ${err}`
+			});
+		} 
 		return res.status(200).send({
 			personaStored
 		});
@@ -21,7 +59,18 @@ function crear (req, res) {
 }
 
 function actualizar (req, res) {
-	res.send(`Se van a listar todas las personas`);
+	let personaId = req.params.id;
+	personaModel.findByIdAndUpdate(personaId , req.body ,(err , personaStored)=>{
+		if(err){
+			return res.status(500).send({
+				message : `ERROR al intentar actualizar la persona ${err}`
+			});
+		}
+
+		return res.status(200).send({
+			personaStored
+		});
+	});
 }
 
 function login (req, res){
@@ -32,7 +81,7 @@ function login (req, res){
 	personaModel.findOne(credentials , (err , userLogin) => {
 		if(err){
 			return res.status(500).send({
-				message : `Error al intentar validar el usuario ${err}`
+				message : `Error al intentar validar el usuario: ${err}`
 			});
 		}
 
@@ -50,19 +99,15 @@ function login (req, res){
 }
 function eliminar (req, res) {
 	let personaId = req.params.id;
-	personaModel.find({documento : personaId} , (err , personaStored)=>{
-		if(err) {
-			return res.status(404).send({
-				message : `ERROR al identificar la persona ${err}`
+	personaModel.findByIdAndRemove(personaId , (err)=>{
+		if(err){
+			return res.status(500).send({
+				message : `ERROR al intentar eliminar la persona ${err}`
 			});
 		}
-		for(var persona of personaStored){
-			persona.remove((err)=>{
-				if(err){
-					return res.status(500).send({message : err});
-				}
-			});
-		}
+		return res.status(200).send({
+			message : `Persona eliminada con exito`
+		});
 	});
 }
 
