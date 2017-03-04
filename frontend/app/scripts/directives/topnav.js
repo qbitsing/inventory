@@ -12,7 +12,6 @@ angular.module('frontendApp')
 		templateUrl: 'views/directives/topnav.html',
 		restrict: 'E',
 		link: function postLink(scope, element, attrs) {
-        	element.text('this is the topnav directive');
       	},
 		controller :'DashboardCtrl'
     };
