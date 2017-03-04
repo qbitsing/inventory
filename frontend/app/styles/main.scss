@@ -2,6 +2,8 @@
 *{
   font-family: 'Josefin Sans', sans-serif;
 }
+$azul:#2962ff;
+$gris:#424242;
 /* label color */
 .input-field label {
   color: #000 !important;
@@ -12,13 +14,13 @@
 }
 /* label focus color */
 .input-field input:focus + label {
-  color: #2962ff !important;
+  color: $azul !important;
   font-size: 20px;
 }
 /* label underline focus color */
 .input-field input:focus {
-  border-bottom: 1px solid #2962ff !important;
-  box-shadow: 0 1px 0 0 #2962ff !important;
+  border-bottom: 1px solid $azul !important;
+  box-shadow: 0 1px 0 0 $azul !important;
 }
 /* valid color */
 .input-field input.valid {
@@ -32,7 +34,7 @@
 }
 /* icon prefix focus color */
 .input-field .prefix.active {
-  color: #2962ff !important;
+  color: $azul !important;
 }
 .btn-large[disabled]{
   background-color: #448aff !important;
@@ -60,12 +62,25 @@
   margin-right: -0.75rem;
   padding: 1em 0;
 }
+.main-view{
+  position:absolute;
+  right:0;
+  top:64px;
+  bottom:0;
+  left:20%;
 
+}
 .top-nav{
   position:fixed;
   top:0;
   right:0;
   width:80%;
+  
+}.side-nav{
+  position:relative;
+  height: auto;
+  background: none;
+  transform: translateX(0)!important;
 }
 .sidenav{
   position:fixed;
@@ -73,5 +88,8 @@
   left:0;
   bottom:0;
   width:20%;
-  background-color:blue;
+  
+  h3{
+    color:$azul;
+  }
 }
