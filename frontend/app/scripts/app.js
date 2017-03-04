@@ -32,14 +32,26 @@ angular
    .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/Login');
     $stateProvider
+      .state('plain', {
+        abstract: true,
+        url: '',
+        templateUrl: 'views/layouts/plain.html',
+      })
       .state('Login',{
         url: '/Login',
-        templateUrl: 'views/login.html',
+        templateUrl: 'views/pages/login.html',
         controller: 'LoginCtrl'
       })
       .state('Home',{
         url: '/Home',
-        templateUrl: 'views/home.html',
+        parent: 'Dashboard',
+        templateUrl: 'views/pages/home.html',
         controller: 'HomeCtrl'
+      })
+      .state('Dashboard', {
+          url: '/Dashboard',
+          parent: 'plain',
+          templateUrl: 'views/layouts/dashboard.html',
+          controller: 'DashboardCtrl'
       })
   })
