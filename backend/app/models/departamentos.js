@@ -5,13 +5,13 @@ const Schema = mongoose.Schema;
 const departamentoSchema = Schema({
   nombre : {
       type : String,
-      required : 'el nombre del departamento es requido'
+      required : 'el nombre del departamento es requerido'
   },
   pais : {
       type : Number,
       required : [
           true,
-          'el pais del departamento es requido'
+          'el pais del departamento es requerido'
       ]
   },
   id : {
@@ -19,7 +19,7 @@ const departamentoSchema = Schema({
       unique : true,
       required : [
           true,
-          'el id del departamento es requido'
+          'el id del departamento es requerido'
       ]
   }
 });

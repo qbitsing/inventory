@@ -8,6 +8,7 @@ function listarAll (req, res){
             return res.status(500).send({
                 message : `ERROR al obtener la lista de ciudades ${err}`
             });
+            
         }
         if(!ciudadesStrored){
             return res.status(404).send({
