@@ -12,10 +12,8 @@ function listarById (req, res) {
 
 function crear (req, res) {
 	var persona = new personaModel(req.body);
-
 	persona.save((err, personaStored)=>{
 		if(err) return res.status(500).send({message : `Error al guardar la persona en la base de datos ${err}`});
-
 		return res.status(200).send({
 			personaStored
 		});
@@ -27,7 +25,8 @@ function actualizar (req, res) {
 }
 
 function login (req, res){
-	res.status(200).send({datos : req.body , message : "Datos enviados por el cliente"});
+	console.log(req);
+	res.status(200).send({Estado:1,datos : req.body , message : "Datos enviados por el cliente"});
 }
 function eliminar (req, res) {
 	let personaId = req.params.id;
