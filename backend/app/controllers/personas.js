@@ -12,10 +12,8 @@ function listarById (req, res) {
 
 function crear (req, res) {
 	var persona = new personaModel(req.body);
-
 	persona.save((err, personaStored)=>{
 		if(err) return res.status(500).send({message : `Error al guardar la persona en la base de datos ${err}`});
-
 		return res.status(200).send({
 			personaStored
 		});
@@ -27,12 +25,37 @@ function actualizar (req, res) {
 }
 
 function login (req, res){
-	res.status(200).send({datos : req.body , message : "Datos enviados por el cliente"});
+	let credentials = {
+		correo : req.body.user,
+		contrasena : req.body.password
+	};
+	personaModel.findOne(credentials , (err , userLogin) => {
+		if(err){
+			return res.status(500).send({
+				message : `Error al intentar validar el usuario ${err}`
+			});
+		}
+
+		if(!userLogin){
+			return res.status(404).send({
+				message : `Los datos ingresados no coinciden`
+			});
+		}
+
+		return res.status(200).send({
+			userLogin
+		});
+
+	})
 }
 function eliminar (req, res) {
 	let personaId = req.params.id;
 	personaModel.find({documento : personaId} , (err , personaStored)=>{
-		if(err) return res.status(404).send({message : `ERROR al identificar la persona ${err}`});
+		if(err) {
+			return res.status(404).send({
+				message : `ERROR al identificar la persona ${err}`
+			});
+		}
 		for(var persona of personaStored){
 			persona.remove((err)=>{
 				if(err){

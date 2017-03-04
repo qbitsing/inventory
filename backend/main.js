@@ -10,8 +10,13 @@ const controllers = require('./app/controllers/all-controllers');
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(function(req,res,next){
+	res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    next();
+})
 
 // Bloque de Rutas de personas
 app.get('/personas', controllers.personas.listarAll);

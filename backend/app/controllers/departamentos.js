@@ -4,16 +4,7 @@ const ciudadModel = require('../models/ciudades');
 
 function listarAll (req, res){
 	ciudadModel.find({} , (err , ciudadesStrored)=>{
-        if(err) {
-            return res.status(500).send({
-                message : `ERROR al obtener la lista de ciudades ${err}`
-            });
-        }
-        if(!ciudadesStrored){
-            return res.status(404).send({
-                message : `No hay ciudades registradas en la BD`
-            });
-        }
+        if(err) return res.status(500).send({message : `ERROR al obtener la lista de ciudades ${err}`});
 
         return res.status(200).send({
             ciudadesStrored

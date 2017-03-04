@@ -2,23 +2,27 @@
 	<div class="row centro">
 	<div class=" col s12 m10 push-m2 l4 push-l4 card grey lighten-5">
 		<h3 class="center-align blue accent-4 white-text">Inicio sesión</h3>
-		<form>
+		<form name="formLogin" novalidate ng-submit="login()">
 			<div class="row">
 				<div class="input-field">
 					<i class="material-icons prefix">account_circle</i>
+<<<<<<< HEAD:frontend/app/views/login.html
 					<input type="email" id="user" required class="validate" required>
+=======
+					<input type="email" ng-model="userLogin.user" id="user" required class="validate">
+>>>>>>> 217d2cea24b16b5e84cf4e967770a9030d2c6b67:frontend/app/views/pages/login.html
 					<label for="user" data-error="correo invalido">Usuario</label>
 				</div>
 			</div>
 			<div class="row">
 				<div class="input-field">
 			    	<i class="material-icons prefix">lock_open</i>
-					<input type="password" id="Password" required>
+					<input type="password" ng-model="userLogin.password" id="Password" required>
 					<label for="Password">Password</label>
 				</div>
 			</div>
 			<div class="row">
-				<button class="col s12 waves-effect waves-light btn-large blue accent-4">Iniciar Sesión</button>
+				<button type="submit" ng-disabled="formLogin.$invalid" class="col s12 waves-effect waves-light btn-large blue accent-4">Iniciar Sesión</button>
 			</div>
 		</form>
 	</div>
