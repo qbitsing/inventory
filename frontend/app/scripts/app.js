@@ -60,4 +60,40 @@ angular
         templateUrl: 'views/layouts/dashboard.html',
         controller: 'DashboardCtrl'
     })
+    .state('Proveedores',{
+      url: '/Proveedores',
+      parent: 'Dashboard',
+      templateUrl: 'views/pages/proveedores.html',
+      controller: 'ProveedoresCtrl'
+    })
+    .state('Clientes',{
+      url: '/Clientes',
+      parent: 'Dashboard',
+      templateUrl: 'views/pages/clientes.html',
+      controller: 'ClientesCtrl'
+    })
+    .state('Productos',{
+      url: '/Productos',
+      parent: 'Dashboard',
+      templateUrl: 'views/pages/productos.html',
+      controller: 'ProductosCtrl'
+    })
+    .state('Empleados',{
+      url: '/Empleados',
+      parent: 'Dashboard',
+      templateUrl: 'views/pages/empleados.html',
+      controller: 'EmpleadosCtrl'
+    })
+    .state('OrdenVenta',{
+      url: '/OrdenVenta',
+      parent: 'Dashboard',
+      templateUrl: 'views/pages/orden_venta.html',
+      controller: 'OrdenVentaCtrl'
+    })
+    .state('OrdenCompra',{
+      url: '/OrdenCompra',
+      parent: 'Dashboard',
+      templateUrl: 'views/pages/orden_compra.html',
+      controller: 'OrdenCompraCtrl'
+    })
   })
