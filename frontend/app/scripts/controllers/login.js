@@ -9,6 +9,9 @@
  */
 angular.module('frontendApp')
   .controller('LoginCtrl', function ($scope, webServer, SesionUsuario,$state) {
+    if(SesionUsuario.obtenerSesion()!=null){
+      $state.go('Home');
+    }
   	$scope.userLogin={};
   	$scope.login=function(){
   		webServer.getResource('personas/login',$scope.userLogin,'post')

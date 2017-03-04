@@ -14,6 +14,9 @@ angular.module('frontendApp')
     		localStorageService.set('Usuario' , user);
     		return true;
     	},
+        obtenerSesion(){
+            return localStorageService.get('Usuario');
+        },
     	CerrarSesion(){
     		return localStorageService.remove('Usuario');
     	}
