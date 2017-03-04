@@ -8,12 +8,17 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('LoginCtrl', function ($scope, webServer) {
+  .controller('LoginCtrl', function ($scope, webServer, SesionUsuario,$state) {
   	$scope.userLogin={};
   	$scope.login=function(){
   		webServer.getResource('personas/login',$scope.userLogin,'post')
   		.then(function(data){
-  			console.log(data.data);
+  			if (data.data.Estado==1) {
+	  			if(SesionUsuario.CrearSesion(data.data.datos)){
+	  				console.log(data.data);
+            $state.go('Home');
+	  			}
+  			}
   		},function(data){
   			console.log(data);
   		});

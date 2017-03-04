@@ -37,4 +37,9 @@ angular
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
       })
+      .state('Home',{
+        url: '/Home',
+        templateUrl: 'views/home.html',
+        controller: 'HomeCtrl'
+      })
   })

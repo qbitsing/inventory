@@ -8,7 +8,7 @@
  * Service in the frontendApp.
  */
 angular.module('frontendApp')
-  .service('webServer', function ($http ) {
+  .service('webServer', function ($http) {
 	return{
 		getResource: function(resource , data, metodo) {
 			var URL = "http://localhost:5000/"+resource;
@@ -25,9 +25,6 @@ angular.module('frontendApp')
 				var req = {
 	                method : 'GET',
 	                url : URL,
-	                headers : {
-	                    'Content-Type' : undefined
-	                },
 	                params : data
 	            }
 	            return $http(req);
@@ -36,9 +33,6 @@ angular.module('frontendApp')
 				var req = {
 					method : 'POST',
 					url : URL,
-					headers : {
-						'Content-Type' : undefined
-					},
 					data : data
 				}
 				return $http(req);
