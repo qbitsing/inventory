@@ -60,3 +60,18 @@
   margin-right: -0.75rem;
   padding: 1em 0;
 }
+
+.top-nav{
+  position:fixed;
+  top:0;
+  right:0;
+  width:80%;
+}
+.sidenav{
+  position:fixed;
+  top:0;
+  left:0;
+  bottom:0;
+  width:20%;
+  background-color:blue;
+}
