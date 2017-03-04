@@ -2,6 +2,7 @@
 *{
   font-family: 'Josefin Sans', sans-serif;
 }
+$blanco:#f5f5f5;
 $azul:#2962ff;
 $gris:#424242;
 /* label color */
@@ -77,12 +78,34 @@ $gris:#424242;
   width:80%;
   
 }.side-nav{
+  width:100%;
   position:relative;
   height: auto;
   background: none;
   transform: translateX(0)!important;
+  padding:0;
+  
+  ul{
+    margin:0;
+    li{ 
+      a{
+        padding:0;
+        color:$blanco;
+        font-size: 1.2rem;
+      }
+      i.material-icons{
+        width:52.5px;
+        text-align: center;
+        color:$blanco;
+      }
+    }
+  }
 }
 .sidenav{
+  .btn{
+    padding:0 16.513px !important;
+    color:$azul;
+  }
   position:fixed;
   top:0;
   left:0;
