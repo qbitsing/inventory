@@ -1,16 +1,33 @@
-<div class="sidenav  blue-grey darken-4">
-	<a class="btn waves-effect waves-light blue-grey darken-3"><i class="material-icons">chevron_left</i></a>
-	<div class="perfil">
-		<h3>foto</h3>
-	</div>
-	<div class="side-nav">
-		<ul>
-			<li><a ui-sref="Proveedores"><i class="material-icons">store_mall_directory</i>Proveedores</a></li>
-			<li><a ui-sref="Clientes"><i class="material-icons">store_mall_directory</i>Clientes</a></li>
-			<li><a ui-sref="Productos"><i class="material-icons">store_mall_directory</i>Productos</a></li>
-			<li><a ui-sref="Empleados"><i class="material-icons">store_mall_directory</i>Empleados</a></li>
-			<li><a ui-sref="OrdenCompra"><i class="material-icons">store_mall_directory</i>Orden de compra</a></li>
-			<li><a ui-sref="OrdenVenta"><i class="material-icons">store_mall_directory</i>Orden de venta</a></li>
-		</ul>
+<div class="sidenav  blue-grey darken-4 sidenav-hidden">
+	<a class="btn-floating btn-large waves-effect waves-light blue-grey darken-3" ng-click="sidenav()"><i class="material-icons">reorder</i></a>
+	<div class="scroll">
+		<div class="row perfil perfil-hidden">
+			<div class="col s12">
+				<div class=" valign-wrapper">
+					<div class="col s4 m4 l4">
+						<img src="http://lorempixel.com/80/80" class="circle responsive-img" alt="Contact Person">
+					</div>
+				    <div class="col s8 m8 l8">
+					    <a class='btn-flat col s12 dropdown-button waves-effect waves-light white-text profile-btn' href='#' data-activates='dropdown-perfil'>sebastian arias<i class="material-icons right">arrow_drop_down</i></a>
+						<p class="blue-text accent-4">Administrador</p>
+						
+				    </div>
+				</div>
+			</div>
+		</div>
+		<div class="side-nav">
+			<ul>
+				<li ng-class="{active: $state.includes('Proveedores')}"><a ui-sref="Proveedores"><i class="material-icons">store_mall_directory</i>Proveedores</a></li>
+				<li><a ui-sref="Clientes"><i class="material-icons">store_mall_directory</i>Clientes</a></li>
+				<li><a ui-sref="Productos"><i class="material-icons">store_mall_directory</i>Productos</a></li>
+				<li><a ui-sref="Empleados"><i class="material-icons">store_mall_directory</i>Empleados</a></li>
+				<li><a ui-sref="OrdenCompra"><i class="material-icons">store_mall_directory</i>Orden de compra</a></li>
+				<li><a ui-sref="OrdenVenta"><i class="material-icons">store_mall_directory</i>Orden de venta</a></li>
+			</ul>
+		</div>
 	</div>
 </div>
+<ul id="dropdown-perfil" class="dropdown-content">
+	<li><a href="#!"><i class="material-icons left">face</i>perfil</a></li>
+	<li><a href="#!"><i class="material-icons left">exit_to_app</i>cerrar seion</a></li>
+</ul>
