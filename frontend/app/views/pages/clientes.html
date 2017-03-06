@@ -10,35 +10,47 @@
 					<form name="formClientes" novalidate ng-submit="EnviarCliente()">
 						<div class="row">
 						<div class="input-field col s6">
-							<label for="NIT">NIT *</label>
-							<input type="text" ng-model="Cliente.id" name="NIT" class="form-control color-negro" id="NIT"  required ng-disabled="panel_title_form == 'Editar Cliente'">
+							<label for="NIT">Documento o NIT *</label>
+							<input type="text" ng-model="Cliente.id" name="NIT" id="NIT"  required ng-disabled="panel_title_form == 'Editar Cliente'">
 						</div>
 						<div class="input-field col s6">
 							<label for="Nombre">Nombre *</label>
-							<input type="text" ng-model="Cliente.nombre" class="form-control color-negro" id="Nombre" name="Nombre" required>
+							<input type="text" ng-model="Cliente.nombre" id="Nombre" name="Nombre" required>
 						</div>
 						</div>
 						<div class="row">
 						<div class="input-field col s6">
 							<label for="Direccion">Direccion *</label>
-							<input type="text" ng-model="Cliente.direccion" class="form-control color-negro" id="Direccion" name="Direccion" required>
+							<input type="text" ng-model="Cliente.direccion" id="Direccion" name="Direccion" required>
 						</div>
 						<div class="input-field col s6">
 							<label for="Telefono">Telefono *</label>
-							<input type="number" ng-model="Cliente.telefono" class="form-control color-negro" id="Telefono" name="Telefono" required>
+							<input type="number" ng-model="Cliente.telefono" id="Telefono" name="Telefono" required>
 						</div>
 						</div>
 						<div class="row">
 						<div class="input-field col s6" ng-hide="panel_title_form == 'Editar Cliente'">
-							<label for="Candados">Candados *</label>
-							<input type="number" ng-model="Cliente.limite_candados" class="form-control color-negro" id="Candados" name="Candados" required>
+							<label for="Correo">Correo *</label>
+							<input type="email" ng-model="Cliente.Correo" id="Correo" name="Correo" required>
 						</div>
 						<div class="input-field col s6" ng-hide="panel_title_form == 'Editar Cliente'">
-							<label for="Llaves">Llaves *</label>
-							<input type="number" ng-model="Cliente.limite_llaves" class="form-control color-negro" id="Llaves" name="Llaves" required>
+							<select ng-model="Cliente.ciudad" id="Ciudad" name="Ciudad" required>
+								<option value="" disabled selected>Choose your option</option>
+      							<option value="1">Option 1</option>
+							</select>
+							<label>Ciudad *</label>
 						</div>
 						</div>
-
+						<div class="row">
+						<div class="input-field col s6" ng-hide="panel_title_form == 'Editar Cliente'">
+							<label for="Correo">Contacto *</label>
+							<input type="email" ng-model="Cliente.contacto" id="Correo" name="Correo" required>
+						</div>
+						<div class="input-field col s6" ng-hide="panel_title_form == 'Editar Cliente'">
+							<label for="Llaves">Fax *</label>
+							<input type="number" ng-model="Cliente.fax" id="Llaves" name="Llaves" required>
+						</div>
+						</div>
 						<button type="submit" class="btn btn-primary" ng-disabled="formClientes.$invalid">{{button_title_form}}</button>
 						<button type="button" class="btn btn-danger" ng-show="panel_title_form == 'Editar Cliente'" ng-click="CancelarEditar()">Cancelar</button>
 					</form>
