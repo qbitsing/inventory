@@ -7,4 +7,4 @@ const unidadSchema = Schema({
   nombre : String,
 });
 
-module.exports = mongoose.model('unidad' , unidadSchema);
+module.exports = mongoose.model('unidades' , unidadSchema);

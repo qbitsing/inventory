@@ -4,25 +4,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const cuidadSchema = Schema({
-  nombre : {
-      type : String,
-      required : 'el nombre de la cuidad es requerido'
-  },
-  departamento : {
-      type : Number,
-      required : [
-          true,
-          'el departamento de la cuidad es requerido'
-      ]
-  },
-  id : {
-      type : Number,
-      unique : true,
-      required : [
-          true,
-          'el id de la cuidad es requerido'
-      ]
-  }
+  nombre : String,
+  departamento : Number,
+  id : Number
 });
 
 module.exports = mongoose.model('ciudades' , cuidadSchema);
