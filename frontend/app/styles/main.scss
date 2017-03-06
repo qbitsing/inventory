@@ -180,7 +180,20 @@ $gris:#424242;
   display:none !important;;
 }
 .activate a{
+  position:relative;
+  i{
+    color:$azul!important;
+  }
   color:$azul !important;
+  :before{
+    position:absolute;
+    top:0;
+    left:0;
+    bottom:0;
+    width:4px;
+    content:'';
+    background-color: $azul;
+  }
 }
 #app-container .btn-floating{
     position:fixed;
@@ -261,7 +274,14 @@ $gris:#424242;
   padding: 15px 10px 15px 0;
   color: $blanco;
   font-size: 2rem;
+  transform:scaleX(0);
+  transition:all .3s;
+  transition-delay:.3s;
 }
+.pageAnimate{
+  transform:scaleX(1);
+}
+
 .contenido{
   position:relative;
   top:72px;
@@ -272,6 +292,9 @@ $gris:#424242;
 .card-panel{
   position:relative;
   padding:0;
+  transform:scaleX(0);
+  transition:all .3s;
+  transition-delay:.3s;
   .panel-heading{
     position:relative;
     top:0;
@@ -290,4 +313,7 @@ $gris:#424242;
       margin-bottom: 0;
     }
   }
+}
+.panelAnimate{
+  transform:scaleX(1);
 }
