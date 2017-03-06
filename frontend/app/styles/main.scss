@@ -82,17 +82,19 @@ select{
   right:0;
   top:64px;
   height:auto;
-  left:20%;
+  left:300px;
 }
 .top-nav-hidden{
   left:69px !important;
   transition:all 0.3s linear;
+  width:auto;
 }
 .top-nav{
   position:fixed;
   top:0;
-  right:0;
-  left:20%;
+  left:300px;
+  right:0!important;
+  width:auto;
   transition:all 0.3s linear;
   
 }.side-nav{
@@ -120,7 +122,7 @@ select{
     }
   }
 }
-@media only screen and (max-device-width : 990px){
+@media only screen and (min-device-width : 600px) and (max-device-width : 990px){
   .sidenav{
     width:300px !important;
   }
@@ -128,38 +130,45 @@ select{
     left:300px;
   }
   .main-view-full{
-    left:59px ;
+    left:59px;
   }
   .main-view{
     transition:all 0.3s linear;
     z-index: -1;
-    position:relative;
+    position:absolute;
     right:0;
     top:64px;
     height:auto;
     left:300px;
   }
 }
-@media only screen and (max-device-width : 600px){
+@media only screen and (max-device-width : 601px){
+  .sidenav-hidden{
+    width:0!important;
+    transform:translateX(-69px);
+  }
   .sidenav{
      width:100% !important; 
   }
+  .top-nav-hidden{
+    left:0!important;
+  }
   .top-nav{
-    left:59px;
+    left:0;
   }
   .main-view-full{
-    left:59px ;
+    left:0px!important;
   }
   .main-view{
     transition:all 0.3s linear;
     z-index: -1;
-    position:relative;
+    position:absolute;
     right:0;
     top:64px;
     height:auto;
-    left:59px;
+    left:0;
     .titulo-pagina{
-      top:54px;
+      top:56px;
     }
   }
 }
@@ -173,12 +182,16 @@ select{
 .activate a{
   color:$azul !important;
 }
+#app-container .btn-floating{
+    position:fixed;
+    z-index: 100;
+  }
 .sidenav{
   position:fixed;
   top:0;
   left:0;
   bottom:0;
-  width:20%;
+  width:300px;
   transition:all 0.3s linear;
   overflow-y:scroll;
   overflow-x:hidden;
@@ -196,10 +209,7 @@ select{
       border-radius: 10px;
       background: $azul;
     }
-  >.btn-floating{
-    position:fixed;
-    z-index: 100;
-  }
+  
   .scroll{
     position:relative;
     top:56px;
