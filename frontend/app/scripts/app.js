@@ -60,17 +60,11 @@ angular
         templateUrl: 'views/layouts/dashboard.html',
         controller: 'DashboardCtrl'
     })
-    .state('Proveedores',{
-      url: '/Proveedores',
+    .state('Personas',{
+      url: '/Personas',
       parent: 'Dashboard',
-      templateUrl: 'views/pages/proveedores.html',
-      controller: 'ProveedoresCtrl'
-    })
-    .state('Clientes',{
-      url: '/Clientes',
-      parent: 'Dashboard',
-      templateUrl: 'views/pages/clientes.html',
-      controller: 'ClientesCtrl'
+      templateUrl: 'views/pages/Personas.html',
+      controller: 'PersonasCtrl'
     })
     .state('Productos',{
       url: '/Productos',
