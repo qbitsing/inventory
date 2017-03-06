@@ -64,20 +64,20 @@ $gris:#424242;
   padding: 1em 0;
 }
 .main-view-full{
-  left:59px !important;
+  left:69px !important;
   transition:all 0.3s linear;
 }
 .main-view{
   transition:all 0.3s linear;
   z-index: -1;
-  position:absolute;
+  position:relative;
   right:0;
   top:64px;
-  bottom:0;
+  height:auto;
   left:20%;
 }
 .top-nav-hidden{
-  left:59px !important;
+  left:69px !important;
   transition:all 0.3s linear;
 }
 .top-nav{
@@ -125,10 +125,10 @@ $gris:#424242;
   .main-view{
     transition:all 0.3s linear;
     z-index: -1;
-    position:absolute;
+    position:relative;
     right:0;
     top:64px;
-    bottom:0;
+    height:auto;
     left:300px;
   }
 }
@@ -145,10 +145,10 @@ $gris:#424242;
   .main-view{
     transition:all 0.3s linear;
     z-index: -1;
-    position:absolute;
+    position:relative;
     right:0;
     top:64px;
-    bottom:0;
+    height:auto;
     left:59px;
     .titulo-pagina{
       top:54px;
@@ -156,13 +156,13 @@ $gris:#424242;
   }
 }
 .sidenav-hidden{
-  width:59px !important;
+  width:69px !important;
   transition:all 0.3s linear;
 }
 .perfil-hidden{
   display:none !important;;
 }
-.active a{
+.activate a{
   color:$azul !important;
 }
 .sidenav{
@@ -190,6 +190,7 @@ $gris:#424242;
     }
   >.btn-floating{
     position:fixed;
+    z-index: 100;
   }
   .scroll{
     position:relative;
