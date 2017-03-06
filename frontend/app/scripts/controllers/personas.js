@@ -22,4 +22,7 @@ angular.module('frontendApp')
     $scope.button_title_form = "Registrar Persona";
     $scope.Persona=[];
     $scope.Persona.rol={};
+    $scope.EnviarPersona=function(){
+      console.log($scope.Persona);
+    }
   });
