@@ -11,16 +11,9 @@ angular.module('frontendApp')
   .service('webServer', function ($http) {
 	return{
 		getResource: function(resource , data, metodo) {
-			var URL = "http://192.168.0.8:5000/"+resource;
-			/*if(SesionUsuario.ObtenerUsuario() != null){
-				if(data != undefined)
-					data.userAction = SesionUsuario.ObtenerUsuario().id;
-				else{
-					data = {
-						userAction : SesionUsuario.ObtenerUsuario().id
-					}
-				}
-			}*/
+			var URL = "http://localhost:5000/"+resource;
+			if(data == undefined)
+				data = {};
 			if(metodo=="get"){
 				var req = {
 	                method : 'GET',

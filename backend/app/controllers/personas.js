@@ -45,8 +45,6 @@ function listarById (req, res) {
 }
 
 function crear (req, res) {
-	console.log('entro');
-	console.log(req.body);
 	var persona = new personaModel(req.body);
 	persona.save((err, personaStored)=>{
 		if(err){
