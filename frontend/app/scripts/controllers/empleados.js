@@ -19,5 +19,6 @@ angular.module('frontendApp')
       $scope.panelAnimate='panelAnimate';
   },100);
   $scope.panel_title_form = "Registro de Empleados";
-$scope.button_title_form = "Registrar Empleado";
+  $scope.button_title_form = "Registrar Empleado";
+  $scope.Empleado={};
 });

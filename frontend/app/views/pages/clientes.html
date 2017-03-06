@@ -1,39 +1,39 @@
-<pageheader pagename="Gestion de Clientes" class="titulo-pagina {{pageAnimate}}"></pageheader>
-<div class="conter-wrapper">
+<h2 class="titulo-pagina blue accent-4 right-align {{pageAnimate}}">Registro de clientes</h2>
+<div class="contenido">
 	<div class="row">
 		<div class="col s12">
-			<div class="panel panel-default {{panelAnimate}}">
-				<div class="panel-heading">
+			<div class="card-panel {{panelAnimate}}">
+				<div class="panel-heading blue accent-4">
 					<h3 class="panel-title">{{panel_title_form}}</h3>
 				</div>
 				<div class="panel-body" >
 					<form name="formClientes" novalidate ng-submit="EnviarCliente()">
 						<div class="row">
-						<div class="input-field col s6">
+						<div class="input-field col s12 m6 l6">
 							<label for="NIT">Documento o NIT *</label>
 							<input type="text" ng-model="Cliente.id" name="NIT" id="NIT"  required ng-disabled="panel_title_form == 'Editar Cliente'">
 						</div>
-						<div class="input-field col s6">
+						<div class="input-field col s12 m6 l6">
 							<label for="Nombre">Nombre *</label>
 							<input type="text" ng-model="Cliente.nombre" id="Nombre" name="Nombre" required>
 						</div>
 						</div>
 						<div class="row">
-						<div class="input-field col s6">
+						<div class="input-field col s12 m6 l6">
 							<label for="Direccion">Direccion *</label>
 							<input type="text" ng-model="Cliente.direccion" id="Direccion" name="Direccion" required>
 						</div>
-						<div class="input-field col s6">
+						<div class="input-field col s12 m6 l6">
 							<label for="Telefono">Telefono *</label>
 							<input type="number" ng-model="Cliente.telefono" id="Telefono" name="Telefono" required>
 						</div>
 						</div>
 						<div class="row">
-						<div class="input-field col s6" ng-hide="panel_title_form == 'Editar Cliente'">
+						<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Cliente'">
 							<label for="Correo">Correo *</label>
 							<input type="email" ng-model="Cliente.Correo" id="Correo" name="Correo" required>
 						</div>
-						<div class="input-field col s6" ng-hide="panel_title_form == 'Editar Cliente'">
+						<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Cliente'">
 							<select ng-model="Cliente.ciudad" id="Ciudad" name="Ciudad" required>
 								<option value="" disabled selected>Choose your option</option>
       							<option value="1">Option 1</option>
@@ -41,18 +41,7 @@
 							<label>Ciudad *</label>
 						</div>
 						</div>
-						<div class="row">
-						<div class="input-field col s6" ng-hide="panel_title_form == 'Editar Cliente'">
-							<label for="Correo">Contacto *</label>
-							<input type="email" ng-model="Cliente.contacto" id="Correo" name="Correo" required>
-						</div>
-						<div class="input-field col s6" ng-hide="panel_title_form == 'Editar Cliente'">
-							<label for="Llaves">Fax *</label>
-							<input type="number" ng-model="Cliente.fax" id="Llaves" name="Llaves" required>
-						</div>
-						</div>
-						<button type="submit" class="btn btn-primary" ng-disabled="formClientes.$invalid">{{button_title_form}}</button>
-						<button type="button" class="btn btn-danger" ng-show="panel_title_form == 'Editar Cliente'" ng-click="CancelarEditar()">Cancelar</button>
+						<button type="button" class="btn" ng-show="panel_title_form == 'Editar Cliente'" ng-click="CancelarEditar()">Cancelar</button>
 					</form>
 				</div>
 			</div>
@@ -60,8 +49,8 @@
 	</div>
 	<div class="row">
 		<div class="col s12">
-			<div class="panel panel-default {{panelAnimate}}">
-				<div class="panel-heading">
+			<div class="card-panel {{panelAnimate}}">
+				<div class="panel-heading blue accent-4">
 					<h3 class="panel-title">Lista de Clientes</h3>
 				</div>
 				<div class="panel-body" >
