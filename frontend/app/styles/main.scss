@@ -27,6 +27,10 @@ select{
   /* display:block !important;
   border:solid 1px #9e9e9e; */
 }
+[type="checkbox"]:checked + label:before{
+  border-right: 3px solid $azul;
+  border-bottom: 3px solid $azul;
+}
 /* valid color */
 .input-field input.valid {
   border-bottom: 1px solid #000 !important;
