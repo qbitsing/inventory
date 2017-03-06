@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('ClientesCtrl', function ($scope, $timeout, $state, SesionUsuario) {
+  .controller('PersonasCtrl', function ($scope, $timeout, $state, SesionUsuario) {
   	if(SesionUsuario.obtenerSesion()==null){
       $state.go('Login');
     }
@@ -18,9 +18,8 @@ angular.module('frontendApp')
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
     },100);
-    $scope.panel_title_form = "Registro de Clientes";
-    $scope.button_title_form = "Registrar Cliente";
-    $scope.Cliente=[];
-    $scope.Cliente.rol={};
-    $scope.Cliente.rol.cliente=true;
+    $scope.panel_title_form = "Registro de Personas";
+    $scope.button_title_form = "Registrar Persona";
+    $scope.Persona=[];
+    $scope.Persona.rol={};
   });
