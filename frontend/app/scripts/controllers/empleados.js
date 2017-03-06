@@ -74,10 +74,10 @@ angular.module('frontendApp')
     }
     function listarpersonas(){
         webServer
-        .getResource('personas',{empleados:true},'get')
+        .getResource('personas',{empleado:true},'get')
         .then(function(data){
             if(data.data){
-                $scope.gridOptions.data = data.data.personasStored;
+                $scope.gridOptions.data = data.data.datos;
             }else{
                 $scope.gridOptions.data =[];
             }
