@@ -1,45 +1,49 @@
-<pageheader pagename="Gestion de Empleados" class="titulo-pagina {{pageAnimate}}"></pageheader>
-<div class="conter-wrapper">
+<h2 class="titulo-pagina blue accent-4 right-align {{pageAnimate}}">Registro de empledos</h2>
+<div class="contenido">
 	<div class="row">
 		<div class="col s12">
-			<div class="panel panel-default {{panelAnimate}}">
-				<div class="panel-heading">
+			<div class="card-panel {{panelAnimate}}">
+				<div class="panel-heading blue accent-4">
 					<h3 class="panel-title">{{panel_title_form}}</h3>
 				</div>
 				<div class="panel-body" >
 					<form name="formEmpleados" novalidate ng-submit="EnviarEmpleado()">
 						<div class="row">
-						<div class="input-field col s6">
-							<label for="NIT">NIT *</label>
-							<input type="text" ng-model="Empleado.id" name="NIT" class="form-control color-negro" id="NIT"  required ng-disabled="panel_title_form == 'Editar Empleado'">
-						</div>
-						<div class="input-field col s6">
-							<label for="Nombre">Nombre *</label>
-							<input type="text" ng-model="Empleado.nombre" class="form-control color-negro" id="Nombre" name="Nombre" required>
-						</div>
-						</div>
-						<div class="row">
-						<div class="input-field col s6">
-							<label for="Direccion">Direccion *</label>
-							<input type="text" ng-model="Empleado.direccion" class="form-control color-negro" id="Direccion" name="Direccion" required>
-						</div>
-						<div class="input-field col s6">
-							<label for="Telefono">Telefono *</label>
-							<input type="number" ng-model="Empleado.telefono" class="form-control color-negro" id="Telefono" name="Telefono" required>
-						</div>
+							<div class="input-field col s6">							
+								<input type="text" ng-model="Empleado.id" name="NIT" id="NIT"  required ng-disabled="panel_title_form == 'Editar Empleado'">
+								<label for="NIT">NIT *</label>
+							</div>
+							<div class="input-field col s6">							
+								<input type="text" ng-model="Empleado.nombre" id="Nombre" name="Nombre" required>
+								<label for="Nombre">Nombre *</label>
+							</div>
 						</div>
 						<div class="row">
-						<div class="input-field col s6" ng-hide="panel_title_form == 'Editar Empleado'">
-							<label for="Candados">Candados *</label>
-							<input type="number" ng-model="Empleado.limite_candados" class="form-control color-negro" id="Candados" name="Candados" required>
+							<div class="input-field col s6">							
+								<input type="text" ng-model="Empleado.direccion" id="Direccion" name="Direccion" required>
+								<label for="Direccion">Direccion *</label>
+							</div>
+							<div class="input-field col s6">								
+								<input type="number" ng-model="Empleado.telefono" id="Telefono" name="Telefono" required>
+								<label for="Telefono">Telefono *</label>
+							</div>
 						</div>
-						<div class="input-field col s6" ng-hide="panel_title_form == 'Editar Empleado'">
-							<label for="Llaves">Llaves *</label>
-							<input type="number" ng-model="Empleado.limite_llaves" class="form-control color-negro" id="Llaves" name="Llaves" required>
+						<div class="row">
+							<div class="input-field col s6" ng-hide="panel_title_form == 'Editar Empleado'">					
+								<input type="number" ng-model="Empleado.limite_candados" id="Candados" name="Candados" required>
+								<label for="Candados">Candados *</label>
+							</div>
+							<div class="input-field col s6" ng-hide="panel_title_form == 'Editar Empleado'">					
+								<input type="number" ng-model="Empleado.limite_llaves" id="Llaves" name="Llaves" required>
+								<label for="Llaves">Llaves *</label>
+							</div>
 						</div>
+						<div class="row">
+							<div class="col s12 m6 l4">
+								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formEmpleados.$invalid">{{button_title_form}}</button>
+							</div>
 						</div>
-
-						<button type="submit" class="btn btn-primary" ng-disabled="formEmpleados.$invalid">{{button_title_form}}</button>
+						
 						<button type="button" class="btn btn-danger" ng-show="panel_title_form == 'Editar Empleado'" ng-click="CancelarEditar()">Cancelar</button>
 					</form>
 				</div>
@@ -48,9 +52,9 @@
 	</div>
 	<div class="row">
 		<div class="col s12">
-			<div class="panel panel-default {{panelAnimate}}">
+			<div class="card-panel {{panelAnimate}}">
 				<div class="panel-heading">
-					<h3 class="panel-title">Lista de Empleados</h3>
+					<h3 class="panel-title blue accent-4">Lista de Empleados</h3>
 				</div>
 				<div class="panel-body" >
 					<div class="gridStyle grid" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
