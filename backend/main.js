@@ -40,6 +40,22 @@ app.get('/ciudades/:id' , controllers.ciudades.listarById);
 app.post('/ciudades' , controllers.ciudades.crear);
 // Fin Bloque de rutas de ciudades
 
+// Bloque de rutas de departamentos
+app.get('/departamentos', controllers.departamentos.listarAll);
+
+app.get('/departamentos/:id' , controllers.departamentos.listarById);
+
+app.post('/departamentos' , controllers.departamentos.crear);
+// Fin Bloque de rutas de departamentos
+
+// Bloque de rutas de departamentos
+app.get('/unidades', controllers.unidades.listarAll);
+
+app.delete('/unidades/:id' , controllers.unidades.eliminar);
+
+app.post('/unidades' , controllers.unidades.crear);
+// Fin Bloque de rutas de departamentos
+
 mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
 	if(err){
 		return console.log(`ERROR al conectar con la BD: ${err}`);

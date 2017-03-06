@@ -20,4 +20,5 @@ angular.module('frontendApp')
 	},100);
 	$scope.panel_title_form = "Registro de Productos";
 	$scope.button_title_form = "Registrar Producto";
+	$scope.Producto={};
 });

@@ -18,6 +18,9 @@ angular.module('frontendApp')
 		$scope.pageAnimate='pageAnimate';
 		$scope.panelAnimate='panelAnimate';
 	},100);
-	$scope.panel_title_form = "Registro de Empleados";
-	$scope.button_title_form = "Registrar Empleado";
+	$scope.panel_title_form = "Registro de Proveedores";
+	$scope.button_title_form = "Registrar Proveedor";
+	$scope.Proveedor=[];
+	$scope.Proveedor.rol={};
+	$scope.Proveedor.rol.proveedor=true;
 });

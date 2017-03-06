@@ -1,35 +1,54 @@
 'use strict';
 
-const ciudadModel = require('../models/ciudades');
+const departamentoModel = require('../models/departamentos');
 
 function listarAll (req, res){
-	ciudadModel.find({} , (err , ciudadesStrored)=>{
-        if(err) return res.status(500).send({message : `ERROR al obtener la lista de ciudades ${err}`});
+	departamentoModel.find({} , (err , departamentosStored)=>{
+        if(err) {
+            return res.status(500).send({
+                message : `ERROR al obtener la lista de departamentos ${err}`
+            });            
+        }
+        if(departamentosStored.length < 1){
+            return res.status(404).send({
+                message : `No hay departamentos registrados en la BD`
+            });
+        }
 
         return res.status(200).send({
-            ciudadesStrored
+            departamentosStored
         });
     });
 }
 
 function listarById (req, res) {
-	let ciudadId = req.params.id;
-    ciudadModel.findById(ciudadId , (err , cuidadStored)=>{
-        if(err) return res.status(500).send({message : `ERROR al tratar de obtener la ciudad por id ${err}`});
+	let departamentoId = req.params.id;
+    departamentoModel.findById(departamentoId , (err , departamentoStored)=>{
+        if(err){
+          return res.status(500).send({
+              message : `ERROR al tratar de obtener el departamento por id ${err}`
+            });  
+        }
+
+        if(!departamentoStored){
+            return res.status(404).send({
+              message : `El departamento no existe`
+            });  
+        } 
         return res.status(200).send({
-            cuidadStored
+            departamentoStored
         });
     })
 }
 
 function crear (req, res) {
-	let ciudad = new ciudadModel(req.body);
+	let departamento = new departamentoModel(req.body);
 
-    ciudad.save((err , cuidadStored)=>{
-        if(err) return res.status(500).send({message : `ERROR al guardar la ciudad en la DB ${err}`});
+    departamento.save((err , departamentoStored)=>{
+        if(err) return res.status(500).send({message : `ERROR al guardar el departamento en la DB ${err}`});
 
         return res.status(200).send({
-            cuidadStored
+            departamentoStored
         });
     });
 }
