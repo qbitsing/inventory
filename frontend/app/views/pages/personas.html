@@ -11,7 +11,7 @@
 						<div class="row">
 						<div class="input-field col s12 m6 l6">
 							<label for="id">Documento o NIT *</label>
-							<input type="text" ng-model="Persona.id" name="id" id="id"  required ng-disabled="panel_title_form == 'Editar Persona'">
+							<input type="text" ng-model="Persona.documento" name="id" id="id"  required ng-disabled="panel_title_form == 'Editar Persona'">
 						</div>
 						<div class="input-field col s12 m6 l6">
 							<label for="Nombre">Nombre *</label>
@@ -31,7 +31,7 @@
 						<div class="row">
 						<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Persona'">
 							<label for="Correo">Correo *</label>
-							<input type="email" ng-model="Persona.Correo" id="Correo" name="Correo" required>
+							<input type="email" ng-model="Persona.correo" id="Correo" name="Correo" required>
 						</div>
 						<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Persona'">
 							<label for="Fax">Fax</label>

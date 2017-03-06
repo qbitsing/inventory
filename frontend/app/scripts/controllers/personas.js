@@ -8,9 +8,9 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('PersonasCtrl', function ($scope, $timeout, $state, SesionUsuario) {
-  	if(SesionUsuario.obtenerSesion()==null){
-      $state.go('Login');
+.controller('PersonasCtrl', function ($scope, $timeout, $state, SesionUsuario, webServer) {
+    if(SesionUsuario.obtenerSesion()==null){
+        $state.go('Login');
     }
     $scope.panelAnimate='';
     $scope.pageAnimate='';  
@@ -23,6 +23,19 @@ angular.module('frontendApp')
     $scope.Persona=[];
     $scope.Persona.rol={};
     $scope.EnviarPersona=function(){
-      console.log($scope.Persona);
+        var ruta="";
+        var metodo="";
+        if ($scope.panel_title_form=="Registro de Personas") {
+            ruta="personas";
+            metodo="post";
+        }else{
+            ruta="personas/"+$scope.Persona.documento;
+            metodo="put";
+        }
+        webServer.getResource(ruta,$scope.Persona,metodo).then(function(data){
+           console.log(data);
+        },function(data){
+          alert(data.data.message);
+        });
     }
-  });
+});
