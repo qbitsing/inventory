@@ -23,6 +23,11 @@ $gris:#424242;
   border-bottom: 1px solid $azul !important;
   box-shadow: 0 1px 0 0 $azul !important;
 }
+
+[type="checkbox"]:checked + label:before{
+  border-right: 3px solid $azul;
+  border-bottom: 3px solid $azul;
+}
 /* valid color */
 .input-field input.valid {
   border-bottom: 1px solid #000 !important;
