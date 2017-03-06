@@ -3,14 +3,13 @@
 const ciudadModel = require('../models/ciudades');
 
 function listarAll (req, res){
-	ciudadModel.find({} , (err , ciudadesStrored)=>{
+	ciudadModel.find({} , (err , ciudadesStrored , count)=>{
         if(err) {
             return res.status(500).send({
                 message : `ERROR al obtener la lista de ciudades ${err}`
-            });
-            
+            });            
         }
-        if(!ciudadesStrored){
+        if(ciudadesStrored.length < 1){
             return res.status(404).send({
                 message : `No hay ciudades registradas en la BD`
             });

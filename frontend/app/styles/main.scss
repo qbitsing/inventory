@@ -177,12 +177,27 @@ select{
   transition:all 0.3s linear;
   overflow-y:scroll;
   overflow-x:hidden;
+  &::-webkit-scrollbar {
+        width: 10px;
+        }  
+    &::-webkit-scrollbar-track {
+      box-shadow: #000000;
+      border-radius: 10px;
+    }
+    &::-webkit-scrollbar-track-piece {
+      background-color: #263238;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background: $azul;
+    }
   >.btn-floating{
     position:fixed;
   }
   .scroll{
     position:relative;
     top:56px;
+    
   }
   h3{
     color:$azul;
