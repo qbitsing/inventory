@@ -9,7 +9,6 @@
  */
 angular.module('frontendApp')
   .controller('DashboardCtrl', function ($scope,$state,SesionUsuario) {
-    angular.element(".dropdown-button").dropdown();
     $scope.sidenav = function(){
     	angular.element(".sidenav").toggleClass('sidenav-hidden');
     	angular.element(".top-nav").toggleClass('top-nav-hidden');
@@ -17,8 +16,7 @@ angular.module('frontendApp')
     	angular.element(".main-view").toggleClass('main-view-full');
     }
     $scope.cerrarSesion=function(){
-    	console.log('hola');
-    	/*SesionUsuario.CerrarSesion();
-    	$state.go('Login');*/
+        SesionUsuario.CerrarSesion();
+    	$state.go('Login');
     }
   });

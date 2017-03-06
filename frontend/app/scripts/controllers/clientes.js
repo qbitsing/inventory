@@ -20,5 +20,7 @@ angular.module('frontendApp')
     },100);
     $scope.panel_title_form = "Registro de Clientes";
     $scope.button_title_form = "Registrar Cliente";
-    $scope.Cliente={};
+    $scope.Cliente=[];
+    $scope.Cliente.rol={};
+    $scope.Cliente.rol.cliente=true;
   });

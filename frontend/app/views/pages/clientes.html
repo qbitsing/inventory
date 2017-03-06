@@ -1,4 +1,4 @@
-<h2 class="titulo-pagina blue accent-4 right-align {{pageAnimate}}">Registro de clientes</h2>
+<h2 class="titulo-pagina blue accent-4 right-align {{pageAnimate}}">Registro de Clientes</h2>
 <div class="contenido">
 	<div class="row">
 		<div class="col s12">
@@ -10,8 +10,8 @@
 					<form name="formClientes" novalidate ng-submit="EnviarCliente()">
 						<div class="row">
 						<div class="input-field col s12 m6 l6">
-							<label for="NIT">Documento o NIT *</label>
-							<input type="text" ng-model="Cliente.id" name="NIT" id="NIT"  required ng-disabled="panel_title_form == 'Editar Cliente'">
+							<label for="id">Documento o NIT *</label>
+							<input type="text" ng-model="Cliente.id" name="id" id="id"  required ng-disabled="panel_title_form == 'Editar Cliente'">
 						</div>
 						<div class="input-field col s12 m6 l6">
 							<label for="Nombre">Nombre *</label>
@@ -34,14 +34,44 @@
 							<input type="email" ng-model="Cliente.Correo" id="Correo" name="Correo" required>
 						</div>
 						<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Cliente'">
-							<select ng-model="Cliente.ciudad" id="Ciudad" name="Ciudad" required>
-								<option value="" disabled selected>Choose your option</option>
-      							<option value="1">Option 1</option>
-							</select>
-							<label>Ciudad *</label>
+							<label for="Fax">Fax</label>
+							<input type="number" ng-model="Cliente.fax" id="Fax" name="Fax">
 						</div>
 						</div>
-						<button type="button" class="btn" ng-show="panel_title_form == 'Editar Cliente'" ng-click="CancelarEditar()">Cancelar</button>
+						<div class="row">
+							<div class="input-field col s12 m6 l6">
+								<select ng-model="Cliente.departamento">
+	      							<option value="1">Option 1</option>
+								</select>
+							</div>
+							<div class="input-field col s12 m6 l6" >
+								<select ng-model="Cliente.ciudad" required>
+									<option value="1">Option 1</option>
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Cliente'">
+								<label for="Contacto">Contacto</label>
+								<input type="text" ng-model="Cliente.contacto" id="Contacto" name="Contacto" required>
+							</div>
+						</div>
+						<div class="row">
+						<div class="col s12 m6 l6" ng-hide="panel_title_form == 'Editar Cliente'">
+							<input type="checkbox" class="filled-in" ng-model="Cliente.rol.cliente" id="Cliente"/>
+      						<label for="Cliente">Cliente</label>
+						</div>
+						<div class="col s12 m6 l6" ng-hide="panel_title_form == 'Editar Cliente'">
+							<input type="checkbox" class="filled-in" ng-model="Cliente.rol.proveedor" id="Proveedor" />
+      						<label for="Proveedor">Proveedor</label>
+						</div>
+						</div>
+						<div class="row">
+							<div class="col s12 m6 l4">
+								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formClientes.$invalid || (!Cliente.rol.cliente && !Cliente.rol.Cliente)">{{button_title_form}}</button>
+							</div>
+							<button type="button" class="btn" ng-show="panel_title_form == 'Editar Cliente'" ng-click="CancelarEditar()">Cancelar</button>
+						</div>
 					</form>
 				</div>
 			</div>

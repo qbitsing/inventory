@@ -7,11 +7,11 @@
 					<h3 class="panel-title">{{panel_title_form}}</h3>
 				</div>
 				<div class="panel-body" >
-					<form name="formProveedores" novalidate ng-submit="EnviarCliente()">
+					<form name="formProveedores" novalidate ng-submit="EnviarProveedor()">
 						<div class="row">
 						<div class="input-field col s12 m6 l6">
-							<label for="NIT">Documento o NIT *</label>
-							<input type="text" ng-model="Proveedor.id" name="NIT" id="NIT"  required ng-disabled="panel_title_form == 'Editar Proveedor'">
+							<label for="id">Documento o NIT *</label>
+							<input type="text" ng-model="Proveedor.id" name="id" id="id"  required ng-disabled="panel_title_form == 'Editar Proveedor'">
 						</div>
 						<div class="input-field col s12 m6 l6">
 							<label for="Nombre">Nombre *</label>
@@ -34,39 +34,41 @@
 							<input type="email" ng-model="Proveedor.Correo" id="Correo" name="Correo" required>
 						</div>
 						<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Proveedor'">
-							<label for="Llaves">Fax *</label>
-							<input type="number" ng-model="Proveedor.fax" id="Llaves" name="Llaves" required>
+							<label for="Fax">Fax</label>
+							<input type="number" ng-model="Proveedor.fax" id="Fax" name="Fax">
 						</div>
 						</div>
 						<div class="row">
-							<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Proveedor'">
-								<select ng-model="Proveedor.ciudad" id="Ciudad" name="Ciudad" required>
-									<option value="" >Choose your option</option>
+							<div class="input-field col s12 m6 l6">
+								<select ng-model="Proveedor.departamento">
 	      							<option value="1">Option 1</option>
 								</select>
-								<label>Departamento *</label>
 							</div>
-							<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Proveedor'">
-								<select ng-model="Proveedor.ciudad" id="Ciudad" name="Ciudad" required>
-									<option value="" >Choose your option</option>
-	      							<option value="1">Option 1</option>
+							<div class="input-field col s12 m6 l6" >
+								<select ng-model="Proveedor.ciudad" required>
+									<option value="1">Option 1</option>
 								</select>
-								<label>Ciudad *</label>
 							</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Proveedor'">
-								<label for="Correo">Contacto *</label>
-								<input type="email" ng-model="Proveedor.contacto" id="Correo" name="Correo" required>
+								<label for="Contacto">Contacto</label>
+								<input type="text" ng-model="Proveedor.contacto" id="Contacto" name="Contacto" required>
 							</div>
-							<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Proveedor'">
-								<label for="Llaves">Fax *</label>
-								<input type="number" ng-model="Proveedor.fax" id="Llaves" name="Llaves" required>
-							</div>
+						</div>
+						<div class="row">
+						<div class="col s12 m6 l6" ng-hide="panel_title_form == 'Editar Proveedor'">
+							<input type="checkbox" class="filled-in" ng-model="Proveedor.rol.proveedor" id="Proveedor"/>
+      						<label for="Proveedor">Proveedor</label>
+						</div>
+						<div class="col s12 m6 l6" ng-hide="panel_title_form == 'Editar Proveedor'">
+							<input type="checkbox" class="filled-in" ng-model="Proveedor.rol.cliente" id="Cliente" />
+      						<label for="Cliente">Cliente</label>
+						</div>
 						</div>
 						<div class="row">
 							<div class="col s12 m6 l4">
-								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formProveedores.$invalid">{{button_title_form}}</button>
+								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formProveedores.$invalid || (!Proveedor.rol.cliente && !Proveedor.rol.proveedor)">{{button_title_form}}</button>
 							</div>
 							<button type="button" class="btn" ng-show="panel_title_form == 'Editar Proveedor'" ng-click="CancelarEditar()">Cancelar</button>
 						</div>
