@@ -9,7 +9,7 @@
  */
 angular.module('frontendApp')
   .controller('DashboardCtrl', function ($scope,$state) {
-    angular.element(".dropdown-button").dropdown();
+    
     $scope.sidenav = function(){
     	angular.element(".sidenav").toggleClass('sidenav-hidden');
     	angular.element(".top-nav").toggleClass('top-nav-hidden');
