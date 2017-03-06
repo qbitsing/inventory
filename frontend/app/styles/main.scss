@@ -73,7 +73,7 @@ select{
 .main-view{
   transition:all 0.3s linear;
   z-index: -1;
-  position:relative;
+  position:absolute;
   right:0;
   top:64px;
   height:auto;
