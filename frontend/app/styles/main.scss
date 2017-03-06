@@ -23,6 +23,9 @@ $gris:#424242;
   border-bottom: 1px solid $azul !important;
   box-shadow: 0 1px 0 0 $azul !important;
 }
+select{
+  display:block !important;
+}
 /* valid color */
 .input-field input.valid {
   border-bottom: 1px solid #000 !important;
@@ -174,12 +177,27 @@ $gris:#424242;
   transition:all 0.3s linear;
   overflow-y:scroll;
   overflow-x:hidden;
+  &::-webkit-scrollbar {
+        width: 10px;
+        }  
+    &::-webkit-scrollbar-track {
+      box-shadow: #000000;
+      border-radius: 10px;
+    }
+    &::-webkit-scrollbar-track-piece {
+      background-color: #263238;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background: $azul;
+    }
   >.btn-floating{
     position:fixed;
   }
   .scroll{
     position:relative;
     top:56px;
+    
   }
   h3{
     color:$azul;
