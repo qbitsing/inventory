@@ -11,7 +11,7 @@
 						<div class="row">
 						<div class="input-field col s12 m6 l6">
 							<label for="documento">Documento*</label>
-							<input type="text" ng-model="Empleado.id" name="documento" id="documento"  required ng-disabled="panel_title_form == 'Editar Empleado'">
+							<input type="text" ng-model="Empleado.documento" name="documento" id="documento"  required ng-disabled="panel_title_form == 'Editar Empleado'">
 						</div>
 						<div class="input-field col s12 m6 l6">
 							<label for="Nombre">Nombre *</label>
@@ -31,25 +31,26 @@
 						<div class="row">
 						<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Empleado'">
 							<label for="Correo">Correo *</label>
-							<input type="email" ng-model="Empleado.Correo" id="Correo" name="Correo" required>
+							<input type="email" ng-model="Empleado.correo" id="Correo" name="Correo" required>
 						</div>
 						<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Empleado'">
-							<label for="Llaves">Cargo *</label>
-							<input type="number" ng-model="Empleado.fax" id="Llaves" name="Llaves" required>
+							<label for="Cargo">Cargo *</label>
+							<input type="text" ng-model="Empleado.cargo" id="Cargo" name="Cargo" required>
 						</div>
 						</div>
 						<div class="row">
-							<div class="input-field col s12 m6 l6">
-								<select ng-model="Empleado.rol">
-	      							<option value="empleado">Empleado</option>
-	      							<option value="administrador">Administrador</option>
-								</select>
-								<label>Rol</label>
-							</div>
+							<p class="col s6 m2 l2" ng-hide="panel_title_form == 'Editar Persona'">
+								<input type="checkbox" ng-model="Persona.empleado" id="empleado" ng-click="Persona.administrador=!Persona.empleado"/>
+	      						<label for="empleado">Empleado</label>
+							</p>
+							<p class="col s6 m2 l2" ng-hide="panel_title_form == 'Editar Persona'">
+								<input type="checkbox" ng-model="Persona.administrador" id="administrador" ng-click="Persona.empleado=!Persona.administrador"/>
+	      						<label for="administrador">Administrador</label>
+							</p>
 						</div>
 						<div class="row">
 							<div class="col s12 m6 l4">
-								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formEmpleados.$invalid">{{button_title_form}}</button>
+								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formEmpleados.$invalid || (!Persona.empleado && !Persona.administrador)" >{{button_title_form}}</button>
 							</div>
 							<button type="button" class="btn" ng-show="panel_title_form == 'Editar Empleado'" ng-click="CancelarEditar()">Cancelar</button>
 						</div>
@@ -71,6 +72,3 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript" charset="utf-8">
-	$('select').material_select();
-</script>

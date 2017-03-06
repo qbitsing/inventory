@@ -53,6 +53,25 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptions , Tabla);
+
+    $scope.EnviarEmpleado=function(){
+        var ruta="";
+        var metodo="";
+        if ($scope.panel_title_form=="Registro de Empleados") {
+            ruta="personas";
+            metodo="post";
+        }else{
+            ruta="personas/"+$scope.Empleado.documento;
+            metodo="put";
+        }
+        webServer
+        .getResource(ruta,$scope.Empleado,metodo)
+        .then(function(data){
+            console.log(data);
+        },function(data){
+            alert(data.data.message);
+        });
+    }
     function listarpersonas(){
         webServer
         .getResource('personas',{empleados:true},'get')
