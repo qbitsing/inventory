@@ -48,13 +48,13 @@ app.get('/departamentos/:id' , controllers.departamentos.listarById);
 app.post('/departamentos' , controllers.departamentos.crear);
 // Fin Bloque de rutas de departamentos
 
-// Bloque de rutas de departamentos
+// Bloque de rutas de unidades
 app.get('/unidades', controllers.unidades.listarAll);
 
 app.delete('/unidades/:id' , controllers.unidades.eliminar);
 
 app.post('/unidades' , controllers.unidades.crear);
-// Fin Bloque de rutas de departamentos
+// Fin Bloque de rutas de unidades
 
 mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
 	if(err){
