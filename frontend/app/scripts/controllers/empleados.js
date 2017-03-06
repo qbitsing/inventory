@@ -8,17 +8,63 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('EmpleadosCtrl', function ($scope, $timeout, $state, SesionUsuario) {
+.controller('EmpleadosCtrl', function ($scope, $timeout, $state, SesionUsuario, Tabla, BotonesTabla, webServer) {
 	if(SesionUsuario.obtenerSesion()==null){
-    $state.go('Login');
-  }
-  $scope.panelAnimate='';
-  $scope.pageAnimate='';  
-  $timeout(function () {
-      $scope.pageAnimate='pageAnimate';
-      $scope.panelAnimate='panelAnimate';
-  },100);
-  $scope.panel_title_form = "Registro de Empleados";
-  $scope.button_title_form = "Registrar Empleado";
-  $scope.Empleado={};
+        $state.go('Login');
+    }
+    $scope.panelAnimate='';
+    $scope.pageAnimate='';  
+    $timeout(function () {
+        $scope.pageAnimate='pageAnimate';
+        $scope.panelAnimate='panelAnimate';
+    },100);
+    $scope.panel_title_form = "Registro de Empleados";
+    $scope.button_title_form = "Registrar Empleado";
+    $scope.Empleado={};
+
+  var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
+    $scope.gridOptions = {
+        columnDefs: [
+            { 
+                field: 'documento o nit',field: 'documento',
+                width:'20%',
+                minWidth: 160
+            },
+            {
+                field: 'nombre',
+                width:'20%',
+                minWidth: 160
+            },
+            { 
+                name: 'telefono',
+                width:'20%',
+                minWidth: 160
+            },
+            { 
+                field: 'cargo',
+                width:'20%',
+                minWidth: 160
+            },
+            { 
+                name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
+                width:'25%',
+                minWidth: 180
+            }
+        ]
+    }
+    angular.extend($scope.gridOptions , Tabla);
+    function listarpersonas(){
+        webServer
+        .getResource('personas',{empleados:true},'get')
+        .then(function(data){
+            if(data.data){
+                $scope.gridOptions.data = data.data.personasStored;
+            }else{
+                $scope.gridOptions.data =[];
+            }
+        },function(data){
+            alert(data.data.message);
+        });
+    }
+    listarpersonas();
 });

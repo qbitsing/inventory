@@ -11,7 +11,7 @@
 						<div class="row">
 						<div class="input-field col s12 m6 l6">
 							<label for="id">Documento o NIT *</label>
-							<input type="text" ng-model="Persona.id" name="id" id="id"  required ng-disabled="panel_title_form == 'Editar Persona'">
+							<input type="text" ng-model="Persona.documento" name="id" id="id"  required ng-disabled="panel_title_form == 'Editar Persona'">
 						</div>
 						<div class="input-field col s12 m6 l6">
 							<label for="Nombre">Nombre *</label>
@@ -31,7 +31,7 @@
 						<div class="row">
 						<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Persona'">
 							<label for="Correo">Correo *</label>
-							<input type="email" ng-model="Persona.Correo" id="Correo" name="Correo" required>
+							<input type="email" ng-model="Persona.correo" id="Correo" name="Correo" required>
 						</div>
 						<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Persona'">
 							<label for="Fax">Fax</label>
@@ -55,7 +55,7 @@
 						<div class="row">
 							<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Persona'">
 								<label for="Contacto">Contacto</label>
-								<input type="text" ng-model="Persona.contacto" id="Contacto" name="Contacto" required>
+								<input type="text" ng-model="Persona.contacto" id="Contacto" name="Contacto" >
 							</div>
 							<p class="col s6 m2 l2" ng-hide="panel_title_form == 'Editar Persona'">
 								<input type="checkbox" ng-model="Persona.rol.cliente" id="cliente"/>
@@ -68,7 +68,7 @@
 						</div>
 						<div class="row">
 							<div class="col s12 m6 l4">
-								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formPersonas.$invalid || (!Persona.rol.Persona && !Persona.rol.Persona)">{{button_title_form}}</button>
+								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formPersonas.$invalid || (!Persona.rol.cliente && !Persona.rol.proveedor)">{{button_title_form}}</button>
 							</div>
 							<button type="button" class="btn" ng-show="panel_title_form == 'Editar Persona'" ng-click="CancelarEditar()">Cancelar</button>
 						</div>

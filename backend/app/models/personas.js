@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const ciudadModel = require('./ciudades');
 
 const personaSchema = Schema({
   documento : {
