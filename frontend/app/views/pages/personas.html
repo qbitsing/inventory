@@ -43,11 +43,13 @@
 								<select ng-model="Persona.departamento">
 	      							<option value="1">Option 1</option>
 								</select>
+								<label>Departamento</label>
 							</div>
 							<div class="input-field col s12 m6 l6" >
 								<select ng-model="Persona.ciudad" required>
 									<option value="1">Option 1</option>
 								</select>
+								<label>Ciudad</label>
 							</div>
 						</div>
 						<div class="row">
@@ -57,14 +59,14 @@
 							</div>
 						</div>
 						<div class="row">
-						<div class="col s12 m6 l6" ng-hide="panel_title_form == 'Editar Persona'">
-							<input type="checkbox" class="filled-in" ng-model="Persona.rol.cliente" id="cliente"/>
-      						<label for="cliente">Cliente</label>
-						</div>
-						<div class="col s12 m6 l6" ng-hide="panel_title_form == 'Editar Persona'">
-							<input type="checkbox" class="filled-in" ng-model="Persona.rol.proveedor" id="Proveedor" />
-      						<label for="Proveedor">Proveedor</label>
-						</div>
+							<p class="col s6 m2 l2" ng-hide="panel_title_form == 'Editar Persona'">
+								<input type="checkbox" class="filled-in" ng-model="Persona.rol.cliente" id="cliente"/>
+	      						<label for="cliente">Cliente</label>
+							</p>
+							<p class="col s6 m2 l2" ng-hide="panel_title_form == 'Editar Persona'">
+								<input type="checkbox" class="filled-in" ng-model="Persona.rol.proveedor" id="Proveedor" />
+	      						<label for="Proveedor">Proveedor</label>
+							</p>
 						</div>
 						<div class="row">
 							<div class="col s12 m6 l4">
@@ -90,3 +92,6 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript" charset="utf-8">
+	$('select').material_select();
+</script>
