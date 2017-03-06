@@ -139,6 +139,9 @@ $gris:#424242;
     left:300px;
   }
 }
+.dropdown-content li > span{
+  color:$azul;
+}
 @media only screen and (max-device-width : 601px){
   .sidenav-hidden{
     width:0!important;
