@@ -21,15 +21,15 @@ app.use(function(req,res,next){
 // Bloque de Rutas de personas
 app.get('/personas', controllers.personas.listarAll);
 
-app.get('/persona/:id' , controllers.personas.listarById);
+app.get('/personas/:id' , controllers.personas.listarById);
 
 app.post('/personas', controllers.personas.crear);
 
 app.post('/personas/login', controllers.personas.login);
 
-app.put('/persona/:id', controllers.personas.actualizar);
+app.put('/personas/:id', controllers.personas.actualizar);
 
-app.delete('/persona/:id', controllers.personas.eliminar);
+app.delete('/personas/:id', controllers.personas.eliminar);
 // Fin BLoque de Rutas de personas
 
 // Bloque de rutas de ciudades
