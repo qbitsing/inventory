@@ -3,24 +3,63 @@
 const personaModel = require('../models/personas');
 
 function listarAll (req, res){
-	personaModel.find((err , personasStored) => {
-		if(err){
-			return res.status(500).send({
-				message : `ERROR al tratar de listar las personas: ${err}`
-			});
-		}
-
-		if(!personasStored){
-			return res.status(404).send({
-				message : `No hay personas registradas en la BD`
-			});
-		}
-
-		return res.status(200).send({
-			personasStored
+	var query = req.query;
+	var personasToReturn = [];
+	if(query.proveedor){
+		personaModel.find({proveedor : true},(err , personasStored) => {
+			if(err){
+				return res.status(500).send({
+					message : `ERROR al tratar de listar las personas: ${err}`
+				});
+			}
+			personasToReturn = personasToReturn.concat(personasStored);
+			query.proveedor = !query.proveedor;
+			responder();
 		});
-
-	});
+	}
+	if(query.cliente){
+		personaModel.find({cliente : true},(err , personasStored) => {
+			if(err){
+				return res.status(500).send({
+					message : `ERROR al tratar de listar las personas: ${err}`
+				});
+			}
+			personasToReturn = personasToReturn.concat(personasStored);
+			query.cliente = !query.cliente;
+			responder();
+		});
+	}
+	if(query.administrador){
+		personaModel.find({administrador : true},(err , personasStored) => {
+			if(err){
+				return res.status(500).send({
+					message : `ERROR al tratar de listar las personas: ${err}`
+				});
+			}
+			personasToReturn = personasToReturn.concat(personasStored);
+			query.administrador = !query.administrador;
+			responder();
+		});
+	}
+	if(query.empleado){
+		personaModel.find({empleado : true},(err , personasStored) => {
+			if(err){
+				return res.status(500).send({
+					message : `ERROR al tratar de listar las personas: ${err}`
+				});
+			}
+			personasToReturn = personasToReturn.concat(personasStored);
+			query.empleado = !query.empleado;
+			responder();
+		});
+	}
+	function responder(){
+		if(!query.proveedor  && !query.cliente && !query.administrador && !query.empleado){
+			res.status(200).send({
+				datos : personasToReturn
+			});
+		}
+	}
 }
 
 function listarById (req, res) {
@@ -39,7 +78,7 @@ function listarById (req, res) {
 		}
 
 		return res.status(200).send({
-			personaStored
+			datos : personaStored
 		});
 	});
 }
@@ -53,7 +92,7 @@ function crear (req, res) {
 			});
 		} 
 		return res.status(200).send({
-			personaStored
+			datos : personaStored
 		});
 	});
 }
@@ -68,7 +107,7 @@ function actualizar (req, res) {
 		}
 
 		return res.status(200).send({
-			personaStored
+			datos : personaStored
 		});
 	});
 }
@@ -92,7 +131,7 @@ function login (req, res){
 		}
 
 		return res.status(200).send({
-			userLogin
+			datos : userLogin
 		});
 
 	})

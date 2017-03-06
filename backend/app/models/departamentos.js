@@ -8,7 +8,7 @@ const departamentoSchema = Schema({
       required : 'el nombre del departamento es requerido'
   },
   pais : {
-      type : Number,
+      type : {},
       required : [
           true,
           'el pais del departamento es requerido'
