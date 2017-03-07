@@ -37,7 +37,7 @@ app.get('/ciudades', controllers.ciudades.listarAll);
 
 app.get('/ciudades/:id' , controllers.ciudades.listarById);
 
-app.post('/ciudades' , controllers.ciudades.crear);
+//app.post('/ciudades' , controllers.ciudades.crear);
 // Fin Bloque de rutas de ciudades
 
 // Bloque de rutas de departamentos
@@ -45,7 +45,7 @@ app.get('/departamentos', controllers.departamentos.listarAll);
 
 app.get('/departamentos/:id' , controllers.departamentos.listarById);
 
-app.post('/departamentos' , controllers.departamentos.crear);
+//app.post('/departamentos' , controllers.departamentos.crear);
 // Fin Bloque de rutas de departamentos
 
 // Bloque de rutas de unidades

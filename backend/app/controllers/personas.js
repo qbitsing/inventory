@@ -1,10 +1,12 @@
 'use strict';
 
 const personaModel = require('../models/personas');
+const ciudadModel = require('../models/ciudades');
 
 function listarAll (req, res){
 	var query = req.query;
 	var personasToReturn = [];
+	responder();
 	if(query.proveedor){
 		personaModel.find({proveedor : true},(err , personasStored) => {
 			if(err){
@@ -84,6 +86,26 @@ function listarById (req, res) {
 }
 
 function crear (req, res) {
+	var ciudad = null;
+	if(req.body.ciudad){
+		ciudadModel.findById(req.body.ciudad , (err , ciudadStored)=>{
+			if(err){
+				return res.status(500).send({
+					message : `Error al buscar la ciudad ${err}`
+				});
+			}
+
+			if(!ciudadStored){
+				return res.status(404).send({
+					message : `Error la ciudad indicada no se encuentra en la BD`
+				});
+			}
+
+			ciudad = ciudadStored;
+		});
+	}
+
+	req.body.ciudad = ciudad;
 	var persona = new personaModel(req.body);
 	persona.save((err, personaStored)=>{
 		if(err){

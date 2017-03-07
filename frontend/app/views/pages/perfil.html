@@ -1,0 +1,22 @@
+<h2 class="titulo-pagina blue accent-4 right-align {{pageAnimate}}">Gestión de perfil</h2>
+<div class="contenido">
+	<div class="row">
+		<div class="col s12">
+			<div class="card-panel {{panelAnimate}}">
+				<div class="panel-heading blue accent-4">
+					<h3 class="panel-title">{{panel_title_form}}</h3>
+				</div>
+				<div class="panel-body" >
+					<form name="formPersonas" novalidate ng-submit="EnviarPersona()">
+						
+							<div class="col s12 m6 l4">
+								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formPersonas.$invalid || (!Persona.cliente && !Persona.proveedor)">{{button_title_form}}</button>
+							</div>
+							<button type="button" class="btn" ng-show="panel_title_form == 'Editar Persona'" ng-click="CancelarEditar()">Cancelar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
