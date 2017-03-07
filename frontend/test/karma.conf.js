@@ -20,6 +20,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       // bower:js
+      '../bower_components/materialize/bin/materialize.js',
       '../bower_components/angular/angular.js',
       '../bower_components/angular-animate/angular-animate.js',
       '../bower_components/angular-aria/angular-aria.js',
@@ -55,7 +56,6 @@ module.exports = function(config) {
       '../bower_components/angular-ui-grid/ui-grid.js',
       '../bower_components/angular-ui-grid/ui-grid.min.js',
       '../bower_components/ui-cropper/compile/minified/ui-cropper.js',
-      '../bower_components/materialize/bin/materialize.js',
       '../bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',
