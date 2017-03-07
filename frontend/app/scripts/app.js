@@ -60,6 +60,12 @@ angular
         templateUrl: 'views/layouts/dashboard.html',
         controller: 'DashboardCtrl'
     })
+    .state('Perfil',{
+      url: '/Perfil',
+      parent: 'Dashboard',
+      templateUrl: 'views/pages/Perfil.html',
+      controller: 'PerfilCtrl'
+    })
     .state('Personas',{
       url: '/Personas',
       parent: 'Dashboard',
