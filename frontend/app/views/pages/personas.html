@@ -29,11 +29,11 @@
 						</div>
 						</div>
 						<div class="row">
-						<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Persona'">
+						<div class="input-field col s12 m6 l6">
 							<label for="Correo">Correo *</label>
 							<input type="email" ng-model="Persona.correo" id="Correo" name="Correo" required>
 						</div>
-						<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Persona'">
+						<div class="input-field col s12 m6 l6">
 							<label for="Fax">Fax</label>
 							<input type="number" ng-model="Persona.fax" id="Fax" name="Fax">
 						</div>
@@ -53,15 +53,15 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Persona'">
+							<div class="input-field col s12 m6 l6">
 								<label for="Contacto">Contacto</label>
 								<input type="text" ng-model="Persona.contacto" id="Contacto" name="Contacto" >
 							</div>
-							<p class="col s6 m2 l2" ng-hide="panel_title_form == 'Editar Persona'">
+							<p class="col s6 m2 l2">
 								<input type="checkbox" ng-model="Persona.cliente" id="cliente"/>
 	      						<label for="cliente">Cliente</label>
 							</p>
-							<p class="col s6 m2 l2" ng-hide="panel_title_form == 'Editar Persona'">
+							<p class="col s6 m2 l2">
 								<input type="checkbox" ng-model="Persona.proveedor" id="Proveedor" />
 	      						<label for="Proveedor">Proveedor</label>
 							</p>
@@ -70,7 +70,7 @@
 							<div class="col s12 m6 l4">
 								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formPersonas.$invalid || (!Persona.cliente && !Persona.proveedor)">{{button_title_form}}</button>
 							</div>
-							<button type="button" class="btn" ng-show="panel_title_form == 'Editar Persona'" ng-click="CancelarEditar()">Cancelar</button>
+							<button type="button" class="btn btn-large" ng-show="button_title_form == 'Editar Persona'" ng-click="CancelarEditar()">Cancelar</button>
 						</div>
 					</form>
 				</div>

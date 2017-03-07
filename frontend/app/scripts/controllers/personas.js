@@ -27,7 +27,7 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             { 
-                field: 'documento o nit',field: 'documento',
+                name: 'documento o nit',field: 'documento',
                 width:'20%',
                 minWidth: 160
             },
@@ -37,7 +37,7 @@ angular.module('frontendApp')
                 minWidth: 160
             },
             { 
-                name: 'telefono',
+                field: 'telefono',
                 width:'20%',
                 minWidth: 160
             },
@@ -48,8 +48,8 @@ angular.module('frontendApp')
             },
             { 
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'25%',
-                minWidth: 180
+                width:'20%',
+                minWidth: 160
             }
         ]
     }
@@ -82,6 +82,20 @@ angular.module('frontendApp')
             }
         });
         $('#modal1').modal('open');
+    }
+    $scope.Editar = function(id){
+        $scope.Persona = $scope.Personas.find(function(ele){
+            if(ele.documento == id){
+                return ele;
+            }
+        });
+        $scope.panel_title_form = "Edicion de clientes y proveedores";
+        $scope.button_title_form = "Editar Persona";
+    }
+    $scope.CancelarEditar=function(){
+        $scope.Persona={};
+        $scope.panel_title_form = "Registro de clientes y proveedores";
+        $scope.button_title_form = "Registrar Persona";
     }
 
     function listarpersonas(){

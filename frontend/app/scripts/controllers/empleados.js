@@ -80,6 +80,20 @@ angular.module('frontendApp')
         });
         $('#modal1').modal('open');
     }
+    $scope.Editar = function(id){
+        $scope.Empleado = $scope.Personas.find(function(ele){
+            if(ele.documento == id){
+                return ele;
+            }
+        });
+        $scope.panel_title_form = "Edicion de Empleados";
+        $scope.button_title_form = "Editar Empleado";
+    }
+    $scope.CancelarEditar=function(){
+        $scope.Empleado={};
+        $scope.panel_title_form = "Registro de Empleados";
+        $scope.button_title_form = "Registrar Empleado";
+    }
     function listarpersonas(){
         webServer
         .getResource('personas',{empleado:true},'get')
