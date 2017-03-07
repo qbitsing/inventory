@@ -9,10 +9,10 @@ const departamentoSchema = Schema({
   },
   pais : {
       type : {},
-      required : [
-          true,
-          'el pais del departamento es requerido'
-      ]
+      default:{
+          id : 170,
+          nombre : "COLOMBIA"
+      }
   },
   id : {
       type : Number,
