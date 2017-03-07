@@ -22,7 +22,7 @@ angular.module('frontendApp')
     $scope.button_title_form = "Registrar Persona";
     $scope.Persona={};
     $scope.Persona.rol={};
-
+    var modalInstance=null;
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
@@ -75,11 +75,21 @@ angular.module('frontendApp')
         });
     }
 
+    $scope.Detalles = function(id){
+        $scope.Detalle = $scope.Personas.find(function(ele){
+            if(ele.documento == id){
+                return ele;
+            }
+        });
+        $('#modal1').modal('open');
+    }
+
     function listarpersonas(){
         webServer
         .getResource('personas',{proveedor:true,cliente:true},'get')
         .then(function(data){
             if(data.data){
+                $scope.Personas=data.data.datos;
                 $scope.gridOptions.data = data.data.datos;
             }else{
                 $scope.gridOptions.data =[];
