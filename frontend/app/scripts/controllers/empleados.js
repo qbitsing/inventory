@@ -72,11 +72,20 @@ angular.module('frontendApp')
             alert(data.data.message);
         });
     }
+    $scope.Detalles = function(id){
+        $scope.Detalle = $scope.Empleados.find(function(ele){
+            if(ele.documento == id){
+                return ele;
+            }
+        });
+        $('#modal1').modal('open');
+    }
     function listarpersonas(){
         webServer
         .getResource('personas',{empleado:true},'get')
         .then(function(data){
             if(data.data){
+                $scope.Empleados=data.data.datos;
                 $scope.gridOptions.data = data.data.datos;
             }else{
                 $scope.gridOptions.data =[];
