@@ -16,10 +16,13 @@ angular.module('frontendApp')
     	angular.element(".perfil").toggleClass('perfil-hidden');
     	angular.element(".main-view").toggleClass('main-view-full');
     	angular.element(".side-nav>ul>li").click(function(event) {
-    		angular.element(".sidenav").addClass('sidenav-hidden');
-	    	angular.element(".top-nav").addClass('top-nav-hidden');
-	    	angular.element(".perfil").addClass('perfil-hidden');
-	    	angular.element(".main-view").addClass('main-view-full');
+            if (screen.width<=600) {
+                angular.element(".sidenav").addClass('sidenav-hidden');
+                angular.element(".top-nav").addClass('top-nav-hidden');
+                angular.element(".perfil").addClass('perfil-hidden');
+                angular.element(".main-view").addClass('main-view-full');
+            }
+    		
     	});
     }
     $scope.active=true;
