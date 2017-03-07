@@ -99,15 +99,15 @@
     <div class="modal-content">
     <h4 class="modal-title">{{Detalle.documento}}</h4>
 		<ul>
-			<li> Documento: {{Detalle.documento}}</li>
-			<li> Nombre: {{Detalle.nombre}}</li>
-			<li> Direccion: {{Detalle.direccion }}</li>
-			<li> Telefono: {{Detalle.telefono}}</li>
-			<li> Correo: {{Detalle.correo}}</li>
-			<li> Fax: {{Detalle.fax}}</li>
-			<li> Ciudad: {{Detalle.ciudad }}</li>
-			<li> Contacto: {{Detalle.contacto }}</li>
-			<li> Rol(es): {{Detalle.rol }}</li>
+			<li> Documento: {{Detalle.documento || 'No registra'}}</li>
+			<li> Nombre: {{Detalle.nombre || 'No registra'}}</li>
+			<li> Direccion: {{Detalle.direccion || 'No registra'}}</li>
+			<li> Telefono: {{Detalle.telefono || 'No registra'}}</li>
+			<li> Correo: {{Detalle.correo || 'No registra'}}</li>
+			<li> Fax: {{Detalle.fax || 'No registra'}}</li>
+			<li> Ciudad: {{Detalle.ciudad || 'No registra'}}</li>
+			<li> Contacto: {{Detalle.contacto || 'No registra'}}</li>
+			<li> Rol(es): {{Detalle.rol || 'No registra'}}</li>
 		</ul>
 	</div>
     <div class="modal-footer">
