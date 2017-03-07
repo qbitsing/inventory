@@ -2,6 +2,7 @@
 	
 	<div class="scroll">
 		<div class="row perfil perfil-hidden">
+			
 			<div class="col s12">
 				<div class=" valign-wrapper">
 					<div class="col s4 m4 l4">
@@ -16,11 +17,11 @@
 		</div>
 		<div class="side-nav">
 			<ul>
-				<li ng-class="{activate: $state.includes('Personass')}"><a ui-sref="Personas"><i class="material-icons">store_mall_directory</i>Clientes y proveedores</a></li>
-				<li><a ui-sref="Productos"><i class="material-icons">store_mall_directory</i>Productos</a></li>
-				<li><a ui-sref="Empleados"><i class="material-icons">store_mall_directory</i>Empleados</a></li>
-				<li><a ui-sref="OrdenCompra"><i class="material-icons">store_mall_directory</i>Orden de compra</a></li>
-				<li><a ui-sref="OrdenVenta"><i class="material-icons">store_mall_directory</i>Orden de venta</a></li>
+				<li ng-class="{activate: $state.includes('Personas')}"><a ui-sref="Personas"><i class="material-icons">store_mall_directory</i>Clientes y proveedores</a></li>
+				<li ng-class="{activate: $state.includes('Productos')}"><a ui-sref="Productos"><i class="material-icons">store_mall_directory</i>Productos</a></li>
+				<li ng-class="{activate: $state.includes('Empleados')}"><a ui-sref="Empleados"><i class="material-icons">store_mall_directory</i>Empleados</a></li>
+				<li ng-class="{activate: $state.includes('OrdenCompra')}"><a ui-sref="OrdenCompra"><i class="material-icons">store_mall_directory</i>Orden de compra</a></li>
+				<li ng-class="{activate: $state.includes('OrdenVenta')}"><a ui-sref="OrdenVenta"><i class="material-icons">store_mall_directory</i>Orden de venta</a></li>
 			</ul>
 		</div>
 	</div>

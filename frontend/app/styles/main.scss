@@ -5,6 +5,9 @@
 $blanco:#f5f5f5;
 $azul:#2962ff;
 $gris:#424242;
+$warning:#ffd600;
+$danger:#d50000;
+$success:#00c853;
 /* label color */
 .input-field label {
   color: #000 !important;
@@ -55,7 +58,7 @@ $gris:#424242;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(to left, #1A2980 , #26D0CE);
+  background: linear-gradient(to bottom, #37474f  , #263238);
   .centro{
     width:100%;
     padding:0 1em;
@@ -139,6 +142,9 @@ $gris:#424242;
     left:300px;
   }
 }
+.dropdown-content li > span{
+  color:$azul;
+}
 @media only screen and (max-device-width : 601px){
   .sidenav-hidden{
     width:0!important;
@@ -177,7 +183,20 @@ $gris:#424242;
   display:none !important;;
 }
 .activate a{
+  position:relative;
+  i{
+    color:$azul!important;
+  }
   color:$azul !important;
+  :before{
+    position:absolute;
+    top:0;
+    left:0;
+    bottom:0;
+    width:4px;
+    content:'';
+    background-color: $azul;
+  }
 }
 #app-container .btn-floating{
     position:fixed;
@@ -219,6 +238,8 @@ $gris:#424242;
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
     margin-bottom: 0;
+    background-image: url("../images/fondo-perfil.jpg");
+    background-size: cover;
     img{
       border-radius: 50%;
     }
@@ -258,7 +279,14 @@ $gris:#424242;
   padding: 15px 10px 15px 0;
   color: $blanco;
   font-size: 2rem;
+  transform:scaleX(0);
+  transition:all .3s;
+  transition-delay:.2s;
 }
+.pageAnimate{
+  transform:scaleX(1);
+}
+
 .contenido{
   position:relative;
   top:72px;
@@ -269,6 +297,9 @@ $gris:#424242;
 .card-panel{
   position:relative;
   padding:0;
+  transform:scaleX(0);
+  transition:all .3s;
+  transition-delay:.2s;
   .panel-heading{
     position:relative;
     top:0;
@@ -286,5 +317,38 @@ $gris:#424242;
     .row:last-child{
       margin-bottom: 0;
     }
+  }
+}
+.panelAnimate{
+  transform:scaleX(1);
+}
+.btn-tabla{
+  padding:0 10px;
+  text-transform: capitalize;
+  margin-right: 5px;
+  
+}
+.btn-primary{
+  background: $azul;
+  &:hover{
+    background:darken( $azul, 5% );
+  }
+}
+.btn-success{
+  background: $success;
+  &:hover{
+    background:darken( $success, 5% );
+  }
+}
+.btn-warning{
+  background: $warning;
+  &:hover{
+   background:darken( $warning, 5% );
+  }
+}
+.btn-danger{
+  background: $danger;
+  &:hover{
+    background:darken( $danger, 5% );
   }
 }

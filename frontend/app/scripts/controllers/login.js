@@ -16,7 +16,7 @@ angular.module('frontendApp')
   	$scope.login=function(){
   		webServer.getResource('personas/login',$scope.userLogin,'post')
   		.then(function(data){
-  			if(SesionUsuario.CrearSesion(data.data.userLogin)){
+  			if(SesionUsuario.CrearSesion(data.data.datos)){
           $state.go('Home');
   			}
   		},function(data){

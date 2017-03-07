@@ -18,7 +18,7 @@ angular.module('frontendApp')
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
     },100);
-    $scope.panel_title_form = "Registro de Personas";
+    $scope.panel_title_form = "Registro de clientes y proveedores";
     $scope.button_title_form = "Registrar Persona";
     $scope.Persona={};
     $scope.Persona.rol={};
@@ -77,10 +77,10 @@ angular.module('frontendApp')
 
     function listarpersonas(){
         webServer
-        .getResource('personas',{proveedores:true,clientes:true},'get')
+        .getResource('personas',{proveedor:true,cliente:true},'get')
         .then(function(data){
             if(data.data){
-                $scope.gridOptions.data = data.data.personasStored;
+                $scope.gridOptions.data = data.data.datos;
             }else{
                 $scope.gridOptions.data =[];
             }

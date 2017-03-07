@@ -23,5 +23,4 @@ const departamentoSchema = Schema({
       ]
   }
 });
-
 module.exports = mongoose.model('departamentos' , departamentoSchema);
