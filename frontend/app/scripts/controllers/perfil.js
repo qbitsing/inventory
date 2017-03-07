@@ -18,6 +18,19 @@ angular.module('frontendApp')
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
     },100);
-    $scope.panel_title_form = "Peril";
+    $scope.panel_title_form = "Perfil";
     $scope.button_title_form = "Actualizar datos";
+    var handleFileSelect=function(evt) {
+        angular.element(document.querySelector('#inputval')).text($(this).val());
+        var file=evt.currentTarget.files[0];
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+            $scope.$apply(function($scope){
+                $scope.contador=4;
+                $scope.myImage=evt.target.result;
+            });
+        };
+        reader.readAsDataURL(file);
+    };
+    angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
   });
