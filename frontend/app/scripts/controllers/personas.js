@@ -59,17 +59,21 @@ angular.module('frontendApp')
     $scope.EnviarPersona=function(){
         var ruta="";
         var metodo="";
-        if ($scope.panel_title_form=="Registro de Personas") {
+        if ($scope.panel_title_form=="Registro de clientes y proveedores") {
             ruta="personas";
             metodo="post";
         }else{
-            ruta="personas/"+$scope.Persona.documento;
+            ruta="personas/"+$scope.Persona._id;
             metodo="put";
         }
         webServer
         .getResource(ruta,$scope.Persona,metodo)
         .then(function(data){
-            console.log(data);
+            if($scope.panel_title_form=="Registro de clientes y proveedores"){
+                $scope.Personas.push($scope.Persona);
+            }else{
+                $scope.Personas[$scope.Persona.index] = $scope.Persona;
+            }
         },function(data){
             alert(data.data.message);
         });
@@ -89,6 +93,7 @@ angular.module('frontendApp')
                 return ele;
             }
         });
+        console.log($scope.Persona);
         $scope.panel_title_form = "Edicion de clientes y proveedores";
         $scope.button_title_form = "Editar Persona";
     }

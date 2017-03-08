@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 app.use(function(req,res,next){
 	res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     next();
 })
 
@@ -45,7 +46,7 @@ app.get('/departamentos', controllers.departamentos.listarAll);
 
 app.get('/departamentos/:id' , controllers.departamentos.listarById);
 
-//app.post('/departamentos' , controllers.departamentos.crear);
+app.post('/departamentos' , controllers.departamentos.crear);
 // Fin Bloque de rutas de departamentos
 
 // Bloque de rutas de unidades
@@ -55,6 +56,18 @@ app.delete('/unidades/:id' , controllers.unidades.eliminar);
 
 app.post('/unidades' , controllers.unidades.crear);
 // Fin Bloque de rutas de unidades
+
+// Bloque de rutas de materiaPrima
+app.get('/materiaPrima', controllers.materiaPrima.listarAll);
+
+app.get('/materiaPrima/:id', controllers.materiaPrima.listarById);
+
+app.put('/materiaPrima/:id', controllers.materiaPrima.actualizar);
+
+app.delete('/materiaPrima/:id' , controllers.materiaPrima.eliminar);
+
+app.post('/materiaPrima' , controllers.materiaPrima.crear);
+// Fin Bloque de rutas de materiaPrima
 
 mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
 	if(err){
