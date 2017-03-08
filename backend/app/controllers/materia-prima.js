@@ -1,6 +1,6 @@
 'use strict';
 
-const materiaPrimaModel = require('../materia-prima');
+const materiaPrimaModel = require('../models/materia-prima');
 
 function listarAll(req, res){
     materiaPrimaModel.find({}, (err , materiaPrimaStored)=>{
