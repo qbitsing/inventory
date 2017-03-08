@@ -9,34 +9,47 @@
 				<div class="panel-body" >
 					<form name="formPersonas" novalidate ng-submit="EnviarPersona()">
 						<div class="row">
-						<div class="input-field col s12 m6 l6">
-							<label for="id">Documento o NIT *</label>
-							<input type="text" ng-model="Persona.documento" name="id" id="id"  required ng-disabled="panel_title_form == 'Editar Persona'">
-						</div>
-						<div class="input-field col s12 m6 l6">
-							<label for="Nombre">Nombres *</label>
-							<input type="text" ng-model="Persona.nombre" id="Nombre" name="Nombre" required>
-						</div>
-						</div>
-						<div class="row">
-						<div class="input-field col s12 m6 l6">
-							<label for="Direccion">Direccion *</label>
-							<input type="text" ng-model="Persona.direccion" id="Direccion" name="Direccion" required>
-						</div>
-						<div class="input-field col s12 m6 l6">
-							<label for="Telefono">Telefono *</label>
-							<input type="number" ng-model="Persona.telefono" id="Telefono" name="Telefono" required>
-						</div>
+							<div class="input-field col s12 m6 l6">
+								<label for="id">Documento o NIT *</label>
+								<input type="text" ng-model="Persona.documento" name="id" id="id"  required ng-disabled="panel_title_form == 'Editar Persona'">
+							</div>
+							<div class="input-field col s12 m6 l6">
+								<label for="Nombre">Nombres *</label>
+								<input type="text" ng-model="Persona.nombre" id="Nombre" name="Nombre" required>
+							</div>
 						</div>
 						<div class="row">
-						<div class="input-field col s12 m6 l6">
-							<label for="Correo">Correo *</label>
-							<input type="email" ng-model="Persona.correo" id="Correo" name="Correo" required>
+							<div class="input-field col s12 m6 l6">
+								<label for="Apellidos">Apellidos *</label>
+								<input type="text" ng-model="Persona.apellidos" id="Apellidos" name="Apellidos" required>
+							</div>
+							<div class="input-field col s12 m6 l6">
+								<label for="Direccion">Direccion *</label>
+								<input type="text" ng-model="Persona.direccion" id="Direccion" name="Direccion" required>
+							</div>
+							
 						</div>
-						<div class="input-field col s12 m6 l6">
-							<label for="Fax">Fax</label>
-							<input type="number" ng-model="Persona.fax" id="Fax" name="Fax">
+						<div class="row">
+							<div class="input-field col s12 m6 l6">
+								<label for="Telefono">Telefono *</label>
+								<input type="number" ng-model="Persona.telefono" id="Telefono" name="Telefono" required>
+							</div>
+							<div class="input-field col s12 m6 l6">
+								<label for="Correo">Correo *</label>
+								<input type="email" ng-model="Persona.correo" id="Correo" name="Correo" required>
+							</div>
+							
 						</div>
+						<div class="row">
+							<div class="input-field col s12 m6 l6">
+								<label for="Fax">Fax</label>
+								<input type="number" ng-model="Persona.fax" id="Fax" name="Fax">
+							</div>
+							<div class="input-field col s12 m6 l6">
+								<label for="Contacto">Contacto</label>
+								<input type="text" ng-model="Persona.contacto" id="Contacto" name="Contacto" >
+							</div>
+							
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
@@ -51,12 +64,9 @@
 								</select>
 								<label>Ciudad</label>
 							</div>
+							
 						</div>
 						<div class="row">
-							<div class="input-field col s12 m6 l6">
-								<label for="Contacto">Contacto</label>
-								<input type="text" ng-model="Persona.contacto" id="Contacto" name="Contacto" >
-							</div>
 							<p class="col s6 m2 l2">
 								<input type="checkbox" ng-model="Persona.cliente" id="cliente"/>
 	      						<label for="cliente">Cliente</label>
