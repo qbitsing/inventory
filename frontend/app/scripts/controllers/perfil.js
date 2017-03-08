@@ -30,15 +30,15 @@ angular.module('frontendApp')
         var reader = new FileReader();
         reader.onload = function (evt) {
           $scope.$apply(function($scope){
-            $scope.myImage=evt.target.result;
             $scope.contador=4;
+            $scope.myImage=evt.target.result;
           });
         };
         reader.readAsDataURL(file);
     };
     angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
     $scope.cambiar=function(act){
-        if(act==1){
+        if(act==1 && $scope.contador<3){
             $scope.contador=1;
         }else if(act==2){
             $scope.contador++;
@@ -70,7 +70,7 @@ angular.module('frontendApp')
             },function(data){
             });
         }else{
-            
+            console.log('No cambio');
         }
     }
   });
