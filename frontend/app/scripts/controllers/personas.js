@@ -55,7 +55,6 @@ angular.module('frontendApp')
     }
     angular.extend($scope.gridOptions , Tabla);
 
-
     $scope.EnviarPersona=function(){
         var ruta="";
         var metodo="";
@@ -103,19 +102,48 @@ angular.module('frontendApp')
         $scope.button_title_form = "Registrar Persona";
     }
 
-    function listarpersonas(){
+    function listarPersonas(){
         webServer
         .getResource('personas',{proveedor:true,cliente:true},'get')
         .then(function(data){
             if(data.data){
-                $scope.Personas=data.data.datos;
+                $scope.Personas = data.data.datos;
                 $scope.gridOptions.data = data.data.datos;
             }else{
-                $scope.gridOptions.data =[];
+                $scope.gridOptions.data = [];
             }
         },function(data){
             alert(data.data.message);
         });
     }
-    listarpersonas();
+    function listarCiudades(){
+        webServer
+        .getResource('ciudades',{},'get')
+        .then(function(data){
+            if(data.data.datos){
+                $scope.Ciudades=data.data.datos;
+            }else{
+                $scope.Ciudades=[];
+            }
+        },function(data){
+            alert(data.data.message);
+        });
+    }
+    function listarDepartamentos(){
+        webServer
+        .getResource('departamentos',{},'get')
+        .then(function(data){
+            if(data.data.datos){
+                $scope.Departamentos=data.data.datos;
+                console.log($scope.Departamentos);
+            }else{
+                $scope.Departamentos=[];
+            }
+        },function(data){
+            alert(data.data.message);
+        });
+    }
+    listarPersonas();
+    listarDepartamentos();
+    listarCiudades();
 });

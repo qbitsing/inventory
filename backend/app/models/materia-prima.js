@@ -10,4 +10,4 @@ const materia_primaSchema = Schema({
     cantidad: Number
 });
 
-module.exports = mongoose.model('ciudades' , cuidadSchema);
+module.exports = mongoose.model('materia_prima' , materia_primaSchema);
