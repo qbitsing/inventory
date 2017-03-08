@@ -3,40 +3,40 @@
 const departamentoModel = require('../models/departamentos');
 
 function listarAll (req, res){
-	departamentoModel.find({} , (err , departamentosStored)=>{
+	departamentoModel.find({} , (err , datos)=>{
         if(err) {
             return res.status(500).send({
                 message : `ERROR al obtener la lista de departamentos ${err}`
             });            
         }
-        if(departamentosStored.length < 1){
+        if(datos.length < 1){
             return res.status(404).send({
                 message : `No hay departamentos registrados en la BD`
             });
         }
 
         return res.status(200).send({
-            departamentosStored
+            datos
         });
     });
 }
 
 function listarById (req, res) {
 	let departamentoId = req.params.id;
-    departamentoModel.findById(departamentoId , (err , departamentoStored)=>{
+    departamentoModel.findById(departamentoId , (err , datos)=>{
         if(err){
           return res.status(500).send({
               message : `ERROR al tratar de obtener el departamento por id ${err}`
             });  
         }
 
-        if(!departamentoStored){
+        if(!datos){
             return res.status(404).send({
               message : `El departamento no existe`
             });  
         } 
         return res.status(200).send({
-            departamentoStored
+            datos
         });
     })
 }
@@ -44,11 +44,11 @@ function listarById (req, res) {
 function crear (req, res) {
 	let departamento = new departamentoModel(req.body);
 
-    departamento.save((err , departamentoStored)=>{
+    departamento.save((err , datos)=>{
         if(err) return res.status(500).send({message : `ERROR al guardar el departamento en la DB ${err}`});
 
         return res.status(200).send({
-            departamentoStored
+            datos
         });
     });
 }
