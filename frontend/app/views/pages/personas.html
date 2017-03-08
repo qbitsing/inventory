@@ -41,13 +41,13 @@
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<select ng-model="Persona.departamento">
-	      							<option ng-repeat="departamento in Departamentos" value="{{departamento._id}}">{{departamento.nombre}}</option>
+	      							<option ng-repeat="departamento in Departamentos" value="{{departamento.id}}">{{departamento.nombre}}</option>
 								</select>
 								<label>Departamento</label>
 							</div>
 							<div class="input-field col s12 m6 l6" >
 								<select ng-model="Persona.ciudad" required>
-									<option ng-repeat="ciudad in Ciudades" ng-if="ciudad.departamento == Persona.departamento" value="{{ciudad._id}}">{{ciudad.nombre}}</option>
+									<option ng-repeat="ciudad in Ciudades" ng-if="ciudad.departamento == Persona.departamento" value="{{ciudad.id}}">{{ciudad.nombre}}</option>
 								</select>
 								<label>Ciudad</label>
 							</div>
