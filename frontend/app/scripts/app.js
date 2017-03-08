@@ -63,7 +63,7 @@ angular
     .state('Perfil',{
       url: '/Perfil',
       parent: 'Dashboard',
-      templateUrl: 'views/pages/Perfil.html',
+      templateUrl: 'views/pages/perfil.html',
       controller: 'PerfilCtrl'
     })
     .state('Personas',{
