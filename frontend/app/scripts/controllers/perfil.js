@@ -23,18 +23,20 @@ angular.module('frontendApp')
     $scope.Usuario=SesionUsuario.obtenerSesion();
     $scope.MiUsuario={};
     $scope.cambio=false;
+    $scope.myCroppedImage='';
     var handleFileSelect=function(evt) {
         angular.element(document.querySelector('#inputval')).text( $(this).val());
         var file=evt.currentTarget.files[0];
         var reader = new FileReader();
         reader.onload = function (evt) {
           $scope.$apply(function($scope){
-            $scope.contador=4;
             $scope.myImage=evt.target.result;
+            $scope.contador=4;
           });
         };
         reader.readAsDataURL(file);
     };
+    angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
     $scope.cambiar=function(act){
         if(act==1){
             $scope.contador=1;
@@ -50,7 +52,7 @@ angular.module('frontendApp')
             $scope.MiUsuario.myImage=$scope.myCroppedImage;
             $scope.MiUsuario.Image=$scope.myImage;
             webServer
-            .getResource('Usuarios/ActualizarImagen/' , $scope.MiUsuario,'put')
+            .getResource('personas/'+$scope.Usuario._id , $scope.MiUsuario , 'put')
             .then(function(data){
                 EnviarDatos(1);
             },function(data){
@@ -59,11 +61,15 @@ angular.module('frontendApp')
             EnviarDatos(0);
         }
     }
-    $scope.EnviarDatos=function(actualizo){
-        if(JSON.stringify($scope.Usuario)==JSON.stringify(SesionUsuario.obtenerSesion())){
-            console.log($scope.Usuario);
+    function EnviarDatos(actualizo){
+        if(JSON.stringify($scope.Usuario)!=JSON.stringify(SesionUsuario.obtenerSesion())){
+            webServer
+            .getResource('personas/'+$scope.Usuario._id , $scope.Usuario , 'put')
+            .then(function(data){
+            },function(data){
+            });
         }else{
-            console.log('Cambio');
+            
         }
     }
   });
