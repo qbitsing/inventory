@@ -21,16 +21,16 @@ angular.module('frontendApp')
     $scope.panel_title_form = "Perfil";
     $scope.button_title_form = "Actualizar datos";
     var handleFileSelect=function(evt) {
-        angular.element(document.querySelector('#inputval')).text($(this).val());
+        angular.element(document.querySelector('#inputval')).text( $(this).val());
         var file=evt.currentTarget.files[0];
         var reader = new FileReader();
         reader.onload = function (evt) {
-            $scope.$apply(function($scope){
-                $scope.contador=4;
-                $scope.myImage=evt.target.result;
-            });
+          $scope.$apply(function($scope){
+            $scope.contador=4;
+            $scope.cambiar();
+            $scope.myImage=evt.target.result;
+          });
         };
-        reader.readAsDataURL(file);
-    };
-    angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
+          reader.readAsDataURL(file);
+      };
   });
