@@ -27,7 +27,7 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             { 
-                field: 'documento o nit',field: 'documento',
+                name: 'documento o nit',field: 'documento',
                 width:'20%',
                 minWidth: 160
             },
@@ -37,7 +37,7 @@ angular.module('frontendApp')
                 minWidth: 160
             },
             { 
-                name: 'telefono',
+                field: 'telefono',
                 width:'20%',
                 minWidth: 160
             },
@@ -48,8 +48,8 @@ angular.module('frontendApp')
             },
             { 
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'25%',
-                minWidth: 180
+                width:'20%',
+                minWidth: 160
             }
         ]
     }
@@ -59,17 +59,21 @@ angular.module('frontendApp')
     $scope.EnviarPersona=function(){
         var ruta="";
         var metodo="";
-        if ($scope.panel_title_form=="Registro de Personas") {
+        if ($scope.panel_title_form=="Registro de clientes y proveedores") {
             ruta="personas";
             metodo="post";
         }else{
-            ruta="personas/"+$scope.Persona.documento;
+            ruta="personas/"+$scope.Persona._id;
             metodo="put";
         }
         webServer
         .getResource(ruta,$scope.Persona,metodo)
         .then(function(data){
-            console.log(data);
+            if($scope.panel_title_form=="Registro de clientes y proveedores"){
+                $scope.Personas.push($scope.Persona);
+            }else{
+                $scope.Personas[$scope.Persona.index] = $scope.Persona;
+            }
         },function(data){
             alert(data.data.message);
         });
@@ -82,6 +86,21 @@ angular.module('frontendApp')
             }
         });
         $('#modal1').modal('open');
+    }
+    $scope.Editar = function(id){
+        $scope.Persona = $scope.Personas.find(function(ele){
+            if(ele.documento == id){
+                return ele;
+            }
+        });
+        console.log($scope.Persona);
+        $scope.panel_title_form = "Edicion de clientes y proveedores";
+        $scope.button_title_form = "Editar Persona";
+    }
+    $scope.CancelarEditar=function(){
+        $scope.Persona={};
+        $scope.panel_title_form = "Registro de clientes y proveedores";
+        $scope.button_title_form = "Registrar Persona";
     }
 
     function listarpersonas(){

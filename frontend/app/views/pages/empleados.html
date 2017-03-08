@@ -10,7 +10,7 @@
 					<form name="formEmpleados" novalidate ng-submit="EnviarEmpleado()">
 						<div class="row">
 						<div class="input-field col s12 m6 l6">
-							<label for="documento">Documento*</label>
+							<label for="documento" ng-class="active:(Empleado.documento)">Documento*</label>
 							<input type="text" ng-model="Empleado.documento" name="documento" id="documento"  required ng-disabled="panel_title_form == 'Editar Empleado'">
 						</div>
 						<div class="input-field col s12 m6 l6">
@@ -24,16 +24,16 @@
 							<input type="text" ng-model="Empleado.direccion" id="Direccion" name="Direccion" required>
 						</div>
 						<div class="input-field col s12 m6 l6">
-							<label for="Telefono">Telefono *</label>
+							<label for="Telefono" ng-class="active:(Empleado.telefono)">Telefono *</label>
 							<input type="number" ng-model="Empleado.telefono" id="Telefono" name="Telefono" required>
 						</div>
 						</div>
 						<div class="row">
-						<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Empleado'">
+						<div class="input-field col s12 m6 l6">
 							<label for="Correo">Correo *</label>
 							<input type="email" ng-model="Empleado.correo" id="Correo" name="Correo" required>
 						</div>
-						<div class="input-field col s12 m6 l6" ng-hide="panel_title_form == 'Editar Empleado'">
+						<div class="input-field col s12 m6 l6">
 							<label for="Cargo">Cargo *</label>
 							<input type="text" ng-model="Empleado.cargo" id="Cargo" name="Cargo" required>
 						</div>

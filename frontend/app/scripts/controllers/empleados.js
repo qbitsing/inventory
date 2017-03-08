@@ -61,13 +61,17 @@ angular.module('frontendApp')
             ruta="personas";
             metodo="post";
         }else{
-            ruta="personas/"+$scope.Empleado.documento;
+            ruta="personas/"+$scope.Empleado._id;
             metodo="put";
         }
         webServer
         .getResource(ruta,$scope.Empleado,metodo)
         .then(function(data){
-            console.log(data);
+            if($scope.panel_title_form=="Registro de Empleados"){
+                $scope.Empleados.push($scope.Persona);
+            }else{
+                $scope.Empleados[$scope.Persona.index] = $scope.Persona;
+            }
         },function(data){
             alert(data.data.message);
         });
@@ -79,6 +83,20 @@ angular.module('frontendApp')
             }
         });
         $('#modal1').modal('open');
+    }
+    $scope.Editar = function(id){
+        $scope.Empleado = $scope.Personas.find(function(ele){
+            if(ele.documento == id){
+                return ele;
+            }
+        });
+        $scope.panel_title_form = "Edicion de Empleados";
+        $scope.button_title_form = "Editar Empleado";
+    }
+    $scope.CancelarEditar=function(){
+        $scope.Empleado={};
+        $scope.panel_title_form = "Registro de Empleados";
+        $scope.button_title_form = "Registrar Empleado";
     }
     function listarpersonas(){
         webServer
