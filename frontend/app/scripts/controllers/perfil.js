@@ -66,6 +66,7 @@ angular.module('frontendApp')
             webServer
             .getResource('personas/'+$scope.Usuario._id , $scope.Usuario , 'put')
             .then(function(data){
+                console.log(data);
             },function(data){
             });
         }else{
