@@ -10,9 +10,9 @@ const controllers = require('./app/controllers/all-controllers');
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true , limit: '5mb'}));
 app.use(express.static(__dirname+'/assest'));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '5mb'}));
 app.use(function(req,res,next){
 	res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
