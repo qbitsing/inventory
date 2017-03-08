@@ -84,9 +84,10 @@ angular.module('frontendApp')
                 $scope.gridOptions.data = data.data.datos;
             }else{
                 $scope.gridOptions.data =[];
+                $scope.Materias=[];
             }
         },function(data){
-            alert(data.data.message);
+            console.log(data.data.message);
         });
     }
     function listarunidades(){
@@ -99,9 +100,9 @@ angular.module('frontendApp')
                 $scope.gridOptions.data =[];
             }
         },function(data){
-            alert(data.data.message);
+            console.log(data.data.message);
         });
     }
     listarmaterias();
-    listarunidades
+    listarunidades();
   });

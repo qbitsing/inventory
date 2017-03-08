@@ -14,8 +14,8 @@
 								<label for="Nombre">Nombre *</label>
 							</div>
 							<div class="input-field col s12 m6 l6">
-								<select ng-model="Persona.unidad_medida">
-	      							<option ng-repeat="materia in Materias" value="{{materia.id}}">{{materia.nombre}}</option>
+								<select ng-model="Persona.unidad_medida" material-select watch>
+	      							<option ng-repeat="unidad in Unidades" value="{{unidad._id}}">{{unidad.nombre}}</option>
 								</select>
 								<label>Unidad de medida *</label>
 							</div>
