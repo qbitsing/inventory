@@ -11,6 +11,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(__dirname+'/assest'));
 app.use(bodyParser.json());
 app.use(function(req,res,next){
 	res.setHeader('Access-Control-Allow-Origin', '*');
