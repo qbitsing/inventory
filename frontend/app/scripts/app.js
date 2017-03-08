@@ -27,7 +27,8 @@ angular
     'ui.grid.pagination', 
     'ui.grid.cellNav',
     'mdo-angular-cryptography',
-    'uiCropper'
+    'uiCropper',
+    'ui.materialize'
   ])
   .config(function (localStorageServiceProvider) {
     localStorageServiceProvider

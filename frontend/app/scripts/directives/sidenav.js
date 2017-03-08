@@ -7,7 +7,7 @@
  * # sidenav
  */
 angular.module('frontendApp')
-  .directive('sidenav', function () {
+  .directive('sidenavb', function () {
     return {
 		templateUrl: 'views/directives/sidenav.html',
 		restrict: 'E',

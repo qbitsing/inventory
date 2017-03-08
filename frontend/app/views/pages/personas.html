@@ -14,7 +14,7 @@
 							<input type="text" ng-model="Persona.documento" name="id" id="id"  required ng-disabled="panel_title_form == 'Editar Persona'">
 						</div>
 						<div class="input-field col s12 m6 l6">
-							<label for="Nombre">Nombre *</label>
+							<label for="Nombre">Nombres *</label>
 							<input type="text" ng-model="Persona.nombre" id="Nombre" name="Nombre" required>
 						</div>
 						</div>
@@ -40,14 +40,14 @@
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-								<select ng-model="Persona.departamento">
-	      							<option ng-repeat="departamento in Departamentos" value="{{departamento.id}}">{{departamento.nombre}}</option>
+								<select ng-model="Persona.departamento" material-select watch>
+	      							<option ng-repeat="departamento in Departamentos" value="{{departamento._id}}">{{departamento.nombre}}</option>
 								</select>
 								<label>Departamento</label>
 							</div>
 							<div class="input-field col s12 m6 l6" >
-								<select ng-model="Persona.ciudad" required>
-									<option ng-repeat="ciudad in Ciudades" ng-if="ciudad.departamento == Persona.departamento" value="{{ciudad.id}}">{{ciudad.nombre}}</option>
+								<select ng-model="Persona.ciudad" required material-select watch>
+									<option ng-repeat="ciudad in Ciudades" ng-if="ciudad.departamento._id == Persona.departamento" value="{{ciudad.id}}">{{ciudad.nombre}}</option>
 								</select>
 								<label>Ciudad</label>
 							</div>
@@ -67,10 +67,13 @@
 							</p>
 						</div>
 						<div class="row">
-							<div class="col s12 m6 l4">
+							<div class="col">
 								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formPersonas.$invalid || (!Persona.cliente && !Persona.proveedor)">{{button_title_form}}</button>
 							</div>
-							<button type="button" class="btn btn-large" ng-show="button_title_form == 'Editar Persona'" ng-click="CancelarEditar()">Cancelar</button>
+							<div class="col">
+								<button type="button" class="btn btn-large btn-danger" ng-show="button_title_form == 'Editar Persona'" ng-click="CancelarEditar()">Cancelar</button>
+							</div>
+							
 						</div>
 					</form>
 				</div>
