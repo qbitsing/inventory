@@ -7,7 +7,7 @@
 					<h3 class="panel-title">{{panel_title_form}}</h3>
 				</div>
 				<div class="panel-body" >
-					<form name="formPersonas" novalidate ng-submit="EnviarPersona()">
+					<form name="formPersonas" novalidate ng-submit="ImageUpdate()">
 						<div class="row">
 							<div class="file-field input-field col s12 m12 l6">
 								<div class="btn blue accent-4">
@@ -24,42 +24,37 @@
 							<div class="input-field">
 								<div class="input-field col s12 m6 l6">
 									<label for="documento">Documento*</label>
-									<input type="text" ng-model="Empleado.documento" name="documento" id="documento"  required ng-disabled="panel_title_form == 'Editar Empleado'">
+									<input type="text" ng-model="Usuario.documento" name="documento" id="documento"  required ng-disabled="panel_title_form == 'Editar Usuario'">
 								</div>
 								<div class="input-field col s12 m6 l6">
 									<label for="Nombre">Nombres *</label>
-									<input type="text" ng-model="Empleado.nombre" id="Nombre" name="Nombre" required>
+									<input type="text" ng-model="Usuario.nombre" id="Nombre" name="Nombre" required>
 								</div>
 								<div class="input-field col s12 m6 l6">
 									<label for="Apellidos">Apellidos *</label>
-									<input type="text" ng-model="Empleado.nombre" id="Apellidos" name="Apellidos" required>
+									<input type="text" ng-model="Usuario.apellidos" id="Apellidos" name="Apellidos" required>
 								</div>
 								<div class="input-field col s12 m6 l6">
 									<label for="Direccion">Dirección *</label>
-									<input type="text" ng-model="Empleado.nombre" id="Direccion" name="Direccion" required>
+									<input type="text" ng-model="Usuario.direccion" id="Direccion" name="Direccion" required>
 								</div>
 								<div class="input-field col s12 m6 l6">
 									<label for="Telefono">Telefono *</label>
-									<input type="text" ng-model="Empleado.nombre" id="Telefono" name="Telefono" required>
+									<input type="text" ng-model="Usuario.telefono" id="Telefono" name="Telefono" required>
 								</div>
 								<div class="input-field col s12 m6 l6">
 									<label for="Correo">Correo *</label>
-									<input type="text" ng-model="Empleado.nombre" id="Correo" name="Correo" required>
+									<input type="text" ng-model="Usuario.correo" id="Correo" name="Correo" required>
 								</div>
 							</div>
-
 						</div>
 						<div class="row">
 							<div class="col">
-								<button type="submit" class="btn btn-large btn-primary" ng-disabled="formPersonas.$invalid || (!Persona.cliente && !Persona.proveedor)">{{button_title_form}}</button>
+								<button type="submit" class="btn btn-large btn-primary" ng-disabled="formPersonas.$invalid">{{button_title_form}}</button>
 							</div>
 							<div class="col">
 								<button type="button" class="btn btn-large btn-success">Cambiar contraseña</button>
 							</div>
-
-						</div>
-							
-							
 						</div>
 					</form>
 				</div>
