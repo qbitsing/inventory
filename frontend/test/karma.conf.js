@@ -56,6 +56,7 @@ module.exports = function(config) {
       '../bower_components/angular-ui-grid/ui-grid.js',
       '../bower_components/angular-ui-grid/ui-grid.min.js',
       '../bower_components/ui-cropper/compile/minified/ui-cropper.js',
+      '../bower_components/angular-materialize/src/angular-materialize.js',
       '../bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

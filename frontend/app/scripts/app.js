@@ -27,9 +27,10 @@ angular
     'ui.grid.pagination', 
     'ui.grid.cellNav',
     'mdo-angular-cryptography',
-    'uiCropper'
-])
-.config(function (localStorageServiceProvider) {
+    'uiCropper',
+    'ui.materialize'
+  ])
+  .config(function (localStorageServiceProvider) {
     localStorageServiceProvider
       .setPrefix('inventoryPrinesApp')
       .setStorageType('sessionStorage')
