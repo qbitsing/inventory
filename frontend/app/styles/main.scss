@@ -365,15 +365,18 @@ $success:#00c853;
 .modal{
   .modal-content{
     .modal-title{
-      position:absolute;
+      position:fixed;
       top:0;
       left:0;
       right:0;
       padding:1rem 10px;
       color:white;
+      background-color: $azul;
+      z-index: 200;
     }
-    ul{
+    .row{
       margin-top: 3rem;
+      z-index: 100;
     }
   }
 }
