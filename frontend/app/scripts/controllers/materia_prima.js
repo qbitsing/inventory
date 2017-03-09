@@ -30,7 +30,7 @@ angular.module('frontendApp')
                 minWidth: 160
             },
             { 
-                name: 'unidad de medida',field: 'unidad_medida',
+                name: 'unidad de medida',field: 'unidad_medida.nombre',
                 width:'20%',
                 minWidth: 160
             },
@@ -71,9 +71,32 @@ angular.module('frontendApp')
             }else{
                 $scope.Materias[$scope.Materia.index] = $scope.Materia;
             }
+            $scope.Materia={};
         },function(data){
-            alert(data.data.message);
+            console.log(data.data.message);
         });
+    }
+    $scope.Detalles = function(id){
+        $scope.Detalle = $scope.Materias.find(function(ele){
+            if(ele._id == id){
+                return ele;
+            }
+        });
+        $('#modal1').modal('open');
+    }
+    $scope.Editar = function(id){
+        $scope.Materia = $scope.Materias.find(function(ele){
+            if(ele._id == id){
+                return ele;
+            }
+        });
+        $scope.panel_title_form = "Edicion de Materia Prima";
+        $scope.button_title_form = "Editar Materia Prima";
+    }
+    $scope.CancelarEditar=function(){
+        $scope.Materia={};
+        $scope.panel_title_form = "Registro de Materia Prima";
+        $scope.button_title_form = "Registrar Materia Prima";
     }
     function listarmaterias(){
         webServer

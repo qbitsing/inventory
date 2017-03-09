@@ -30,7 +30,7 @@ const personaSchema = Schema({
     empleado:Boolean,
     ciudad : {},
     contacto: String,
-    fax : String,
+    fax : Number,
     cargo: String,
     imagen: String
 });
