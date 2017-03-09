@@ -22,7 +22,7 @@ angular.module('frontendApp')
     $scope.button_title_form = "Registrar Empleado";
     $scope.Empleado={};
 
-  var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
+    var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
             { 
@@ -36,7 +36,7 @@ angular.module('frontendApp')
                 minWidth: 160
             },
             { 
-                name: 'telefono',
+                field: 'telefono',
                 width:'20%',
                 minWidth: 160
             },
