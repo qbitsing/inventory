@@ -86,6 +86,7 @@ angular.module('frontendApp')
         });
         $('#modal1').modal('open');
     }
+    
     $scope.Editar = function(id){
         $scope.Persona = $scope.Personas.find(function(ele){
             if(ele.documento == id){
@@ -113,7 +114,7 @@ angular.module('frontendApp')
                 $scope.gridOptions.data = [];
             }
         },function(data){
-            alert(data.data.message);
+            console.log(data);
         });
     }
     function listarCiudades(){
