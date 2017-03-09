@@ -7,7 +7,7 @@
 					<h3 class="panel-title">{{panel_title_form}}</h3>
 				</div>
 				<div class="panel-body" >
-					<form name="formPersonas" novalidate ng-submit="ImageUpdate()">
+					<form name="formPerfil" novalidate ng-submit="ImageUpdate()">
 						<div class="row">
 							<div class="file-field input-field col s12 m12 l6">
 								<div class="btn blue accent-4">
@@ -24,7 +24,7 @@
 							<div class="input-field">
 								<div class="input-field col s12 m6 l6">
 									<label for="documento">Documento*</label>
-									<input type="text" ng-model="Usuario.documento" name="documento" id="documento"  required ng-disabled="panel_title_form == 'Editar Usuario'">
+									<input type="text" ng-model="Usuario.documento" name="documento" id="documento"  required ng-disabled="true">
 								</div>
 								<div class="input-field col s12 m6 l6">
 									<label for="Nombre">Nombres *</label>
@@ -50,10 +50,10 @@
 						</div>
 						<div class="row">
 							<div class="col">
-								<button type="submit" class="btn btn-large btn-primary" ng-disabled="formPersonas.$invalid">{{button_title_form}}</button>
+								<button type="submit" class="btn btn-large btn-primary" ng-disabled="formPerfil.$invalid">{{button_title_form}}</button>
 							</div>
 							<div class="col">
-								<button type="button" class="btn btn-large btn-success">Cambiar contraseña</button>
+								<button type="button" ng-click="abrirModal()" class="btn btn-large btn-success">Cambiar contraseña</button>
 							</div>
 						</div>
 					</form>
@@ -62,3 +62,49 @@
 		</div>
 	</div>
 </div>
+<div id="modal1" class="modal modal-fixed-footer">
+    <form class="col s12" name="formPss">
+	    <div class="modal-content">
+	      	<h4>Cambio de contraseña</h4>
+			<div class="row">
+			  <div class="row modal-form-row">
+			    <div class="input-field col s12">
+			      	<label for="pssactual">Contraseña actual*</label>
+					<input type="password" ng-model="Pss.pssactual" name="pssactual" id="pssactual"  required>
+			    </div>
+			  </div>
+			  <div class="row">
+			    <div class="input-field col s12">
+			      <label for="nueva">Contraseña nueva*</label>
+					<input type="password" ng-model="Pss.nueva" name="nueva" id="nueva"  required >
+			    </div>
+			  </div>
+			  <div class="row">
+			    <div class="input-field col s12">
+			      <label for="confirmar">Confirmar nueva contraseña*</label>
+					<input type="password" ng-model="Pss.confirmar" name="confirmar" id="confirmar"  required>
+			    </div>
+			  </div>
+			</div>
+	    </div>
+	    <div class="modal-footer">
+	    	<button type="submit" ng-click="CambiarPss()" class="modal-action waves-effect waves-green btn-flat" ng-disabled="formPss.$invalid || Pss.nueva!=Pss.confirmar">Enviar</button>
+	      	<a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
+	    </div>
+    </form>
+  </div>
+<script type="text/javascript" charset="utf-8">
+	$('.modal').modal();
+	$('.modal').modal({
+            dismissible: true, // Modal can be dismissed by clicking outside of the modal
+            opacity: 0, // Opacity of modal background
+            inDuration: 300, // Transition in duration
+            outDuration: 200, // Transition out duration
+            startingTop: '10%', // Starting top style attribute
+            endingTop: '15%', // Ending top style attribute
+            ready: function(modal, trigger) {
+            },
+            complete: function() {  } // Callback for Modal close
+        }
+    );
+</script>

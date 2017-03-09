@@ -47,6 +47,18 @@ angular.module('frontendApp')
             $scope.cambio=true;
         }
     }
+    $scope.abrirModal=function(){
+        $('#modal1').modal('open');
+    }
+    $scope.CambiarPss=function(){
+        webServer
+        .getResource('personas/'+$scope.Usuario._id , $scope.Pss , 'put')
+        .then(function(data){
+            $('#modal1').modal('close');
+        },function(data){
+            console.log(data);
+        });
+    }
     $scope.ImageUpdate=function(){
         if($scope.cambio){
             $scope.MiUsuario.myImage=$scope.myCroppedImage;
