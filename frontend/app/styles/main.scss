@@ -362,3 +362,21 @@ $success:#00c853;
 .modal-overlay{
   display:none!important;
 }
+.modal{
+  .modal-content{
+    .modal-title{
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      padding:1rem 10px;
+      color:white;
+    }
+    ul{
+      margin-top: 3rem;
+    }
+  }
+}
+.modal-overlay{
+  z-index: 1002 !important;
+}
