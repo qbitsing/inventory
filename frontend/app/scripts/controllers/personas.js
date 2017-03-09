@@ -93,7 +93,7 @@ angular.module('frontendApp')
                 return ele;
             }
         });
-        console.log($scope.Persona);
+        $scope.Persona.departamento = $scope.Persona.ciudad.departamento._id; 
         $scope.panel_title_form = "Edicion de clientes y proveedores";
         $scope.button_title_form = "Editar Persona";
     }

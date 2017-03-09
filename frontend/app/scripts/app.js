@@ -70,7 +70,7 @@ angular
     .state('Personas',{
         url: '/Personas',
         parent: 'Dashboard',
-        templateUrl: 'views/pages/Personas.html',
+        templateUrl: 'views/pages/personas.html',
         controller: 'PersonasCtrl'
     })
     .state('Productos',{
