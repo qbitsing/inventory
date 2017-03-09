@@ -87,8 +87,8 @@ function listarById (req, res) {
 
 function crear (req, res) {
 	var ciudad = null;
-	if(req.body.ciudad){
-		ciudadModel.findById(req.body.ciudad , (err , ciudadStored)=>{
+	if(req.body.ciudad._id){
+		ciudadModel.findById(req.body.ciudad._id , (err , ciudadStored)=>{
 			if(err){
 				return res.status(500).send({
 					message : `Error al buscar la ciudad ${err}`
@@ -102,21 +102,24 @@ function crear (req, res) {
 			}
 
 			ciudad = ciudadStored;
+			insertar();
+		});
+	}else insertar();
+
+	function insertar(){
+		req.body.ciudad = ciudad;
+		var persona = new personaModel(req.body);
+		persona.save((err, personaStored)=>{
+			if(err){
+				return res.status(500).send({
+					message : `Error al guardar la persona en la base de datos: ${err}`
+				});
+			} 
+			return res.status(200).send({
+				datos : personaStored
+			});
 		});
 	}
-
-	req.body.ciudad = ciudad;
-	var persona = new personaModel(req.body);
-	persona.save((err, personaStored)=>{
-		if(err){
-			return res.status(500).send({
-				message : `Error al guardar la persona en la base de datos: ${err}`
-			});
-		} 
-		return res.status(200).send({
-			datos : personaStored
-		});
-	});
 }
 
 function actualizar (req, res) {
