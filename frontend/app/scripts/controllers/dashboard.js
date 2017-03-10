@@ -16,7 +16,7 @@ angular.module('frontendApp')
     var contador=0;
     while (i==0) {
         var caracter = $scope.Usuario.nombre.charAt(contador);
-        if(caracter==" " || contador==$scope.Usuario.nombre.lenght){
+        if(caracter==" " || contador==$scope.Usuario.nombre.length){
             i=1;
         }else{
             $scope.NombreDeUsuario+=caracter;
@@ -28,7 +28,7 @@ angular.module('frontendApp')
     contador=0;
     while (i==0) {
         var caracter = $scope.Usuario.apellidos.charAt(contador);
-        if(caracter==" " || contador==$scope.Usuario.apellidos.lenght){
+        if(caracter==" " || contador==$scope.Usuario.apellidos.length){
             i=1;
         }else{
             $scope.NombreDeUsuario+=caracter;
