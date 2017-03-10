@@ -55,6 +55,23 @@ angular.module('frontendApp')
     angular.extend($scope.gridOptions , Tabla);
 
     $scope.EnviarEmpleado=function(){
+        switch($scope.Persona.rol) {
+            case 'super_administrador':
+                $scope.Persona.super_administrador=true;
+                break;
+            case 'administrador':
+                $scope.Persona.administrador=true;
+                break;
+            case 'contador':
+                $scope.Persona.contador=true;
+                break;
+            case 'almacenista':
+                $scope.Persona.almacenista=true;
+                break;
+            case 'empleado':
+                $scope.Persona.empleado=true;
+                break;
+        }
         var ruta="";
         var metodo="";
         if ($scope.panel_title_form=="Registro de Empleados") {
