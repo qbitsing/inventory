@@ -11,7 +11,9 @@ angular.module('frontendApp')
 .controller('EmpleadosCtrl', function ($scope, $timeout, $state, SesionUsuario, Tabla, BotonesTabla, webServer) {
 	if(SesionUsuario.obtenerSesion()==null){
         $state.go('Login');
+        console.log('en');
     }
+    console.log(SesionUsuario.obtenerSesion());
     $scope.panelAnimate='';
     $scope.pageAnimate='';  
     $timeout(function () {

@@ -9,8 +9,11 @@
  */
 angular.module('frontendApp')
   .controller('DashboardCtrl', function ($scope,$state,SesionUsuario) {
-    $scope.$state=$state;
-    $scope.Usuario=SesionUsuario.obtenerSesion();
+      $scope.$state=$state;
+      if(SesionUsuario.obtenerSesion()==null){
+    }
+    else{
+        $scope.Usuario=SesionUsuario.obtenerSesion();
     $scope.NombreDeUsuario='';
     var i=0;
     var contador=0;
@@ -45,7 +48,7 @@ angular.module('frontendApp')
                 }
             }
     }
-
+    }
     
     $scope.sidenav = function(){
         angular.element(".sidenav").toggleClass('sidenav-hidden');
