@@ -8,10 +8,16 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('OrdenVentaCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('OrdenVentaCtrl', function ($scope, $timeout, $state, SesionUsuario, Tabla, BotonesTabla, webServer) {
+   if(SesionUsuario.obtenerSesion()==null){
+        $state.go('Login');
+    }
+    $scope.panelAnimate='';
+    $scope.pageAnimate='';  
+    $timeout(function () {
+        $scope.pageAnimate='pageAnimate';
+        $scope.panelAnimate='panelAnimate';
+    },100);
+    $scope.panel_title_form = "Registro de venta";
+    $scope.button_title_form = "Registrar venta";
   });
