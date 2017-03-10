@@ -54,7 +54,7 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptions , Tabla);
-    var casillaDeBotonesModal = '<div>'+BotonesTabla.EditarModal+BotonesTabla.BorrarModal+'</div>';
+    var casillaDeBotonesModal = '<div>'+BotonesTabla.BorrarModal+'</div>';
     $scope.gridOptionsModal = {
         columnDefs: [
             {
@@ -112,11 +112,6 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Registro de Materia Prima";
         $scope.button_title_form = "Registrar Materia Prima";
     }
-    $scope.EditarModal = function(id){
-        $scope.Unidad_de_medida=IdentificarUnidad(id,$scope.Unidades);
-        $scope.panel_title_form_unidades = "Edición de Unidades de Medida";
-        $scope.button_title_form_unidades = "Editar Unidad de Medida";
-    }
     $scope.EnviarUnidad=function(){
         var ruta="";
         var metodo="";
@@ -139,11 +134,6 @@ angular.module('frontendApp')
         },function(data){
             console.log(data.data.message);
         });
-    }
-    $scope.CancelarEditarModal=function(){
-        $scope.Unidad_de_medida={};
-        $scope.panel_title_form_unidades = "Registro de Unidades de Medida";
-        $scope.button_title_form_unidades = "Registrar Unidad de Medida";
     }
     $scope.AbrirModalUnidades=function(){
         $('#modal2').modal('open');
