@@ -21,7 +21,7 @@ angular.module('frontendApp')
     $scope.panel_title_form = "Registro de Empleados";
     $scope.button_title_form = "Registrar Empleado";
     $scope.Empleado={};
-
+    $scope.Empleado.rol=null;
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
@@ -55,21 +55,21 @@ angular.module('frontendApp')
     angular.extend($scope.gridOptions , Tabla);
 
     $scope.EnviarEmpleado=function(){
-        switch($scope.Persona.rol) {
+        switch($scope.Empleado.rol) {
             case 'super_administrador':
-                $scope.Persona.super_administrador=true;
+                $scope.Empleado.super_administrador=true;
                 break;
             case 'administrador':
-                $scope.Persona.administrador=true;
+                $scope.Empleado.administrador=true;
                 break;
             case 'contador':
-                $scope.Persona.contador=true;
+                $scope.Empleado.contador=true;
                 break;
             case 'almacenista':
-                $scope.Persona.almacenista=true;
+                $scope.Empleado.almacenista=true;
                 break;
             case 'empleado':
-                $scope.Persona.empleado=true;
+                $scope.Empleado.empleado=true;
                 break;
         }
         var ruta="";
@@ -85,9 +85,9 @@ angular.module('frontendApp')
         .getResource(ruta,$scope.Empleado,metodo)
         .then(function(data){
             if($scope.panel_title_form=="Registro de Empleados"){
-                $scope.Empleados.push($scope.Persona);
+                $scope.Empleados.push($scope.Empleado);
             }else{
-                $scope.Empleados[$scope.Persona.index] = $scope.Persona;
+                $scope.Empleados[$scope.Empleado.index] = $scope.Empleado;
             }
         },function(data){
             alert(data.data.message);
@@ -102,7 +102,7 @@ angular.module('frontendApp')
         $('#modal1').modal('open');
     }
     $scope.Editar = function(id){
-        $scope.Empleado = $scope.Personas.find(function(ele){
+        $scope.Empleado = $scope.Empleados.find(function(ele){
             if(ele.documento == id){
                 return ele;
             }
