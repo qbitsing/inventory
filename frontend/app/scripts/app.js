@@ -49,6 +49,11 @@ angular
         templateUrl: 'views/pages/login.html',
         controller: 'LoginCtrl'
     })
+    .state('Restaurar',{
+        url: '/Restaurar',
+        templateUrl: 'views/pages/restaurar.html',
+        controller: 'RestaurarCtrl'
+    })
     .state('Home',{
         url: '/Home',
         parent: 'Dashboard',
