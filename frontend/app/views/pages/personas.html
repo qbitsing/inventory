@@ -21,7 +21,7 @@
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<label for="Apellidos">Apellidos *</label>
-								<input type="text" ng-model="Persona.apellidos" id="Apellidos" name="Apellidos" required>
+								<input type="text" ng-model="Persona.apellidos" id="Apellidos" name="Apellidos">
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="Direccion">Direccion *</label>
@@ -56,13 +56,13 @@
 								<select ng-model="Persona.departamento" material-select watch>
 	      							<option ng-repeat="departamento in Departamentos" value="{{departamento._id}}">{{departamento.nombre}}</option>
 								</select>
-								<label>Departamento*</label>
+								<label>Departamento *</label>
 							</div>
 							<div class="input-field col s12 m6 l6" >
 								<select ng-model="Persona.ciudad._id" required material-select watch>
 									<option ng-repeat="ciudad in Ciudades" ng-if="ciudad.departamento._id == Persona.departamento" value="{{ciudad._id}}">{{ciudad.nombre}}</option>
 								</select>
-								<label>Ciudad*</label>
+								<label>Ciudad *</label>
 							</div>
 							
 						</div>

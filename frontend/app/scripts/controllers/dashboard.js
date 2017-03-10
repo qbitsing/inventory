@@ -11,6 +11,30 @@ angular.module('frontendApp')
   .controller('DashboardCtrl', function ($scope,$state,SesionUsuario) {
     $scope.$state=$state;
     $scope.Usuario=SesionUsuario.obtenerSesion();
+    $scope.NombreDeUsuario='';
+    var i=0;
+    var contador=0;
+    while (i==0) {
+        var caracter = $scope.Usuario.nombre.charAt(contador);
+        if(caracter==" " || contador==$scope.Usuario.nombre.lenght){
+            i=1;
+        }else{
+            $scope.NombreDeUsuario+=caracter;
+        }
+        contador++;
+    }
+    $scope.NombreDeUsuario+=' ';
+    i=0;
+    contador=0;
+    while (i==0) {
+        var caracter = $scope.Usuario.apellidos.charAt(contador);
+        if(caracter==" " || contador==$scope.Usuario.apellidos.lenght){
+            i=1;
+        }else{
+            $scope.NombreDeUsuario+=caracter;
+        }
+        contador++;
+    }
     $scope.sidenav = function(){
         angular.element(".sidenav").toggleClass('sidenav-hidden');
         angular.element(".top-nav").toggleClass('top-nav-hidden');
