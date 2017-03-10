@@ -15,25 +15,33 @@ angular.module('frontendApp')
     var i=0;
     var contador=0;
     while (i==0) {
-        var caracter = $scope.Usuario.nombre.charAt(contador);
-        if(caracter==" " || contador==$scope.Usuario.nombre.length){
-            i=1;
+        if(contador<$scope.Usuario.nombre.length){
+            var caracter = $scope.Usuario.nombre.charAt(contador);
+            if(caracter==" "){
+                i=1;
+            }else{
+                $scope.NombreDeUsuario+=caracter;
+            }
+            contador++;
         }else{
-            $scope.NombreDeUsuario+=caracter;
+            i=1;
         }
-        contador++;
     }
     $scope.NombreDeUsuario+=' ';
     i=0;
     contador=0;
     while (i==0) {
-        var caracter = $scope.Usuario.apellidos.charAt(contador);
-        if(caracter==" " || contador==$scope.Usuario.apellidos.length){
-            i=1;
+        if(contador<$scope.Usuario.nombre.length){
+            var caracter = $scope.Usuario.apellidos.charAt(contador);
+            if(caracter==" "){
+                i=1;
+            }else{
+                $scope.NombreDeUsuario+=caracter;
+            }
+            contador++;
         }else{
-            $scope.NombreDeUsuario+=caracter;
+            i=1;
         }
-        contador++;
     }
     $scope.sidenav = function(){
         angular.element(".sidenav").toggleClass('sidenav-hidden');
