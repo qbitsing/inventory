@@ -9,7 +9,7 @@
  */
 angular.module('frontendApp')
   .controller('LoginCtrl', function ($scope, webServer, SesionUsuario,$state) {
-    if(SesionUsuario.obtenerSesion()!=null){
+    if(SesionUsuario.ObtenerSesion()!=null){
       $state.go('Home');
     }
   	$scope.userLogin={};
@@ -17,7 +17,6 @@ angular.module('frontendApp')
   		webServer.getResource('personas/login',$scope.userLogin,'post')
   		.then(function(data){
   			if(SesionUsuario.CrearSesion(data.data.datos)){
-					console.log('Creo SesionUsuario');
           $state.go('Home');
   			}
   		},function(data){

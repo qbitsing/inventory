@@ -8,5 +8,14 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('RestaurarCtrl', function () {
+  .controller('RestaurarCtrl', function ($scope, webServer) {
+  	$scope.Enviar=function(){
+  		webServer
+        .getResource('personas/contrasena/',$scope.Usuario,'put')
+        .then(function(data){
+            console.log(data);
+        },function(data){
+            console.log(data);
+        });
+  	}
   });

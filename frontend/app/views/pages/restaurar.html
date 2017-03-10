@@ -2,26 +2,19 @@
 	<div class="row centro">
 	<div class=" col s12 m10 push-m2 l4 push-l4 card grey lighten-5">
 		<h3 class="center-align blue accent-4 white-text">Restaurar contraseña</h3>
-		<form name="formLogin" novalidate ng-submit="login()">
+		<form name="formLogin" novalidate ng-submit="Enviar()">
 			<div class="row">
 				<div class="input-field">
-					<i class="material-icons prefix">account_circle</i>
-					<input type="email" ng-model="userLogin.user" id="user" required class="validate">
-					<label for="user" data-error="correo invalido">Usuario</label>
+					<i class="material-icons prefix">email</i>
+					<input type="email" ng-model="Usuario.correo" id="correo" required class="validate">
+					<label for="correo" data-error="correo invalido">Correo electronico</label>
 				</div>
 			</div>
 			<div class="row">
-				<div class="input-field">
-			    	<i class="material-icons prefix">lock_open</i>
-					<input type="password" ng-model="userLogin.password" id="Password" required>
-					<label for="Password">Password</label>
-				</div>
+				<button type="submit" ng-disabled="formLogin.$invalid" class="col s12 waves-effect waves-light btn-large blue accent-4">Enviar</button>
 			</div>
-			<div class="row">
-				<button type="submit" ng-disabled="formLogin.$invalid" class="col s12 waves-effect waves-light btn-large blue accent-4">Iniciar Sesión</button>
-			</div>
-			<div class="row">
-				<a>restaurar contraseña</a>
+			<div class="row ">
+				<a ui-sref="Login" class="right ancla">Inicio sesión</a>
 			</div>
 		</form>
 	</div>

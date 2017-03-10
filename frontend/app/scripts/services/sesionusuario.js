@@ -14,11 +14,14 @@ angular.module('frontendApp')
     		localStorageService.set('Usuario' , user);
     		return true;
     	},
-        obtenerSesion(){
+        ObtenerSesion(){
             return localStorageService.get('Usuario');
         },
     	CerrarSesion(){
     		return localStorageService.remove('Usuario');
-    	}
+    	},
+        ActualizarSesion(user){
+            localStorageService.set('Usuario',user);
+        }
     }
   });
