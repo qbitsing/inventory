@@ -8,8 +8,5 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('HomeCtrl', function (SesionUsuario, $state) {
-  	if(SesionUsuario.obtenerSesion()==null){
-      $state.go('Login');
-    }
+  .controller('HomeCtrl', function () {
   });

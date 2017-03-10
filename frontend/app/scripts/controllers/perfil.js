@@ -8,10 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('PerfilCtrl', function ($scope, $timeout, $state, SesionUsuario, webServer) {
-  	if(SesionUsuario.obtenerSesion()==null){
-        $state.go('Login');
-    }
+  .controller('PerfilCtrl', function ($scope, $timeout, SesionUsuario, webServer) {
     $scope.panelAnimate='';
     $scope.pageAnimate='';  
     $timeout(function () {
@@ -78,7 +75,7 @@ angular.module('frontendApp')
             webServer
             .getResource('personas/'+$scope.Usuario._id , $scope.Usuario , 'put')
             .then(function(data){
-                console.log(data);
+                
             },function(data){
             });
         }else{

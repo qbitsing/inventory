@@ -8,10 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('MateriaPrimaCtrl', function ($scope, $timeout, $state, SesionUsuario, Tabla, BotonesTabla, webServer) {
-    if(SesionUsuario.obtenerSesion()==null){
-		$state.go('Login');
-	}
+  .controller('MateriaPrimaCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';  
 	$timeout(function () {
