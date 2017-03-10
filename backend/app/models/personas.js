@@ -27,6 +27,8 @@ const personaSchema = Schema({
     proveedor:Boolean,
     cliente:Boolean,
     administardor:Boolean,
+    almacenista:Boolean,
+    contador:Boolean,
     empleado:Boolean,
     ciudad : {},
     contacto: String,

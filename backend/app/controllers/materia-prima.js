@@ -111,8 +111,7 @@ function actualizar(req, res){
                 datos: materiaPrimaStored
             });
         });
-    }
-    
+    }    
 }
 
 function eliminar(req, res){

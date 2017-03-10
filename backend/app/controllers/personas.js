@@ -2,6 +2,7 @@
 
 const personaModel = require('../models/personas');
 const ciudadModel = require('../models/ciudades');
+const bcrypt = require('bcrypt-nodejs');
 
 function listarAll (req, res){
 	var query = req.query;
@@ -86,8 +87,9 @@ function listarById (req, res) {
 }
 
 function crear (req, res) {
+	var pass='';
 	var ciudad = null;
-	if(req.body.ciudad._id){
+	if(req.body.ciudad){
 		ciudadModel.findById(req.body.ciudad._id , (err , ciudadStored)=>{
 			if(err){
 				return res.status(500).send({
@@ -102,10 +104,26 @@ function crear (req, res) {
 			}
 
 			ciudad = ciudadStored;
-			insertar();
+			if(req.body.administrador|| req.body.super_administrador || req.body.contador || req.body.almacenista)
+				CreatePass();
+			else
+				insertar();
 		});
-	}else insertar();
+	}else {
+		if(req.body.administrador|| req.body.super_administrador || req.body.contador || req.body.almacenista)
+			CreatePass();
+		else
+			insertar();
+	}
 
+	function CreatePass(){
+		console.log('entro');
+		for(var i = 0; i<6; i++){
+			pass+= Math.floor(Math.random()*10);
+		}
+		req.body.contrasena = bcrypt.hashSync(pass);
+		insertar();
+	}
 	function insertar(){
 		req.body.ciudad = ciudad;
 		var persona = new personaModel(req.body);
@@ -116,7 +134,8 @@ function crear (req, res) {
 				});
 			} 
 			return res.status(200).send({
-				datos : personaStored
+				datos : personaStored,
+				pass
 			});
 		});
 	}
@@ -139,8 +158,7 @@ function actualizar (req, res) {
 
 function login (req, res){
 	let credentials = {
-		correo : req.body.user,
-		contrasena : req.body.password
+		correo : req.body.user
 	};
 	personaModel.findOne(credentials , (err , userLogin) => {
 		if(err){
@@ -154,10 +172,16 @@ function login (req, res){
 				message : `Los datos ingresados no coinciden`
 			});
 		}
-
-		return res.status(200).send({
-			datos : userLogin
-		});
+		if(bcrypt.compareSync(req.body.password , userLogin.contrasena)){
+			return res.status(200).send({
+				datos : userLogin
+			});
+		}else{
+			return res.status(404).send({
+				message : `Los datos ingresados no coinciden`
+			});
+		}
+		
 
 	})
 }
