@@ -9,29 +9,29 @@
  */
 angular.module('frontendApp')
   .controller('DashboardCtrl', function ($scope,$state,SesionUsuario) {
-      $scope.$state=$state;
-      if(SesionUsuario.obtenerSesion()==null){
-    }
-    else{
+    $scope.$state=$state;
+    if(SesionUsuario.obtenerSesion()==null){
+        $state.go('Login');
+    }else{
         $scope.Usuario=SesionUsuario.obtenerSesion();
-    $scope.NombreDeUsuario='';
-    var i=0;
-    var contador=0;
-    while (i==0) {
-        if(contador<$scope.Usuario.nombre.length){
-            var caracter = $scope.Usuario.nombre.charAt(contador);
-            if(caracter==" "){
-                i=1;
+        $scope.NombreDeUsuario='';
+        var i=0;
+        var contador=0;
+        while (i==0) {
+            if(contador<$scope.Usuario.nombre.length){
+                var caracter = $scope.Usuario.nombre.charAt(contador);
+                if(caracter==" "){
+                    i=1;
+                }else{
+                    $scope.NombreDeUsuario+=caracter;
+                }
+                contador++;
             }else{
-                $scope.NombreDeUsuario+=caracter;
+                i=1;
             }
-            contador++;
-        }else{
-            i=1;
         }
-    }
-    if($scope.Usuario.apellidos){
-        $scope.NombreDeUsuario+=' ';
+        if($scope.Usuario.apellidos){
+            $scope.NombreDeUsuario+=' ';
             i=0;
             contador=0;
             while (i==0) {
@@ -47,7 +47,7 @@ angular.module('frontendApp')
                     i=1;
                 }
             }
-    }
+        }
     }
     
     $scope.sidenav = function(){

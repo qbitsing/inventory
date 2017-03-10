@@ -8,10 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('ProductosCtrl', function ($scope, $timeout, $state, SesionUsuario) {
-	if(SesionUsuario.obtenerSesion()==null){
-		$state.go('Login');
-	}
+.controller('ProductosCtrl', function ($scope, $timeout) {
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';  
 	$timeout(function () {

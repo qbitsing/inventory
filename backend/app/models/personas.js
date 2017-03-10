@@ -13,6 +13,7 @@ const personaSchema = Schema({
         required : true, 
     },
     nombre : String,
+    apellidos : String,
     direccion : String,
     telefono : Number,
     correo : {

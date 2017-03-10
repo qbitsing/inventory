@@ -121,7 +121,7 @@ function crear (req, res) {
 		for(var i = 0; i<6; i++){
 			pass+= Math.floor(Math.random()*10);
 		}
-		req.body.contrasena = bcrypt.hashSync(pass);
+		req.body.contrasena = encryptarContrasena(pass);
 		insertar();
 	}
 	function insertar(){
@@ -143,24 +143,40 @@ function crear (req, res) {
 
 function actualizar (req, res) {
 	let personaId = req.params.id;
-	personaModel.findByIdAndUpdate(personaId , req.body ,(err , personaStored)=>{
-		if(err){
-			return res.status(500).send({
-				message : `ERROR al intentar actualizar la persona ${err}`
-			});
-		}
-
-		return res.status(200).send({
-			datos : personaStored
+	if(req.body.pssactual){
+		personaModel.findById(personaId, (err, _user)=>{
+			if(err || !_user){
+				return res.status(500).send({
+					message : 'Los datos indicados no son correctos'
+				});
+			}
+			if(bcrypt.compareSync(req.body.pssactual, _user.contrasena)){
+				req.body.contrasena = encryptarContrasena(req.body.nueva);
+			}
+			Update();
 		});
-	});
+	}else Update();
+	function Update(){
+		personaModel.findByIdAndUpdate(personaId , req.body ,(err , personaStored)=>{
+			if(err){
+				return res.status(500).send({
+					message : `ERROR al intentar actualizar la persona ${err}`
+				});
+			}
+
+			return res.status(200).send({
+				datos : personaStored
+			});
+		});
+	}
+
 }
 
 function login (req, res){
 	let credentials = {
 		correo : req.body.user
 	};
-	personaModel.findOne(credentials , (err , userLogin) => {
+	personaModel.findOne(credentials , (err , userLogin) => {	
 		if(err){
 			return res.status(500).send({
 				message : `Error al intentar validar el usuario: ${err}`
@@ -197,6 +213,10 @@ function eliminar (req, res) {
 			message : `Persona eliminada con exito`
 		});
 	});
+}
+
+function encryptarContrasena(pass){
+	return  bcrypt.hashSync(pass)
 }
 
 module.exports = {
