@@ -76,10 +76,15 @@ angular.module('frontendApp')
             .getResource('personas/'+$scope.Usuario._id , $scope.Usuario , 'put')
             .then(function(data){
                 SesionUsuario.ActualizarSesion($scope.Usuario);
+                alert('Operación realizada con exito');
             },function(data){
             });
         }else{
-            console.log('No cambio');
+            if(actualizo==1){
+                alert('Operación realizada con exito');
+            }else{
+                alert('No hay ningun dato por actualizar');
+            }
         }
     }
   });

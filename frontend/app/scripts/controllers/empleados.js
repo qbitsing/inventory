@@ -83,8 +83,10 @@ angular.module('frontendApp')
         .then(function(data){
             if($scope.panel_title_form=="Registro de Empleados"){
                 $scope.Empleados.push($scope.Empleado);
+                alert('Empleado registrado correctamente');
             }else{
                 $scope.Empleados[$scope.Empleado.index] = $scope.Empleado;
+                alert('Empleado actualizado correctamente');
             }
         },function(data){
             alert(data.data.message);

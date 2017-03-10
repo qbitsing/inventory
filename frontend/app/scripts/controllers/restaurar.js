@@ -13,7 +13,7 @@ angular.module('frontendApp')
   		webServer
         .getResource('personas/contrasena/',$scope.Usuario,'put')
         .then(function(data){
-            console.log(data);
+            alert('Su contraseña es:'+data.data.pass);
         },function(data){
             console.log(data);
         });
