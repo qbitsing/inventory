@@ -1,4 +1,4 @@
-<h2 class="titulo-pagina blue accent-4 right-align {{pageAnimate}}">Gestion de Empleados</h2>
+ <h2 class="titulo-pagina blue accent-4 right-align {{pageAnimate}}">Gestion de Empleados</h2>
 <div class="contenido">
 	<div class="row">
 		<div class="col s12">
@@ -9,48 +9,50 @@
 				<div class="panel-body" >
 					<form name="formEmpleados" novalidate ng-submit="EnviarEmpleado()">
 						<div class="row">
-						<div class="input-field col s12 m6 l6">
-							<label for="documento" ng-class="active:(Empleado.documento)">Documento*</label>
-							<input type="text" ng-model="Empleado.documento" name="documento" id="documento"  required ng-disabled="panel_title_form == 'Editar Empleado'">
-						</div>
-						<div class="input-field col s12 m6 l6">
-							<label for="Nombre">Nombre *</label>
-							<input type="text" ng-model="Empleado.nombre" id="Nombre" name="Nombre" required>
-						</div>
-						</div>
-						<div class="row">
-						<div class="input-field col s12 m6 l6">
-							<label for="Direccion">Direccion *</label>
-							<input type="text" ng-model="Empleado.direccion" id="Direccion" name="Direccion" required>
-						</div>
-						<div class="input-field col s12 m6 l6">
-							<label for="Telefono" ng-class="active:(Empleado.telefono)">Telefono *</label>
-							<input type="number" ng-model="Empleado.telefono" id="Telefono" name="Telefono" required>
-						</div>
+							<div class="input-field col s12 m6 l6">
+								<label for="documento">Documento*</label>
+								<input type="text" ng-model="Empleado.documento" name="documento" id="documento"  required ng-disabled="panel_title_form == 'Editar Empleado'">
+							</div>
+							<div class="input-field col s12 m6 l6">
+								<label for="Nombre">Nombre *</label>
+								<input type="text" ng-model="Empleado.nombre" id="Nombre" name="Nombre" required>
+							</div>
 						</div>
 						<div class="row">
-						<div class="input-field col s12 m6 l6">
-							<label for="Correo">Correo *</label>
-							<input type="email" ng-model="Empleado.correo" id="Correo" name="Correo" required>
-						</div>
-						<div class="input-field col s12 m6 l6">
-							<label for="Cargo">Cargo *</label>
-							<input type="text" ng-model="Empleado.cargo" id="Cargo" name="Cargo" required>
-						</div>
+							<div class="input-field col s12 m6 l6">
+								<label for="Direccion">Direccion *</label>
+								<input type="text" ng-model="Empleado.direccion" id="Direccion" name="Direccion" required>
+							</div>
+							<div class="input-field col s12 m6 l6">
+								<label for="Telefono">Telefono *</label>
+								<input type="number" ng-model="Empleado.telefono" id="Telefono" name="Telefono" required>
+							</div>
 						</div>
 						<div class="row">
-							<p class="col s6 m2 l2" ng-hide="panel_title_form == 'Editar Persona'">
-								<input type="checkbox" ng-model="Persona.empleado" id="empleado" ng-click="Persona.administrador=!Persona.empleado"/>
-	      						<label for="empleado">Empleado</label>
-							</p>
-							<p class="col s6 m2 l2" ng-hide="panel_title_form == 'Editar Persona'">
-								<input type="checkbox" ng-model="Persona.administrador" id="administrador" ng-click="Persona.empleado=!Persona.administrador"/>
-	      						<label for="administrador">Administrador</label>
-							</p>
+							<div class="input-field col s12 m6 l6">
+								<label for="Correo">Correo *</label>
+								<input type="email" ng-model="Empleado.correo" id="Correo" name="Correo" required>
+							</div>
+							<div class="input-field col s12 m6 l6">
+								<label for="Cargo">Cargo *</label>
+								<input type="text" ng-model="Empleado.cargo" id="Cargo" name="Cargo" required>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12 m6 l6">
+								<select ng-model="Empleado.rol" required>
+									<option value="super_administrador">Super Administrador</option>
+	      							<option value="administrador">Administrador</option>
+	      							<option value="contador">Contador</option>
+	      							<option value="almacenista">Almacenista</option>
+	      							<option value="empleado">Empleado</option>
+								</select>
+								<label>Rol *</label>
+							</div>
 						</div>
 						<div class="row">
 							<div class="col s12 m6 l4">
-								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formEmpleados.$invalid || (!Persona.empleado && !Persona.administrador)" >{{button_title_form}}</button>
+								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formEmpleados.$invalid" >{{button_title_form}}</button>
 							</div>
 							<button type="button" class="btn" ng-show="panel_title_form == 'Editar Empleado'" ng-click="CancelarEditar()">Cancelar</button>
 						</div>
@@ -94,6 +96,7 @@
 </div>
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
+		$('select').material_select();
     	$('.modal').modal();
     	$('.modal').modal({
                 dismissible: true, // Modal can be dismissed by clicking outside of the modal

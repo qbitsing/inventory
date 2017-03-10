@@ -73,14 +73,15 @@ angular.module('frontendApp')
             }else{
                 $scope.Personas[$scope.Persona.index] = $scope.Persona;
             }
+            $scope.Persona={};
         },function(data){
-            alert(data.data.message);
+            console.log(data);
         });
     }
 
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Personas.find(function(ele){
-            if(ele.documento == id){
+            if(ele._id == id){
                 return ele;
             }
         });
@@ -88,15 +89,16 @@ angular.module('frontendApp')
     }
     
     $scope.Editar = function(id){
+        $scope.panel_title_form = "Edicion de clientes y proveedores";
+        $scope.button_title_form = "Editar Persona";
         $scope.Persona = $scope.Personas.find(function(ele){
-            if(ele.documento == id){
+            if(ele._id == id){
                 return ele;
             }
         });
         $scope.Persona.departamento = $scope.Persona.ciudad.departamento._id; 
-        $scope.panel_title_form = "Edicion de clientes y proveedores";
-        $scope.button_title_form = "Editar Persona";
     }
+    
     $scope.CancelarEditar=function(){
         $scope.Persona={};
         $scope.panel_title_form = "Registro de clientes y proveedores";
@@ -127,7 +129,7 @@ angular.module('frontendApp')
                 $scope.Ciudades=[];
             }
         },function(data){
-            alert(data.data.message);
+            console.log(data.data);
         });
     }
     function listarDepartamentos(){
@@ -136,12 +138,11 @@ angular.module('frontendApp')
         .then(function(data){
             if(data.data.datos){
                 $scope.Departamentos=data.data.datos;
-                console.log($scope.Departamentos);
             }else{
                 $scope.Departamentos=[];
             }
         },function(data){
-            alert(data.data.message);
+            console.log(data.data);
         });
     }
     listarPersonas();
