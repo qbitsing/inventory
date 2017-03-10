@@ -29,6 +29,8 @@ app.post('/personas', controllers.personas.crear);
 
 app.post('/personas/login', controllers.personas.login);
 
+app.put('/personas/contrasena', controllers.personas.contrasena);
+
 app.put('/personas/:id', controllers.personas.actualizar);
 
 app.delete('/personas/:id', controllers.personas.eliminar);
