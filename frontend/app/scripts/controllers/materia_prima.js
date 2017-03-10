@@ -129,13 +129,15 @@ angular.module('frontendApp')
         .then(function(data){
             if(data.data){
                 $scope.Materias=data.data.datos;
-                $scope.gridOptions.data = data.data.datos;
+                $scope.gridOptions.data = $scope.Materias;
             }else{
-                $scope.gridOptions.data =[];
                 $scope.Materias=[];
+                $scope.gridOptions.data = $scope.Materias;
             }
         },function(data){
             console.log(data.data.message);
+            $scope.Materias=[];
+            $scope.gridOptions.data = $scope.Materias;
         });
     }
     function listarunidades(){
@@ -144,11 +146,14 @@ angular.module('frontendApp')
         .then(function(data){
             if(data.data){
                 $scope.Unidades=data.data.datos;
-                $scope.gridOptionsModal.data =data.data.datos;
+                $scope.gridOptionsModal.data = $scope.Unidades;
             }else{
-                $scope.gridOptionsModal.data =[];
+                $scope.Unidades=[];
+                $scope.gridOptionsModal.data = $scope.Unidades;
             }
         },function(data){
+            $scope.Unidades=[];
+            $scope.gridOptionsModal.data = $scope.Unidades;
             console.log(data.data.message);
         });
     }
