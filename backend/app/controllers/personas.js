@@ -87,7 +87,7 @@ function listarById (req, res) {
 }
 
 function crear (req, res) {
-	var pass='';
+	var pass= "";
 	var ciudad = null;
 	if(req.body.ciudad){
 		ciudadModel.findById(req.body.ciudad._id , (err , ciudadStored)=>{
@@ -104,24 +104,18 @@ function crear (req, res) {
 			}
 
 			ciudad = ciudadStored;
-			if(req.body.administrador|| req.body.super_administrador || req.body.contador || req.body.almacenista)
-				CreatePass();
-			else
-				insertar();
+			if(req.body.administrador|| req.body.super_administrador || req.body.contador || req.body.almacenista){
+				pass = CreatePass();
+				req.body.contrasena = encryptarContrasena(pass);
+			}
+			insertar();
 		});
 	}else {
-		if(req.body.administrador|| req.body.super_administrador || req.body.contador || req.body.almacenista)
-			CreatePass();
-		else
-			insertar();
-	}
-
-	function CreatePass(){
-		console.log('entro');
-		for(var i = 0; i<6; i++){
-			pass+= Math.floor(Math.random()*10);
+		if(req.body.administrador|| req.body.super_administrador || req.body.contador || req.body.almacenista){
+			pass = CreatePass();
+			req.body.contrasena = encryptarContrasena(pass);
+			
 		}
-		req.body.contrasena = encryptarContrasena(pass);
 		insertar();
 	}
 	function insertar(){
@@ -218,6 +212,33 @@ function eliminar (req, res) {
 function encryptarContrasena(pass){
 	return  bcrypt.hashSync(pass)
 }
+function contrasena(req , res){
+	var pass = CreatePass();
+	req.body.contrasena = encryptarContrasena(pass);
+	personaModel.findOneAndUpdate({correo : req.body.correo},req.body,(err, _user)=>{
+		if(err){
+			return res.status(500).send({
+				message: `Error interno del servidor ${err}`
+			});
+		}
+		if(!_user){
+			return res.status(404).send({
+				message: `EL correo inicado no esta registrado en la base de datos`
+			});
+		}
+		return res.status(200).send({
+			pass
+		});
+	});
+}
+function CreatePass(){
+	var pass = '';
+	for(var i = 0; i<6; i++){
+		pass+= Math.floor(Math.random()*10);
+	}
+	return pass;
+
+}
 
 module.exports = {
 	listarAll,
@@ -225,5 +246,6 @@ module.exports = {
 	crear,
 	actualizar,
 	login,
-	eliminar
+	eliminar,
+	contrasena
 };

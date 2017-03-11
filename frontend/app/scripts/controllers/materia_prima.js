@@ -17,8 +17,6 @@ angular.module('frontendApp')
 	},100);
 	$scope.panel_title_form = "Registro de Materia Prima";
 	$scope.button_title_form = "Registrar Materia Prima";
-    $scope.panel_title_form_unidades = "Registro de Unidades de Medida";
-    $scope.button_title_form_unidades = "Registrar Unidad de Medida";
 	$scope.Producto={};
 	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
@@ -83,8 +81,10 @@ angular.module('frontendApp')
         .then(function(data){
             if($scope.panel_title_form=="Registro de Materia Prima"){
                 $scope.Materias.push($scope.Materia);
+                alert('Materia prima registrada correctamente');
             }else{
                 $scope.Materias[$scope.Materia.index] = $scope.Materia;
+                alert('Materia prima actualizada correctamente');
             }
             $scope.Materia={};
         },function(data){
@@ -110,24 +110,12 @@ angular.module('frontendApp')
         $scope.button_title_form = "Registrar Materia Prima";
     }
     $scope.EnviarUnidad=function(){
-        var ruta="";
-        var metodo="";
-        if ($scope.panel_title_form_unidades=="Registro de Unidades de Medida") {
-            ruta="unidades";
-            metodo="post";
-        }else{
-            ruta="unidades/"+$scope.Unidad_de_medida._id;
-            metodo="put";
-        }
         webServer
-        .getResource(ruta,$scope.Unidad_de_medida,metodo)
+        .getResource('unidades',$scope.Unidad_de_medida,'post')
         .then(function(data){
-            if($scope.panel_title_form_unidades=="Registro de Unidades de Medida"){
-                $scope.Unidades.push($scope.Unidad_de_medida);
-            }else{
-                $scope.Unidades[$scope.Unidad_de_medida.index] = $scope.Unidad_de_medida;
-            }
+            $scope.Unidades.push($scope.Unidad_de_medida);
             $scope.Unidad_de_medida={};
+            alert('Unidad de medida registrada correctamente');
         },function(data){
             console.log(data.data.message);
         });
@@ -141,13 +129,15 @@ angular.module('frontendApp')
         .then(function(data){
             if(data.data){
                 $scope.Materias=data.data.datos;
-                $scope.gridOptions.data = data.data.datos;
+                $scope.gridOptions.data = $scope.Materias;
             }else{
-                $scope.gridOptions.data =[];
                 $scope.Materias=[];
+                $scope.gridOptions.data = $scope.Materias;
             }
         },function(data){
             console.log(data.data.message);
+            $scope.Materias=[];
+            $scope.gridOptions.data = $scope.Materias;
         });
     }
     function listarunidades(){
@@ -156,29 +146,19 @@ angular.module('frontendApp')
         .then(function(data){
             if(data.data){
                 $scope.Unidades=data.data.datos;
-                $scope.gridOptionsModal.data =data.data.datos;
+                $scope.gridOptionsModal.data = $scope.Unidades;
             }else{
-                $scope.gridOptionsModal.data =[];
+                $scope.Unidades=[];
+                $scope.gridOptionsModal.data = $scope.Unidades;
             }
         },function(data){
+            $scope.Unidades=[];
+            $scope.gridOptionsModal.data = $scope.Unidades;
             console.log(data.data.message);
         });
     }
     listarmaterias();
     listarunidades();
-
-    function IdentificarUnidad (id , arrObj){
-        var obj;
-        arrObj.forEach(function(ele , index){
-            if(ele._id ==  id){
-                obj = {
-                    _id : ele._id,
-                    nombre : ele.nombre
-                };
-            }
-        });
-        return obj;
-    }
     function IdentificarMateria (id , arrObj){
         var obj;
         arrObj.forEach(function(ele , index){

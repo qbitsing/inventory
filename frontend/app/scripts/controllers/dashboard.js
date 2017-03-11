@@ -10,10 +10,10 @@
 angular.module('frontendApp')
   .controller('DashboardCtrl', function ($scope,$state,SesionUsuario) {
     $scope.$state=$state;
-    if(SesionUsuario.obtenerSesion()==null){
+    if(SesionUsuario.ObtenerSesion()==null){
         $state.go('Login');
     }else{
-        $scope.Usuario=SesionUsuario.obtenerSesion();
+        $scope.Usuario=SesionUsuario.ObtenerSesion();
         $scope.NombreDeUsuario='';
         var i=0;
         var contador=0;

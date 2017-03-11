@@ -17,7 +17,7 @@ angular.module('frontendApp')
     },100);
     $scope.panel_title_form = "Perfil";
     $scope.button_title_form = "Actualizar datos";
-    $scope.Usuario=SesionUsuario.obtenerSesion();
+    $scope.Usuario=SesionUsuario.ObtenerSesion();
     $scope.MiUsuario={};
     $scope.cambio=false;
     $scope.myCroppedImage='';
@@ -71,15 +71,20 @@ angular.module('frontendApp')
         }
     }
     function EnviarDatos(actualizo){
-        if(JSON.stringify($scope.Usuario)!=JSON.stringify(SesionUsuario.obtenerSesion())){
+        if(JSON.stringify($scope.Usuario)!=JSON.stringify(SesionUsuario.ObtenerSesion())){
             webServer
             .getResource('personas/'+$scope.Usuario._id , $scope.Usuario , 'put')
             .then(function(data){
-                
+                SesionUsuario.ActualizarSesion($scope.Usuario);
+                alert('Operación realizada con exito');
             },function(data){
             });
         }else{
-            console.log('No cambio');
+            if(actualizo==1){
+                alert('Operación realizada con exito');
+            }else{
+                alert('No hay ningun dato por actualizar');
+            }
         }
     }
   });

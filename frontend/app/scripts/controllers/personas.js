@@ -67,8 +67,10 @@ angular.module('frontendApp')
         .then(function(data){
             if($scope.panel_title_form=="Registro de clientes y proveedores"){
                 $scope.Personas.push($scope.Persona);
+                alert('Persona registrada correctamente');
             }else{
                 $scope.Personas[$scope.Persona.index] = $scope.Persona;
+                alert('Persona actualizada correctamente');
             }
             $scope.Persona={};
         },function(data){

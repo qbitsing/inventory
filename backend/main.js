@@ -29,6 +29,8 @@ app.post('/personas', controllers.personas.crear);
 
 app.post('/personas/login', controllers.personas.login);
 
+app.put('/personas/contrasena', controllers.personas.contrasena);
+
 app.put('/personas/:id', controllers.personas.actualizar);
 
 app.delete('/personas/:id', controllers.personas.eliminar);
@@ -69,6 +71,14 @@ app.delete('/materiaPrima/:id' , controllers.materiaPrima.eliminar);
 
 app.post('/materiaPrima' , controllers.materiaPrima.crear);
 // Fin Bloque de rutas de materiaPrima
+
+// Bloque de rutas de categorias
+app.get('/categorias', controllers.categoria.listarAll);
+
+app.delete('/categorias/:id' , controllers.categoria.eliminar);
+
+app.post('/categorias' , controllers.categoria.crear);
+// Fin Bloque de rutas de categorias
 
 mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
 	if(err){
