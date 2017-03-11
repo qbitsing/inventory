@@ -9,6 +9,22 @@
  */
 angular.module('frontendApp')
 .controller('EmpleadosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
+    $(document).ready(function(){
+        $('select').material_select();
+        $('.modal').modal();
+        $('.modal').modal({
+                dismissible: true, // Modal can be dismissed by clicking outside of the modal
+                opacity: 0, // Opacity of modal background
+                inDuration: 300, // Transition in duration
+                outDuration: 200, // Transition out duration
+                startingTop: '10%', // Starting top style attribute
+                endingTop: '15%', // Ending top style attribute
+                ready: function(modal, trigger) {
+                },
+                complete: function() {  } // Callback for Modal close
+            }
+        );
+    });
     $scope.panelAnimate='';
     $scope.pageAnimate='';  
     $timeout(function () {
@@ -98,7 +114,7 @@ angular.module('frontendApp')
                 return ele;
             }
         });
-        $('#modal1').modal('open');
+        $('#modalDetalles').modal('open');
     }
     $scope.Editar = function(id){
         $scope.Empleado = $scope.Empleados.find(function(ele){
