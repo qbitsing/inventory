@@ -2,18 +2,24 @@
 	<div class="nav-wrapper">
       <a href="#" class="brand-logo center"><img src="images/logo-prines.jpg" class="responsive-img"></a>
       <ul class="right">
+      	<li><a class="waves-effect waves-block waves-light notification-button" data-activates='config'><i class="material-icons">settings_applications</i></a></li>
         <li><a class="waves-effect waves-block waves-light notification-button" data-activates='notificacion'><i class="material-icons">notifications
 			<small class="notification-badge">5</small>
         </i></a></li>
+        
         <ul id='notificacion' class='dropdown-content'>
 			<li><a href="#!">one</a></li>
 			<li><a href="#!">two</a></li>
 			<li class="divider"></li>
 			<li><a href="#!">three</a></li>
 		</ul>
+		<ul id='config' class='dropdown-content'>
+			<li><a>Unidad de medida</a></li>
+			<li><a>Categotias</a></li>
+		</ul>
       </ul>
     </div>
 </nav>
 <script type="text/javascript" charset="utf-8">
-	$(".notification-button").dropdown();
+	$(".notification-button,.config").dropdown();
 </script>
