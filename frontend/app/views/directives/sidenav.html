@@ -55,6 +55,18 @@
 					Orden de venta
 					</a>
 				</li>
+				<li ng-class="{activate: $state.includes('Entrada')}">
+					<a ui-sref="Entrada">
+						<i class="tooltipped material-icons" data-position="right" data-delay="50" data-tooltip="Entrada">archive</i>
+					Entrada
+					</a>
+				</li>
+				<li ng-class="{activate: $state.includes('Salida')}">
+					<a ui-sref="Salida">
+						<i class="tooltipped material-icons" data-position="right" data-delay="50" data-tooltip="Salida">unarchive</i>
+					salida
+					</a>
+				</li>
 			</ul>
 		</div>
 	</div>

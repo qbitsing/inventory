@@ -72,6 +72,18 @@ angular
         templateUrl: 'views/pages/perfil.html',
         controller: 'PerfilCtrl'
     })
+    .state('Entrada',{
+        url: '/Entrada',
+        parent: 'Dashboard',
+        templateUrl: 'views/pages/entrada.html',
+        controller: 'EntradaCtrl'
+    })
+    .state('Salida',{
+        url: '/Salida',
+        parent: 'Dashboard',
+        templateUrl: 'views/pages/salida.html',
+        controller: 'SalidaCtrl'
+    })
     .state('Personas',{
         url: '/Personas',
         parent: 'Dashboard',
