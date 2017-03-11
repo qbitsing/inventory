@@ -19,11 +19,8 @@
 		</ul>
       </ul>
     </div>
-<<<<<<< HEAD
 </nav>
-=======
-</nav>
-<div id="modal2" class="modal">
+<div id="modal2" class="modal modal-fixed-footer">
     <form class="col s12" name="formCategorias">
 	    <div class="modal-content">
 	      	<h4 class="modal-title">Registro de Categorias</h4>
@@ -34,8 +31,9 @@
 					<input type="text" ng-model="categoria.nombre" name="nombre" id="nombre"  required>
 			    </div>
 			  </div>
+			  <button type="submit" ng-click="EnviarCategoria()" class="modal-action waves-effect btn btn-large btn-primary" ng-disabled="formCategorias.$invalid">Registrar Categoria</button>
 			</div>
-	    	<button type="submit" ng-click="EnviarCategoria()" class="modal-action waves-effect green btn-flat" ng-disabled="formCategorias.$invalid">Registrar Categoria</button>
+	    	
 			<div class="row">
 				<div class="gridStyle grid" ui-grid="gridOptionsModalCategorias" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
 			</div>
@@ -45,7 +43,7 @@
 	    </div>
     </form>
 </div>
-<div id="modal1" class="modal">
+<div id="modal1" class="modal modal-fixed-footer">
     <form class="col s12" name="formUnidades">
 	    <div class="modal-content">
 	      	<h4 class="modal-title">Registro de Unidades de Medida</h4>
@@ -56,8 +54,9 @@
 					<input type="text" ng-model="Unidad_de_medida.nombre" name="nombre" id="nombre"  required>
 			    </div>
 			  </div>
+			  <button type="submit" ng-click="EnviarUnidad()" class="modal-action waves-effect btn btn-large btn-primary" ng-disabled="formUnidades.$invalid">Registrar Unidad de Medida</button>
 			</div>
-	    	<button type="submit" ng-click="EnviarUnidad()" class="modal-action waves-effect green btn-flat" ng-disabled="formUnidades.$invalid">Registrar Unidad de Medida</button>
+	    	
 			<div class="row">
 				<div class="gridStyle grid" ui-grid="gridOptionsModalUnidades" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
 			</div>
@@ -67,7 +66,4 @@
 	    </div>
     </form>
 </div>
-<script type="text/javascript" charset="utf-8">
-	$(".notification-button,.config").dropdown();
-</script>
->>>>>>> 9f052bcfc6cfbc39a72ce8fb1164914132e531bf
+
