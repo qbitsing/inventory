@@ -5,7 +5,6 @@
 			<div class="card-panel panel-default {{panelAnimate}}">
 				<div class="panel-heading blue accent-4">
 					<h3 class="panel-title">{{panel_title_form}}</h3>
-					<button type="submit" ng-click="AbrirModalCategorias()" class="btn btn-large green accent-4">Categorias</button>
 				</div>
 				<div class="panel-body" >
 					<form name="formProductos" novalidate ng-submit="EnviarProducto()">
@@ -62,43 +61,3 @@
 		</div>
 	</div>
 </div>
-<div id="modal2" class="modal">
-    <form class="col s12" name="formCategorias">
-	    <div class="modal-content">
-	      	<h4 class="modal-title">Registro de Categorias</h4>
-			<div class="row">
-			  <div class="row modal-form-row">
-			    <div class="input-field col s12">
-			      	<label for="nombre">Nombre</label>
-					<input type="text" ng-model="categoria.nombre" name="nombre" id="nombre"  required>
-			    </div>
-			  </div>
-			</div>
-	    	<button type="submit" ng-click="EnviarCategoria()" class="modal-action waves-effect green btn-flat" ng-disabled="formCategorias.$invalid">Registrar Categoria</button>
-			<div class="row">
-				<div class="gridStyle grid" ui-grid="gridOptionsModal" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
-			</div>
-	    </div>
-	    <div class="modal-footer">
-	      	<a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar modal</a>
-	    </div>
-    </form>
-</div>
-<script type="text/javascript" charset="utf-8">
-	$(document).ready(function(){
-		$('select').material_select();
-		$('.modal').modal();
-    	$('.modal').modal({
-                dismissible: true, // Modal can be dismissed by clicking outside of the modal
-                opacity: 0, // Opacity of modal background
-                inDuration: 300, // Transition in duration
-                outDuration: 200, // Transition out duration
-                startingTop: '10%', // Starting top style attribute
-                endingTop: '15%', // Ending top style attribute
-                ready: function(modal, trigger) {
-                },
-                complete: function() {  } // Callback for Modal close
-            }
-        );
-  	});
-</script>

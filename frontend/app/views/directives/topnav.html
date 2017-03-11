@@ -14,12 +14,56 @@
 			<li><a href="#!">three</a></li>
 		</ul>
 		<ul id='config' class='dropdown-content'>
-			<li><a>Unidad de medida</a></li>
-			<li><a>Categotias</a></li>
+			<li><a data-target='modal1'>Unidad de medida</a></li>
+			<li><a data-target='modal2'>Categotias</a></li>
 		</ul>
       </ul>
     </div>
 </nav>
+<div id="modal2" class="modal">
+    <form class="col s12" name="formCategorias">
+	    <div class="modal-content">
+	      	<h4 class="modal-title">Registro de Categorias</h4>
+			<div class="row">
+			  <div class="row modal-form-row">
+			    <div class="input-field col s12">
+			      	<label for="nombre">Nombre</label>
+					<input type="text" ng-model="categoria.nombre" name="nombre" id="nombre"  required>
+			    </div>
+			  </div>
+			</div>
+	    	<button type="submit" ng-click="EnviarCategoria()" class="modal-action waves-effect green btn-flat" ng-disabled="formCategorias.$invalid">Registrar Categoria</button>
+			<div class="row">
+				<div class="gridStyle grid" ui-grid="gridOptionsModalCategorias" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
+			</div>
+	    </div>
+	    <div class="modal-footer">
+	      	<a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar modal</a>
+	    </div>
+    </form>
+</div>
+<div id="modal1" class="modal">
+    <form class="col s12" name="formUnidades">
+	    <div class="modal-content">
+	      	<h4 class="modal-title">Registro de Unidades de Medida</h4>
+			<div class="row">
+			  <div class="row modal-form-row">
+			    <div class="input-field col s12">
+			      	<label for="nombre">Nombre</label>
+					<input type="text" ng-model="Unidad_de_medida.nombre" name="nombre" id="nombre"  required>
+			    </div>
+			  </div>
+			</div>
+	    	<button type="submit" ng-click="EnviarUnidad()" class="modal-action waves-effect green btn-flat" ng-disabled="formUnidades.$invalid">Registrar Unidad de Medida</button>
+			<div class="row">
+				<div class="gridStyle grid" ui-grid="gridOptionsModalUnidades" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
+			</div>
+	    </div>
+	    <div class="modal-footer">
+	      	<a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar modal</a>
+	    </div>
+    </form>
+</div>
 <script type="text/javascript" charset="utf-8">
 	$(".notification-button,.config").dropdown();
 </script>
