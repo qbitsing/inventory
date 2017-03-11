@@ -1,0 +1,76 @@
+<h2 class="titulo-pagina blue accent-4 right-align {{pageAnimate}}">Gestion de Entradas</h2>
+<div class="contenido">
+	<div class="row">
+		<div class="col s12">
+			<div class="card-panel {{panelAnimate}}">
+				<div class="panel-heading blue accent-4">
+					<h3 class="panel-title">{{panel_title_form}}</h3>
+				</div>
+				<div class="panel-body" >
+					<form name="formentrada">
+						<div class="row">
+							<div class="input-field col s12 m6 l6">
+								<label for="id">Orden de compra *</label>
+								<select material-select watch>
+	      							<option></option>
+								</select>
+							</div>
+							<div class="input-field col s12 m6 l6">
+								<label for="Proveedor">Proveedors *</label>
+								<input type="text" ng-model="Persona.nombre" id="Proveedor" name="Proveedor" required>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12 m6 l6">
+								<label>Persona que autorizo *</label>
+								<select material-select watch>
+	      							<option></option>
+								</select>
+							</div>
+							<div class="input-field col s12 m6 l6">
+								<label>Persona que recibió *</label>
+								<select material-select watch>
+	      							<option></option>
+								</select>
+							</div>
+							
+						</div>
+						<div class="row">
+							<div class="input-field col s12 m6 l6">
+					            <textarea id="observaciones" class="materialize-textarea" data-length="120"></textarea>
+					            <label for="observaciones">Observaciones</label>
+				          	</div>
+							
+						</div>
+						<div class="row">
+							<div class="col">
+								<button type="submit" class="btn btn-large blue accent-4">{{button_title_form}}</button>
+							</div>
+							<div class="col">
+								<button type="button" class="btn btn-large btn-danger">Cancelar</button>
+							</div>
+							
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s12">
+			<div class="card-panel {{panelAnimate}}">
+				<div class="panel-heading blue accent-4">
+					<h3 class="panel-title">Lista de Personas</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col s12">
+							<div class="gridStyle grid" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
