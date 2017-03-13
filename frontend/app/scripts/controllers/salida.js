@@ -15,7 +15,7 @@ angular.module('frontendApp')
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
     },100);
-    $scope.panel_title_form = "Registro de Entrada";
-    $scope.button_title_form = "Registrar Entrada";
+    $scope.panel_title_form = "Registro de salida";
+    $scope.button_title_form = "Registrar salida";
     $scope.Empleado={};
   });
