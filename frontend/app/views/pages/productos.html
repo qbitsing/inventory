@@ -9,37 +9,63 @@
 				<div class="panel-body" >
 					<form name="formProductos" novalidate ng-submit="EnviarProducto()">
 						<div class="row">
-							<div class="input-field col s12 m6 l6">
-								<input type="text" ng-model="Producto.id" name="NIT" id="NIT"  required ng-disabled="panel_title_form == 'Editar Producto'">
-								<label for="NIT">NIT *</label>
-							</div>
 							<div class="input-field col s12 m6 l6">								
 								<input type="text" ng-model="Producto.nombre" id="Nombre" name="Nombre" required>
 								<label for="Nombre">Nombre *</label>
 							</div>
+							<div class="input-field col s12 m6 l6">
+								<select ng-model="Producto.unidad_medida._id" material-select watch>
+	      							<option ng-repeat="unidad in Unidades" value="{{unidad._id}}">{{unidad.nombre}}</option>
+								</select>
+								<label>Unidad de medida *</label>
+							</div>
 						</div>
 						<div class="row">
-							<div class="input-field col s12 m6 l6">
-								<input type="text" ng-model="Producto.direccion" id="Direccion" name="Direccion" required>
-								<label for="Direccion">Direccion *</label>
+							<div class="input-field col s12 m6 l6">								
+								<input type="text" ng-model="Producto.marca" id="marca" name="marca" required>
+								<label for="marca">Marca *</label>
 							</div>
 							<div class="input-field col s12 m6 l6">								
-								<input type="number" ng-model="Producto.telefono" id="Telefono" name="Telefono" required>
-								<label for="Telefono">Telefono *</label>
+								<input type="number" ng-model="Producto.min_stock" id="Telefono" name="Telefono" required>
+								<label for="Telefono">Min stock *</label>
 							</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-								<input type="number" ng-model="Producto.limite_candados" id="Candados" name="Candados" required><label for="Candados">Candados *</label>
+								<select ng-model="Producto.Categoria._id" material-select watch>
+	      							<option ng-repeat="Categoria in Categorias" value="{{Categoria._id}}">{{Categoria.nombre}}</option>
+								</select>
+								<label>Categoria *</label>
 							</div>
 							<div class="input-field col s12 m6 l6">
-								<input type="number" ng-model="Producto.limite_llaves" id="Llaves" name="Llaves" required>
-								<label for="Llaves">Llaves *</label>
+								<input type="number" ng-model="Producto.precio" id="Precio" name="Precio" required>
+								<label for="Precio">Precio *</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12 m6 l6">
+								<select ng-model="Producto.Insumo._id" material-select watch>
+	      							<option ng-repeat="insumo in Insumos" value="{{insumo._id}},{{insumo.nombre}}">{{insumo.nombre}}</option>
+								</select>
+								<label>Insumos *</label>
+							</div>
+							<div class="input-field col s12 m6 l6">
+							<input type="number" ng-model="Producto.Insumo.cantidad" id="Cantidad" name="Cantidad">
+							<label for="Cantidad">Cantidad *</label>
+							<button type="button" class="btn blue" ng-disabled="!(Producto.Insumo._id) || !(Producto.Insumo.cantidad)" ng-click="AgregarInsumo()">Añadir</button>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12 m6 l6">
+								<ul>
+									<li >Lista de insumos *</li>
+									<li ng-repeat="insumo in Producto.Insumos">{{insumo.cantidad}} de {{insumo.nombre}} <a class="cursor" ng-click="Borrar($index)">Eliminar</a></li>
+								</ul>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col s12 m6 l4">
-								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formProductos.$invalid">{{button_title_form}}</button>
+								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formProductos.$invalid || Producto.Insumos.length<1">{{button_title_form}}</button>
 							</div>
 						</div>						
 						<button type="button" class="btn btn-danger" ng-show="panel_title_form == 'Editar Producto'" ng-click="CancelarEditar()">Cancelar</button>

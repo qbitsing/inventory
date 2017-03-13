@@ -41,7 +41,7 @@ app.get('/ciudades', controllers.ciudades.listarAll);
 
 app.get('/ciudades/:id' , controllers.ciudades.listarById);
 
-//app.post('/ciudades' , controllers.ciudades.crear);
+app.post('/ciudades' , controllers.ciudades.crear);
 // Fin Bloque de rutas de ciudades
 
 // Bloque de rutas de departamentos
