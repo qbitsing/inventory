@@ -102,7 +102,7 @@ function crear(req, res){
 
     function pasoUno(){
         if(req.body.categoria){
-            categoriaModel.findById(req.body.categoria.id, (err , categoriaStored)=>{
+            categoriaModel.findById(req.body.categoria._id, (err , categoriaStored)=>{
                 if(err){
                     return res.status(500).send({
                         message: `ERROR al obtener la categoria ${err}`
@@ -213,7 +213,7 @@ function actualizar(req, res){
 
     function pasoUno(){
         if(req.body.categoria){
-            categoriaModel.findById(req.body.categoria.id, (err , categoriaStored)=>{
+            categoriaModel.findById(req.body.categoria._id, (err , categoriaStored)=>{
                 if(err){
                     return res.status(500).send({
                         message: `ERROR al obtener la categoria ${err}`
