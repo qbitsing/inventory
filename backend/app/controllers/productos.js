@@ -3,6 +3,7 @@
 const ProductoModel = require('../models/productos');
 const unidadMedidaModel = require('../models/unidades');
 const materiaPrimaModel = require('../models/materia-prima');
+const categoriaModel = require('../models/categorias');
 
 function listarAll(req, res){
     ProductoModel.find({}, (err , productoStrored)=>{
@@ -92,15 +93,36 @@ function crear(req, res){
                 contador ++;
                 if(contador == req.body.productos.length){
                     req.body.productos = productosArray
-                    pasoDos();
+                    pasoUno();
                 }
 
             });
         }
-    }else pasoDos();
+    }else pasoUno();
+
+    function pasoUno(){
+        if(req.body.categoria){
+            categoriaModel.findById(req.body.categoria.id, (err , categoriaStored)=>{
+                if(err){
+                    return res.status(500).send({
+                        message: `ERROR al obtener la categoria ${err}`
+                    });
+                }
+
+                if(!categoriaStored){
+                    return res.status(404).send({
+                        message: `ERROR la categoria indicada no esta registradada en la base de 
+                            datos`
+                    });
+                }
+
+                req.body.categoria= categoriaStored;
+                pasoDos();
+            });
+        }else pasoDos();
+    }
 
     function pasoDos(){
-        console.log(req.body);
         if(req.body.unidad_medida){
             unidadMedidaModel.findById(req.body.unidad_medida._id, (err, unidadMedidaStrored)=>{
                 if(err){
@@ -182,13 +204,34 @@ function actualizar(req, res){
                 contador ++;
                 if(contador == req.body.productos.length){
                     req.body.productos = productosArray
-                    pasoDos();
+                    pasoUno();
                 }
 
             });
         }
-    }else pasoDos();
+    }else pasoUno();
 
+    function pasoUno(){
+        if(req.body.categoria){
+            categoriaModel.findById(req.body.categoria.id, (err , categoriaStored)=>{
+                if(err){
+                    return res.status(500).send({
+                        message: `ERROR al obtener la categoria ${err}`
+                    });
+                }
+
+                if(!categoriaStored){
+                    return res.status(404).send({
+                        message: `ERROR la categoria indicada no esta registradada en la base de 
+                            datos`
+                    });
+                }
+
+                req.body.categoria= categoriaStored;
+                pasoDos();
+            });
+        }else pasoDos();
+    }
     function pasoDos(){
         if(req.body.unidad_medida){
             unidadMedidaModel.findById(req.body.unidad_medida.id, (err, unidadMedidaStrored)=>{
