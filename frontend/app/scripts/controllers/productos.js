@@ -34,9 +34,54 @@ angular.module('frontendApp')
 	$scope.button_title_form = "Registrar Producto";
 	$scope.Producto={};
     $scope.Producto.Insumos=[];
+    var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
+    $scope.gridOptions = {
+        columnDefs: [
+            {
+                field: 'nombre',
+                width:'20%',
+                minWidth: 160
+            },
+            { 
+                field: 'marca',
+                width:'20%',
+                minWidth: 160
+            },
+            { 
+                field: 'categoria',
+                width:'20%',
+                minWidth: 160
+            },
+            { 
+                field: 'precio',
+                width:'20%',
+                minWidth: 160
+            },
+            { 
+                name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
+                width:'20%',
+                minWidth: 160
+            }
+        ]
+    }
+    angular.extend($scope.gridOptions , Tabla);
     function listarInsumos(){
         webServer
         .getResource('materiaPrima',{},'get')
+        .then(function(data){
+            if(data.data){
+                $scope.Insumos=data.data.datos;
+            }else{
+                $scope.Insumos=[];
+            }
+        },function(data){
+            $scope.Insumos=[];
+            console.log(data.data.message);
+        });
+    }
+    function listarProductos(){
+        webServer
+        .getResource('productos',{},'get')
         .then(function(data){
             if(data.data){
                 $scope.Insumos=data.data.datos;
