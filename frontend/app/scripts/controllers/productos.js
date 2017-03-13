@@ -34,6 +34,37 @@ angular.module('frontendApp')
 	$scope.button_title_form = "Registrar Producto";
 	$scope.Producto={};
     $scope.Producto.Insumos=[];
+    var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
+    $scope.gridOptions = {
+        columnDefs: [
+            {
+                field: 'nombre',
+                width:'20%',
+                minWidth: 160
+            },
+            {
+                field: 'marca',
+                width:'20%',
+                minWidth: 160
+            },
+            {
+                name: 'categoria', field: 'categoria.nombre',
+                width:'20%',
+                minWidth: 160
+            },
+            {
+                field: 'precio',
+                width:'20%',
+                minWidth: 160
+            },
+            {
+                name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
+                width:'20%',
+                minWidth: 160
+            }
+        ]
+    }
+    angular.extend($scope.gridOptions , Tabla);
     function listarInsumos(){
         webServer
         .getResource('materiaPrima',{},'get')
@@ -48,6 +79,24 @@ angular.module('frontendApp')
             console.log(data.data.message);
         });
     }
+    function listarProductos(){
+        webServer
+        .getResource('productos',{},'get')
+        .then(function(data){
+            if(data.data){
+                $scope.Productos=data.data.datos;
+                $scope.gridOptions.data=$scope.Productos;
+            }else{
+                $scope.Productos=[];
+                $scope.gridOptions.data=$scope.Productos;
+            }
+        },function(data){
+            $scope.Productos=[];
+            $scope.gridOptions.data=$scope.Productos;
+            console.log(data.data.message);
+        });
+    }
+    listarProductos();
     listarInsumos();
     $scope.AgregarInsumo=function(){
         var controlador=false;
