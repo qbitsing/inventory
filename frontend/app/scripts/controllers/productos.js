@@ -42,22 +42,22 @@ angular.module('frontendApp')
                 width:'20%',
                 minWidth: 160
             },
-            { 
+            {
                 field: 'marca',
                 width:'20%',
                 minWidth: 160
             },
-            { 
-                field: 'categoria',
+            {
+                name: 'categoria', field: 'categoria.nombre',
                 width:'20%',
                 minWidth: 160
             },
-            { 
+            {
                 field: 'precio',
                 width:'20%',
                 minWidth: 160
             },
-            { 
+            {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
                 width:'20%',
                 minWidth: 160
@@ -84,15 +84,19 @@ angular.module('frontendApp')
         .getResource('productos',{},'get')
         .then(function(data){
             if(data.data){
-                $scope.Insumos=data.data.datos;
+                $scope.Productos=data.data.datos;
+                $scope.gridOptions.data=$scope.Productos;
             }else{
-                $scope.Insumos=[];
+                $scope.Productos=[];
+                $scope.gridOptions.data=$scope.Productos;
             }
         },function(data){
-            $scope.Insumos=[];
+            $scope.Productos=[];
+            $scope.gridOptions.data=$scope.Productos;
             console.log(data.data.message);
         });
     }
+    listarProductos();
     listarInsumos();
     $scope.AgregarInsumo=function(){
         var controlador=false;
