@@ -8,10 +8,14 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('SalidaCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('SalidaCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
+    $scope.panelAnimate='';
+    $scope.pageAnimate='';  
+    $timeout(function () {
+        $scope.pageAnimate='pageAnimate';
+        $scope.panelAnimate='panelAnimate';
+    },100);
+    $scope.panel_title_form = "Registro de Entrada";
+    $scope.button_title_form = "Registrar Entrada";
+    $scope.Empleado={};
   });
