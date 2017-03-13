@@ -9,6 +9,21 @@
  */
 angular.module('frontendApp')
 .controller('ProductosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
+    $(document).ready(function(){
+        $('.modal').modal();
+        $('.modal').modal({
+                dismissible: true, // Modal can be dismissed by clicking outside of the modal
+                opacity: 0, // Opacity of modal background
+                inDuration: 300, // Transition in duration
+                outDuration: 200, // Transition out duration
+                startingTop: '10%', // Starting top style attribute
+                endingTop: '15%', // Ending top style attribute
+                ready: function(modal, trigger) {
+                },
+                complete: function() {  } // Callback for Modal close
+            }
+        );
+    });
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';  
 	$timeout(function () {
@@ -18,20 +33,44 @@ angular.module('frontendApp')
 	$scope.panel_title_form = "Registro de Productos";
 	$scope.button_title_form = "Registrar Producto";
 	$scope.Producto={};
-
-    function listarCategorias(){
+    $scope.Producto.Insumos=[];
+    function listarInsumos(){
         webServer
-        .getResource('categorias',{},'get')
+        .getResource('materiaPrima',{},'get')
         .then(function(data){
             if(data.data){
-                $scope.Categorias=data.data.datos;
+                $scope.Insumos=data.data.datos;
             }else{
-                $scope.Categorias=[];
+                $scope.Insumos=[];
             }
         },function(data){
+            $scope.Insumos=[];
             console.log(data.data.message);
-            $scope.Categorias=[];
         });
     }
-    listarCategorias();
+    listarInsumos();
+    $scope.AgregarInsumo=function(){
+        var controlador=false;
+        var obj = {
+            _id : $scope.Producto.Insumo._id.split(',')[0],
+            nombre : $scope.Producto.Insumo._id.split(',')[1],
+            cantidad : $scope.Producto.Insumo.cantidad
+        };
+        $scope.Producto.Insumos.forEach(function(ele, index){
+            if(ele._id==obj._id){
+                controlador=true;
+            }
+        });
+        if(!controlador){
+            $scope.Producto.Insumos.push(obj);
+        }else{
+            console.log('El insumo ya esta añadido');
+        }
+    }
+    $scope.Borrar=function(index){
+        $scope.Producto.Insumos.splice(index,1);
+    }
+    $scope.EnviarProducto=function(){
+        console.log($scope.Producto);
+    }
 });

@@ -10,7 +10,6 @@
 angular.module('frontendApp')
 .controller('EmpleadosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
     $(document).ready(function(){
-        $('select').material_select();
         $('.modal').modal();
         $('.modal').modal({
                 dismissible: true, // Modal can be dismissed by clicking outside of the modal

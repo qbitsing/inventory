@@ -10,7 +10,6 @@
 angular.module('frontendApp')
   .controller('PerfilCtrl', function ($scope, $timeout, SesionUsuario, webServer) {
     $(document).ready(function(){
-        $('select').material_select();
         $('.modal').modal();
         $('.modal').modal({
                 dismissible: true, // Modal can be dismissed by clicking outside of the modal

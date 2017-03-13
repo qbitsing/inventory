@@ -10,7 +10,6 @@
 angular.module('frontendApp')
   .controller('MateriaPrimaCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
     $(document).ready(function(){
-        $('select').material_select();
         $('.modal').modal();
         $('.modal').modal({
                 dismissible: true, // Modal can be dismissed by clicking outside of the modal
@@ -128,22 +127,7 @@ angular.module('frontendApp')
             $scope.gridOptions.data = $scope.Materias;
         });
     }
-    function listarunidades(){
-        webServer
-        .getResource('unidades',{},'get')
-        .then(function(data){
-            if(data.data){
-                $scope.Unidades=data.data.datos;
-            }else{
-                $scope.Unidades=[];
-            }
-        },function(data){
-            $scope.Unidades=[];
-            console.log(data.data.message);
-        });
-    }
     listarmaterias();
-    listarunidades();
     function IdentificarMateria (id , arrObj){
         var obj;
         arrObj.forEach(function(ele , index){
