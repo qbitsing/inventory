@@ -80,6 +80,18 @@ app.delete('/categorias/:id' , controllers.categoria.eliminar);
 app.post('/categorias' , controllers.categoria.crear);
 // Fin Bloque de rutas de categorias
 
+// Bloque de rutas de productos
+app.post('/productos', controllers.productos.crear);
+
+app.delete('/productos/:id' , controllers.productos.eliminar);
+
+app.get('/productos' , controllers.productos.listarAll);
+
+app.get('/productos/:id' , controllers.productos.listarById);
+
+app.put('/productos/:id' , controllers.productos.actualizar);
+// Fin Bloque de rutas de productos
+
 mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
 	if(err){
 		return console.log(`ERROR al conectar con la BD: ${err}`);
