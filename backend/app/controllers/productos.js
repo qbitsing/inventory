@@ -48,10 +48,11 @@ function listarById(req, res){
 
 function crear(req, res){
     var insumosArray = [];
-    if(req.body.insumos){
+    var productosArray = [];
+    if(req.body.Insumos){
         var contador = 0;
-        for(insumo of req.body.insumos){
-            materiaPrimaModel.findById(insumo.id, (err, insumoStored)=>{
+        for(var insumo of req.body.Insumos){
+            materiaPrimaModel.findById(insumo._id, (err, insumoStored)=>{
                 if(err){
                     return res.status(500).send({
                         message: `ERROR al intentar obtener el insumo ${err}`
@@ -62,9 +63,125 @@ function crear(req, res){
                         message: `ERROR alguno de los insumos indicados no esta en la base de datos ${insumo.nombre}`
                     });
                 }
+                insumoStored.cantidad = insumo.cantidad;
                 insumosArray.push(insumoStored);
                 contador ++;
-                if(contador == res.body.insumos.length){
+                if(contador == req.body.Insumos.length){
+                    req.body.Insumos = insumosArray
+                    pasoDos();
+                }
+
+            });
+        }
+    }else if(req.body.productos){
+        var contador = 0;
+        for(var producto of req.body.productos){
+            ProductoModel.findById(producto._id, (err, productoStored)=>{
+                if(err){
+                    return res.status(500).send({
+                        message: `ERROR al intentar obtener el producto ${err}`
+                    });
+                }
+                if(!productoStored){
+                    return res.status(404).send({
+                        message: `ERROR alguno de los productos indicados no esta en la base de datos ${producto.nombre}`
+                    });
+                }
+                productoStored.cantidad = producto.cantidad;
+                productosArray.push(productoStored);
+                contador ++;
+                if(contador == req.body.productos.length){
+                    req.body.productos = productosArray
+                    pasoDos();
+                }
+
+            });
+        }
+    }else pasoDos();
+
+    function pasoDos(){
+        console.log(req.body);
+        if(req.body.unidad_medida){
+            unidadMedidaModel.findById(req.body.unidad_medida._id, (err, unidadMedidaStrored)=>{
+                if(err){
+                    return res.status(500).send({
+                        message: `ERROR al buscar la unidad de medida ${err}`
+                    });
+                }
+
+                if(!unidadMedidaStrored){
+                    return res.status(404).send({
+                        message: `ERROR la unidad de medida indicada no esta registradada en el sistema`
+                    });
+                }
+                req.body.unidad_medida = unidadMedidaStrored;
+                insertar();
+            })
+        }else insertar();
+    }
+    
+
+    function insertar(){
+        let newMateriaPrima = new ProductoModel(req.body);
+        newMateriaPrima.save((err , materiaPrimaStored)=>{
+            if(err){
+                return res.status(500).send({
+                    message : `ERROR al intentar almacenar el recurso en la abse de datos ${err}`
+                });
+            }
+
+            return res.status(200).send({
+                datos: materiaPrimaStored
+            });
+        });
+    }
+}
+
+function actualizar(req, res){
+    var insumosArray = [];
+    if(req.body.Insumos){
+        var contador = 0;
+        for(var insumo of req.body.Insumos){
+            materiaPrimaModel.findById(insumo._id, (err, insumoStored)=>{
+                if(err){
+                    return res.status(500).send({
+                        message: `ERROR al intentar obtener el insumo ${err}`
+                    });
+                }
+                if(!insumoStored){
+                    return res.status(404).send({
+                        message: `ERROR alguno de los insumos indicados no esta en la base de datos ${insumo.nombre}`
+                    });
+                }
+                insumoStored.cantidad = insumo.cantidad;
+                insumosArray.push(insumoStored);
+                contador ++;
+                if(contador == req.body.Insumos.length){
+                    req.body.Insumos = insumosArray
+                    pasoDos();
+                }
+
+            });
+        }
+    }else if(req.body.productos){
+        var contador = 0;
+        for(var producto of req.body.productos){
+            ProductoModel.findById(producto._id, (err, productoStored)=>{
+                if(err){
+                    return res.status(500).send({
+                        message: `ERROR al intentar obtener el producto ${err}`
+                    });
+                }
+                if(!productoStored){
+                    return res.status(404).send({
+                        message: `ERROR alguno de los productos indicados no esta en la base de datos ${producto.nombre}`
+                    });
+                }
+                productoStored.cantidad = producto.cantidad;
+                productosArray.push(productoStored);
+                contador ++;
+                if(contador == req.body.productos.length){
+                    req.body.productos = productosArray
                     pasoDos();
                 }
 
@@ -87,49 +204,14 @@ function crear(req, res){
                     });
                 }
                 req.body.unidad_medida = unidadMedidaStrored;
-                insertar();
+                Actuar();
             })
-        }else insertar();
+        }else Actuar();
     }
     
-
-    function insertar(){
-        let newMateriaPrima = new materiaPrimaModel(req.body);
-        newMateriaPrima.save((err , materiaPrimaStored)=>{
-            if(err){
-                return res.status(500).send({
-                    message : `ERROR al intentar almacenar el recurso en la abse de datos ${err}`
-                });
-            }
-
-            return res.status(200).send({
-                datos: materiaPrimaStored
-            });
-        });
-    }
-}
-
-function actualizar(req, res){
-    if(req.body.unidad_medida){
-        unidadMedidaModel.findById(req.body.unidad_medida.id, (err, unidadMedidaStrored)=>{
-            if(err){
-                return res.status(500).send({
-                    message: `ERROR al buscar la unidad de medida ${err}`
-                });
-            }
-
-            if(!unidadMedidaStrored){
-                return res.status(404).send({
-                    message: `ERROR la unidad de medida indicada no esta registradada en el sistema`
-                });
-            }
-            req.body.unidad_medida = unidadMedidaStrored;
-            Actuar();
-        })
-    }else Actuar();
     function Actuar(){
-        let materiaPrimaId = req.params.id;
-        materiaPrimaModel.findByIdAndUpdate(materiaPrimaId, req.body, (err, materiaPrimaStored)=>{
+        let productoId = req.params.id;
+        ProductoModel.findByIdAndUpdate(productoId, req.body, (err, productoStrored)=>{
             if(err){
                 return res.status(500).send({
                     message : `ERROR ocurrio un problema al intentar actualizar ${err}`
@@ -137,15 +219,15 @@ function actualizar(req, res){
             }
 
             return res.status(200).send({
-                datos: materiaPrimaStored
+                datos: productoStrored
             });
         });
     }    
 }
 
 function eliminar(req, res){
-    let materiaPrimaId = req.params.id;
-	materiaPrimaModel.findByIdAndRemove(materiaPrimaId , (err)=>{
+    let productoId = req.params.id;
+	ProductoModel.findByIdAndRemove(productoId , (err)=>{
 		if(err){
 			return res.status(500).send({
 				message : `ERROR al intentar eliminar la el registro ${err}`

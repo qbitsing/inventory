@@ -71,6 +71,29 @@ angular.module('frontendApp')
         $scope.Producto.Insumos.splice(index,1);
     }
     $scope.EnviarProducto=function(){
-        console.log($scope.Producto);
+        var ruta="";
+        var metodo="";
+        if ($scope.panel_title_form=="Registro de Productos") {
+            ruta="productos";
+            metodo="post";
+        }else{
+            ruta="productos/"+$scope.Producto._id;
+            metodo="put";
+        }
+        webServer
+        .getResource(ruta,$scope.Producto,metodo)
+        .then(function(data){
+            // if($scope.panel_title_form=="Registro de Productos"){
+            //     $scope.Productos.push($scope.Persona);
+            //     alert('Persona registrada correctamente');
+            // }else{
+            //     $scope.Personas[$scope.Persona.index] = $scope.Persona;
+            //     alert('Persona actualizada correctamente');
+            // }
+            // $scope.Persona={};
+            console.log(data);
+        },function(data){
+            console.log(data);
+        });
     }
 });
