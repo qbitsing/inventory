@@ -50,9 +50,13 @@
 								<label>Insumos *</label>
 							</div>
 							<div class="input-field col s12 m6 l6">
-							<input type="number" ng-model="Producto.Insumo.cantidad" id="Cantidad" name="Cantidad">
-							<label for="Cantidad">Cantidad *</label>
-							<button type="button" class="btn blue" ng-disabled="!(Producto.Insumo._id) || !(Producto.Insumo.cantidad)" ng-click="AgregarInsumo()">Añadir</button>
+								<div class="col s8 m8 l8">
+									<input type="number" ng-model="Producto.Insumo.cantidad" id="Cantidad" name="Cantidad">
+								<label for="Cantidad">Cantidad *</label>
+								</div>
+									<button type="button" class="btn btn-success col s4 m4 l4" ng-disabled="!(Producto.Insumo._id) || !(Producto.Insumo.cantidad)" ng-click="AgregarInsumo()">Añadir</button>
+								
+								
 							</div>
 						</div>
 						<div class="row">
