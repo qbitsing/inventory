@@ -53,7 +53,7 @@
 								<button type="submit" class="btn btn-large btn-primary" ng-disabled="formPerfil.$invalid">{{button_title_form}}</button>
 							</div>
 							<div class="col">
-								<button type="button" ng-click="abrirModal()" class="btn btn-large btn-success">Cambiar contraseña</button>
+								<button type="button" data-target='modalPss' class="btn btn-large btn-success">Cambiar contraseña</button>
 							</div>
 						</div>
 					</form>
@@ -62,7 +62,7 @@
 		</div>
 	</div>
 </div>
-<div id="modal1" class="modal modal-fixed-footer">
+<div id="modalPss" class="modal modal-fixed-footer">
     <form class="col s12" name="formPss">
 	    <div class="modal-content">
 	      	<h4 class="modal-title">Cambio de contraseña</h4>
@@ -93,18 +93,3 @@
 	    </div>
     </form>
   </div>
-<script type="text/javascript" charset="utf-8">
-	$('.modal').modal();
-	$('.modal').modal({
-            dismissible: true, // Modal can be dismissed by clicking outside of the modal
-            opacity: 0, // Opacity of modal background
-            inDuration: 300, // Transition in duration
-            outDuration: 200, // Transition out duration
-            startingTop: '10%', // Starting top style attribute
-            endingTop: '15%', // Ending top style attribute
-            ready: function(modal, trigger) {
-            },
-            complete: function() {  } // Callback for Modal close
-        }
-    );
-</script>
