@@ -145,4 +145,13 @@ angular.module('frontendApp')
             console.log(data);
         });
     }
+    $scope.Editar = function(id){
+        $scope.panel_title_form = "Edicion de Productos";
+        $scope.button_title_form = "Editar Producto";
+        $scope.Producto = $scope.Productos.find(function(ele){
+            if(ele._id == id){
+                return ele;
+            }
+        });
+    }
 });
