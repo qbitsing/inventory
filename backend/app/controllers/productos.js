@@ -44,7 +44,7 @@ function listarById(req, res){
             datos : productoStrored
         });
 
-    })
+    });
 }
 
 function crear(req, res){

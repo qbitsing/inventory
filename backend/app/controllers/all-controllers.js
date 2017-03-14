@@ -7,6 +7,7 @@ const unidades = require('./unidades');
 const materiaPrima = require('./materia-prima');
 const categoria = require('./categorias');
 const productos = require('./productos');
+const ordenCompra = require('./orden-compra');
 
 const controllers = {
 	personas,
@@ -15,7 +16,8 @@ const controllers = {
 	unidades,
 	materiaPrima,
 	categoria,
-	productos
+	productos,
+	ordenCompra
 };
 
 module.exports = controllers;
