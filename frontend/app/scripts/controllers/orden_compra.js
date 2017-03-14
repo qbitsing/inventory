@@ -33,7 +33,7 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptions , Tabla);
-    $scope.Orden=[];
+    $scope.Orden={};
     $scope.Orden.productos=[];
     $scope.Orden.materia_prima=[];
     $scope.productos=[];

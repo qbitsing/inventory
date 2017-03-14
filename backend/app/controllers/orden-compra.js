@@ -13,7 +13,7 @@ function listarAll(req, res){
             });
         }
 
-        if(productoStrored.length < 1){
+        if(ordenStored.length < 1){
             return res.status(404).send({
                 message: `ERROR no hay ordenes de compra registradas`
             });
@@ -65,10 +65,10 @@ function crear(req, res){
                     });
                 }
                 insumoStored.cantidad = materia.cantidad;
-                insumosArray.push(insumoStored);
+                materiaArray.push(insumoStored);
                 contador ++;
                 if(contador == req.body.materia_prima.length){
-                    req.body.materia_prima = insumosArray
+                    req.body.materia_prima = materiaArray
                     pasoCero();
                 }
 
@@ -80,7 +80,7 @@ function crear(req, res){
         if(req.body.productos){
             var contador = 0;
             for(var producto of req.body.productos){
-                ProductoModel.findById(producto._id, (err, productoStored)=>{
+                productoModel.findById(producto._id, (err, productoStored)=>{
                     if(err){
                         return res.status(500).send({
                             message: `ERROR al intentar obtener el producto ${err}`
