@@ -82,7 +82,7 @@
 								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formProductos.$invalid || Producto.Insumos.length<1">{{button_title_form}}</button>
 							</div>
 						</div>						
-						<button type="button" class="btn btn-danger" ng-show="panel_title_form == 'Editar Producto'" ng-click="CancelarEditar()">Cancelar</button>
+						<button type="button" class="btn btn-danger" ng-show="panel_title_form == 'Edicion de Productos'" ng-click="CancelarEditar()">Cancelar</button>
 					</form>
 				</div>
 			</div>
@@ -100,4 +100,37 @@
 			</div>
 		</div>
 	</div>
+</div>
+<div id="modalDetalles" class="modal modal-fixed-footer">
+    <div class="modal-content">
+    	<h4 class="modal-title blue accent-4">{{Detalle.nombre}}</h4>
+    	<div class="row">
+    		<ul>
+			<li> Nombre: {{Detalle.nombre || 'No registra'}}</li>
+			<li> Unidad de medida: {{Detalle.unidad_medida.nombre || 'No registra'}}</li>
+			<li> Minimo stock: {{Detalle.min_stock || 'No registra'}}</li>
+			<li> Marca: {{Detalle.marca || 'No registra'}}</li>
+			<li> Categoria: {{Detalle.categoria.nombre || 'No registra'}}</li>
+			<li> Precio: {{Detalle.precio || 'No registra'}}</li>
+			<li> Insumos:</li>
+			<table class="highlight">
+		        <thead>
+		        	<tr>
+						<th data-field="id">Insumo</th>
+						<th data-field="name">Cantidad</th>
+		          	</tr>
+		        </thead>
+		        <tbody>
+		          	<tr ng-repeat="insumo in Detalle.Insumos">
+			            <td>{{insumo.nombre}}</td>
+			            <td>{{insumo.cantidad}}</td>
+		          	</tr>
+		        </tbody>
+		    </table>
+		</ul>
+    	</div>
+	</div>
+    <div class="modal-footer">
+      	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Cerrar</a>
+    </div>
 </div>
