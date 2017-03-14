@@ -1,7 +1,7 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema();
+const Schema = mongoose.Schema;
 
 const ordenCompraSchema = new Schema({
     proveedor : {},
@@ -9,3 +9,5 @@ const ordenCompraSchema = new Schema({
     materia_prima: [],
     estado: {type: String , enum:['activo' , 'finalizado']}
 });
+
+module.exports = mongoose.model('orden_compra', ordenCompraSchema);
