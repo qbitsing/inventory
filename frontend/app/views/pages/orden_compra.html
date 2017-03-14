@@ -15,6 +15,75 @@
 								</select>
 								<label>Proveedor*</label>
 							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12 m6 l6">
+								<select ng-model="Producto.Insumo._id" material-select watch>
+	      							<option ng-repeat="insumo in Insumos" value="{{insumo._id}},{{insumo.nombre}}">{{insumo.nombre}}</option>
+								</select>
+								<label>Insumos *</label>
+							</div>
+							<div class="input-field col s12 m6 l6">
+								<select ng-model="Producto.Insumo._id" material-select watch>
+	      							<option ng-repeat="insumo in Insumos" value="{{insumo._id}},{{insumo.nombre}}">{{insumo.nombre}}</option>
+								</select>
+								<label>Insumos *</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col s12 m6 l6">
+								<div class="input-field col s8 m8 l8">
+									<input type="number" ng-model="Producto.Insumo.cantidad" id="Cantidad" name="Cantidad">
+									<label for="Cantidad">Cantidad *</label>
+								</div>
+								<button type="button" class="btn btn-success col s4 m4 l4" ng-disabled="!(Producto.Insumo._id) || !(Producto.Insumo.cantidad)" ng-click="AgregarInsumo()">Añadir</button>
+							</div>
+							<div class="col s12 m6 l6">
+								<div class="input-field col s8 m8 l8">
+									<input type="number" ng-model="Producto.Insumo.cantidad" id="Cantidad" name="Cantidad">
+									<label for="Cantidad">Cantidad *</label>
+								</div>
+								<button type="button" class="btn btn-success col s4 m4 l4" ng-disabled="!(Producto.Insumo._id) || !(Producto.Insumo.cantidad)" ng-click="AgregarInsumo()">Añadir</button>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12 m6 l6">
+								<table class="highlight" ng-hide="Producto.Insumos.length<1">
+							        <thead>
+							        	<tr>
+											<th data-field="id">Materia prima</th>
+											<th data-field="name">Cantidad</th>
+											<th data-field="price">Opción</th>
+							          	</tr>
+							        </thead>
+							        <tbody>
+							          	<tr ng-repeat="insumo in Producto.Insumos">
+								            <td>{{insumo.nombre}}</td>
+								            <td>{{insumo.cantidad}}</td>
+								            <td><a class="btn btn-danger" class="cursor" ng-click="Borrar($index)">Eliminar</a></td>
+							          	</tr>
+							        </tbody>
+						      	</table>
+							</div>
+							<div class="input-field col s12 m6 l6">
+								<table class="highlight" ng-hide="Producto.Insumos.length<1">
+							        <thead>
+							        	<tr>
+											<th data-field="id">Producto</th>
+											<th data-field="name">Cantidad</th>
+											<th data-field="price">Opción</th>
+							          	</tr>
+							        </thead>
+							        <tbody>
+							          	<tr ng-repeat="insumo in Producto.Insumos">
+								            <td>{{insumo.nombre}}</td>
+								            <td>{{insumo.cantidad}}</td>
+								            <td><a class="btn btn-danger" class="cursor" ng-click="Borrar($index)">Eliminar</a></td>
+							          	</tr>
+							        </tbody>
+						      	</table>
+							</div>
+						</div>
 						<div class="row">
 							<div class="col s12 m6 l4">
 								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formMateriaPrima.$invalid">{{button_title_form}}</button>
