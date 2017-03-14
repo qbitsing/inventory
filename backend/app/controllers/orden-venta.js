@@ -111,32 +111,23 @@ function crear(req, res){
 }
 
 function actualizar(req, res){
-    var materiaArray = [];
     var productosArray = [];
-    if(req.body.materia_prima){
-        var contador = 0;
-        for(var materia of req.body.materia_prima){
-            materiaPrimaModel.findById(materia._id, (err, insumoStored)=>{
-                if(err){
-                    return res.status(500).send({
-                        message: `ERROR al intentar obtener el insumo ${err}`
-                    });
-                }
-                if(!insumoStored){
-                    return res.status(404).send({
-                        message: `ERROR alguno de los insumos indicados no esta en la base de datos ${insumo.nombre}`
-                    });
-                }
-                insumoStored.cantidad = materia.cantidad;
-                insumosArray.push(insumoStored);
-                contador ++;
-                if(contador == req.body.materia_prima.length){
-                    req.body.materia_prima = insumosArray
-                    pasoCero();
-                }
+    if(req.body.cliente){
+        clienteModel.findById(req.body.cliente._id, (err, clienteStored)=>{
+            if(err){
+                return res.status(500).send({
+                    message: `ERROR al intentar obtener el cliente ${err}`
+                });
+            }
+            if(!clienteStored){
+                return res.status(404).send({
+                    message: `ERROR el cliente indicado no esta registrado en la base de datos`
+                });
+            }  
+            req.body.cliente = clienteStored;
+            pasoCero();
 
-            });
-        }
+        });
     }else pasoCero();
 
     function pasoCero (){
@@ -169,7 +160,7 @@ function actualizar(req, res){
 
     function pasoUno(){
         var ordenId = req.params.id;
-        ordenCompraModel.findByIdAndUpdate(ordenId, req.body , (err , ordenStored)=>{
+        ordenVentaModel.findByIdAndUpdate(ordenId, req.body , (err , ordenStored)=>{
             if(err){
                 return res.status(500).send({
                     message : `ERROR al intentar actualizar el recurso en la base de datos ${err}`
@@ -185,7 +176,7 @@ function actualizar(req, res){
 
 function eliminar(req, res){
     let ordenId = req.params.id;
-	ordenCompraModel.findByIdAndRemove(ordenId , (err)=>{
+	ordenVentaModel.findByIdAndRemove(ordenId , (err)=>{
 		if(err){
 			return res.status(500).send({
 				message : `ERROR al intentar eliminar el registro ${err}`
