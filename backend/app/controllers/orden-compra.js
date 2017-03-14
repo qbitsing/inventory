@@ -78,6 +78,7 @@ function crear(req, res){
 
     function pasoCero (){
         if(req.body.productos){
+            console.log(req.body);            
             var contador = 0;
             for(var producto of req.body.productos){
                 productoModel.findById(producto._id, (err, productoStored)=>{
@@ -103,8 +104,28 @@ function crear(req, res){
             }
         }else pasoUno();
     }
-
     function pasoUno(){
+        if(req.body.proveedor){
+            proveedorModel.findById(req.body.proveedor._id , (err, proveedorStrored)=>{
+                if(err){
+                    return res.status(500).send({
+                        message : `ERROR al obtener el proveedor ${err}`
+                    });
+                }
+
+                if(!proveedorStrored){
+                    return res.status(404).send({
+                        message : `ERROR el proveedor indicado no s encuentra en la base de datos`
+                    });
+                }
+
+                req.body.proveedor = proveedorStrored;
+                pasoDos();
+            });
+        }
+    }
+
+    function pasoDos(){
         let newOrdenCompra = new ordenCompraModel(req.body);
         newOrdenCompra.save((err , ordenStored)=>{
             if(err){
