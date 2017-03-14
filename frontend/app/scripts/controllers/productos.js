@@ -132,17 +132,49 @@ angular.module('frontendApp')
         webServer
         .getResource(ruta,$scope.Producto,metodo)
         .then(function(data){
-            // if($scope.panel_title_form=="Registro de Productos"){
-            //     $scope.Productos.push($scope.Persona);
-            //     alert('Persona registrada correctamente');
-            // }else{
-            //     $scope.Personas[$scope.Persona.index] = $scope.Persona;
-            //     alert('Persona actualizada correctamente');
-            // }
-            // $scope.Persona={};
+            $scope.Producto.Categorias.forEach(function(ele, index){
+                if(ele._id==$scope.Producto.categoria._id){
+                    $scope.Producto.categoria=ele;
+                }
+            });
+            $scope.Producto.Unidades.forEach(function(ele, index){
+                if(ele._id==$scope.Producto.unidad_medida._id){
+                    $scope.Producto.unidad_medida=ele;
+                }
+            });
+            if($scope.panel_title_form=="Registro de Productos"){
+                $scope.Productos.push($scope.Producto);
+                alert('Producto registrado correctamente');
+            }else{
+                $scope.Productos[$scope.Producto.index] = $scope.Producto;
+                alert('Persona actualizada correctamente');
+            }
+            $scope.Persona={};
             console.log(data);
         },function(data){
             console.log(data);
         });
+    }
+    $scope.Editar = function(id){
+        $scope.panel_title_form = "Edicion de Productos";
+        $scope.button_title_form = "Editar Producto";
+        $scope.Producto = $scope.Productos.find(function(ele){
+            if(ele._id == id){
+                return ele;
+            }
+        });
+    }
+    $scope.Detalles = function(id){
+        $scope.Detalle = $scope.Productos.find(function(ele){
+            if(ele._id == id){
+                return ele;
+            }
+        });
+        $('#modalDetalles').modal('open');
+    }
+    $scope.CancelarEditar=function(){
+        $scope.Producto={};
+        $scope.panel_title_form = "Registro de Productos";
+        $scope.button_title_form = "Registrar Producto";
     }
 });

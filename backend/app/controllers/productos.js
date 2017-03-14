@@ -69,7 +69,7 @@ function crear(req, res){
                 contador ++;
                 if(contador == req.body.Insumos.length){
                     req.body.Insumos = insumosArray
-                    pasoDos();
+                    pasoUno();
                 }
 
             });
@@ -115,7 +115,7 @@ function crear(req, res){
                             datos`
                     });
                 }
-
+                console.log(categoriaStored);
                 req.body.categoria= categoriaStored;
                 pasoDos();
             });
@@ -180,7 +180,7 @@ function actualizar(req, res){
                 contador ++;
                 if(contador == req.body.Insumos.length){
                     req.body.Insumos = insumosArray
-                    pasoDos();
+                    pasoUno();
                 }
 
             });
