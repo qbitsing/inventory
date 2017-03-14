@@ -85,6 +85,7 @@ angular.module('frontendApp')
         .then(function(data){
             if(data.data){
                 $scope.Ordenes=data.data.datos;
+                console.log($scope.Ordenes);
                 $scope.gridOptions.data=$scope.Ordenes;
             }else{
                 $scope.Ordenes=[];
@@ -144,6 +145,12 @@ angular.module('frontendApp')
     }
     $scope.EnviarOrden=function(){
         console.log($scope.Orden);
+        if($scope.Orden.productos.length<1){
+            $scope.Orden.productos=null;
+        }
+        if($scope.Orden.materia_prima.length<1){
+            $scope.Orden.materia_prima=null;
+        }
         var ruta="";
         var metodo="";
         if ($scope.panel_title_form=="Registro de Compra") {
