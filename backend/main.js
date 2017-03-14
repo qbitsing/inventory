@@ -104,6 +104,18 @@ app.get('/orden_compra/:id' , controllers.ordenCompra.listarById);
 app.put('/orden_compra/:id' , controllers.ordenCompra.actualizar);
 // Fin Bloque de rutas de orden_compra
 
+// Bloque de rutas de orden_venta
+app.post('/orden_venta', controllers.ordenVenta.crear);
+
+app.delete('/orden_venta/:id' , controllers.ordenVenta.eliminar);
+
+app.get('/orden_venta' , controllers.ordenVenta.listarAll);
+
+app.get('/orden_venta/:id' , controllers.ordenVenta.listarById);
+
+app.put('/orden_venta/:id' , controllers.ordenVenta.actualizar);
+// Fin Bloque de rutas de orden_venta
+
 mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
 	if(err){
 		return console.log(`ERROR al conectar con la BD: ${err}`);

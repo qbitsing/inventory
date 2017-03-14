@@ -189,5 +189,9 @@ function eliminar(req, res){
 }
 
 module.exports = {
-
+    listarAll,
+    listarById,
+    crear,
+    actualizar,
+    eliminar
 };
