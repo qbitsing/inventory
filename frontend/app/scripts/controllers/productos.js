@@ -132,12 +132,12 @@ angular.module('frontendApp')
         webServer
         .getResource(ruta,$scope.Producto,metodo)
         .then(function(data){
-            $scope.Producto.Categorias.forEach(function(ele, index){
+            $scope.Categorias.forEach(function(ele, index){
                 if(ele._id==$scope.Producto.categoria._id){
                     $scope.Producto.categoria=ele;
                 }
             });
-            $scope.Producto.Unidades.forEach(function(ele, index){
+            $scope.Unidades.forEach(function(ele, index){
                 if(ele._id==$scope.Producto.unidad_medida._id){
                     $scope.Producto.unidad_medida=ele;
                 }
@@ -147,10 +147,9 @@ angular.module('frontendApp')
                 alert('Producto registrado correctamente');
             }else{
                 $scope.Productos[$scope.Producto.index] = $scope.Producto;
-                alert('Persona actualizada correctamente');
+                alert('Producto actualizada correctamente');
             }
-            $scope.Persona={};
-            console.log(data);
+            $scope.Producto={};
         },function(data){
             console.log(data);
         });

@@ -1,21 +1,20 @@
 'use strict';
 
-const ordenCompraModel = require('../models/orden-compra');
-const proveedorModel = require('../models/personas');
+const ordenVentaModel = require('../models/orden-venta');
+const clienteModel = require('../models/personas');
 const productoModel = require('../models/productos');
-const materiaPrimaModel = require('../models/materia-prima');
 
 function listarAll(req, res){
-    ordenCompraModel.find({}, (err , ordenStored)=>{
+    ordenVentaModel.find({}, (err , ordenStored)=>{
         if(err){
             return res.status(500).send({
-                message: `ERROR al intentar obtener la lista de ordenes de compra ${err}`
+                message: `ERROR al intentar obtener la lista de ordenes de venta ${err}`
             });
         }
 
         if(productoStrored.length < 1){
             return res.status(404).send({
-                message: `ERROR no hay ordenes de compra registradas`
+                message: `ERROR no hay ordenes de venta registradas`
             });
         }
 
@@ -27,7 +26,7 @@ function listarAll(req, res){
 
 function listarById(req, res){
     let ordenId = req.params.id;
-    ordenCompraModel.findById(ordenId, (err , ordenStored)=>{
+    ordenVentaModel.findById(ordenId, (err , ordenStored)=>{
         if(err){
             return res.status(500).send({
                 message : `ERROR al intentar obtener el recurso ${err}`
@@ -48,32 +47,23 @@ function listarById(req, res){
 }
 
 function crear(req, res){
-    var materiaArray = [];
     var productosArray = [];
-    if(req.body.materia_prima){
-        var contador = 0;
-        for(var materia of req.body.materia_prima){
-            materiaPrimaModel.findById(materia._id, (err, insumoStored)=>{
-                if(err){
-                    return res.status(500).send({
-                        message: `ERROR al intentar obtener el insumo ${err}`
-                    });
-                }
-                if(!insumoStored){
-                    return res.status(404).send({
-                        message: `ERROR alguno de los insumos indicados no esta en la base de datos ${insumo.nombre}`
-                    });
-                }
-                insumoStored.cantidad = materia.cantidad;
-                insumosArray.push(insumoStored);
-                contador ++;
-                if(contador == req.body.materia_prima.length){
-                    req.body.materia_prima = insumosArray
-                    pasoCero();
-                }
+    if(req.body.cliente){
+        clienteModel.findById(req.body.cliente._id, (err, clienteStored)=>{
+            if(err){
+                return res.status(500).send({
+                    message: `ERROR al intentar obtener el cliente ${err}`
+                });
+            }
+            if(!clienteStored){
+                return res.status(404).send({
+                    message: `ERROR el cliente indicado no esta registrado en la base de datos`
+                });
+            }  
+            req.body.cliente = clienteStored;
+            pasoCero();
 
-            });
-        }
+        });
     }else pasoCero();
 
     function pasoCero (){
@@ -105,8 +95,8 @@ function crear(req, res){
     }
 
     function pasoUno(){
-        let newOrdenCompra = new ordenCompraModel(req.body);
-        newOrdenCompra.save((err , ordenStored)=>{
+        let newOrdenVenta = new newOrdenVenta(req.body);
+        newOrdenVenta.save((err , ordenStored)=>{
             if(err){
                 return res.status(500).send({
                     message : `ERROR al intentar almacenar el recurso en la base de datos ${err}`
@@ -207,11 +197,6 @@ function eliminar(req, res){
 	});    
 }
 
-
 module.exports = {
-    listarAll,
-    listarById,
-    crear,
-    actualizar,
-    eliminar
+
 };

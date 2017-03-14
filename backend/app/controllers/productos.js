@@ -234,7 +234,7 @@ function actualizar(req, res){
     }
     function pasoDos(){
         if(req.body.unidad_medida){
-            unidadMedidaModel.findById(req.body.unidad_medida.id, (err, unidadMedidaStrored)=>{
+            unidadMedidaModel.findById(req.body.unidad_medida._id, (err, unidadMedidaStrored)=>{
                 if(err){
                     return res.status(500).send({
                         message: `ERROR al buscar la unidad de medida ${err}`
