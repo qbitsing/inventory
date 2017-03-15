@@ -33,7 +33,7 @@ function listarById(req, res){
             });
         }
 
-        if(!productoStrored){
+        if(!ordenStored){
             return res.status(404).send({
                 message : `ERROR no se encuentra ningun registro con el ID indicado`
             });
@@ -48,6 +48,7 @@ function listarById(req, res){
 
 function crear(req, res){
     var productosArray = [];
+    var ErroresProductos = [];
     if(req.body.cliente){
         clienteModel.findById(req.body.cliente._id, (err, clienteStored)=>{
             if(err){
@@ -72,12 +73,12 @@ function crear(req, res){
             for(var producto of req.body.productos){
                 ProductoModel.findById(producto._id, (err, productoStored)=>{
                     if(err){
-                        return res.status(500).send({
+                        ErroresProductos.push({
                             message: `ERROR al intentar obtener el producto ${err}`
                         });
                     }
                     if(!productoStored){
-                        return res.status(404).send({
+                        ErroresProductos.push({
                             message: `ERROR alguno de los productos indicados no esta en la base de datos ${producto.nombre}`
                         });
                     }
