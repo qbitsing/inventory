@@ -116,11 +116,7 @@ angular.module('frontendApp')
         $('#modalDetalles').modal('open');
     }
     $scope.Editar = function(id){
-        $scope.Empleado = $scope.Empleados.find(function(ele){
-            if(ele.documento == id){
-                return ele;
-            }
-        });
+        $scope.Empleado = IdentificarPersona(id,$scope.Empleados);
         $scope.panel_title_form = "Edicion de Empleados";
         $scope.button_title_form = "Editar Empleado";
     }
@@ -144,4 +140,25 @@ angular.module('frontendApp')
         });
     }
     listarpersonas();
+    function IdentificarPersona (id , arrObj){
+        var obj;
+        arrObj.forEach(function(ele , index){
+            if(ele._id ==  id){
+                obj = {
+                    _id : ele._id,
+                    documento : ele.documento,
+                    nombre : ele.nombre,
+                    apellidos : ele.apellidos,
+                    direccion : ele.direccion,
+                    telefono : ele.telefono,
+                    correo : ele.correo,
+                    almacenista : ele.almacenista,
+                    contador : ele.contador,
+                    empleado : ele.empleado,
+                    cargo : ele.cargo
+                };
+            }
+        });
+        return obj;
+    }
 });

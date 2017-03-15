@@ -24,13 +24,13 @@ angular.module('frontendApp')
         columnDefs: [
             {
                 name:'cliente',field: 'cliente.nombre',
-                width:'20%',
-                minWidth: 160
+                width:'50%',
+                minWidth: 330
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'20%',
-                minWidth: 160
+                width:'50%',
+                minWidth: 330
             }
         ]
     }
@@ -111,7 +111,7 @@ angular.module('frontendApp')
     }
     $scope.EnviarOrden=function(){
         console.log($scope.Orden);
-        /*var ruta="";
+        var ruta="";
         var metodo="";
         if ($scope.panel_title_form=="Registro de venta") {
             ruta="orden_venta";
@@ -139,16 +139,12 @@ angular.module('frontendApp')
             $scope.Orden.productos=[];
         },function(data){
             console.log(data);
-        });*/
+        });
     }
     $scope.Editar = function(id){
         $scope.panel_title_form = "Edicion de Ventas";
         $scope.button_title_form = "Editar Venta";
-        $scope.Orden = $scope.Ordenes.find(function(ele){
-            if(ele._id == id){
-                return ele;
-            }
-        });
+        $scope.Orden=IdentificarOrden(id,$scope.Ordenes);
         if(!$scope.Orden.productos){
             $scope.Orden.productos=[];
         }
@@ -159,4 +155,21 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Registro de Venta";
         $scope.button_title_form = "Registrar Venta";
     }
-  });
+    function IdentificarOrden (id , arrObj){
+        var obj;
+        arrObj.forEach(function(ele , index){
+            if(ele._id ==  id){
+                obj = {
+                    _id : ele._id,
+                    cliente : ele.cliente,
+                    productos : ele.productos,
+                    observaciones : ele.observaciones,
+                    fecha_recepcion : ele.fecha_recepcion,
+                    fecha_entrega : ele.fecha_entrega,
+                    lugar_entrega : ele.lugar_entrega
+                };
+            }
+        });
+        return obj;
+    }
+});

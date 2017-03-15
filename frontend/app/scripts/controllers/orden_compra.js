@@ -22,13 +22,13 @@ angular.module('frontendApp')
         columnDefs: [
             {
                 name:'proveedor',field: 'proveedor.nombre',
-                width:'20%',
-                minWidth: 160
+                width:'50%',
+                minWidth: 330
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'20%',
-                minWidth: 160
+                width:'50%',
+                minWidth: 330
             }
         ]
     }
@@ -184,11 +184,7 @@ angular.module('frontendApp')
     $scope.Editar = function(id){
         $scope.panel_title_form = "Edicion de Compras";
         $scope.button_title_form = "Editar compra";
-        $scope.Orden = $scope.Ordenes.find(function(ele){
-            if(ele._id == id){
-                return ele;
-            }
-        });
+        $scope.Orden=IdentificarOrden(id,$scope.Ordenes);
         if(!$scope.Orden.productos){
             $scope.Orden.productos=[];
         }
@@ -203,4 +199,22 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Registro de Compra";
         $scope.button_title_form = "Registrar compra";
     }
-  });
+    function IdentificarOrden (id , arrObj){
+        var obj;
+        arrObj.forEach(function(ele , index){
+            if(ele._id ==  id){
+                obj = {
+                    _id : ele._id,
+                    proveedor : ele.proveedor,
+                    productos : ele.productos,
+                    materia_prima : ele.materia_prima,
+                    observaciones : ele.observaciones,
+                    fecha_recepcion : ele.fecha_recepcion,
+                    fecha_entrega : ele.fecha_entrega,
+                    lugar_entrega : ele.lugar_entrega
+                };
+            }
+        });
+        return obj;
+    }
+});
