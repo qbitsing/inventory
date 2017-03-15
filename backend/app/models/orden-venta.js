@@ -3,7 +3,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-
 const ordenVentaSchema = new Schema({
     cliente: {},
     consecutivo: {type: Number, index: true},
@@ -11,7 +10,7 @@ const ordenVentaSchema = new Schema({
     fecha_recepcion: Date,
     lugar_entrega: String,
     productos: [],
-    obcervaciones: String,
+    observaciones: String,
     fecha_entrega: Date,
     estado: {type: String, enum:['Activo' , 'Inactivo'], default: 'Activo'}
 });
