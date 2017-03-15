@@ -15,3 +15,5 @@ const ordenVentaSchema = new Schema({
     fecha_entrega: Date,
     estado: {type: String, enum:['Activo' , 'Inactivo'], default: 'Activo'}
 });
+
+module.exports = mongoose.model('orden_venta', ordenVentaSchema);
