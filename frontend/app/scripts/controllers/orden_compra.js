@@ -174,7 +174,9 @@ angular.module('frontendApp')
                 $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
                 alert('Orden de compra actualizada correctamente');
             }
-            $scope.Orden=[];
+            $scope.Orden={};
+            $scope.Orden.productos=[];
+            $scope.Orden.materia_prima=[];
         },function(data){
             console.log(data);
         });
@@ -187,9 +189,17 @@ angular.module('frontendApp')
                 return ele;
             }
         });
+        if(!$scope.Orden.productos){
+            $scope.Orden.productos=[];
+        }
+        if(!$scope.Orden.materia_prima){
+            $scope.Orden.materia_prima=[];
+        }
     }
     $scope.CancelarEditar=function(){
         $scope.Orden={};
+        $scope.Orden.productos=[];
+        $scope.Orden.materia_prima=[];
         $scope.panel_title_form = "Registro de Compra";
         $scope.button_title_form = "Registrar compra";
     }
