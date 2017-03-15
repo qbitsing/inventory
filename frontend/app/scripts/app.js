@@ -102,6 +102,12 @@ angular
         templateUrl: 'views/pages/empleados.html',
         controller: 'EmpleadosCtrl'
     })
+    .state('Fabricacion',{
+        url: '/Fabricacion',
+        parent: 'Dashboard',
+        templateUrl: 'views/pages/fabricacion.html',
+        controller: 'FabricacionCtrl'
+    })
     .state('OrdenVenta',{
         url: '/OrdenVenta',
         parent: 'Dashboard',
