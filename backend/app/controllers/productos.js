@@ -50,17 +50,19 @@ function listarById(req, res){
 function crear(req, res){
     var insumosArray = [];
     var productosArray = [];
+    var ErroresInsumos = [];
+    var ErroresProductos = [];
     if(req.body.Insumos){
         var contador = 0;
         for(var insumo of req.body.Insumos){
             materiaPrimaModel.findById(insumo._id, (err, insumoStored)=>{
                 if(err){
-                    return res.status(500).send({
+                    ErroresInsumos.push({
                         message: `ERROR al intentar obtener el insumo ${err}`
                     });
                 }
                 if(!insumoStored){
-                    return res.status(404).send({
+                   ErroresInsumos.push({
                         message: `ERROR alguno de los insumos indicados no esta en la base de datos ${insumo.nombre}`
                     });
                 }
@@ -79,12 +81,12 @@ function crear(req, res){
         for(var producto of req.body.productos){
             ProductoModel.findById(producto._id, (err, productoStored)=>{
                 if(err){
-                    return res.status(500).send({
+                    ErroresProductos.push(500).send({
                         message: `ERROR al intentar obtener el producto ${err}`
                     });
                 }
                 if(!productoStored){
-                    return res.status(404).send({
+                    ErroresProductos.push({
                         message: `ERROR alguno de los productos indicados no esta en la base de datos ${producto.nombre}`
                     });
                 }
@@ -101,6 +103,16 @@ function crear(req, res){
     }else pasoUno();
 
     function pasoUno(){
+        if(ErroresProductos.length > 0){
+            return res.status(500).send({
+                ErroresProductos
+            });
+        }
+        if(ErroresInsumos.length > 0){
+            return res.status(500).send({
+                ErroresInsumos
+            });
+        }
         if(req.body.categoria){
             categoriaModel.findById(req.body.categoria._id, (err , categoriaStored)=>{
                 if(err){
