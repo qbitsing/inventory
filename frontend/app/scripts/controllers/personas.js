@@ -99,6 +99,17 @@ angular.module('frontendApp')
                 return ele;
             }
         });
+        $scope.Detalle.rol='';
+        if($scope.Detalle.cliente){
+            $scope.Detalle.rol='Cliente';
+        }
+        if($scope.Detalle.proveedor){
+            if($scope.Detalle.rol!=''){
+                $scope.Detalle.rol+=', ';
+            }
+            $scope.Detalle.rol+='Proveedor';
+        }
+        $scope.Detalle.rol+='.';
         $('#modalDetalles').modal('open');
     }
     
@@ -106,7 +117,10 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Edicion de clientes y proveedores";
         $scope.button_title_form = "Editar Persona";
         $scope.Persona = IdentificarPersona(id,$scope.Personas);
-        $scope.Persona.departamento = $scope.Persona.ciudad.departamento._id; 
+        console.log($scope.Persona);  
+        if($scope.Persona.ciudad){
+            $scope.Persona.departamento = $scope.Persona.ciudad.departamento._id;
+        }
     }
     
     $scope.CancelarEditar=function(){
@@ -163,6 +177,7 @@ angular.module('frontendApp')
         arrObj.forEach(function(ele , index){
             if(ele._id ==  id){
                 obj = {
+                    index: index,
                     _id : ele._id,
                     documento : ele.documento,
                     nombre : ele.nombre,

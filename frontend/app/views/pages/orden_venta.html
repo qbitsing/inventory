@@ -9,11 +9,17 @@
 				<div class="panel-body" >
 					<form name="formMateriaPrima" novalidate ng-submit="EnviarOrden()">
 						<div class="row">
-							<div class="input-field col s12 m6 l6">
+							<div class="input-field col s12 m12 l12">
 								<select ng-model="Orden.cliente._id" material-select watch required>
 	      							<option ng-repeat="cliente in clientes" value="{{cliente._id}}">{{cliente.nombre}}</option>
 								</select>
 								<label>Cliente*</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12 m6 l6">
+								<input type="text" ng-model="Orden.numero_interno" id="numero" ng-disabled="true" name="numero">
+								<label>Numero interno de compra*</label>
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="orden-cliente">Numero de orden cliente *</label>

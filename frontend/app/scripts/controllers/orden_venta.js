@@ -39,11 +39,11 @@ angular.module('frontendApp')
     $scope.Orden.productos=[];
     $scope.productos=[];
     $scope.materias=[];
+    $scope.Orden.numero_interno='0';
     function listarPersonas(){
         webServer
         .getResource('personas',{cliente:true},'get')
         .then(function(data){
-            console.log(data);
             if(data.data){
                 $scope.clientes = data.data.datos;
             }else{
@@ -73,7 +73,6 @@ angular.module('frontendApp')
         .then(function(data){
             if(data.data){
                 $scope.Ordenes=data.data.datos;
-                console.log($scope.Ordenes);
                 $scope.gridOptions.data=$scope.Ordenes;
             }else{
                 $scope.Ordenes=[];
@@ -160,6 +159,7 @@ angular.module('frontendApp')
         arrObj.forEach(function(ele , index){
             if(ele._id ==  id){
                 obj = {
+                    index: index,
                     _id : ele._id,
                     cliente : ele.cliente,
                     productos : ele.productos,

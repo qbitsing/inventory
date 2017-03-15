@@ -117,6 +117,17 @@ angular.module('frontendApp')
     }
     $scope.Editar = function(id){
         $scope.Empleado = IdentificarPersona(id,$scope.Empleados);
+        if($scope.Empleado.super_administrador){
+            $scope.Empleado.rol='super_administrador';
+        }else if($scope.Empleado.administrador){
+            $scope.Empleado.rol='administrador';
+        }else if($scope.Empleado.contador){
+            $scope.Empleado.rol='contador';
+        }else if($scope.Empleado.almacenista){
+            $scope.Empleado.rol='almacenista';
+        }else if($scope.Empleado.empleado){
+            $scope.Empleado.rol='empleado';
+        }
         $scope.panel_title_form = "Edicion de Empleados";
         $scope.button_title_form = "Editar Empleado";
     }
@@ -145,6 +156,7 @@ angular.module('frontendApp')
         arrObj.forEach(function(ele , index){
             if(ele._id ==  id){
                 obj = {
+                    index : index,
                     _id : ele._id,
                     documento : ele.documento,
                     nombre : ele.nombre,

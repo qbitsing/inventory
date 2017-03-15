@@ -177,6 +177,7 @@ angular.module('frontendApp')
         arrObj.forEach(function(ele , index){
             if(ele._id ==  id){
                 obj = {
+                    index: index,
                     _id : ele._id,
                     nombre : ele.nombre,
                     min_stock : ele.min_stock,

@@ -38,6 +38,7 @@ angular.module('frontendApp')
     $scope.Orden.materia_prima=[];
     $scope.productos=[];
     $scope.materias=[];
+    $scope.Orden.numero_interno='0';
     function listarPersonas(){
         webServer
         .getResource('personas',{proveedor:true},'get')
@@ -85,7 +86,6 @@ angular.module('frontendApp')
         .then(function(data){
             if(data.data){
                 $scope.Ordenes=data.data.datos;
-                console.log($scope.Ordenes);
                 $scope.gridOptions.data=$scope.Ordenes;
             }else{
                 $scope.Ordenes=[];
@@ -204,6 +204,7 @@ angular.module('frontendApp')
         arrObj.forEach(function(ele , index){
             if(ele._id ==  id){
                 obj = {
+                    index: index,
                     _id : ele._id,
                     proveedor : ele.proveedor,
                     productos : ele.productos,
