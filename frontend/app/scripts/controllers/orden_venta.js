@@ -37,7 +37,6 @@ angular.module('frontendApp')
     angular.extend($scope.gridOptions , Tabla);
     $scope.Orden={};
     $scope.Orden.productos=[];
-    $scope.Orden.materia_prima=[];
     $scope.productos=[];
     $scope.materias=[];
     function listarPersonas(){
@@ -111,46 +110,40 @@ angular.module('frontendApp')
         $scope.Orden.productos.splice(index,1);
     }
     $scope.EnviarOrden=function(){
-        if($scope.Orden.productos.length<1){
-            $scope.Orden.productos=null;
-        }
-        if($scope.Orden.materia_prima.length<1){
-            $scope.Orden.materia_prima=null;
-        }
-        var ruta="";
+        console.log($scope.Orden);
+        /*var ruta="";
         var metodo="";
-        if ($scope.panel_title_form=="Registro de Compra") {
-            ruta="orden_compra";
+        if ($scope.panel_title_form=="Registro de venta") {
+            ruta="orden_venta";
             metodo="post";
         }else{
-            ruta="orden_compra/"+$scope.Orden._id;
+            ruta="orden_venta/"+$scope.Orden._id;
             metodo="put";
         }
         webServer
         .getResource(ruta,$scope.Orden,metodo)
         .then(function(data){
-            $scope.proveedores.forEach(function(ele, index){
-                if(ele._id==$scope.Orden.proveedor._id){
-                    $scope.Orden.proveedor=ele;
+            $scope.clientes.forEach(function(ele, index){
+                if(ele._id==$scope.Orden.cliente._id){
+                    $scope.Orden.cliente=ele;
                 }
             });
-            if($scope.panel_title_form=="Registro de Compra"){
+            if($scope.panel_title_form=="Registro de Venta"){
                 $scope.Ordenes.push($scope.Orden);
-                alert('Orden de compra registrada correctamente');
+                alert('Venta registrada correctamente');
             }else{
                 $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
-                alert('Orden de compra actualizada correctamente');
+                alert('Venta actualizada correctamente');
             }
             $scope.Orden={};
             $scope.Orden.productos=[];
-            $scope.Orden.materia_prima=[];
         },function(data){
             console.log(data);
-        });
+        });*/
     }
     $scope.Editar = function(id){
-        $scope.panel_title_form = "Edicion de Compras";
-        $scope.button_title_form = "Editar compra";
+        $scope.panel_title_form = "Edicion de Ventas";
+        $scope.button_title_form = "Editar Venta";
         $scope.Orden = $scope.Ordenes.find(function(ele){
             if(ele._id == id){
                 return ele;
@@ -159,15 +152,11 @@ angular.module('frontendApp')
         if(!$scope.Orden.productos){
             $scope.Orden.productos=[];
         }
-        if(!$scope.Orden.materia_prima){
-            $scope.Orden.materia_prima=[];
-        }
     }
     $scope.CancelarEditar=function(){
         $scope.Orden={};
         $scope.Orden.productos=[];
-        $scope.Orden.materia_prima=[];
-        $scope.panel_title_form = "Registro de Compra";
-        $scope.button_title_form = "Registrar compra";
+        $scope.panel_title_form = "Registro de Venta";
+        $scope.button_title_form = "Registrar Venta";
     }
   });

@@ -71,7 +71,7 @@ function crear(req, res){
         if(req.body.productos){
             var contador = 0;
             for(var producto of req.body.productos){
-                ProductoModel.findById(producto._id, (err, productoStored)=>{
+                productoModel.findById(producto._id, (err, productoStored)=>{
                     if(err){
                         ErroresProductos.push({
                             message: `ERROR al intentar obtener el producto ${err}`
@@ -101,7 +101,7 @@ function crear(req, res){
                 ErroresProductos
             });
         }
-        let newOrdenVenta = new newOrdenVenta(req.body);
+        let newOrdenVenta = new ordenVentaModel(req.body);
         newOrdenVenta.save((err , ordenStored)=>{
             if(err){
                 return res.status(500).send({

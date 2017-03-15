@@ -7,7 +7,7 @@
 					<h3 class="panel-title">{{panel_title_form}}</h3>
 				</div>
 				<div class="panel-body" >
-					<form name="formMateriaPrima" novalidate ng-submit="EnviarMateria()">
+					<form name="formMateriaPrima" novalidate ng-submit="EnviarOrden()">
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<select ng-model="Orden.cliente._id" material-select watch required>
@@ -17,7 +17,7 @@
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="orden-cliente">Numero de orden cliente *</label>
-								<input type="text" name="orden-cliente" id="orden-cliente" ng-model="Orden.numero_orden" required>
+								<input type="text" name="orden-cliente" id="orden-cliente" ng-model="Orden.orden_compra_cliente" required>
 							</div>
 						</div>
 						<div class="row">
