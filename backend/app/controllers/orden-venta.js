@@ -12,7 +12,7 @@ function listarAll(req, res){
             });
         }
 
-        if(productoStrored.length < 1){
+        if(ordenStored.length < 1){
             return res.status(404).send({
                 message: `ERROR no hay ordenes de venta registradas`
             });
@@ -96,6 +96,7 @@ function crear(req, res){
     }
 
     function pasoUno(){
+        if(ErroresProductos.length)
         let newOrdenVenta = new newOrdenVenta(req.body);
         newOrdenVenta.save((err , ordenStored)=>{
             if(err){
