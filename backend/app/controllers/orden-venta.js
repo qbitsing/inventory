@@ -96,7 +96,11 @@ function crear(req, res){
     }
 
     function pasoUno(){
-        if(ErroresProductos.length)
+        if(ErroresProductos.length>0){
+            return res.status(500).send({
+                ErroresProductos
+            });
+        }
         let newOrdenVenta = new newOrdenVenta(req.body);
         newOrdenVenta.save((err , ordenStored)=>{
             if(err){
@@ -113,6 +117,7 @@ function crear(req, res){
 }
 
 function actualizar(req, res){
+    var ErroresProductos = [];
     var productosArray = [];
     if(req.body.cliente){
         clienteModel.findById(req.body.cliente._id, (err, clienteStored)=>{
@@ -138,12 +143,12 @@ function actualizar(req, res){
             for(var producto of req.body.productos){
                 ProductoModel.findById(producto._id, (err, productoStored)=>{
                     if(err){
-                        return res.status(500).send({
+                        ErroresProductos.push({
                             message: `ERROR al intentar obtener el producto ${err}`
                         });
                     }
                     if(!productoStored){
-                        return res.status(404).send({
+                        ErroresProductos.push({
                             message: `ERROR alguno de los productos indicados no esta en la base de datos ${producto.nombre}`
                         });
                     }
@@ -161,6 +166,11 @@ function actualizar(req, res){
     }
 
     function pasoUno(){
+        if(ErroresProductos.length>0){
+            return res.status(500).send({
+                ErroresProductos
+            });
+        }
         var ordenId = req.params.id;
         ordenVentaModel.findByIdAndUpdate(ordenId, req.body , (err , ordenStored)=>{
             if(err){
