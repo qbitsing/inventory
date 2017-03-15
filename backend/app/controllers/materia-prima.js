@@ -46,8 +46,8 @@ function listarById(req, res){
 }
 
 function crear(req, res){
-    if(req.body.unidad_medida.id){
-        unidadMedidaModel.findById(req.body.unidad_medida.id, (err, unidadMedidaStrored)=>{
+    if(req.body.unidad_medida){
+        unidadMedidaModel.findById(req.body.unidad_medida._id, (err, unidadMedidaStrored)=>{
             if(err){
                 return res.status(500).send({
                     message: `ERROR al buscar la unidad de medida ${err}`
@@ -81,8 +81,8 @@ function crear(req, res){
 }
 
 function actualizar(req, res){
-    if(req.body.unidad_medida.id){
-        unidadMedidaModel.findById(req.body.unidad_medida.id, (err, unidadMedidaStrored)=>{
+    if(req.body.unidad_medida){
+        unidadMedidaModel.findById(req.body.unidad_medida._id, (err, unidadMedidaStrored)=>{
             if(err){
                 return res.status(500).send({
                     message: `ERROR al buscar la unidad de medida ${err}`
