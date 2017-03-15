@@ -7,8 +7,10 @@ const ProductoSchema = new Schema({
     unidad_medida : {},
     min_stock : Number,
     cantidad : Number,
+    marca : String,
     categoria: {},
-    insumos : [],
+    Insumos : [],
+    productos : [],
     precio: Number    
 });
 

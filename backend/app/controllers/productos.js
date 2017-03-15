@@ -3,6 +3,7 @@
 const ProductoModel = require('../models/productos');
 const unidadMedidaModel = require('../models/unidades');
 const materiaPrimaModel = require('../models/materia-prima');
+const categoriaModel = require('../models/categorias');
 
 function listarAll(req, res){
     ProductoModel.find({}, (err , productoStrored)=>{
@@ -43,38 +44,99 @@ function listarById(req, res){
             datos : productoStrored
         });
 
-    })
+    });
 }
 
 function crear(req, res){
     var insumosArray = [];
-    if(req.body.insumos){
+    var productosArray = [];
+    var ErroresInsumos = [];
+    var ErroresProductos = [];
+    if(req.body.Insumos){
         var contador = 0;
-        for(insumo of req.body.insumos){
-            materiaPrimaModel.findById(insumo.id, (err, insumoStored)=>{
+        for(var insumo of req.body.Insumos){
+            materiaPrimaModel.findById(insumo._id, (err, insumoStored)=>{
                 if(err){
-                    return res.status(500).send({
+                    ErroresInsumos.push({
                         message: `ERROR al intentar obtener el insumo ${err}`
                     });
                 }
                 if(!insumoStored){
-                    return res.status(404).send({
+                   ErroresInsumos.push({
                         message: `ERROR alguno de los insumos indicados no esta en la base de datos ${insumo.nombre}`
                     });
                 }
+                insumoStored.cantidad = insumo.cantidad;
                 insumosArray.push(insumoStored);
                 contador ++;
-                if(contador == res.body.insumos.length){
-                    pasoDos();
+                if(contador == req.body.Insumos.length){
+                    req.body.Insumos = insumosArray
+                    pasoUno();
                 }
 
             });
         }
-    }else pasoDos();
+    }else if(req.body.productos){
+        var contador = 0;
+        for(var producto of req.body.productos){
+            ProductoModel.findById(producto._id, (err, productoStored)=>{
+                if(err){
+                    ErroresProductos.push(500).send({
+                        message: `ERROR al intentar obtener el producto ${err}`
+                    });
+                }
+                if(!productoStored){
+                    ErroresProductos.push({
+                        message: `ERROR alguno de los productos indicados no esta en la base de datos ${producto.nombre}`
+                    });
+                }
+                productoStored.cantidad = producto.cantidad;
+                productosArray.push(productoStored);
+                contador ++;
+                if(contador == req.body.productos.length){
+                    req.body.productos = productosArray
+                    pasoUno();
+                }
+
+            });
+        }
+    }else pasoUno();
+
+    function pasoUno(){
+        if(ErroresProductos.length > 0){
+            return res.status(500).send({
+                ErroresProductos
+            });
+        }
+        if(ErroresInsumos.length > 0){
+            return res.status(500).send({
+                ErroresInsumos
+            });
+        }
+        if(req.body.categoria){
+            categoriaModel.findById(req.body.categoria._id, (err , categoriaStored)=>{
+                if(err){
+                    return res.status(500).send({
+                        message: `ERROR al obtener la categoria ${err}`
+                    });
+                }
+
+                if(!categoriaStored){
+                    return res.status(404).send({
+                        message: `ERROR la categoria indicada no esta registradada en la base de 
+                            datos`
+                    });
+                }
+                console.log(categoriaStored);
+                req.body.categoria= categoriaStored;
+                pasoDos();
+            });
+        }else pasoDos();
+    }
 
     function pasoDos(){
         if(req.body.unidad_medida){
-            unidadMedidaModel.findById(req.body.unidad_medida.id, (err, unidadMedidaStrored)=>{
+            unidadMedidaModel.findById(req.body.unidad_medida._id, (err, unidadMedidaStrored)=>{
                 if(err){
                     return res.status(500).send({
                         message: `ERROR al buscar la unidad de medida ${err}`
@@ -94,7 +156,7 @@ function crear(req, res){
     
 
     function insertar(){
-        let newMateriaPrima = new materiaPrimaModel(req.body);
+        let newMateriaPrima = new ProductoModel(req.body);
         newMateriaPrima.save((err , materiaPrimaStored)=>{
             if(err){
                 return res.status(500).send({
@@ -110,26 +172,114 @@ function crear(req, res){
 }
 
 function actualizar(req, res){
-    if(req.body.unidad_medida){
-        unidadMedidaModel.findById(req.body.unidad_medida.id, (err, unidadMedidaStrored)=>{
-            if(err){
-                return res.status(500).send({
-                    message: `ERROR al buscar la unidad de medida ${err}`
-                });
-            }
+    var insumosArray = [];
+    var ErroresInsumos = [];
+    var ErroresProductos = [];
+    if(req.body.Insumos){
+        var contador = 0;
+        for(var insumo of req.body.Insumos){
+            materiaPrimaModel.findById(insumo._id, (err, insumoStored)=>{
+                if(err){
 
-            if(!unidadMedidaStrored){
-                return res.status(404).send({
-                    message: `ERROR la unidad de medida indicada no esta registradada en el sistema`
-                });
-            }
-            req.body.unidad_medida = unidadMedidaStrored;
-            Actuar();
-        })
-    }else Actuar();
+                    ErroresInsumos.push({
+                        message: `ERROR al intentar obtener el insumo ${err}`
+                    });
+                }
+                if(!insumoStored){
+                    ErroresInsumos.push({
+                        message: `ERROR alguno de los insumos indicados no esta en la base de datos ${insumo.nombre}`
+                    });
+                }
+                insumoStored.cantidad = insumo.cantidad;
+                insumosArray.push(insumoStored);
+                contador ++;
+                if(contador == req.body.Insumos.length){
+                    req.body.Insumos = insumosArray
+                    pasoUno();
+                }
+
+            });
+        }
+    }else if(req.body.productos){
+        var contador = 0;
+        for(var producto of req.body.productos){
+            ProductoModel.findById(producto._id, (err, productoStored)=>{
+                if(err){
+                    ErroresProductos.push({
+                        message: `ERROR al intentar obtener el producto ${err}`
+                    });
+                }
+                if(!productoStored){
+                    ErroresProductos.push({
+                        message: `ERROR alguno de los productos indicados no esta en la base de datos ${producto.nombre}`
+                    });
+                }
+                productoStored.cantidad = producto.cantidad;
+                productosArray.push(productoStored);
+                contador ++;
+                if(contador == req.body.productos.length){
+                    req.body.productos = productosArray
+                    pasoUno();
+                }
+
+            });
+        }
+    }else pasoUno();
+
+    function pasoUno(){
+        if(ErroresProductos.length > 0){
+            return res.status(500).send({
+                ErroresProductos
+            });
+        }
+        if(ErroresInsumos.length > 0){
+            return res.status(500).send({
+                ErroresInsumos
+            });
+        }
+        if(req.body.categoria){
+            categoriaModel.findById(req.body.categoria._id, (err , categoriaStored)=>{
+                if(err){
+                    return res.status(500).send({
+                        message: `ERROR al obtener la categoria ${err}`
+                    });
+                }
+
+                if(!categoriaStored){
+                    return res.status(404).send({
+                        message: `ERROR la categoria indicada no esta registradada en la base de 
+                            datos`
+                    });
+                }
+
+                req.body.categoria= categoriaStored;
+                pasoDos();
+            });
+        }else pasoDos();
+    }
+    function pasoDos(){
+        if(req.body.unidad_medida){
+            unidadMedidaModel.findById(req.body.unidad_medida._id, (err, unidadMedidaStrored)=>{
+                if(err){
+                    return res.status(500).send({
+                        message: `ERROR al buscar la unidad de medida ${err}`
+                    });
+                }
+
+                if(!unidadMedidaStrored){
+                    return res.status(404).send({
+                        message: `ERROR la unidad de medida indicada no esta registradada en el sistema`
+                    });
+                }
+                req.body.unidad_medida = unidadMedidaStrored;
+                Actuar();
+            })
+        }else Actuar();
+    }
+    
     function Actuar(){
-        let materiaPrimaId = req.params.id;
-        materiaPrimaModel.findByIdAndUpdate(materiaPrimaId, req.body, (err, materiaPrimaStored)=>{
+        let productoId = req.params.id;
+        ProductoModel.findByIdAndUpdate(productoId, req.body, (err, productoStrored)=>{
             if(err){
                 return res.status(500).send({
                     message : `ERROR ocurrio un problema al intentar actualizar ${err}`
@@ -137,15 +287,15 @@ function actualizar(req, res){
             }
 
             return res.status(200).send({
-                datos: materiaPrimaStored
+                datos: productoStrored
             });
         });
     }    
 }
 
 function eliminar(req, res){
-    let materiaPrimaId = req.params.id;
-	materiaPrimaModel.findByIdAndRemove(materiaPrimaId , (err)=>{
+    let productoId = req.params.id;
+	ProductoModel.findByIdAndRemove(productoId , (err)=>{
 		if(err){
 			return res.status(500).send({
 				message : `ERROR al intentar eliminar la el registro ${err}`
