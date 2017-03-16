@@ -157,11 +157,7 @@ angular.module('frontendApp')
     $scope.Editar = function(id){
         $scope.panel_title_form = "Edicion de Productos";
         $scope.button_title_form = "Editar Producto";
-        $scope.Producto = $scope.Productos.find(function(ele){
-            if(ele._id == id){
-                return ele;
-            }
-        });
+        $scope.Producto = IdentificarProducto(id,$scope.Productos);
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Productos.find(function(ele){
@@ -175,5 +171,25 @@ angular.module('frontendApp')
         $scope.Producto={};
         $scope.panel_title_form = "Registro de Productos";
         $scope.button_title_form = "Registrar Producto";
+    }
+    function IdentificarProducto (id , arrObj){
+        var obj;
+        arrObj.forEach(function(ele , index){
+            if(ele._id ==  id){
+                obj = {
+                    index: index,
+                    _id : ele._id,
+                    nombre : ele.nombre,
+                    min_stock : ele.min_stock,
+                    cantidad : ele.cantidad,
+                    marca : ele.marca,
+                    categoria : ele.categoria,
+                    Insumos : ele.Insumos,
+                    productos : ele.productos,
+                    precio : ele.precio
+                };
+            }
+        });
+        return obj;
     }
 });

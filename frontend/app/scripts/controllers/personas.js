@@ -99,18 +99,28 @@ angular.module('frontendApp')
                 return ele;
             }
         });
+        $scope.Detalle.rol='';
+        if($scope.Detalle.cliente){
+            $scope.Detalle.rol='Cliente';
+        }
+        if($scope.Detalle.proveedor){
+            if($scope.Detalle.rol!=''){
+                $scope.Detalle.rol+=', ';
+            }
+            $scope.Detalle.rol+='Proveedor';
+        }
+        $scope.Detalle.rol+='.';
         $('#modalDetalles').modal('open');
     }
     
     $scope.Editar = function(id){
         $scope.panel_title_form = "Edicion de clientes y proveedores";
         $scope.button_title_form = "Editar Persona";
-        $scope.Persona = $scope.Personas.find(function(ele){
-            if(ele._id == id){
-                return ele;
-            }
-        });
-        $scope.Persona.departamento = $scope.Persona.ciudad.departamento._id; 
+        $scope.Persona = IdentificarPersona(id,$scope.Personas);
+        console.log($scope.Persona);  
+        if($scope.Persona.ciudad){
+            $scope.Persona.departamento = $scope.Persona.ciudad.departamento._id;
+        }
     }
     
     $scope.CancelarEditar=function(){
@@ -162,4 +172,27 @@ angular.module('frontendApp')
     listarPersonas();
     listarDepartamentos();
     listarCiudades();
+    function IdentificarPersona (id , arrObj){
+        var obj;
+        arrObj.forEach(function(ele , index){
+            if(ele._id ==  id){
+                obj = {
+                    index: index,
+                    _id : ele._id,
+                    documento : ele.documento,
+                    nombre : ele.nombre,
+                    apellidos : ele.apellidos,
+                    direccion : ele.direccion,
+                    telefono : ele.telefono,
+                    correo : ele.correo,
+                    proveedor : ele.proveedor,
+                    cliente : ele.cliente,
+                    ciudad : ele.ciudad,
+                    contacto : ele.contacto,
+                    fax : ele.fax
+                };
+            }
+        });
+        return obj;
+    }
 });

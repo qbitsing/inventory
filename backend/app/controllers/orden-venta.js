@@ -153,7 +153,7 @@ function actualizar(req, res){
         if(req.body.productos){
             var contador = 0;
             for(var producto of req.body.productos){
-                ProductoModel.findById(producto._id, (err, productoStored)=>{
+                productoModel.findById(producto._id, (err, productoStored)=>{
                     if(err){
                         ErroresProductos.push({
                             message: `ERROR al intentar obtener el producto ${err}`

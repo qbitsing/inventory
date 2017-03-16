@@ -9,11 +9,17 @@
 				<div class="panel-body" >
 					<form name="formMateriaPrima" novalidate ng-submit="EnviarOrden()">
 						<div class="row">
-							<div class="input-field col s12 m6 l6">
+							<div class="input-field col s12 m12 l12">
 								<select ng-model="Orden.cliente._id" material-select watch required>
 	      							<option ng-repeat="cliente in clientes" value="{{cliente._id}}">{{cliente.nombre}}</option>
 								</select>
 								<label>Cliente*</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12 m6 l6">
+								<input type="text" ng-model="Orden.numero_interno" id="numero" ng-disabled="true" name="numero">
+								<label>Numero interno de compra*</label>
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="orden-cliente">Numero de orden cliente *</label>
@@ -79,8 +85,8 @@
 							<div class="col s12 m6 l4">
 								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formMateriaPrima.$invalid || Orden.productos.length<1">{{button_title_form}}</button>
 							</div>
+							<button type="button" class="btn btn-danger" ng-show="panel_title_form == 'Edicion de Ventas'" ng-click="CancelarEditar()">Cancelar</button>
 						</div>						
-						<button type="button" class="btn btn-danger" ng-show="panel_title_form == 'Editar Materia'" ng-click="CancelarEditar()">Cancelar</button>
 					</form>
 				</div>
 			</div>
