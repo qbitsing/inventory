@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const ordenVentaSchema = new Schema({
     cliente: {},
-    consecutivo: {type: Number, index: true},
+    consecutivo: {type: Number},
     orden_compra_cliente: String,
     fecha_recepcion: Date,
     lugar_entrega: String,
