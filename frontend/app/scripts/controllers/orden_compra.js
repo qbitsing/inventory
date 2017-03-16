@@ -9,6 +9,21 @@
  */
 angular.module('frontendApp')
   .controller('OrdenCompraCtrl', function ($scope, $timeout,webServer, Tabla, BotonesTabla) {
+    $(document).ready(function(){
+        $('.modal').modal();
+        $('.modal').modal({
+                dismissible: true, // Modal can be dismissed by clicking outside of the modal
+                opacity: 0, // Opacity of modal background
+                inDuration: 300, // Transition in duration
+                outDuration: 200, // Transition out duration
+                startingTop: '10%', // Starting top style attribute
+                endingTop: '15%', // Ending top style attribute
+                ready: function(modal, trigger) {
+                },
+                complete: function() {  } // Callback for Modal close
+            }
+        );
+    });
     $scope.panelAnimate='';
     $scope.pageAnimate='';  
     $timeout(function () {
@@ -21,14 +36,19 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
+                name:'Numero de orden interna',field: 'consecutivo',
+                width:'20%',
+                minWidth: 200
+            },
+            {
                 name:'proveedor',field: 'proveedor.nombre',
-                width:'50%',
-                minWidth: 330
+                width:'40%',
+                minWidth: 250
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'50%',
-                minWidth: 330
+                width:'40%',
+                minWidth: 250
             }
         ]
     }
@@ -38,7 +58,6 @@ angular.module('frontendApp')
     $scope.Orden.materia_prima=[];
     $scope.productos=[];
     $scope.materias=[];
-    $scope.Orden.numero_interno='0';
     function listarPersonas(){
         webServer
         .getResource('personas',{proveedor:true},'get')
@@ -79,6 +98,20 @@ angular.module('frontendApp')
             $scope.materias=[];
             console.log(data.data.message);
         });
+    }
+    $scope.Detalles = function(id){
+        $scope.Detalle = $scope.Ordenes.find(function(ele){
+            if(ele._id == id){
+                return ele;
+            }
+        });
+        if(!$scope.Detalle.materia_prima){
+            $scope.Detalle.materia_prima=[];
+        }
+        if(!$scope.Detalle.productos){
+            $scope.Detalle.productos=[];
+        }
+        $('#modalDetalles').modal('open');
     }
     function listarOrdenes(){
         webServer

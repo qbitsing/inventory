@@ -7,17 +7,55 @@
 					<h3 class="panel-title">{{panel_title_form}}</h3>
 				</div>
 				<div class="panel-body" >
-					<form name="formentrada">
+					<form name="formEntrada">
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-								<label for="id">Orden de compra *</label>
-								<select material-select watch>
-	      							<option></option>
+								<select ng-change="CargarOrden()" id="orden" ng-model="Orden.compra" material-select watch>
+	      							<option ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.numero_interno}}-{{orden.proveedor.nombre}}</option>
 								</select>
+								<label for="orden">Orden de compra *</label>
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="Proveedor">Proveedor *</label>
-								<input type="text" ng-model="Persona.nombre" id="Proveedor" name="Proveedor" required>
+								<input type="text" ng-disabled="true" ng-model="Entrada.proveedor.nombre" id="Proveedor" name="Proveedor" required>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12 m6 l6" ng-hide="Entrada.productos.length<1">
+								<table class="highlight">
+							        <thead>
+							        	<tr>
+											<th data-field="producto">Producto</th>
+											<th data-field="cantidad">Cantidad</th>
+											<th data-field="entrante">Cantidad entrante</th>
+							          	</tr>
+							        </thead>
+							        <tbody>
+							          	<tr ng-repeat="producto in Entrada.productos">
+								            <td>{{producto.nombre}}</td>
+								            <td>{{producto.cantidad}}</td>
+								            <td><input type="text"  value="{{producto.cantidad}}" id="cantidad" name="cantidad"></td>
+							          	</tr>
+							        </tbody>
+						      	</table>
+							</div>
+							<div class="input-field col s12 m6 l6" ng-hide="Entrada.materia_prima.length<1">
+								<table class="highlight">
+							        <thead>
+							        	<tr>
+											<th data-field="materia_prima">Materia Prima</th>
+											<th data-field="cantidad">Cantidad</th>
+											<th data-field="entrante">Cantidad entrante</th>
+							          	</tr>
+							        </thead>
+							        <tbody>
+							          	<tr ng-repeat="materia in Entrada.materia_prima">
+								            <td>{{materia.nombre}}</td>
+								            <td>{{materia.cantidad}}</td>
+								            <td><input type="text" value="{{materia.cantidad}}" id="cantidad" name="cantidad"></td>
+							          	</tr>
+							        </tbody>
+						      	</table>
 							</div>
 						</div>
 						<div class="row">

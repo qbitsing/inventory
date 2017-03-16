@@ -66,9 +66,9 @@
 							<table class="highlight" ng-hide="Orden.productos.length<1">
 						        <thead>
 						        	<tr>
-										<th data-field="id">Insumo</th>
-										<th data-field="name">Cantidad</th>
-										<th data-field="price">Opción</th>
+										<th data-field="insumo">Insumo</th>
+										<th data-field="cantidad">Cantidad</th>
+										<th data-field="opcion">Opción</th>
 						          	</tr>
 						        </thead>
 						        <tbody>
@@ -105,8 +105,41 @@
 		</div>
 	</div>
 </div>
+<div id="modaldeDetalles" class="modal modal-fixed-footer">
+    <div class="modal-content">
+    	<h4 class="modal-title blue accent-4">Venta No. {{Detalle.numero_interno}}</h4>
+    	<div class="row">
+    		<ul>
+			<li> Numero interno: {{Detalle.numero_interno || 'No registra'}}</li>
+			<li> Cliente: {{Detalle.cliente.nombre || 'No registra'}}</li>
+			<li> Numero de Orden del Cliente: {{Detalle.orden_compra_cliente || 'No registra'}}</li>
+			<li> Fecha de Recepción: {{Detalle.fecha_recepcion || 'No registra'}}</li>
+			<li> Lugar de Entrega: {{Detalle.cliente.nombre || 'No registra'}}</li>
+			<li> Fecha de Entrega: {{Detalle.fecha_entrega || 'No registra'}}</li>
+			<li> Observaciones: {{Detalle.observaciones || 'No registra'}}</li>
+			<li ng-hide="Detalle.productos.length<1"> <h5>Productos:</h5></li>
+			<table class="highlight" ng-hide="Detalle.productos.length<1">
+		        <thead>
+		        	<tr>
+						<th data-field="id">Nombre</th>
+						<th data-field="name">Cantidad</th>
+		          	</tr>
+		        </thead>
+		        <tbody>
+		          	<tr ng-repeat="producto in Detalle.productos">
+			            <td>{{producto.nombre}}</td>
+			            <td>{{producto.cantidad}}</td>
+		          	</tr>
+		        </tbody>
+		    </table>
+		</ul>
+    	</div>
+	</div>
+    <div class="modal-footer">
+      	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Cerrar</a>
+    </div>
+</div>
 <script type="text/javascript" charset="utf-8">
-	
 	$('.datepicker').pickadate({
   labelMonthNext: 'Next month',
   labelMonthPrev: 'Previous month',
