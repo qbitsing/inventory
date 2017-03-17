@@ -120,7 +120,12 @@ angular.module('frontendApp')
             if(data.data){
                 $scope.Ordenes=data.data.datos;
                 $scope.gridOptions.data=$scope.Ordenes;
-                $scope.Orden.consecutivo=''+$scope.Ordenes.length+1;
+                $scope.Orden.consecutivo=1;
+                $scope.Ordenes.forEach(function(ele, index){
+                    if(ele.consecutivo>=$scope.Orden.consecutivo){
+                        $scope.Orden.consecutivo=ele.consecutivo+1;
+                    }
+                });
             }else{
                 $scope.Ordenes=[];
                 $scope.gridOptions.data=$scope.Ordenes;
