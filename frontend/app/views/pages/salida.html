@@ -7,11 +7,11 @@
 					<h3 class="panel-title">{{panel_title_form}}</h3>
 				</div>
 				<div class="panel-body" >
-					<form name="formentrada">
+					<form name="formSalida" ng-submit="EnviarSalida()">
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<select ng-change="CargarOrden()" id="orden" ng-model="Orden.compra" material-select watch>
-	      							<option ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.numero_interno}}-{{orden.cliente.nombre}}</option>
+	      							<option ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.consecutivo}}-{{orden.cliente.nombre}}</option>
 								</select>
 								<label for="orden">Orden de venta *</label>
 							</div>
@@ -38,7 +38,7 @@
 							          	<tr ng-repeat="producto in Salida.productos">
 								            <td>{{producto.nombre}}</td>
 								            <td>{{producto.cantidad}}</td>
-								            <td><input type="text" value="{{producto.cantidad}}" id="cantidad" name="cantidad"></td>
+								            <td><input type="text" value="{{producto.cantidad_entrante}}" id="cantidad" name="cantidad"></td>
 							          	</tr>
 							        </tbody>
 						      	</table>
@@ -47,28 +47,26 @@
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<label>Persona que autorizo *</label>
-								<select material-select watch>
-	      							<option></option>
+								<select id="persona" ng-model="Salida.persona_autorizo" material-select watch required>
+	      							<option ng-repeat="persona in empleados" value="{{persona._id}}">{{persona.nombre}} {{persona.apellidos}}</option>
 								</select>
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label>Persona que entrego *</label>
-								<select material-select watch>
-	      							<option></option>
+								<select id="persona" ng-model="Salida.persona_entrego" material-select watch required>
+	      							<option ng-repeat="persona in empleados" value="{{persona._id}}">{{persona.nombre}} {{persona.apellidos}}</option>
 								</select>
-							</div>
-							
+							</div>							
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-					            <textarea id="observaciones" class="materialize-textarea" data-length="120"></textarea>
+					            <textarea id="observaciones" ng-model="Salida.observaciones" class="materialize-textarea" data-length="120"></textarea>
 					            <label for="observaciones">Observaciones</label>
 				          	</div>
-							
 						</div>
 						<div class="row">
 							<div class="col">
-								<button type="submit" class="btn btn-large blue accent-4">{{button_title_form}}</button>
+								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formSalida.$invalid">{{button_title_form}}</button>
 							</div>
 							<div class="col">
 								<button type="button" class="btn btn-large btn-danger">Cancelar</button>

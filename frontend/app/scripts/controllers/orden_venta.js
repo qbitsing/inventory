@@ -38,7 +38,7 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
-                name:'Numero de orden interna',field: 'numero_interno',
+                name:'Numero de orden interna',field: 'consecutivo',
                 width:'20%',
                 minWidth: 200
             },
