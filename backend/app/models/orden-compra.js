@@ -6,6 +6,7 @@ const Schema = mongoose.Schema;
 const ordenCompraSchema = new Schema({
     proveedor : {},
     productos: [],
+    consecutivo: {type: Number},
     materia_prima: [],
     estado: {type: String , enum:['activo' , 'finalizado']}
 });
