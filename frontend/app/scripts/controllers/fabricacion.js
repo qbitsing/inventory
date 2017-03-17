@@ -9,8 +9,8 @@
  */
 angular.module('frontendApp')
   .controller('FabricacionCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
-   $scope.panelAnimate='';
-	$scope.pageAnimate='';  
+	$scope.panelAnimate='';
+	$scope.pageAnimate='';
 	$timeout(function () {
 		$scope.pageAnimate='pageAnimate';
 		$scope.panelAnimate='panelAnimate';

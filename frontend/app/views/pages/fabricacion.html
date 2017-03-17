@@ -8,16 +8,25 @@
 				</div>
 				<div class="panel-body" >
 					<form name="formentrada">
+						<p>
+					     	<input class="with-gap" name="fabricacion" type="radio" id="orden" ng-model="radio.orden" value="true" />
+					     	<label for="orden">orden de venta</label>
+					   		<input class="with-gap" name="fabricacion" type="radio" id="esporadica"  ng-model="radio.espo" value="true"/>
+					     	<label for="esporadica">esporádica</label>					  
+					    </p>
 						<div class="row">
-							<div class="input-field col s12 m12 l12">
-								<label for="id">Orden de venta *</label>
+							<div class="input-field col s12 m6 l6">
+								<input type="number" ng-model="Producto.precio" id="consecutivo" name="consecutivo" required>
+								<label for="consecutivo">consecutivo fabricación *</label>
+							</div>
+							<div class="input-field col s12 m6 l6">
+								<label>Orden de venta *</label>
 								<select material-select watch>
 	      							<option></option>
 								</select>
-							</div>
-							
+							</div>							
 						</div>
-						<div class="row">
+						<div class="row" >
 							<div class="col">
 								<button type="submit" class="btn btn-large blue accent-4">{{button_title_form}}</button>
 							</div>

@@ -9,6 +9,21 @@
  */
 angular.module('frontendApp')
   .controller('OrdenVentaCtrl', function ($scope, $timeout, webServer, Tabla, BotonesTabla) {
+    $(document).ready(function(){
+        $('.modal').modal();
+        $('.modal').modal({
+                dismissible: true, // Modal can be dismissed by clicking outside of the modal
+                opacity: 0, // Opacity of modal background
+                inDuration: 300, // Transition in duration
+                outDuration: 200, // Transition out duration
+                startingTop: '10%', // Starting top style attribute
+                endingTop: '15%', // Ending top style attribute
+                ready: function(modal, trigger) {
+                },
+                complete: function() {  } // Callback for Modal close
+            }
+        );
+    });
     $scope.panelAnimate='';
     $scope.pageAnimate='';  
     $timeout(function () {
@@ -23,14 +38,19 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
+                name:'Numero de orden interna',field: 'consecutivo',
+                width:'20%',
+                minWidth: 200
+            },
+            {
                 name:'cliente',field: 'cliente.nombre',
-                width:'50%',
-                minWidth: 330
+                width:'40%',
+                minWidth: 250
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'50%',
-                minWidth: 330
+                width:'40%',
+                minWidth: 250
             }
         ]
     }
@@ -39,7 +59,6 @@ angular.module('frontendApp')
     $scope.Orden.productos=[];
     $scope.productos=[];
     $scope.materias=[];
-    $scope.Orden.numero_interno='0';
     function listarPersonas(){
         webServer
         .getResource('personas',{cliente:true},'get')
@@ -74,11 +93,14 @@ angular.module('frontendApp')
             if(data.data){
                 $scope.Ordenes=data.data.datos;
                 $scope.gridOptions.data=$scope.Ordenes;
+                $scope.Orden.consecutivo=''+$scope.Ordenes.length+1;
             }else{
+                $scope.Orden.consecutivo='1';
                 $scope.Ordenes=[];
                 $scope.gridOptions.data=$scope.Ordenes;
             }
         },function(data){
+            $scope.Orden.consecutivo='1';
             $scope.Ordenes=[];
             $scope.gridOptions.data=$scope.Ordenes;
             console.log(data.data.message);
@@ -105,11 +127,21 @@ angular.module('frontendApp')
             console.log('El insumo ya esta añadido');
         }
     }
+    $scope.Detalles = function(id){
+        $scope.Detalle = $scope.Ordenes.find(function(ele){
+            if(ele._id == id){
+                return ele;
+            }
+        });
+        if(!$scope.Detalle.productos){
+            $scope.Detalle.productos=[];
+        }
+        $('#modaldeDetalles').modal('open');
+    }
     $scope.BorrarProducto=function(index){
         $scope.Orden.productos.splice(index,1);
     }
     $scope.EnviarOrden=function(){
-        console.log($scope.Orden);
         var ruta="";
         var metodo="";
         if ($scope.panel_title_form=="Registro de venta") {
@@ -127,7 +159,7 @@ angular.module('frontendApp')
                     $scope.Orden.cliente=ele;
                 }
             });
-            if($scope.panel_title_form=="Registro de Venta"){
+            if($scope.panel_title_form=="Registro de venta"){
                 $scope.Ordenes.push($scope.Orden);
                 alert('Venta registrada correctamente');
             }else{
@@ -136,6 +168,7 @@ angular.module('frontendApp')
             }
             $scope.Orden={};
             $scope.Orden.productos=[];
+            $scope.Orden.consecutivo=''+$scope.Ordenes.length+1;
         },function(data){
             console.log(data);
         });
@@ -153,6 +186,7 @@ angular.module('frontendApp')
         $scope.Orden.productos=[];
         $scope.panel_title_form = "Registro de Venta";
         $scope.button_title_form = "Registrar Venta";
+        $scope.Orden.consecutivo=''+$scope.Ordenes.length+1;
     }
     function IdentificarOrden (id , arrObj){
         var obj;
