@@ -282,7 +282,7 @@ $success:#00c853;
   top:64px;
   left:0;
   right:0;
-  z-index: 1;
+  z-index: 2;
   margin-top: 0;
   margin-bottom: 10px;
   padding: 15px 10px 15px 0;
@@ -299,7 +299,7 @@ $success:#00c853;
 .contenido{
   position:relative;
   top:72px;
-  .row{
+  >.row{
     margin-bottom: 0;
   }
 }
@@ -327,6 +327,7 @@ $success:#00c853;
     .row:last-child{
       margin-bottom: 0;
     }
+
   }
 }
 .panelAnimate{
