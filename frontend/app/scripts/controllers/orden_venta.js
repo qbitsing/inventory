@@ -59,7 +59,6 @@ angular.module('frontendApp')
     $scope.Orden.productos=[];
     $scope.productos=[];
     $scope.materias=[];
-    $scope.Orden.numero_interno='0';
     function listarPersonas(){
         webServer
         .getResource('personas',{cliente:true},'get')
@@ -94,11 +93,14 @@ angular.module('frontendApp')
             if(data.data){
                 $scope.Ordenes=data.data.datos;
                 $scope.gridOptions.data=$scope.Ordenes;
+                $scope.Orden.consecutivo=''+$scope.Ordenes.length+1;
             }else{
+                $scope.Orden.consecutivo='1';
                 $scope.Ordenes=[];
                 $scope.gridOptions.data=$scope.Ordenes;
             }
         },function(data){
+            $scope.Orden.consecutivo='1';
             $scope.Ordenes=[];
             $scope.gridOptions.data=$scope.Ordenes;
             console.log(data.data.message);
@@ -166,6 +168,7 @@ angular.module('frontendApp')
             }
             $scope.Orden={};
             $scope.Orden.productos=[];
+            $scope.Orden.consecutivo=''+$scope.Ordenes.length+1;
         },function(data){
             console.log(data);
         });
@@ -183,6 +186,7 @@ angular.module('frontendApp')
         $scope.Orden.productos=[];
         $scope.panel_title_form = "Registro de Venta";
         $scope.button_title_form = "Registrar Venta";
+        $scope.Orden.consecutivo=''+$scope.Ordenes.length+1;
     }
     function IdentificarOrden (id , arrObj){
         var obj;
