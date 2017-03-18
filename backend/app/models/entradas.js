@@ -9,8 +9,7 @@ const entradaSchema = new Schema({
     materia_prima: [],
     productos: [],
     orden_compra:{},
-    persona_autoriza: {},
-    persona_entrga: {},
+    persona_entrada: {},
     observaciones: String
 });
 

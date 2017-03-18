@@ -95,7 +95,28 @@ function crear(req, res){
     }
 
     function pasoUno(){
-        
+        if(req.body.persona_entrada){
+            personaModel.findById(req.body.persona_entrada._id, (err, persona_entradaStrored)=>{
+                if(err){
+                    return res.status(500).send({
+                        message:`ERROR al identificar la persona que autoriza ${err}`
+                    });
+                }
+
+                if(!persona_entradaStrored){
+                    return res.status(404).send({
+                        message : `La  persona que autoriza indicado no se encuentra registrado en la base de datos`
+                    });
+                }
+
+                req.body.persona_entrada = persona_entradaStrored;
+                pasoDos();
+            });
+        }else pasoDos();
+    }
+
+    function pasoDos(){
+
     }
 }
 

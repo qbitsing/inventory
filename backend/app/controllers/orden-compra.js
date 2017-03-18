@@ -173,6 +173,8 @@ function actualizar(req, res){
                     });
                 }
                 insumoStored.cantidad = materia.cantidad;
+                insumoStored.cantidad_faltante = materia.cantidad;
+                insumoStored.cantidad_entrante = 0;
                 insumosArray.push(insumoStored);
                 contador ++;
                 if(contador == req.body.materia_prima.length){

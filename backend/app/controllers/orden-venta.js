@@ -101,28 +101,16 @@ function crear(req, res){
                 ErroresProductos
             });
         }
-        ordenVentaModel.find({},['consecutivo'],{sort:{ consecutivo: -1}}, (err , lista)=>{
+        let newOrdenVenta = new ordenVentaModel(req.body);
+        newOrdenVenta.save((err , ordenStored)=>{
             if(err){
                 return res.status(500).send({
-                    message : `ERROR interno del servidor ${err}`
+                    message : `ERROR al intentar almacenar el recurso en la base de datos ${err}`
                 });
             }
-            if(lista.length < 1){
-                req.body.consecutivo = 1;
-            }else{
-                req.body.consecutivo = 1 + lista[0].consecutivo;
-            }
-            let newOrdenVenta = new ordenVentaModel(req.body);
-            newOrdenVenta.save((err , ordenStored)=>{
-                if(err){
-                    return res.status(500).send({
-                        message : `ERROR al intentar almacenar el recurso en la base de datos ${err}`
-                    });
-                }
 
-                return res.status(200).send({
-                    datos: ordenStored
-                });
+            return res.status(200).send({
+                datos: ordenStored
             });
         });
     }
