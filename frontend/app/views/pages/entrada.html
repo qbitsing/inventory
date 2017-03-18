@@ -60,20 +60,6 @@
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-								<label>Persona que autorizo *</label>
-								<select id="persona" ng-model="Salida.persona_autorizo" material-select watch required>
-	      							<option ng-repeat="persona in personas" value="{{persona._id}}">{{persona.nombre}} {{persona.apellidos}}</option>
-								</select>
-							</div>
-							<div class="input-field col s12 m6 l6">
-								<label>Persona que entrego *</label>
-								<select id="persona" ng-model="Salida.persona_entrego" material-select watch required>
-	      							<option ng-repeat="persona in personas" value="{{persona._id}}">{{persona.nombre}} {{persona.apellidos}}</option>
-								</select>
-							</div>							
-						</div>
-						<div class="row">
-							<div class="input-field col s12 m6 l6">
 					            <textarea id="observaciones" ng-model="Salida.observaciones" class="materialize-textarea" data-length="120"></textarea>
 					            <label for="observaciones">Observaciones</label>
 				          	</div>
