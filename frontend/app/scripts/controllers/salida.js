@@ -18,16 +18,26 @@ angular.module('frontendApp')
     $scope.panel_title_form = "Registro de salida";
     $scope.button_title_form = "Registrar salida";
     $scope.Salida={};
-    $scope.Salida.productos=[];
+    $scope.Salida.orden_venta=[];
+    $scope.Salida.orden_venta.productos=[];
     $scope.CargarOrden=function(){
         $scope.Ordenes.forEach(function(ele, index){
             if(ele._id==$scope.Orden.compra){
-                $scope.Salida=ele;
+                $scope.Salida.orden_venta=ele;
             }
         });
-        if(!$scope.Salida.productos){
-            $scope.Salida.productos=[];
+        if(!$scope.Salida.orden_venta.productos){
+            $scope.Salida.orden_venta.productos=[];
         }
+    }
+    $scope.EnviarSalida=function(){
+        $scope.Salida.orden_venta.productos.forEach(function(ele, index){
+            ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
+        });
+        $scope.Salida.orden_venta.materia_prima.forEach(function(ele, index){
+                ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
+            });
+        console.log($scope.Salida);
     }
     function listarOrdenes(){
         webServer

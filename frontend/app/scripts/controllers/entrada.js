@@ -48,7 +48,6 @@ angular.module('frontendApp')
         .getResource('orden_compra',{},'get')
         .then(function(data){
             if(data.data){
-                console.log(data.data.datos);
                 $scope.Ordenes=data.data.datos;
             }else{
                 $scope.Ordenes=[];
