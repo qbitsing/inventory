@@ -120,7 +120,13 @@ angular.module('frontendApp')
             if(data.data){
                 $scope.Ordenes=data.data.datos;
                 $scope.gridOptions.data=$scope.Ordenes;
-                $scope.Orden.consecutivo=''+$scope.Ordenes.length+1;
+                $scope.Orden.consecutivo=0;
+                $scope.Ordenes.forEach(function(ele, index){
+                    if(ele.consecutivo>=$scope.Orden.consecutivo){
+                        $scope.Orden.consecutivo=ele.consecutivo;
+                    }
+                });
+                $scope.Orden.consecutivo=$scope.Orden.consecutivo+1;                
             }else{
                 $scope.Ordenes=[];
                 $scope.gridOptions.data=$scope.Ordenes;
@@ -213,7 +219,13 @@ angular.module('frontendApp')
             $scope.Orden={};
             $scope.Orden.productos=[];
             $scope.Orden.materia_prima=[];
-            $scope.Orden.consecutivo=''+$scope.Ordenes.length+1;
+            $scope.Orden.consecutivo=0;
+            $scope.Ordenes.forEach(function(ele, index){
+                if(ele.consecutivo>=$scope.Orden.consecutivo){
+                    $scope.Orden.consecutivo=ele.consecutivo;
+                }
+            });
+            $scope.Orden.consecutivo=$scope.Orden.consecutivo+1;
         },function(data){
             console.log(data);
         });
@@ -235,7 +247,13 @@ angular.module('frontendApp')
         $scope.Orden.materia_prima=[];
         $scope.panel_title_form = "Registro de Compra";
         $scope.button_title_form = "Registrar compra";
-        $scope.Orden.consecutivo=''+$scope.Ordenes.length+1;
+        $scope.Orden.consecutivo=0;
+        $scope.Ordenes.forEach(function(ele, index){
+            if(ele.consecutivo>=$scope.Orden.consecutivo){
+                $scope.Orden.consecutivo=ele.consecutivo;
+            }
+        });
+        $scope.Orden.consecutivo=$scope.Orden.consecutivo+1;
     }
     function IdentificarOrden (id , arrObj){
         var obj;
