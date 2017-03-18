@@ -116,7 +116,12 @@ function crear(req, res){
     }
 
     function pasoDos(){
+        var orden = req.body.orden_compra;
+        orden.productos = orden.productos.map(prod =>{
+            for(var req_pro of req.body.productos){
 
+            }
+        });
     }
 }
 

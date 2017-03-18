@@ -17,11 +17,11 @@
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="Proveedor">Proveedor *</label>
-								<input type="text" ng-disabled="true" ng-model="Entrada.proveedor.nombre" id="Proveedor" name="Proveedor" required>
+								<input type="text" ng-disabled="true" ng-model="Entrada.orden_compra.proveedor.nombre" id="Proveedor" name="Proveedor" required>
 							</div>
 						</div>
 						<div class="row">
-							<div class="input-field col s12 m6 l6" ng-hide="Entrada.productos.length<1">
+							<div class="input-field col s12 m6 l6" ng-hide="Entrada.orden_compra.productos.length<1">
 								<table class="highlight">
 							        <thead>
 							        	<tr>
@@ -31,7 +31,7 @@
 							          	</tr>
 							        </thead>
 							        <tbody>
-							          	<tr ng-repeat="producto in Entrada.productos">
+							          	<tr ng-repeat="producto in Entrada.orden_compra.productos">
 								            <td>{{producto.nombre}}</td>
 								            <td>{{producto.cantidad}}</td>
 								            <td><input type="text"  value="{{producto.cantidad}}" id="cantidad{{producto._id}}" name="cantidad"></td>
@@ -39,7 +39,7 @@
 							        </tbody>
 						      	</table>
 							</div>
-							<div class="input-field col s12 m6 l6" ng-hide="Entrada.materia_prima.length<1">
+							<div class="input-field col s12 m6 l6" ng-hide="Entrada.orden_compra.materia_prima.length<1">
 								<table class="highlight">
 							        <thead>
 							        	<tr>
@@ -49,7 +49,7 @@
 							          	</tr>
 							        </thead>
 							        <tbody>
-							          	<tr ng-repeat="materia in Entrada.materia_prima">
+							          	<tr ng-repeat="materia in Entrada.orden_compra.materia_prima">
 								            <td>{{materia.nombre}}</td>
 								            <td>{{materia.cantidad}}</td>
 								            <td><input type="text" value="{{materia.cantidad}}" id="cantidad{{materia._id}}" name="cantidad"></td>

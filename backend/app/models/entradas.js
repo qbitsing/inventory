@@ -5,9 +5,6 @@ const Schema = mongoose.Schema;
 
 
 const entradaSchema = new Schema({
-    proveedor: {},
-    materia_prima: [],
-    productos: [],
     orden_compra:{},
     persona_entrada: {},
     observaciones: String

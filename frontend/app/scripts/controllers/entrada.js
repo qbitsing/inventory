@@ -18,26 +18,27 @@ angular.module('frontendApp')
     $scope.panel_title_form = "Registro de Entrada";
     $scope.button_title_form = "Registrar Entrada";
     $scope.Entrada={};
-    $scope.Entrada.productos=[];
-    $scope.Entrada.materia_prima=[];
+    $scope.Entrada.orden_compra=[];
+    $scope.Entrada.orden_compra.productos=[];
+    $scope.Entrada.orden_compra.materia_prima=[];
     $scope.CargarOrden=function(){
         $scope.Ordenes.forEach(function(ele, index){
             if(ele._id==$scope.Orden.compra){
-                $scope.Entrada=ele;
+                $scope.Entrada.orden_compra=ele;
             }
         });
-        if(!$scope.Entrada.productos){
-            $scope.Entrada.productos=[];
+        if(!$scope.Entrada.orden_compra.productos){
+            $scope.Entrada.orden_compra.productos=[];
         }
-        if(!$scope.Entrada.materia_prima){
-            $scope.Entrada.materia_prima=[];
+        if(!$scope.Entrada.orden_compra.materia_prima){
+            $scope.Entrada.orden_compra.materia_prima=[];
         }
     }
     $scope.EnviarEntrada=function(){
-        $scope.Entrada.productos.forEach(function(ele, index){
+        $scope.Entrada.orden_compra.productos.forEach(function(ele, index){
             ele.cantidad_entrante=angular.element('#cantidad'+ele._id).val();
         });
-        $scope.Entrada.materia_prima.forEach(function(ele, index){
+        $scope.Entrada.orden_compra.materia_prima.forEach(function(ele, index){
                 ele.cantidad_entrante=angular.element('#cantidad'+ele._id).val();
             });
         console.log($scope.Entrada);
@@ -47,6 +48,7 @@ angular.module('frontendApp')
         .getResource('orden_compra',{},'get')
         .then(function(data){
             if(data.data){
+                console.log(data.data.datos);
                 $scope.Ordenes=data.data.datos;
             }else{
                 $scope.Ordenes=[];
