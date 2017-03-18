@@ -59,19 +59,5 @@ angular.module('frontendApp')
             console.log(data.data.message);
         });
     }
-    function listarEmpleados(){
-        webServer
-        .getResource('personas',{empleado:true,administrador:true,almacenista:true,super_administrador:true},'get')
-        .then(function(data){
-            if(data.data){
-                $scope.empleados = data.data.datos;
-            }else{
-                $scope.empleados = [];
-            }
-        },function(data){
-            console.log(data);
-        });
-    }
     listarOrdenes();
-    listarEmpleados();
   });
