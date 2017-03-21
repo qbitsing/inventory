@@ -35,27 +35,13 @@ angular.module('frontendApp')
             ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
         });
         $scope.Salida.orden_venta.materia_prima.forEach(function(ele, index){
-                ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
-            });
-        var ruta="";
-        var metodo="";
-        if ($scope.panel_title_form=="Registro de Salidas") {
-            ruta="salida";
-            metodo="post";
-        }else{
-            ruta="salida/"+$scope.Salida._id;
-            metodo="put";
-        }
+            ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
+        });
         webServer
-        .getResource(ruta,$scope.Salida,metodo)
+        .getResource("salida",$scope.Salida,"post")
         .then(function(data){
-            if($scope.panel_title_form=="Registro de Salidas"){
-                $scope.Salidas.push($scope.Salida);
-                alert('Salida registrada correctamente');
-            }else{
-                $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
-                alert('Salida actualizada correctamente');
-            }
+            $scope.Salidas.push($scope.Salida);
+            alert('Salida registrada correctamente');
             $scope.Salida={};
             $scope.Salida.orden_venta.productos=[];
             $scope.Salida.orden_venta.materia_prima=[];
@@ -63,25 +49,6 @@ angular.module('frontendApp')
             console.log(data);
         });
         console.log($scope.Salida);
-    }
-    $scope.Editar = function(id){
-        $scope.panel_title_form = "Edicion de Salidas";
-        $scope.button_title_form = "Editar Salida";
-        $scope.Salida=IdentificarSalida(id,$scope.Salidas);
-        $scope.Orden.venta=$scope.Salida.orden_venta._id;
-        if(!$scope.Salida.orden_venta.productos){
-            $scope.Salida.orden_venta.productos=[];
-        }
-        if(!$scope.Salida.orden_venta.materia_prima){
-            $scope.Salida.orden_venta.materia_prima=[];
-        }
-    }
-    $scope.CancelarEditar=function(){
-        $scope.Salida={};
-        $scope.Salida.orden_venta.productos=[];
-        $scope.Salida.orden_venta.materia_prima=[];
-        $scope.panel_title_form = "Registro de Salidas";
-        $scope.button_title_form = "Registrar Salida";
     }
     function listarOrdenes(){
         webServer
