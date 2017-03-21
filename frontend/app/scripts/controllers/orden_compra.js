@@ -145,11 +145,16 @@ angular.module('frontendApp')
     listarOrdenes();
     $scope.AgregarProducto=function(){
         var controlador=false;
-        var obj = {
-            _id : $scope.Orden.Producto._id.split(',')[0],
-            nombre : $scope.Orden.Producto._id.split(',')[1],
-            cantidad : $scope.Orden.Producto.cantidad
-        };
+        var _id = $scope.Orden.Producto._id.split(',')[0];
+        var obj = {};
+        $scope.productos.forEach(function(ele , index){
+            if(_id == ele._id){
+                obj = ele;
+            }
+        });
+        obj.cantidad = $scope.Orden.Producto.cantidad;
+        obj.cantidad_faltante = $scope.Orden.Producto.cantidad;
+        obj.cantidad_entrante = 0;
         $scope.Orden.productos.forEach(function(ele, index){
             if(ele._id==obj._id){
                 controlador=true;
@@ -163,11 +168,16 @@ angular.module('frontendApp')
     }
     $scope.AgregarMateria=function(){
         var controlador=false;
-        var obj = {
-            _id : $scope.Orden.Materia._id.split(',')[0],
-            nombre : $scope.Orden.Materia._id.split(',')[1],
-            cantidad : $scope.Orden.Materia.cantidad
-        };
+        var obj = {};
+        var _id = $scope.Orden.Materia._id.split(',')[0];
+        $scope.materias.forEach(function(ele , index){
+            if(_id == ele._id){
+                obj = ele;
+            }
+        });
+        obj.cantidad = $scope.Orden.Materia.cantidad;
+        obj.cantidad_faltante = $scope.Orden.Materia.cantidad;
+        obj.cantidad_entrante = 0;
         $scope.Orden.materia_prima.forEach(function(ele, index){
             if(ele._id==obj._id){
                 controlador=true;
