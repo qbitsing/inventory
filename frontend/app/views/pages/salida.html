@@ -10,7 +10,7 @@
 					<form name="formSalida" ng-submit="EnviarSalida()">
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-								<select ng-change="CargarOrden()" id="orden" ng-model="Orden.compra" material-select watch>
+								<select ng-change="CargarOrden()" id="orden" ng-model="Orden.venta" material-select watch>
 	      							<option ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.consecutivo}}-{{orden.cliente.nombre}}</option>
 								</select>
 								<label for="orden">Orden de venta *</label>
@@ -56,7 +56,7 @@
 							<div class="col">
 								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formSalida.$invalid">{{button_title_form}}</button>
 							</div>
-							<div class="col">
+							<div class="col" ng-hide="panel_title_form == 'Registro de Salidas'">
 								<button type="button" class="btn btn-large btn-danger">Cancelar</button>
 							</div>
 							

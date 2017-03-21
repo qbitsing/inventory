@@ -64,7 +64,7 @@
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-					            <textarea id="observaciones" ng-model="Salida.observaciones" class="materialize-textarea" data-length="120"></textarea>
+					            <textarea id="observaciones" ng-model="Entrada.observaciones" class="materialize-textarea" data-length="120"></textarea>
 					            <label for="observaciones">Observaciones</label>
 				          	</div>
 						</div>
@@ -72,7 +72,7 @@
 							<div class="col">
 								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formEntrada.$invalid">{{button_title_form}}</button>
 							</div>
-							<div class="col">
+							<div class="col" ng-hide="panel_title_form == 'Registro de Entradas'">
 								<button type="button" class="btn btn-large btn-danger">Cancelar</button>
 							</div>
 							
