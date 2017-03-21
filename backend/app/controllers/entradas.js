@@ -49,7 +49,13 @@ function listarById(req, res){
 }
 
 function crear(req, res){
-    
+    if(req.body.orden_compra){
+        if(req.body.orden_compra.materia_prima.length > 0){
+            req.body.orden_compra.materia_prima = req.body.orden_compra.materia_prima.map((materia_prima)=>{
+                
+            });
+        }
+    }
 }
 
 function actualizar(req, res){
