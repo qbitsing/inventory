@@ -27,14 +27,16 @@
 							        	<tr>
 											<th data-field="producto">Producto</th>
 											<th data-field="cantidad">Cantidad</th>
+											<th data-field="faltante">Cantidad faltante</th>
 											<th data-field="entrante">Cantidad entrante</th>
 							          	</tr>
 							        </thead>
 							        <tbody>
 							          	<tr ng-repeat="producto in Entrada.orden_compra.productos">
 								            <td>{{producto.nombre}}</td>
-								            <td>{{producto.cantidad}}</td>
-								            <td><input type="text"  value="{{producto.cantidad}}" id="cantidad{{producto._id}}" name="cantidad"></td>
+											<td>{{producto.cantidad}}</td>
+								            <td>{{producto.cantidad_faltante}}</td>
+								            <td><input type="text"  value="{{producto.cantidad_faltante}}" id="cantidad{{producto._id}}" name="cantidad"></td>
 							          	</tr>
 							        </tbody>
 						      	</table>
@@ -45,14 +47,16 @@
 							        	<tr>
 											<th data-field="materia_prima">Materia Prima</th>
 											<th data-field="cantidad">Cantidad</th>
+											<th data-field="faltante">Cantidad faltante</th>
 											<th data-field="entrante">Cantidad entrante</th>
 							          	</tr>
 							        </thead>
 							        <tbody>
 							          	<tr ng-repeat="materia in Entrada.orden_compra.materia_prima">
 								            <td>{{materia.nombre}}</td>
-								            <td>{{materia.cantidad}}</td>
-								            <td><input type="text" value="{{materia.cantidad}}" id="cantidad{{materia._id}}" name="cantidad"></td>
+											<td>{{materia.cantidad}}</td>
+								            <td>{{materia.cantidad_faltante}}</td>
+								            <td><input type="text" value="{{materia.cantidad_faltante}}" id="cantidad{{materia._id}}" name="cantidad"></td>
 							          	</tr>
 							        </tbody>
 						      	</table>
