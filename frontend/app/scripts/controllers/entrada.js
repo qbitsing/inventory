@@ -42,7 +42,7 @@ angular.module('frontendApp')
             ele.cantidad_entrante=angular.element('#cantidad'+ele._id).val();
         });
         webServer
-        .getResource('entrada',$scope.Entrada,'post')
+        .getResource('entradas',$scope.Entrada,'post')
         .then(function(data){
             $scope.Entradas.push($scope.Entrada);
             alert('Entrada registrada correctamente');
