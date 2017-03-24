@@ -36,6 +36,7 @@ angular.module('frontendApp')
     $scope.MiUsuario={};
     $scope.cambio=false;
     $scope.myCroppedImage='';
+    $scope.contador=0;
     var handleFileSelect=function(evt) {
         angular.element(document.querySelector('#inputval')).text( $(this).val());
         var file=evt.currentTarget.files[0];
