@@ -16,8 +16,8 @@
 								<label for="orden">Orden de venta *</label>
 							</div>
 							<div class="input-field col s12 m6 l6">
-								<label for="numero_interno">Numero de orden interna *</label>
-								<input type="text" ng-disabled="true" ng-model="Salida.orden_venta.numero_interno" id="numero_interno" name="numero_interno" required>
+								<label for="consecutivo">Numero de orden interna *</label>
+								<input type="text" ng-disabled="true" ng-model="Salida.orden_venta.consecutivo" id="consecutivo" name="consecutivo" required>
 							</div>
 						</div>
 						<div class="row">
@@ -47,6 +47,10 @@
 							</div>
 						</div>
 						<div class="row">
+							<div class="input-field col s12 m6 l6">
+								<label for="Cliente">Numero de remisión *</label>
+								<input type="text"  ng-model="Salida.remision" id="Cliente" name="Cliente" required>
+							</div>
 							<div class="input-field col s12 m6 l6">
 					            <textarea id="observaciones" ng-model="Salida.observaciones" class="materialize-textarea" data-length="120"></textarea>
 					            <label for="observaciones">Observaciones</label>
