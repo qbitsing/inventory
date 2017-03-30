@@ -70,6 +70,7 @@ angular.module('frontendApp')
             $scope.Entrada={};
             $scope.Entrada.orden_compra.productos=[];
             $scope.Entrada.orden_compra.materia_prima=[];
+            listarOrdenes();
         },function(data){
             console.log(data);
         });

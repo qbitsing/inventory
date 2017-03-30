@@ -71,6 +71,7 @@ angular.module('frontendApp')
             $scope.Salida={};
             $scope.Salida.orden_venta.productos=[];
             $scope.Salida.orden_venta.materia_prima=[];
+            listarOrdenes(); 
         },function(data){
             console.log(data);
         });
