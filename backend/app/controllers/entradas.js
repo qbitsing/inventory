@@ -55,6 +55,7 @@ function crear(req, res){
 						req.body.orden_compra.materia_prima = req.body.orden_compra.materia_prima.map(ele=>{
 								if(ele.cantidad_entrante > ele.cantidad_faltante){
 										ele.cantidad +=  ele.cantidad_entrante - ele.cantidad_faltante;
+										ele.ingresanMas = ele.cantidad_entrante - ele.cantidad_faltante;
 										ele.cantidad_faltante = 0;
 								}else{
 										ele.cantidad_faltante -= ele.cantidad_entrante;
@@ -68,6 +69,7 @@ function crear(req, res){
 						req.body.orden_compra.productos = req.body.orden_compra.productos.map(ele=>{
 								if(ele.cantidad_entrante > ele.cantidad_faltante){
 										ele.cantidad +=  ele.cantidad_entrante - ele.cantidad_faltante;
+										ele.ingresanMas = ele.cantidad_entrante - ele.cantidad_faltante;
 										ele.cantidad_faltante = 0;
 								}else{
 										ele.cantidad_faltante -= ele.cantidad_entrante;
@@ -142,12 +144,28 @@ function crear(req, res){
 		}
 }
 
-function actualizar(req, res){
-
-}
-
 function eliminar(req, res){
+		let ordenId = req.params.id;
 
+		ordenModel.findById(ordenId , (err, registro)=>{
+				if(err){
+					return res.status(500).send({
+						message : `ERROR al intentar obtener la orden indicada ${err}`
+					});
+				}
+
+				if(!registro){
+					return res.status(404).send({
+						message: 'La orden indicada no esta registrada en la base de datos'
+					});
+				}
+
+				anularOrden(registro);
+		});
+
+		function anularOrden(orden){
+
+		}
 }
 
 
@@ -158,4 +176,3 @@ module.exports = {
 		actualizar,
 		eliminar
 };
-
