@@ -64,7 +64,7 @@ angular.module('frontendApp')
             ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
         });
         webServer
-        .getResource("salida",$scope.Salida,"post")
+        .getResource("salidas",$scope.Salida,"post")
         .then(function(data){
             $scope.Salidas.push($scope.Salida);
             alert('Salida registrada correctamente');
@@ -93,7 +93,7 @@ angular.module('frontendApp')
     }
     function listarSalidas(){
         webServer
-        .getResource('salida',{},'get')
+        .getResource('salidas',{},'get')
         .then(function(data){
             if(data.data){
                 $scope.Salidas=data.data.datos;

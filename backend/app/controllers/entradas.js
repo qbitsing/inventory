@@ -173,6 +173,5 @@ module.exports = {
 		listarAll,
 		listarById,
 		crear,
-		actualizar,
 		eliminar
 };
