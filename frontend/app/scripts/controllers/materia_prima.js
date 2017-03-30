@@ -60,7 +60,7 @@ angular.module('frontendApp')
             { 
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
                 width:'25%',
-                minWidth: 180
+                minWidth: 230
             }
         ]
     }

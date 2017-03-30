@@ -21,6 +21,27 @@ angular.module('frontendApp')
     $scope.Entrada.orden_compra=[];
     $scope.Entrada.orden_compra.productos=[];
     $scope.Entrada.orden_compra.materia_prima=[];
+    var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Borrar+'</div>';
+    $scope.gridOptions = {
+        columnDefs: [
+            {
+                name:'numero de orden de compra',field: 'consecutivo',
+                width:'20%',
+                minWidth: 200
+            },
+            {
+                name:'proveedor',field: 'proveedor.nombre',
+                width:'40%',
+                minWidth: 250
+            },
+            {
+                name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
+                width:'40%',
+                minWidth: 230
+            }
+        ]
+    }
+    angular.extend($scope.gridOptions , Tabla);
     $scope.CargarOrden=function(){
         $scope.Ordenes.forEach(function(ele, index){
             if(ele._id==$scope.Orden.compra){
@@ -52,7 +73,6 @@ angular.module('frontendApp')
         },function(data){
             console.log(data);
         });
-        console.log($scope.Entrada);
     }
     function listarOrdenes(){
         webServer
@@ -69,7 +89,38 @@ angular.module('frontendApp')
             console.log(data.data.message);
         });
     }
+    $scope.Detalles = function(id){
+        $scope.Detalle = $scope.Ordenes.find(function(ele){
+            if(ele._id == id){
+                return ele;
+            }
+        });
+        if(!$scope.Detalle.orden_compra.materia_prima){
+            $scope.Detalle.orden_compra.materia_prima=[];
+        }
+        if(!$scope.Detalle.orden_compra.productos){
+            $scope.Detalle.orden_compra.productos=[];
+        }
+        $('#modalDetalles').modal('open');
+    }
+    function listarEntradas(){
+        webServer
+        .getResource('Entradas',{},'get')
+        .then(function(data){
+            if(data.data){
+                $scope.Entradas=data.data.datos;
+            }else{
+                $scope.Entradas=[];
+            }
+            $scope.gridOptions.data=$scope.Entradas;
+        },function(data){
+            $scope.Entradas=[];
+            $scope.gridOptions.data=$scope.Entradas;
+            console.log(data.data.message);
+        });
+    }
     listarOrdenes();
+    listarEntradas();
     function IdentificarEntrada(id , arrObj){
         var obj;
         arrObj.forEach(function(ele , index){

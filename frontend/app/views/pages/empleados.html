@@ -20,25 +20,29 @@
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
+								<label for="apellidos">Apellidos *</label>
+								<input type="text" ng-model="Empleado.apellidos" id="apellidos" name="apellidos" required>
+							</div>
+							<div class="input-field col s12 m6 l6">
 								<label for="Direccion">Direccion *</label>
 								<input type="text" ng-model="Empleado.direccion" id="Direccion" name="Direccion" required>
 							</div>
+						</div>
+						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<label for="Telefono">Telefono *</label>
 								<input type="number" ng-model="Empleado.telefono" id="Telefono" name="Telefono" required>
 							</div>
-						</div>
-						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<label for="Correo">Correo *</label>
 								<input type="email" ng-model="Empleado.correo" id="Correo" name="Correo" required>
 							</div>
+						</div>
+						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<label for="Cargo">Cargo *</label>
 								<input type="text" ng-model="Empleado.cargo" id="Cargo" name="Cargo" required>
 							</div>
-						</div>
-						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<select ng-model="Empleado.rol" required material-select watch>
 									<option value="super_administrador">Super Administrador</option>
@@ -76,11 +80,12 @@
 </div>
 <div id="modalDetalles" class="modal modal-fixed-footer">
     <div class="modal-content">
-    <h4 class="modal-title">{{Detalle.documento}}</h4>
+    <h4 class="modal-title">{{Detalle.nombre}} {{Detalle.apellidos}}</h4>
     	<div class="row">
     		<ul>
 				<li> Documento: {{Detalle.documento || 'No registra'}}</li>
 				<li> Nombre: {{Detalle.nombre || 'No registra'}}</li>
+				<li> Apellidos: {{Detalle.apellidos || 'No registra'}}</li>
 				<li> Direccion: {{Detalle.direccion || 'No registra'}}</li>
 				<li> Telefono: {{Detalle.telefono || 'No registra'}}</li>
 				<li> Correo: {{Detalle.correo || 'No registra'}}</li>

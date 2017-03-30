@@ -10,12 +10,12 @@
 					<form name="formPerfil" novalidate ng-submit="ImageUpdate()">
 						<div class="row">
 							<div class="file-field input-field col s12 m12 l6">
-								<div class="btn blue accent-4">
-							        <span ><i class="material-icons">file_upload</i></span>
+								<div class="btn blue accent-4 waves-effect waves-light">
+							        <span><i class="material-icons">file_upload</i></span>
 							        <input type="file" accept="image/*" id="fileInput">
 								</div>
 								<div class="file-path-wrapper">
-							        <input class="file-path validate" class="input-value" type="text" id="inputval" >
+							        <input class="file-path" class="input-value" type="text" id="inputval" readonly>
 							    </div>								
 								<div class="cropArea img-responsive">
 							    	<ui-cropper image="myImage" result-image="myCroppedImage" on-load-done="cambiar(1)" on-change="cambiar(2)" class="responsive-img"></ui-cropper>

@@ -99,3 +99,48 @@
 		</div>
 	</div>
 </div>
+<div id="modaldeDetalles" class="modal modal-fixed-footer">
+    <div class="modal-content">
+    	<h4 class="modal-title blue accent-4">Orden de entrada</h4>
+    	<div class="row">
+    		<ul>
+				<li> Numero interno de la compra: {{Detalle.orden_compra.numero_interno || 'No registra'}}</li>
+				<li> Proveedor: {{Detalle.proveedor.nombre || 'No registra'}}</li>
+				<li> Observaciones de la entrada: {{Detalle.observaciones || 'No registra'}}</li>
+				<li ng-hide="Detalle.orden_compra.materia_prima.length<1"> <h5>Materias Primas:</h5></li>
+				<table class="highlight" ng-hide="Detalle.orden_compra.materia_prima.length<1">
+					<thead>
+						<tr>
+							<th data-field="id">Nombre</th>
+							<th data-field="name">Cantidad</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="materia in Detalle.orden_compra.materia_prima">
+							<td>{{materia.nombre}}</td>
+							<td>{{materia.cantidad}}</td>
+						</tr>
+					</tbody>
+				</table>
+				<li ng-hide="Detalle.orden_compra.productos.length<1"> <h5>Productos:</h5></li>
+				<table class="highlight" ng-hide="Detalle.orden_compra.productos.length<1">
+					<thead>
+						<tr>
+							<th data-field="id">Nombre</th>
+							<th data-field="name">Cantidad</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="producto in Detalle.orden_compra.productos">
+							<td>{{producto.nombre}}</td>
+							<td>{{producto.cantidad_saliente}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</ul>
+    	</div>
+	</div>
+    <div class="modal-footer">
+      	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Cerrar</a>
+    </div>
+</div>
