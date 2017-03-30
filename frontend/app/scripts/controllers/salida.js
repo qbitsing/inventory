@@ -20,6 +20,32 @@ angular.module('frontendApp')
     $scope.Salida={};
     $scope.Salida.orden_venta=[];
     $scope.Salida.orden_venta.productos=[];
+    var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Borrar+'</div>';
+    $scope.gridOptions = {
+        columnDefs: [
+            {
+                name:'numero de orden de venta',field: 'consecutivo',
+                width:'20%',
+                minWidth: 160
+            },
+            {
+                name:'numero de remision',field: 'remision',
+                width:'20%',
+                minWidth: 160
+            },
+            {
+                name:'cliente',field: 'cliente.nombre',
+                width:'30%',
+                minWidth: 200
+            },
+            {
+                name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
+                width:'30%',
+                minWidth: 230
+            }
+        ]
+    }
+    angular.extend($scope.gridOptions , Tabla);
     $scope.CargarOrden=function(){
         $scope.Ordenes.forEach(function(ele, index){
             if(ele._id==$scope.Orden.venta){
@@ -48,7 +74,6 @@ angular.module('frontendApp')
         },function(data){
             console.log(data);
         });
-        console.log($scope.Salida);
     }
     function listarOrdenes(){
         webServer
@@ -65,7 +90,24 @@ angular.module('frontendApp')
             console.log(data.data.message);
         });
     }
+    function listarSalidas(){
+        webServer
+        .getResource('salida',{},'get')
+        .then(function(data){
+            if(data.data){
+                $scope.Salidas=data.data.datos;
+            }else{
+                $scope.Salidas=[];
+            }
+            $scope.gridOptions.data=$scope.Salidas;
+        },function(data){
+            $scope.Salidas=[];
+            $scope.gridOptions.data=$scope.Salidas;
+            console.log(data.data.message);
+        });
+    }
     listarOrdenes();
+    listarSalidas();
     function IdentificarSalida(id , arrObj){
         var obj;
         arrObj.forEach(function(ele , index){

@@ -20,7 +20,7 @@
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-								<label for="Apellidos">Apellidos *</label>
+								<label for="Apellidos">Apellidos</label>
 								<input type="text" ng-model="Persona.apellidos" id="Apellidos" name="Apellidos">
 							</div>
 							<div class="input-field col s12 m6 l6">
@@ -110,11 +110,12 @@
 </div>
 <div id="modalDetalles" class="modal modal-fixed-footer">
     <div class="modal-content">
-    	<h4 class="modal-title blue accent-4">{{Detalle.documento}}</h4>
+    	<h4 class="modal-title blue accent-4">{{Detalle.nombre}} {{Detalle.apellidos}}</h4>
     	<div class="row">
     		<ul>
 			<li> Documento: {{Detalle.documento || 'No registra'}}</li>
 			<li> Nombre: {{Detalle.nombre || 'No registra'}}</li>
+			<li> Apellidos: {{Detalle.apellidos || 'No registra'}}</li>
 			<li> Direccion: {{Detalle.direccion || 'No registra'}}</li>
 			<li> Telefono: {{Detalle.telefono || 'No registra'}}</li>
 			<li> Correo: {{Detalle.correo || 'No registra'}}</li>

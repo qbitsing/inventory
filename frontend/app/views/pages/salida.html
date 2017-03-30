@@ -83,3 +83,34 @@
 		</div>
 	</div>
 </div>
+<div id="modaldeDetalles" class="modal modal-fixed-footer">
+    <div class="modal-content">
+    	<h4 class="modal-title blue accent-4">Orden de salida</h4>
+    	<div class="row">
+    		<ul>
+				<li> Numero interno de la venta: {{Detalle.orden_venta.numero_interno || 'No registra'}}</li>
+				<li> Cliente: {{Detalle.cliente.nombre || 'No registra'}}</li>
+				<li> Numero de remision: {{Detalle.remision || 'No registra'}}</li>
+				<li> Observaciones de la salida: {{Detalle.observaciones || 'No registra'}}</li>
+				<li ng-hide="Detalle.orden_venta.productos.length<1"> <h5>Productos:</h5></li>
+				<table class="highlight" ng-hide="Detalle.orden_venta.productos.length<1">
+					<thead>
+						<tr>
+							<th data-field="id">Nombre</th>
+							<th data-field="name">Cantidad</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="producto in Detalle.orden_venta.productos">
+							<td>{{producto.nombre}}</td>
+							<td>{{producto.cantidad_saliente}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</ul>
+    	</div>
+	</div>
+    <div class="modal-footer">
+      	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Cerrar</a>
+    </div>
+</div>
