@@ -124,6 +124,10 @@ app.delete('/entradas/:id' , controllers.entradas.eliminar);
 app.get('/entradas' , controllers.entradas.listarAll);
 
 app.get('/entradas/:id' , controllers.entradas.listarById);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 93cd3c8986291203e3eaf5a98d84425b0d5ca1b8
 // Fin Bloque de rutas de entradas
 
 mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {

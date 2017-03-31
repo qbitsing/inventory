@@ -150,6 +150,7 @@ angular.module('frontendApp')
                 alert('Producto actualizada correctamente');
             }
             $scope.Producto={};
+            $scope.Producto.Insumos=[];
         },function(data){
             console.log(data);
         });

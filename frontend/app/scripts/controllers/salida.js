@@ -64,13 +64,14 @@ angular.module('frontendApp')
             ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
         });
         webServer
-        .getResource("salida",$scope.Salida,"post")
+        .getResource("salidas",$scope.Salida,"post")
         .then(function(data){
             $scope.Salidas.push($scope.Salida);
             alert('Salida registrada correctamente');
             $scope.Salida={};
             $scope.Salida.orden_venta.productos=[];
             $scope.Salida.orden_venta.materia_prima=[];
+            listarOrdenes(); 
         },function(data){
             console.log(data);
         });
@@ -92,7 +93,7 @@ angular.module('frontendApp')
     }
     function listarSalidas(){
         webServer
-        .getResource('salida',{},'get')
+        .getResource('salidas',{},'get')
         .then(function(data){
             if(data.data){
                 $scope.Salidas=data.data.datos;
