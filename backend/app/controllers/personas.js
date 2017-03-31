@@ -3,66 +3,23 @@
 const personaModel = require('../models/personas');
 const ciudadModel = require('../models/ciudades');
 const bcrypt = require('bcrypt-nodejs');
+const co = require('co');
 
 function listarAll (req, res){
-	var query = req.query;
-	var personasToReturn = [];
-	responder();
-	if(query.proveedor){
-		personaModel.find({proveedor : true},(err , personasStored) => {
-			if(err){
-				return res.status(500).send({
-					message : `ERROR al tratar de listar las personas: ${err}`
-				});
-			}
-			personasToReturn = personasToReturn.concat(personasStored);
-			query.proveedor = !query.proveedor;
-			responder();
-		});
-	}
-	if(query.cliente){
-		personaModel.find({cliente : true},(err , personasStored) => {
-			if(err){
-				return res.status(500).send({
-					message : `ERROR al tratar de listar las personas: ${err}`
-				});
-			}
-			personasToReturn = personasToReturn.concat(personasStored);
-			query.cliente = !query.cliente;
-			responder();
-		});
-	}
-	if(query.administrador){
-		personaModel.find({administrador : true},(err , personasStored) => {
-			if(err){
-				return res.status(500).send({
-					message : `ERROR al tratar de listar las personas: ${err}`
-				});
-			}
-			personasToReturn = personasToReturn.concat(personasStored);
-			query.administrador = !query.administrador;
-			responder();
-		});
-	}
-	if(query.empleado){
-		personaModel.find({empleado : true},(err , personasStored) => {
-			if(err){
-				return res.status(500).send({
-					message : `ERROR al tratar de listar las personas: ${err}`
-				});
-			}
-			personasToReturn = personasToReturn.concat(personasStored);
-			query.empleado = !query.empleado;
-			responder();
-		});
-	}
-	function responder(){
-		if(!query.proveedor  && !query.cliente && !query.administrador && !query.empleado){
-			res.status(200).send({
-				datos : personasToReturn
-			});
-		}
-	}
+	let query = req.query;
+	let promise = co.wrap(function * (){
+		let condiciones = [];
+		let personas = [];
+		query.proveedor ? condiciones.push({proveedor : true}) : null;
+		query.cliente ? condiciones.push({cliente : true}): null;
+		query.administrador ? condiciones.push({administrador : true}): null;
+		query.empleado ? condiciones.push({empleado : true}): null;
+		if(query.proveedor || query.cliente || query.administrador || query.empleado)
+			personas = yield personaModel.find({$or: condiciones});
+		return res.send({datos: personas});
+	});
+	promise();
+
 }
 
 function listarById (req, res) {
@@ -114,7 +71,7 @@ function crear (req, res) {
 		if(req.body.administrador|| req.body.super_administrador || req.body.contador || req.body.almacenista){
 			pass = CreatePass();
 			req.body.contrasena = encryptarContrasena(pass);
-			
+
 		}
 		insertar();
 	}
@@ -126,7 +83,7 @@ function crear (req, res) {
 				return res.status(500).send({
 					message : `Error al guardar la persona en la base de datos: ${err}`
 				});
-			} 
+			}
 			return res.status(200).send({
 				datos : personaStored,
 				pass
@@ -170,7 +127,7 @@ function login (req, res){
 	let credentials = {
 		correo : req.body.user
 	};
-	personaModel.findOne(credentials , (err , userLogin) => {	
+	personaModel.findOne(credentials , (err , userLogin) => {
 		if(err){
 			return res.status(500).send({
 				message : `Error al intentar validar el usuario: ${err}`
@@ -191,7 +148,7 @@ function login (req, res){
 				message : `Los datos ingresados no coinciden`
 			});
 		}
-		
+
 
 	})
 }
