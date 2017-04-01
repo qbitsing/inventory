@@ -5,6 +5,7 @@ const personaModel = require('../models/personas');
 const materiaModel = require('../models/materia-prima');
 const productoModel = require('../models/productos');
 const ordenModel = require('../models/orden-compra');
+const co = require('co');
 
 function listarAll(req, res){
 		entradaModel.find({}, (err, entradaStored)=>{
@@ -25,6 +26,7 @@ function listarAll(req, res){
 						datos : entradaStored
 				});
 		});
+
 }
 
 function listarById(req, res){
@@ -49,124 +51,110 @@ function listarById(req, res){
 }
 
 function crear(req, res){
-		var errors = [];
-		if(req.body.orden_compra){
-				if(req.body.orden_compra.materia_prima.length > 0){
-						req.body.orden_compra.materia_prima = req.body.orden_compra.materia_prima.map(ele=>{
-								if(ele.cantidad_entrante > ele.cantidad_faltante){
-										ele.cantidad +=  ele.cantidad_entrante - ele.cantidad_faltante;
-										ele.ingresanMas = ele.cantidad_entrante - ele.cantidad_faltante;
-										ele.cantidad_faltante = 0;
-								}else{
-										ele.cantidad_faltante -= ele.cantidad_entrante;
-								}
+		let promise = co.wrap(function * () {
+			if(req.body.orden_compra){
+					if(req.body.orden_compra.materia_prima.length > 0){
+						let materia = req.body.orden_compra.materia_prima;
+						req.body.orden_compra.materia_prima = [];
+						for(var ele of materia){
+							if(ele.cantidad_entrante > ele.cantidad_faltante){
+								ele.cantidad +=  ele.cantidad_entrante - ele.cantidad_faltante;
+								ele.ingresanMas = ele.cantidad_entrante - ele.cantidad_faltante;
+								ele.cantidad_faltante = 0;
+							}else{
+								ele.cantidad_faltante -= ele.cantidad_entrante;
+							}
+							yield materiaModel.findByIdAndUpdate(ele._id, {$inc: {cantidad : ele.cantidad_entrante}});
+							req.body.orden_compra.materia_prima.push(ele);
+						}
+					}
+					if(req.body.orden_compra.productos.length > 0){
+						let productos = req.body.orden_compra.productos;
+						req.body.orden_compra.productos = [];
+						for(var ele of productos){
+							if(ele.cantidad_entrante > ele.cantidad_faltante){
+								ele.cantidad +=  ele.cantidad_entrante - ele.cantidad_faltante;
+								ele.ingresanMas = ele.cantidad_entrante - ele.cantidad_faltante;
+								ele.cantidad_faltante = 0;
+							}else{
+								ele.cantidad_faltante -= ele.cantidad_entrante;
+							}
+							yield productoModel.findByIdAndUpdate(ele._id, {$inc: {cantidad : ele.cantidad_entrante}});
+							req.body.orden_compra.productos.push(ele);
+						}
+					}
 
-								return ele;
-						});
-						updateMaterias();
-				}
-				if(req.body.orden_compra.productos.length > 0){
-						req.body.orden_compra.productos = req.body.orden_compra.productos.map(ele=>{
-								if(ele.cantidad_entrante > ele.cantidad_faltante){
-										ele.cantidad +=  ele.cantidad_entrante - ele.cantidad_faltante;
-										ele.ingresanMas = ele.cantidad_entrante - ele.cantidad_faltante;
-										ele.cantidad_faltante = 0;
-								}else{
-										ele.cantidad_faltante -= ele.cantidad_entrante;
-								}
+					yield ordenModel.findByIdAndUpdate(req.body.orden_compra._id , req.body.orden_compra);
 
-								return ele;
-						});
-				}
-		}
+					let entrada = new entradaModel(req.body);
 
-		ordenModel.findByIdAndUpdate(req.body.orden_compra._id, req.body.orden_compra , (err , registro)=>{
-				if(err){
-						return res.status(500).send({
-								message : `ERROR al intentar actualizar la orden de compra ${err}`
-						});
-				}
-				updateProducts();
+					yield entrada.save();
+
+					respond(200, {
+						message: 'Entrada registrada con exito',
+						datos: entrada
+					});
+
+
+			}else{
+				return respond(400 , {
+					message: 'Error: no es posible registrar la entrada ya que no se especifico una orden de compra'
+				});
+			}
 		});
 
-		function updateProducts(){
-				var cont = 0;
-				if(req.body.orden_compra.productos.length > 0){
-						for(var element of req.body.orden_compra.productos){
-								var dataToUpdate = {
-										$inc: { cantidad: element.cantidad_entrante }
-								};
+		promise();
 
-								productoModel.findByIdAndUpdate(element._id, dataToUpdate , (err , registro)=>{
-										if(err){
-												errors.push(err);
-										}
-										cont ++;
-										if(cont == req.body.orden_compra.productos.length){
-												updateMaterias();
-										}
-								});
-						}
-				}else updateMaterias();
-
+		function respond(status, response){
+			res.status(status).send(response);
 		}
 
-		function updateMaterias(){
-				if(req.body.orden_compra.materia_prima.length > 0){
-						var cont = 0;
-						for(var element of req.body.orden_compra.materia_prima){
-								var dataToUpdate = {
-										$inc: { cantidad: element.cantidad_entrante }
-								};
+}
 
-								materiaModel.findByIdAndUpdate(element._id, dataToUpdate , (err , registro)=>{
-										if(err){
-										errors.push(err);
-										}
-										cont ++;
-										if(cont == req.body.orden_compra.materia_prima.length){
-												responder();
-										}
-								});
-						}
-				}else responder();
+let eliminar = co.wrap(function *(req, res){
+		let entradaId = req.params.id;
+		let entrada = yield entradaModel.findById(entradaId);
 
-		}
-
-		function responder(){
-				if(errors.length > 0){
-						return res.status(500).send(errors);
+		if(entrada.orden_compra.materia_prima.length > 0){
+			let materia = entrada.orden_compra.materia_prima;
+			entrada.orden_compra.materia_prima = [];
+			for(var ele of materia){
+				if(ele.ingresanMas){
+					ele.cantidad -= ele.ingresanMas;
+					ele.cantidad_faltante += ele.cantidad_entrante - ele.ingresanMas;
 				}else{
-						return res.status(200).send({
-								message: `Entrada registrada exitosamente`
-						});
+					ele.cantidad_faltante += ele.cantidad_entrante;
 				}
+
+				yield materiaModel.findByIdAndUpdate(ele._id, {$inc: {cantidad : (ele.cantidad_entrante * -1)}});
+				entrada.orden_compra.materia_prima.push(ele);
+			}
 		}
-}
 
-function eliminar(req, res){
-		let ordenId = req.params.id;
-
-		ordenModel.findById(ordenId , (err, registro)=>{
-				if(err){
-					return res.status(500).send({
-						message : `ERROR al intentar obtener la orden indicada ${err}`
-					});
+		if(entrada.orden_compra.productos.length > 0){
+			let productos = entrada.orden_compra.productos;
+			entrada.orden_compra.productos = [];
+			for(var ele of productos){
+				if(ele.ingresanMas){
+					ele.cantidad -= ele.ingresanMas;
+					ele.cantidad_faltante += ele.cantidad_entrante - ele.ingresanMas;
+				}else{
+					ele.cantidad_faltante += ele.cantidad_entrante;
 				}
+				yield productoModel.findByIdAndUpdate(ele._id, {$inc: {cantidad : (ele.cantidad_entrante * -1)}});
+				entrada.orden_compra.productos.push(ele);
+			}
+		}
 
-				if(!registro){
-					return res.status(404).send({
-						message: 'La orden indicada no esta registrada en la base de datos'
-					});
-				}
+		yield ordenModel.findByIdAndUpdate(entrada.orden_compra._id , entrada.orden_compra);
 
-				anularOrden(registro);
+		yield entradaModel.findByIdAndRemove(entrada._id);
+
+		return res.status(200).send({
+			message: 'Entrada anulada con exito, los cambios han sido revertidos en la base de datos'
 		});
 
-		function anularOrden(orden){
-
-		}
-}
+});
 
 
 module.exports = {

@@ -25,7 +25,7 @@ angular.module('frontendApp')
         );
     });
     $scope.panelAnimate='';
-    $scope.pageAnimate='';  
+    $scope.pageAnimate='';
     $timeout(function () {
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
@@ -126,7 +126,7 @@ angular.module('frontendApp')
                         $scope.Orden.consecutivo=ele.consecutivo;
                     }
                 });
-                $scope.Orden.consecutivo=$scope.Orden.consecutivo+1;                
+                $scope.Orden.consecutivo=$scope.Orden.consecutivo+1;
             }else{
                 $scope.Ordenes=[];
                 $scope.gridOptions.data=$scope.Ordenes;
