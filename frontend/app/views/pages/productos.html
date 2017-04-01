@@ -9,76 +9,116 @@
 				<div class="panel-body" >
 					<form name="formProductos" novalidate ng-submit="EnviarProducto()">
 						<div class="row">
-							<div class="input-field col s12 m6 l6">								
+							<p class="col s6 m2 l2">
+								<input type="checkbox" ng-model="check.kit" id="kit" ng-click="check.producto=!check.kit"/>
+	      						<label for="kit">Kit</label>
+							</p>
+							<p class="col s6 m2 l2">
+								<input type="checkbox" ng-model="check.producto" ng-click="check.kit=!check.producto"  id="producto"/>
+	      						<label for="producto">Producto</label>
+							</p>
+						</div>
+						<div class="row">
+							<div class="input-field col s12 m6 l6" >								
 								<input type="text" ng-model="Producto.nombre" id="Nombre" name="Nombre" required>
 								<label for="Nombre">Nombre *</label>
 							</div>
 							<div class="input-field col s12 m6 l6">
-								<select ng-model="Producto.unidad_medida._id" material-select watch>
-	      							<option ng-repeat="unidad in Unidades" value="{{unidad._id}}">{{unidad.nombre}}</option>
-								</select>
-								<label>Unidad de medida *</label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="input-field col s12 m6 l6">								
-								<input type="text" ng-model="Producto.marca" id="marca" name="marca" required>
-								<label for="marca">Marca *</label>
-							</div>
-							<div class="input-field col s12 m6 l6">								
-								<input type="number" ng-model="Producto.min_stock" id="Telefono" name="Telefono" required>
-								<label for="Telefono">Min stock *</label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="input-field col s12 m6 l6">
-								<select ng-model="Producto.categoria._id" material-select watch>
+								<select ng-model="Producto.categoria._id" material-select watch required>
 	      							<option ng-repeat="Categoria in Categorias" value="{{Categoria._id}}">{{Categoria.nombre}}</option>
 								</select>
 								<label>Categoria *</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12 m6 l6" ng-show="check.producto">								
+								<input type="text" ng-model="Producto.marca" id="marca" name="marca" ng-required="check.producto">
+								<label for="marca">Marca *</label>
+							</div>
+							<div class="input-field col s12 m6 l6" ng-show="check.producto">								
+								<input type="number" ng-model="Producto.min_stock" id="min_stock" name="min_stock" ng-required="check.producto">
+								<label for="min_stock">Min stock *</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12 m6 l6" ng-show="check.producto">
+								<select ng-model="Producto.unidad_medida._id" material-select watch ng-required="check.producto">
+	      							<option ng-repeat="unidad in Unidades" value="{{unidad._id}}">{{unidad.nombre}}</option>
+								</select>
+								<label>Unidad de medida *</label>
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<input type="number" ng-model="Producto.precio" id="Precio" name="Precio" required>
 								<label for="Precio">Precio *</label>
 							</div>
 						</div>
-						<div class="row">
+						<div class="row" ng-show="check.producto">
 							<div class="input-field col s12 m6 l6">
-								<select ng-model="Producto.Insumo._id" material-select watch>
+								<select ng-model="producto.Insumo._id" material-select watch>
 	      							<option ng-repeat="insumo in Insumos" value="{{insumo._id}},{{insumo.nombre}}">{{insumo.nombre}}</option>
 								</select>
 								<label>Insumos *</label>
 							</div>
 							<div class="input-field col s8 m4 l4">
-								<input type="number" ng-model="Producto.Insumo.cantidad" id="Cantidad" name="Cantidad">
+								<input type="number" ng-model="producto.Insumo.cantidad" id="Cantidad" name="Cantidad">
 								<label for="Cantidad">Cantidad *</label>
 							</div>
-							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!(Producto.Insumo._id) || !(Producto.Insumo.cantidad)" ng-click="AgregarInsumo()">Añadir</button>								
-						
+							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!(producto.Insumo._id) || !(producto.Insumo.cantidad)" ng-click="AgregarInsumo()">Añadir</button>
+						</div>
+						<div class="row" ng-show="check.kit">
+							<div class="input-field col s12 m6 l6" >
+								<select ng-model="Kit.producto._id" material-select watch>
+	      							<option ng-repeat="producto in Productos" value="{{producto._id}},{{producto.nombre}}">{{producto.nombre}}</option>
+								</select>
+								<label>Productos *</label>
+							</div>
+							<div class="input-field col s8 m4 l4">
+								<input type="number" ng-model="Kit.producto.cantidad" id="Cantidad" name="Cantidad">
+								<label for="Cantidad">Cantidad *</label>
+							</div>
+							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!(Kit.producto._id) || !(Kit.producto.cantidad)" ng-click="Agregarkit()">Añadir</button>
 						</div>
 						<div class="row">
-							<div class="input-field col s12 m6 l6">
-							<table class="highlight" ng-hide="Producto.Insumos.length<1">
-						        <thead>
-						        	<tr>
-										<th data-field="id">Insumo</th>
-										<th data-field="name">Cantidad</th>
-										<th data-field="price">Opción</th>
-						          	</tr>
-						        </thead>
-						        <tbody>
-						          	<tr ng-repeat="insumo in Producto.Insumos">
-							            <td>{{insumo.nombre}}</td>
-							            <td>{{insumo.cantidad}}</td>
-							            <td><a class="btn btn-danger" class="cursor" ng-click="Borrar($index)">Eliminar</a></td>
-						          	</tr>
-						        </tbody>
-						      </table>
+							<div class="input-field col s12 m6 l6" ng-show="check.producto">
+								<table class="highlight" ng-hide="Producto.Insumos.length<1">
+									<thead>
+										<tr>
+											<th data-field="id">Insumo</th>
+											<th data-field="name">Cantidad</th>
+											<th data-field="opcion">Opción</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="insumo in Producto.Insumos">
+											<td>{{insumo.nombre}}</td>
+											<td>{{insumo.cantidad}}</td>
+											<td><a class="btn btn-danger" class="cursor" ng-click="Borrar($index)">Eliminar</a></td>
+										</tr>
+									</tbody>
+						      	</table>
+							</div>
+							<div class="input-field col s12 m6 l6" ng-show="check.kit">
+								<table class="highlight" ng-hide="Producto.productos.length<1">
+									<thead>
+										<tr>
+											<th data-field="id">Producto</th>
+											<th data-field="name">Cantidad</th>
+											<th data-field="opcion">Opción</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="producto in Producto.productos">
+											<td>{{producto.nombre}}</td>
+											<td>{{producto.cantidad}}</td>
+											<td><a class="btn btn-danger" class="cursor" ng-click="Borrarkit($index)">Eliminar</a></td>
+										</tr>
+									</tbody>
+						      	</table>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col s12 m6 l4">
-								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formProductos.$invalid || Producto.Insumos.length<1">{{button_title_form}}</button>
+								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formProductos.$invalid || (check.producto && Producto.Insumos.length<1) || (check.kit && Producto.productos.length<1)">{{button_title_form}}</button>
 							</div>
 						</div>						
 						<button type="button" class="btn btn-danger" ng-show="panel_title_form == 'Edicion de Productos'" ng-click="CancelarEditar()">Cancelar</button>
@@ -106,13 +146,13 @@
     	<div class="row">
     		<ul>
 			<li> Nombre: {{Detalle.nombre || 'No registra'}}</li>
-			<li> Unidad de medida: {{Detalle.unidad_medida.nombre || 'No registra'}}</li>
-			<li> Minimo stock: {{Detalle.min_stock || 'No registra'}}</li>
-			<li> Marca: {{Detalle.marca || 'No registra'}}</li>
+			<li ng-show="Detalle.Insumos.length>0"> Unidad de medida: {{Detalle.unidad_medida.nombre || 'No registra'}}</li>
+			<li ng-show="Detalle.Insumos.length>0"> Minimo stock: {{Detalle.min_stock || 'No registra'}}</li>
+			<li ng-show="Detalle.Insumos.length>0"> Marca: {{Detalle.marca || 'No registra'}}</li>
 			<li> Categoria: {{Detalle.categoria.nombre || 'No registra'}}</li>
 			<li> Precio: {{Detalle.precio || 'No registra'}}</li>
-			<li> Insumos:</li>
-			<table class="highlight">
+			<li ng-show="Detalle.Insumos.length>0"> Insumos:</li>
+			<table class="highlight" ng-show="Detalle.Insumos.length>0">
 		        <thead>
 		        	<tr>
 						<th data-field="id">Insumo</th>
@@ -121,6 +161,21 @@
 		        </thead>
 		        <tbody>
 		          	<tr ng-repeat="insumo in Detalle.Insumos">
+			            <td>{{insumo.nombre}}</td>
+			            <td>{{insumo.cantidad}}</td>
+		          	</tr>
+		        </tbody>
+		    </table>
+			<li ng-show="Detalle.productos.length>0"> Productos:</li>
+			<table class="highlight" ng-show="Detalle.productos.length>0">
+		        <thead>
+		        	<tr>
+						<th data-field="id">Insumo</th>
+						<th data-field="name">Cantidad</th>
+		          	</tr>
+		        </thead>
+		        <tbody>
+		          	<tr ng-repeat="insumo in Detalle.productos">
 			            <td>{{insumo.nombre}}</td>
 			            <td>{{insumo.cantidad}}</td>
 		          	</tr>

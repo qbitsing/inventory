@@ -34,6 +34,10 @@ angular.module('frontendApp')
 	$scope.button_title_form = "Registrar Producto";
 	$scope.Producto={};
     $scope.Producto.Insumos=[];
+    $scope.Producto.productos=[];
+    $scope.check={};
+    $scope.check.kit=false;
+    $scope.check.producto=true;
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
@@ -101,9 +105,9 @@ angular.module('frontendApp')
     $scope.AgregarInsumo=function(){
         var controlador=false;
         var obj = {
-            _id : $scope.Producto.Insumo._id.split(',')[0],
-            nombre : $scope.Producto.Insumo._id.split(',')[1],
-            cantidad : $scope.Producto.Insumo.cantidad
+            _id : $scope.producto.Insumo._id.split(',')[0],
+            nombre : $scope.producto.Insumo._id.split(',')[1],
+            cantidad : $scope.producto.Insumo.cantidad
         };
         $scope.Producto.Insumos.forEach(function(ele, index){
             if(ele._id==obj._id){
@@ -115,13 +119,41 @@ angular.module('frontendApp')
         }else{
             console.log('El insumo ya esta añadido');
         }
+        $scope.producto={}
     }
     $scope.Borrar=function(index){
         $scope.Producto.Insumos.splice(index,1);
     }
+    $scope.Agregarkit=function(){
+        var controlador=false;
+        var obj = {
+            _id : $scope.Kit.producto._id.split(',')[0],
+            nombre : $scope.Kit.producto._id.split(',')[1],
+            cantidad : $scope.Kit.producto.cantidad
+        };
+        $scope.Producto.productos.forEach(function(ele, index){
+            if(ele._id==obj._id){
+                controlador=true;
+            }
+        });
+        if(!controlador){
+            $scope.Producto.productos.push(obj);
+        }else{
+            console.log('El insumo ya esta añadido');
+        }
+        $scope.Kit={};
+    }
+    $scope.Borrarkit=function(index){
+        $scope.Producto.productos.splice(index,1);
+    }
     $scope.EnviarProducto=function(){
         var ruta="";
         var metodo="";
+        if($scope.check.producto){
+            $scope.Producto.productos=null;
+        }else{
+            $scope.Producto.Insumos=null
+        }
         if ($scope.panel_title_form=="Registro de Productos") {
             ruta="productos";
             metodo="post";
@@ -151,6 +183,7 @@ angular.module('frontendApp')
             }
             $scope.Producto={};
             $scope.Producto.Insumos=[];
+            $scope.Producto.productos=[];
         },function(data){
             console.log(data);
         });
@@ -159,6 +192,7 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Edicion de Productos";
         $scope.button_title_form = "Editar Producto";
         $scope.Producto = IdentificarProducto(id,$scope.Productos);
+        console.log($scope.Producto);
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Productos.find(function(ele){
@@ -185,6 +219,7 @@ angular.module('frontendApp')
                     cantidad : ele.cantidad,
                     marca : ele.marca,
                     categoria : ele.categoria,
+                    unidad_medida : ele.unidad_medida,
                     Insumos : ele.Insumos,
                     productos : ele.productos,
                     precio : ele.precio
