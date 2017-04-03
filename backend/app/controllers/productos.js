@@ -123,7 +123,7 @@ function crear(req, res){
 
                 if(!categoriaStored){
                     return res.status(404).send({
-                        message: `ERROR la categoria indicada no esta registradada en la base de 
+                        message: `ERROR la categoria indicada no esta registradada en la base de
                             datos`
                     });
                 }
@@ -153,7 +153,7 @@ function crear(req, res){
             })
         }else insertar();
     }
-    
+
 
     function insertar(){
         let newMateriaPrima = new ProductoModel(req.body);
@@ -173,6 +173,7 @@ function crear(req, res){
 
 function actualizar(req, res){
     var insumosArray = [];
+    var productosArray = [];
     var ErroresInsumos = [];
     var ErroresProductos = [];
     if(req.body.Insumos){
@@ -247,7 +248,7 @@ function actualizar(req, res){
 
                 if(!categoriaStored){
                     return res.status(404).send({
-                        message: `ERROR la categoria indicada no esta registradada en la base de 
+                        message: `ERROR la categoria indicada no esta registradada en la base de
                             datos`
                     });
                 }
@@ -276,7 +277,7 @@ function actualizar(req, res){
             })
         }else Actuar();
     }
-    
+
     function Actuar(){
         let productoId = req.params.id;
         ProductoModel.findByIdAndUpdate(productoId, req.body, (err, productoStrored)=>{
@@ -290,7 +291,7 @@ function actualizar(req, res){
                 datos: productoStrored
             });
         });
-    }    
+    }
 }
 
 function eliminar(req, res){
@@ -304,7 +305,7 @@ function eliminar(req, res){
 		return res.status(200).send({
 			message : `registro eliminado con exito`
 		});
-	});    
+	});
 }
 
 module.exports = {
