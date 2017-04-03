@@ -169,11 +169,13 @@ angular.module('frontendApp')
                     $scope.Producto.categoria=ele;
                 }
             });
-            $scope.Unidades.forEach(function(ele, index){
-                if(ele._id==$scope.Producto.unidad_medida._id){
-                    $scope.Producto.unidad_medida=ele;
-                }
-            });
+            if($scope.check.producto){
+                $scope.Unidades.forEach(function(ele, index){
+                    if(ele._id==$scope.Producto.unidad_medida._id){
+                        $scope.Producto.unidad_medida=ele;
+                    }
+                });
+            }
             if($scope.panel_title_form=="Registro de Productos"){
                 $scope.Productos.push($scope.Producto);
                 alert('Producto registrado correctamente');
@@ -192,6 +194,10 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Edicion de Productos";
         $scope.button_title_form = "Editar Producto";
         $scope.Producto = IdentificarProducto(id,$scope.Productos);
+        if($scope.Producto.productos.length>0){
+            $scope.check.kit=true;
+            $scope.check.producto=false;
+        }
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Productos.find(function(ele){
