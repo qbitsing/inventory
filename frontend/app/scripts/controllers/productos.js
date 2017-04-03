@@ -36,8 +36,8 @@ angular.module('frontendApp')
     $scope.Producto.Insumos=[];
     $scope.Producto.productos=[];
     $scope.check={};
-    $scope.check.kit=false;
     $scope.check.producto=true;
+    $scope.check.kit=false;
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
@@ -202,6 +202,7 @@ angular.module('frontendApp')
             $scope.Producto={};
             $scope.Producto.Insumos=[];
             $scope.Producto.productos=[];
+            $scope.check.producto=true;
         },function(data){
             console.log(data);
         });
@@ -212,7 +213,6 @@ angular.module('frontendApp')
         $scope.Producto = IdentificarProducto(id,$scope.Productos);
         if($scope.Producto.productos.length>0){
             $scope.check.kit=true;
-            $scope.check.producto=false;
         }
     }
     $scope.Detalles = function(id){

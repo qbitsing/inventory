@@ -30,6 +30,10 @@
 			      	<label for="nombre">Nombre</label>
 					<input type="text" ng-model="categoria.nombre" name="nombre" id="nombre"  required>
 			    </div>
+					<div class="input-field col s12">
+			      	<label for="codigo">Codigo</label>
+					<input type="text" ng-model="categoria.codigo" name="codigo" id="codigo"  required>
+			    </div>
 			  </div>
 			  <button type="submit" ng-click="EnviarCategoria()" class="modal-action waves-effect btn btn-large btn-primary" ng-disabled="formCategorias.$invalid">Registrar Categoria</button>
 			</div>
