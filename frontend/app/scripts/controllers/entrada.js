@@ -25,18 +25,23 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
-                name:'numero de orden de compra',field: 'consecutivo',
+                name:'orden de compra',field: 'orden_compra.consecutivo',
                 width:'20%',
                 minWidth: 200
             },
             {
-                name:'proveedor',field: 'proveedor.nombre',
-                width:'40%',
+                name:'Factura',field: 'numero_factura',
+                width:'20%',
+                minWidth: 250
+            },
+            {
+                name:'proveedor',field: 'orden_compra.proveedor.nombre',
+                width:'30%',
                 minWidth: 250
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'40%',
+                width:'30%',
                 minWidth: 230
             }
         ]
@@ -91,7 +96,7 @@ angular.module('frontendApp')
         });
     }
     $scope.Detalles = function(id){
-        $scope.Detalle = $scope.Ordenes.find(function(ele){
+        $scope.Detalle = $scope.Entradas.find(function(ele){
             if(ele._id == id){
                 return ele;
             }
@@ -102,7 +107,22 @@ angular.module('frontendApp')
         if(!$scope.Detalle.orden_compra.productos){
             $scope.Detalle.orden_compra.productos=[];
         }
-        $('#modalDetalles').modal('open');
+        console.log($scope.Detalle);
+        $('#modaldeDetalles').modal('open');
+    }
+    $scope.Borrar = function(id){
+        webServer
+        .getResource('entradas/'+id,{},'delete')
+        .then(function(data){
+            $scope.Entradas.find(function(ele){
+                if(ele._id == id){
+                    $scope.Entradas.splice(ele.index,1);
+                }
+            });
+        },function(data){
+            alert('Ocurrio un error al eliminar la salida');
+            console.log(data.data.message);
+        });
     }
     function listarEntradas(){
         webServer

@@ -88,8 +88,8 @@
     	<h4 class="modal-title blue accent-4">Orden de salida</h4>
     	<div class="row">
     		<ul>
-				<li> Numero interno de la venta: {{Detalle.orden_venta.numero_interno || 'No registra'}}</li>
-				<li> Cliente: {{Detalle.cliente.nombre || 'No registra'}}</li>
+				<li> Numero interno de la venta: {{Detalle.orden_venta.consecutivo || 'No registra'}}</li>
+				<li> Cliente: {{Detalle.orden_venta.cliente.nombre || 'No registra'}}</li>
 				<li> Numero de remision: {{Detalle.remision || 'No registra'}}</li>
 				<li> Observaciones de la salida: {{Detalle.observaciones || 'No registra'}}</li>
 				<li ng-hide="Detalle.orden_venta.productos.length<1"> <h5>Productos:</h5></li>
