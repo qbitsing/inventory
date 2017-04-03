@@ -192,7 +192,6 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Edicion de Productos";
         $scope.button_title_form = "Editar Producto";
         $scope.Producto = IdentificarProducto(id,$scope.Productos);
-        console.log($scope.Producto);
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Productos.find(function(ele){

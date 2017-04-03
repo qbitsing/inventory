@@ -65,7 +65,7 @@
 						<div class="row">							
 				          	<div class="input-field col s12 m6 l6">
 								<label for="factura">Numero de factura *</label>
-								<input type="text" name="factura" id="factura"  required>
+								<input type="text" name="factura" id="factura" ng-model="Entrada.numero_factura" required>
 							</div>
 							<div class="input-field col s12 m6 l6">
 					            <textarea id="observaciones" ng-model="Entrada.observaciones" class="materialize-textarea" data-length="120"></textarea>
@@ -108,8 +108,9 @@
     	<h4 class="modal-title blue accent-4">Orden de entrada</h4>
     	<div class="row">
     		<ul>
-				<li> Numero interno de la compra: {{Detalle.orden_compra.numero_interno || 'No registra'}}</li>
-				<li> Proveedor: {{Detalle.proveedor.nombre || 'No registra'}}</li>
+				<li> Numero interno de la compra: {{Detalle.orden_compra.consecutivo || 'No registra'}}</li>
+				<li> Proveedor: {{Detalle.orden_compra.proveedor.nombre || 'No registra'}}</li>
+				<li> Numero de factura: {{Detalle.numero_factura || 'No registra'}}</li>
 				<li> Observaciones de la entrada: {{Detalle.observaciones || 'No registra'}}</li>
 				<li ng-hide="Detalle.orden_compra.materia_prima.length<1"> <h5>Materias Primas:</h5></li>
 				<table class="highlight" ng-hide="Detalle.orden_compra.materia_prima.length<1">

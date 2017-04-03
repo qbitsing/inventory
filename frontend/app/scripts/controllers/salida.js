@@ -24,7 +24,7 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
-                name:'numero de orden de venta',field: 'consecutivo',
+                name:'orden de venta',field: 'orden_venta.consecutivo',
                 width:'20%',
                 minWidth: 160
             },
@@ -34,7 +34,7 @@ angular.module('frontendApp')
                 minWidth: 160
             },
             {
-                name:'cliente',field: 'cliente.nombre',
+                name:'cliente',field: 'orden_compra.cliente.nombre',
                 width:'30%',
                 minWidth: 200
             },
@@ -88,6 +88,31 @@ angular.module('frontendApp')
         },function(data){
             $scope.Ordenes=[];
             $scope.gridOptions.data=$scope.Ordenes;
+            console.log(data.data.message);
+        });
+    }
+    $scope.Detalles = function(id){
+        $scope.Detalle = $scope.Salidas.find(function(ele){
+            if(ele._id == id){
+                return ele;
+            }
+        });
+        if(!$scope.Detalle.orden_compra.productos){
+            $scope.Detalle.orden_compra.productos=[];
+        }
+        $('#modaldeDetalles').modal('open');
+    }
+    $scope.Borrar = function(id){
+        webServer
+        .getResource('salidas/'+id,{},'delete')
+        .then(function(data){
+            $scope.Salidas.find(function(ele){
+                if(ele._id == id){
+                    $scope.Salidas.splice(ele.index,1);
+                }
+            });
+        },function(data){
+            alert('Ocurrio un error al eliminar la salida');
             console.log(data.data.message);
         });
     }
