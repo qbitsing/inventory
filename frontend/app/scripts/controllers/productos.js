@@ -85,7 +85,7 @@ angular.module('frontendApp')
     }
     function listarProductos(){
         webServer
-        .getResource('productos',{},'get')
+        .getResource('productos',{producto:true,kit:true},'get')
         .then(function(data){
             if(data.data){
                 $scope.Productos=data.data.datos;
@@ -97,6 +97,20 @@ angular.module('frontendApp')
         },function(data){
             $scope.Productos=[];
             $scope.gridOptions.data=$scope.Productos;
+            console.log(data.data.message);
+        });
+    }
+    function listarProductosSelect(){
+        webServer
+        .getResource('productos',{producto:true},'get')
+        .then(function(data){
+            if(data.data){
+                $scope.ProductosSelect=data.data.datos;
+            }else{
+                $scope.ProductosSelect=[];
+            }
+        },function(data){
+            $scope.ProductosSelect=[];
             console.log(data.data.message);
         });
     }
@@ -163,7 +177,8 @@ angular.module('frontendApp')
         }
         webServer
         .getResource(ruta,$scope.Producto,metodo)
-        .then(function(data){
+        .then(function(data){ 
+            $scope.Producto._id=data.data._id;
             $scope.Categorias.forEach(function(ele, index){
                 if(ele._id==$scope.Producto.categoria._id){
                     $scope.Producto.categoria=ele;
@@ -175,6 +190,7 @@ angular.module('frontendApp')
                         $scope.Producto.unidad_medida=ele;
                     }
                 });
+                $scope.ProductosSelect.push($scope.Producto);
             }
             if($scope.panel_title_form=="Registro de Productos"){
                 $scope.Productos.push($scope.Producto);
