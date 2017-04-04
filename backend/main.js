@@ -147,6 +147,18 @@ app.post('/fabricacion', controllers.fabricacion.crear);
 app.put('/fabricacion/:id', controllers.fabricacion.actualizar);
 // Fin Bloque de rutas de fabricacion
 
+//Bloque de rutas de procesos
+app.get('/procesos', controllers.procesos.listarAll);
+
+app.get('/procesos/:id', controllers.procesos.listarById);
+
+app.post('/procesos', controllers.procesos.crear);
+
+app.put('/procesos/:id', controllers.procesos.actualizar);
+
+app.delete('/procesos/:id', controllers.procesos.eliminar);
+//Fin Bloque de rutas de procesos
+
 mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
 	if(err){
 		return console.log(`ERROR al conectar con la BD: ${err}`);

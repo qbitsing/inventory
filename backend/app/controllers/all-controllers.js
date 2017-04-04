@@ -12,6 +12,7 @@ const ordenVenta = require('./orden-venta');
 const entradas = require('./entradas');
 const salidas = require('./salidas');
 const fabricacion = require('./fabricacion');
+const procesos = require('./procesos');
 
 const controllers = {
 	personas,
@@ -25,7 +26,8 @@ const controllers = {
 	ordenVenta,
 	entradas,
 	salidas,
-	fabricacion
+	fabricacion,
+	procesos
 };
 
 module.exports = controllers;
