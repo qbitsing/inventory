@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('FabricacionCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
+.controller('FabricacionCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';
 	$timeout(function () {
@@ -17,4 +17,4 @@ angular.module('frontendApp')
 	},100);
 	$scope.panel_title_form = "Registro de fabricación";
 	$scope.button_title_form = "Registrar fabricación";
-  });
+});

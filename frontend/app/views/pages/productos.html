@@ -10,11 +10,11 @@
 					<form name="formProductos" novalidate ng-submit="EnviarProducto()">
 						<div class="row">
 							<p class="col s6 m2 l2">
-								<input type="checkbox" ng-model="check.kit" id="kit" ng-click="check.producto=!check.kit"/>
+								<input type="checkbox" ng-model="check.kit" id="kit" ng-change="check.producto=!check.kit"/>
 	      						<label for="kit">Kit</label>
 							</p>
 							<p class="col s6 m2 l2">
-								<input type="checkbox" ng-model="check.producto" ng-click="check.kit=!check.producto"  id="producto"/>
+								<input type="checkbox" ng-model="check.producto" ng-change="check.kit=!check.producto"  id="producto"/>
 	      						<label for="producto">Producto</label>
 							</p>
 						</div>
@@ -68,7 +68,7 @@
 						<div class="row" ng-show="check.kit">
 							<div class="input-field col s12 m6 l6" >
 								<select ng-model="Kit.producto._id" material-select watch>
-	      							<option ng-repeat="producto in Productos" value="{{producto._id}},{{producto.nombre}}">{{producto.nombre}}</option>
+	      							<option ng-repeat="producto in ProductosSelect" value="{{producto._id}},{{producto.nombre}}">{{producto.nombre}}</option>
 								</select>
 								<label>Productos *</label>
 							</div>
@@ -170,7 +170,7 @@
 			<table class="highlight" ng-show="Detalle.productos.length>0">
 		        <thead>
 		        	<tr>
-						<th data-field="id">Insumo</th>
+						<th data-field="id">Producto</th>
 						<th data-field="name">Cantidad</th>
 		          	</tr>
 		        </thead>

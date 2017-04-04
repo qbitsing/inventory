@@ -16,6 +16,7 @@
 		<ul id='config' class='dropdown-content'>
 			<li><a data-target='modal1'>Unidad de medida</a></li>
 			<li><a data-target='modal2'>Categorias</a></li>
+			<li><a data-target='modal3'>Procesos</a></li>
 		</ul>
       </ul>
     </div>
@@ -30,6 +31,10 @@
 			      	<label for="nombre">Nombre</label>
 					<input type="text" ng-model="categoria.nombre" name="nombre" id="nombre"  required>
 			    </div>
+					<div class="input-field col s12">
+			      	<label for="codigo">Codigo</label>
+					<input type="text" ng-model="categoria.codigo" name="codigo" id="codigo"  required>
+			    </div>
 			  </div>
 			  <button type="submit" ng-click="EnviarCategoria()" class="modal-action waves-effect btn btn-large btn-primary" ng-disabled="formCategorias.$invalid">Registrar Categoria</button>
 			</div>
@@ -39,7 +44,7 @@
 			</div>
 	    </div>
 	    <div class="modal-footer">
-	      	<a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar modal</a>
+	      	<a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
 	    </div>
     </form>
 </div>
@@ -62,8 +67,36 @@
 			</div>
 	    </div>
 	    <div class="modal-footer">
-	      	<a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar modal</a>
+	      	<a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
 	    </div>
     </form>
 </div>
-
+<div id="modal3" class="modal modal-fixed-footer">
+    <form class="col s12" name="formUnidades">
+	    <div class="modal-content">
+	      	<h4 class="modal-title">Registro de procesos de fabricacion</h4>
+			<div class="row">
+				<div class="row modal-form-row">
+					<div class="input-field col s12">
+					  	<label for="nombre">Nombre</label>
+						<input type="text" ng-model="proceso.nombre" name="nombre" id="nombre"  required>
+					</div>
+				</div>
+			 	<p>
+			     	<input class="with-gap" name="proceso" type="radio" id="orden" ng-model="radio.orden" value="true" />
+			     	<label for="orden">Proceso interno</label>
+			   		<input class="with-gap" name="proceso" type="radio" id="esporadica"  ng-model="radio.espo" value="true"/>
+			     	<label for="esporadica">Proceso externo</label>					  
+		    	</p>
+			  <button type="submit" ng-click="EnviarUnidad()" class="modal-action waves-effect btn btn-large btn-primary" ng-disabled="formUnidades.$invalid">Registrar Proceso</button>
+			</div>
+	    	
+			<div class="row">
+				<div class="gridStyle grid" ui-grid="gridOptionsModalUnidades" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
+			</div>
+	    </div>
+	    <div class="modal-footer">
+	      	<a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
+	    </div>
+    </form>
+</div>

@@ -51,6 +51,13 @@ $success:#00c853;
   background-color: #448aff !important;
   color:#e0e0e0 !important;
 }
+[type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:after{
+  background-color: $azul;
+  
+}
+[type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:before, [type="radio"].with-gap:checked + label:after{
+  border: 2px solid $azul;
+}
 .content{
   position: absolute;
   top: 0;

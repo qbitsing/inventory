@@ -36,8 +36,8 @@ angular.module('frontendApp')
     $scope.Producto.Insumos=[];
     $scope.Producto.productos=[];
     $scope.check={};
-    $scope.check.kit=false;
     $scope.check.producto=true;
+    $scope.check.kit=false;
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
@@ -85,7 +85,7 @@ angular.module('frontendApp')
     }
     function listarProductos(){
         webServer
-        .getResource('productos',{},'get')
+        .getResource('productos',{producto:true,kit:true},'get')
         .then(function(data){
             if(data.data){
                 $scope.Productos=data.data.datos;
@@ -97,6 +97,20 @@ angular.module('frontendApp')
         },function(data){
             $scope.Productos=[];
             $scope.gridOptions.data=$scope.Productos;
+            console.log(data.data.message);
+        });
+    }
+    function listarProductosSelect(){
+        webServer
+        .getResource('productos',{producto:true},'get')
+        .then(function(data){
+            if(data.data){
+                $scope.ProductosSelect=data.data.datos;
+            }else{
+                $scope.ProductosSelect=[];
+            }
+        },function(data){
+            $scope.ProductosSelect=[];
             console.log(data.data.message);
         });
     }
@@ -163,17 +177,21 @@ angular.module('frontendApp')
         }
         webServer
         .getResource(ruta,$scope.Producto,metodo)
-        .then(function(data){
+        .then(function(data){ 
+            $scope.Producto._id=data.data._id;
             $scope.Categorias.forEach(function(ele, index){
                 if(ele._id==$scope.Producto.categoria._id){
                     $scope.Producto.categoria=ele;
                 }
             });
-            $scope.Unidades.forEach(function(ele, index){
-                if(ele._id==$scope.Producto.unidad_medida._id){
-                    $scope.Producto.unidad_medida=ele;
-                }
-            });
+            if($scope.check.producto){
+                $scope.Unidades.forEach(function(ele, index){
+                    if(ele._id==$scope.Producto.unidad_medida._id){
+                        $scope.Producto.unidad_medida=ele;
+                    }
+                });
+                $scope.ProductosSelect.push($scope.Producto);
+            }
             if($scope.panel_title_form=="Registro de Productos"){
                 $scope.Productos.push($scope.Producto);
                 alert('Producto registrado correctamente');
@@ -184,6 +202,7 @@ angular.module('frontendApp')
             $scope.Producto={};
             $scope.Producto.Insumos=[];
             $scope.Producto.productos=[];
+            $scope.check.producto=true;
         },function(data){
             console.log(data);
         });
@@ -192,6 +211,9 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Edicion de Productos";
         $scope.button_title_form = "Editar Producto";
         $scope.Producto = IdentificarProducto(id,$scope.Productos);
+        if($scope.Producto.productos.length>0){
+            $scope.check.kit=true;
+        }
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Productos.find(function(ele){

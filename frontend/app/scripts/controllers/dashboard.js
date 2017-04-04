@@ -86,12 +86,17 @@ angular.module('frontendApp')
         columnDefs: [
             {
                 field: 'nombre',
-                width:'50%',
+                width:'30%',
+                minWidth: 200
+            },
+            {
+                field: 'codigo',
+                width:'30%',
                 minWidth: 200
             },
             { 
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotonesModalCategorias,
-                width:'50%',
+                width:'40%',
                 minWidth: 200
             }
         ]
