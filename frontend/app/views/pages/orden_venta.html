@@ -29,7 +29,7 @@
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<label for="fecha_recepcion">Fecha de recepción *</label>
-								<input type="date" ng-model="Orden.fecha_recepcion" class="datepicker" >
+								<input type="date" ng-model="Orden.fecha_recepcion" class="datepicker" required>
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="lugar_entrega">Lugar entrega *</label>
@@ -43,7 +43,7 @@
 				          </div>
 				          <div class="input-field col s12 m6 l6">
 								<label for="fecha_recepcion">Fecha de entrega *</label>
-								<input type="date" class="datepicker" ng-model="Orden.fecha_entrega">
+								<input type="date" class="datepicker" ng-model="Orden.fecha_entrega" required>
 							</div>
 						</div>
 						<div class="row">
@@ -96,7 +96,7 @@
 		<div class="col s12">
 			<div class="card-panel panel-default {{panelAnimate}}">
 				<div class="panel-heading blue accent-4">
-					<h3 class="panel-title">Lista de compras</h3>
+					<h3 class="panel-title">Lista de fabricaciones</h3>
 				</div>
 				<div class="panel-body" >
 					<div class="gridStyle grid" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
