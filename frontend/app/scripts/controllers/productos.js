@@ -78,9 +78,11 @@ angular.module('frontendApp')
             }else{
                 $scope.Insumos=[];
             }
+            listarProductosSelect();
         },function(data){
             $scope.Insumos=[];
             console.log(data.data.message);
+            listarProductosSelect();
         });
     }
     function listarProductos(){
@@ -94,10 +96,12 @@ angular.module('frontendApp')
                 $scope.Productos=[];
                 $scope.gridOptions.data=$scope.Productos;
             }
+            listarInsumos();
         },function(data){
             $scope.Productos=[];
             $scope.gridOptions.data=$scope.Productos;
             console.log(data.data.message);
+            listarInsumos();
         });
     }
     function listarProductosSelect(){
@@ -115,7 +119,6 @@ angular.module('frontendApp')
         });
     }
     listarProductos();
-    listarInsumos();
     $scope.AgregarInsumo=function(){
         var controlador=false;
         var obj = {

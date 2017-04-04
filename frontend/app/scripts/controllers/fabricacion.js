@@ -178,5 +178,4 @@ angular.module('frontendApp')
         });
     }
 	listarFabricaciones();
-    
 });

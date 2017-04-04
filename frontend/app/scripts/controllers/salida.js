@@ -126,13 +126,14 @@ angular.module('frontendApp')
                 $scope.Salidas=[];
             }
             $scope.gridOptions.data=$scope.Salidas;
+            listarOrdenes();
         },function(data){
             $scope.Salidas=[];
             $scope.gridOptions.data=$scope.Salidas;
             console.log(data.data.message);
+            listarOrdenes();
         });
     }
-    listarOrdenes();
     listarSalidas();
     function IdentificarSalida(id , arrObj){
         var obj;

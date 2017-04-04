@@ -139,8 +139,10 @@ angular.module('frontendApp')
             }else{
                 $scope.gridOptions.data = [];
             }
+            listarDepartamentos();
         },function(data){
             console.log(data);
+            listarDepartamentos();
         });
     }
     function listarCiudades(){
@@ -165,13 +167,13 @@ angular.module('frontendApp')
             }else{
                 $scope.Departamentos=[];
             }
+            listarCiudades();
         },function(data){
             console.log(data.data);
+            listarCiudades();
         });
     }
     listarPersonas();
-    listarDepartamentos();
-    listarCiudades();
     function IdentificarPersona (id , arrObj){
         var obj;
         arrObj.forEach(function(ele , index){
