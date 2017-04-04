@@ -76,12 +76,18 @@
 	    <div class="modal-content">
 	      	<h4 class="modal-title">Registro de procesos de fabricacion</h4>
 			<div class="row">
-			  <div class="row modal-form-row">
-			    <div class="input-field col s12">
-			      	<label for="nombre">Nombre</label>
-					<input type="text" ng-model="Unidad_de_medida.nombre" name="nombre" id="nombre"  required>
-			    </div>
-			  </div>
+				<div class="row modal-form-row">
+					<div class="input-field col s12">
+					  	<label for="nombre">Nombre</label>
+						<input type="text" ng-model="proceso.nombre" name="nombre" id="nombre"  required>
+					</div>
+				</div>
+			 	<p>
+			     	<input class="with-gap" name="proceso" type="radio" id="orden" ng-model="radio.orden" value="true" />
+			     	<label for="orden">Proceso interno</label>
+			   		<input class="with-gap" name="proceso" type="radio" id="esporadica"  ng-model="radio.espo" value="true"/>
+			     	<label for="esporadica">Proceso externo</label>					  
+		    	</p>
 			  <button type="submit" ng-click="EnviarUnidad()" class="modal-action waves-effect btn btn-large btn-primary" ng-disabled="formUnidades.$invalid">Registrar Proceso</button>
 			</div>
 	    	
