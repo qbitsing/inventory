@@ -138,11 +138,13 @@ angular.module('frontendApp')
                 $scope.Fabricaciones=[];
                 $scope.gridOptions.data=$scope.Fabricaciones;
             }
+            listarOrdenes();
         },function(data){
             $scope.fabricacion.consecutivo=1;
             $scope.Fabricaciones=[];
             $scope.gridOptions.data=$scope.Fabricaciones;
             console.log(data.data.message);
+            listarOrdenes();
         });
     }
 	function listarOrdenes(){
@@ -154,12 +156,27 @@ angular.module('frontendApp')
             }else{
                 $scope.Ordenes=[];
             }
+            listarPersonas();
         },function(data){
             $scope.Ordenes=[];
             $scope.gridOptions.data=$scope.Ordenes;
             console.log(data.data.message);
+            listarPersonas();
         });
     }
-	listarOrdenes();
-    listarFabricaciones();
+    function listarPersonas(){
+        webServer
+        .getResource('personas',{administrador:true,almacenista:true,contador:true,empleado:true},'get')
+        .then(function(data){
+            if(data.data){
+                $scope.personas = data.data.datos;
+            }else{
+                $scope.personas = [];
+            }
+        },function(data){
+            console.log(data);
+        });
+    }
+	listarFabricaciones();
+    
 });

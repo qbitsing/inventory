@@ -25,7 +25,7 @@
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<select material-select watch ng-model="fabricacion.responsable._id">
-	      							<option></option>
+	      							<option ng-repeat="persona in personas" value="{{persona._id}}">{{persona.nombre}} {{persona.apellidos}}</option>
 								</select>
 								<label>Persona responsable *</label>
 							</div>
