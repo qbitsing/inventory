@@ -135,8 +135,17 @@ app.delete('/salidas/:id' , controllers.salidas.eliminar);
 app.get('/salidas' , controllers.salidas.listarAll);
 
 app.get('/salidas/:id' , controllers.salidas.listarById);
-
 // Fin Bloque de rutas de salidas
+
+// Bloque de rutas de fabricacion
+app.get('/fabricacion', controllers.fabricacion.listarAll);
+
+app.get('/fabricacion/:id', controllers.fabricacion.listarById);
+
+app.post('/fabricacion', controllers.fabricacion.crear);
+
+app.put('/fabricacion/:id', controllers.fabricacion.actualizar);
+// Fin Bloque de rutas de fabricacion
 
 mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
 	if(err){

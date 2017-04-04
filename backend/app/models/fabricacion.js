@@ -10,9 +10,8 @@ const fabricacionSchema = new Schema({
   responsable: {},
   autoriza: {},
   productos: [],
-  insumos: [],
   procesos_externos: [],
-  orden_venta: []
+  orden_venta: {}
 });
 
 module.exports = mongoose.model('fabricacion', fabricacionSchema);
