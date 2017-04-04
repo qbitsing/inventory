@@ -29,13 +29,13 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="input-field col s12 m6 l6" ng-show="check.orden">
+							<div class="input-field col s12 m6 l6" ng-show="check=='orden'">
 								<label>Orden de venta *</label>
 								<select material-select watch ng-model="Orden">
 	      							<option></option>
 								</select>
 							</div>
-							<div class="input-field col s12 m6 l6" ng-show="check.orden">
+							<div class="input-field col s12 m6 l6" ng-show="check=='orden'">
 								<input type="number" ng-disabled="true" ng-model="fabricacion.orden_venta.cliente.nombre" id="consecutivo" name="consecutivo" ng-required="check.orden">
 								<label for="consecutivo">Cliente *</label>
 							</div>
