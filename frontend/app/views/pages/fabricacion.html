@@ -9,14 +9,12 @@
 				<div class="panel-body" >
 					<form name="formfabricacion" ng-submit="EnviarFabricacion()">
 						<div class="row">
-							<p class="col s6 m2 l2">
-								<input type="checkbox" ng-model="check.orden" id="orden" ng-change="check.stock=!check.orden"/>
-	      						<label for="orden">Orden de venta</label>
-							</p>
-							<p class="col s6 m2 l2">
-								<input type="checkbox" ng-model="check.stock" ng-change="check.orden=!check.stock"  id="stock"/>
-	      						<label for="stock">Stock</label>
-							</p>
+							<p>
+						      <input name="tipo" type="radio" ng-model="check" id="venta" value="orden"/>
+						      <label for="venta">Orden de venta</label>
+						      <input name="tipo" type="radio" ng-model="check" id="stock" value="stock" />
+						      <label for="stock">Stock</label>
+						    </p>
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
