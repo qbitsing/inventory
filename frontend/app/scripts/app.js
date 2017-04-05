@@ -28,7 +28,8 @@ angular
     'ui.grid.cellNav',
     'mdo-angular-cryptography',
     'uiCropper',
-    'ui.materialize'
+    'ui.materialize',
+    'io-barcode'
   ])
   .config(function (localStorageServiceProvider) {
     localStorageServiceProvider
