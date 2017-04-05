@@ -68,8 +68,11 @@ angular.module('frontendApp')
             }else{
                 $scope.clientes = [];
             }
+            listarProductos();
         },function(data){
+            $scope.clientes = [];
             console.log(data);
+            listarProductos();
         });
     }
     function listarProductos(){
@@ -105,15 +108,15 @@ angular.module('frontendApp')
                 $scope.Ordenes=[];
                 $scope.gridOptions.data=$scope.Ordenes;
             }
+            listarPersonas();
         },function(data){
             $scope.Orden.consecutivo='1';
             $scope.Ordenes=[];
             $scope.gridOptions.data=$scope.Ordenes;
             console.log(data.data.message);
+            listarPersonas();
         });
     }
-    listarPersonas();
-    listarProductos();
     listarOrdenes();
     $scope.AgregarProducto=function(){
         var controlador=false;

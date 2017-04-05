@@ -17,8 +17,7 @@ angular.module('frontendApp')
 	},100);
 	$scope.panel_title_form = "Registro de fabricación";
 	$scope.button_title_form = "Registrar fabricación";
-	$scope.check={};
-	$scope.check.orden=true;
+	$scope.check='orden';
 	$scope.fabricacion={};
 	$scope.fabricacion.productos=[];
 	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Borrar+'</div>';
@@ -178,5 +177,4 @@ angular.module('frontendApp')
         });
     }
 	listarFabricaciones();
-    
 });

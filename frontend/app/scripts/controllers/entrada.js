@@ -134,13 +134,15 @@ angular.module('frontendApp')
                 $scope.Entradas=[];
             }
             $scope.gridOptions.data=$scope.Entradas;
+            listarOrdenes();
         },function(data){
             $scope.Entradas=[];
             $scope.gridOptions.data=$scope.Entradas;
             console.log(data.data.message);
+            listarOrdenes();
         });
     }
-    listarOrdenes();
+    
     listarEntradas();
     function IdentificarEntrada(id , arrObj){
         var obj;

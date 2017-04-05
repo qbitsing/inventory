@@ -80,9 +80,11 @@ angular.module('frontendApp')
             }else{
                 $scope.materias=[];
             }
+            listarPersonas();
         },function(data){
             $scope.materias=[];
             console.log(data.data.message);
+            listarPersonas();
         });
     }
     function listarProductos(){
@@ -94,9 +96,11 @@ angular.module('frontendApp')
             }else{
                 $scope.productos=[];
             }
+            listarMaterias();
         },function(data){
             $scope.materias=[];
             console.log(data.data.message);
+            listarMaterias();
         });
     }
     $scope.Detalles = function(id){
@@ -132,16 +136,15 @@ angular.module('frontendApp')
                 $scope.gridOptions.data=$scope.Ordenes;
                 $scope.Orden.consecutivo='1';
             }
+            listarProductos();
         },function(data){
             $scope.Ordenes=[];
             $scope.gridOptions.data=$scope.Ordenes;
             $scope.Orden.consecutivo='1';
             console.log(data.data.message);
+            listarProductos();
         });
     }
-    listarPersonas();
-    listarMaterias();
-    listarProductos();
     listarOrdenes();
     $scope.AgregarProducto=function(){
         var controlador=false;

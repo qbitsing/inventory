@@ -35,9 +35,7 @@ angular.module('frontendApp')
 	$scope.Producto={};
     $scope.Producto.Insumos=[];
     $scope.Producto.productos=[];
-    $scope.check={};
-    $scope.check.producto=true;
-    $scope.check.kit=false;
+    $scope.check='producto';
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
@@ -78,9 +76,11 @@ angular.module('frontendApp')
             }else{
                 $scope.Insumos=[];
             }
+            listarProductosSelect();
         },function(data){
             $scope.Insumos=[];
             console.log(data.data.message);
+            listarProductosSelect();
         });
     }
     function listarProductos(){
@@ -94,10 +94,12 @@ angular.module('frontendApp')
                 $scope.Productos=[];
                 $scope.gridOptions.data=$scope.Productos;
             }
+            listarInsumos();
         },function(data){
             $scope.Productos=[];
             $scope.gridOptions.data=$scope.Productos;
             console.log(data.data.message);
+            listarInsumos();
         });
     }
     function listarProductosSelect(){
@@ -115,7 +117,6 @@ angular.module('frontendApp')
         });
     }
     listarProductos();
-    listarInsumos();
     $scope.AgregarInsumo=function(){
         var controlador=false;
         var obj = {
@@ -163,7 +164,7 @@ angular.module('frontendApp')
     $scope.EnviarProducto=function(){
         var ruta="";
         var metodo="";
-        if($scope.check.producto){
+        if($scope.check=='producto'){
             $scope.Producto.productos=null;
         }else{
             $scope.Producto.Insumos=null
@@ -184,7 +185,7 @@ angular.module('frontendApp')
                     $scope.Producto.categoria=ele;
                 }
             });
-            if($scope.check.producto){
+            if($scope.check=='producto'){
                 $scope.Unidades.forEach(function(ele, index){
                     if(ele._id==$scope.Producto.unidad_medida._id){
                         $scope.Producto.unidad_medida=ele;
@@ -202,7 +203,7 @@ angular.module('frontendApp')
             $scope.Producto={};
             $scope.Producto.Insumos=[];
             $scope.Producto.productos=[];
-            $scope.check.producto=true;
+            $scope.check='producto';
         },function(data){
             console.log(data);
         });
@@ -212,7 +213,7 @@ angular.module('frontendApp')
         $scope.button_title_form = "Editar Producto";
         $scope.Producto = IdentificarProducto(id,$scope.Productos);
         if($scope.Producto.productos.length>0){
-            $scope.check.kit=true;
+            $scope.check='kit';
         }
     }
     $scope.Detalles = function(id){
