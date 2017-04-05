@@ -26,7 +26,9 @@
     "jquery-ui": "^1.12.1",
     "ui-cropper": "^1.0.4",
     "angular": "^1.6.2",
-    "angular-materialize": "^0.2.2"
+    "angular-materialize": "^0.2.2",
+    "angular-barcode": "^0.0.4",
+    "angular-io-barcode": "^1.0.4"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"

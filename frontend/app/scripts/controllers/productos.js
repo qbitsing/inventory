@@ -9,6 +9,29 @@
  */
 angular.module('frontendApp')
 .controller('ProductosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
+    $scope.productBarCode = [];
+    $scope.bc = {
+        format: 'CODE128',
+        lineColor: '#000000',
+        width: 2,
+        height: 100,
+        displayValue: true,
+        fontOptions: '',
+        font: 'monospace',
+        textAlign: 'center',
+        textPosition: 'bottom',
+        textMargin: 2,
+        fontSize: 20,
+        background: '#ffffff',
+        margin: 0,
+        marginTop: undefined,
+        marginBottom: undefined,
+        marginLeft: undefined,
+        marginRight: undefined,
+        valid: function (valid) {
+        }
+    }
+    $scope.text = "Hola";
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -228,6 +251,28 @@ angular.module('frontendApp')
         $scope.Producto={};
         $scope.panel_title_form = "Registro de Productos";
         $scope.button_title_form = "Registrar Producto";
+    }
+    $scope.openModalBarCode = function(){
+        $('#modalBarCode').modal('open');
+    }
+    $scope.addProductBarCode = function(){
+        var pro = JSON.parse($scope.productBarCodeId);
+        var bandera = true;
+        $scope.productBarCode.forEach(function(ele){
+            if(ele.producto._id == pro._id) return bandera = false;
+        });
+        if(bandera){
+            $scope.productBarCode.push({
+                producto: pro,
+                cantidad: $scope.productBarCodeCant
+            });
+        }
+        $scope.productBarCodeCant = null;
+        $scope.productBarCodeId = null;
+
+    }
+    $scope.printBarCodes = function(){
+
     }
     function IdentificarProducto (id , arrObj){
         var obj;

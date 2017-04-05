@@ -132,6 +132,7 @@
 					<h3 class="panel-title">Lista de Productos</h3>
 				</div>
 				<div class="panel-body" >
+					<button type="button" class="btn btn-large blue accent-4" ng-click="openModalBarCode()">Generar Codigos de Barras</button>
 					<div class="gridStyle grid" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
 				</div>
 			</div>
@@ -182,6 +183,53 @@
 		</ul>
     	</div>
 	</div>
+    <div class="modal-footer">
+      	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Cerrar</a>
+    </div>
+</div>
+
+<div id="modalBarCode" class="modal modal-fixed-footer">
+    <div class="modal-content">
+    	<h4 class="modal-title blue accent-4">Generar e imprimir codigos de barras de los productos</h4>
+    	<div class="row">
+				<form name="productBarCodeForm" novalidate ng-submit="addProductBarCode()">
+					<div class="row">
+						<div class="input-field col s12 m6 l6">
+							<select ng-model="productBarCodeId" material-select watch required>
+								<option ng-repeat="produto in Productos" value="{{produto}}" >{{produto.nombre}}</option>
+							</select>
+							<label>Producto *</label>
+						</div>
+						<div class="input-field col s12 m6 l6">
+							<input type="number" ng-model="productBarCodeCant" name="barCodeCant" id="barCodeCant" required>
+							<label for="barCodeCant">cantidad *</label>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-large blue accent-4" ng-disabled="productBarCodeForm.$invalid">Agregar</button>
+				</form>
+				<table>
+					<thead>
+						<tr>
+								<th>Producto</th>
+								<th>Cantidad</th>
+								<th>Codigo de Barras</th>
+								<th></th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr ng-repeat="item in productBarCode">
+							<td>{{item.producto.nombre}}</td>
+							<td>{{item.cantidad}}</td>
+							<td></td>
+							<td><button type="button" class="btn btn-danger" ng-click="productBarCode.splice($index , 1)">Eliminar</button></td>
+						</tr>
+					</tbody>
+      	</table>
+
+				<button type="button" class="btn btn-large blue" ng-show="productBarCode.length > 0" ng-click="printBarCodes()">Imprimir Codigos de barras</button>
+    	</div>
+		</div>
     <div class="modal-footer">
       	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Cerrar</a>
     </div>
