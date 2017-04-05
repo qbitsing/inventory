@@ -221,7 +221,7 @@
 						<tr ng-repeat="item in productBarCode">
 							<td>{{item.producto.nombre}}</td>
 							<td>{{item.cantidad}}</td>
-							<td></td>
+							<td><io-barcode code="{{item.producto._id}}" type="CODE128B"></io-barcode></td>
 							<td><button type="button" class="btn btn-danger" ng-click="productBarCode.splice($index , 1)">Eliminar</button></td>
 						</tr>
 					</tbody>
