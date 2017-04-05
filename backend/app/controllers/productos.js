@@ -163,7 +163,6 @@ function crear(req, res){
                     message : `ERROR al intentar almacenar el recurso en la abse de datos ${err}`
                 });
             }
-
             return res.status(200).send({
                 datos: materiaPrimaStored
             });
