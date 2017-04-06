@@ -11,25 +11,11 @@ angular.module('frontendApp')
 .controller('ProductosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
     $scope.productBarCode = [];
     $scope.bc = {
-        format: 'CODE128',
         lineColor: '#000000',
-        width: 2,
-        height: 100,
+        width: 0.5,
+        height: 25,
         displayValue: true,
-        fontOptions: '',
-        font: 'monospace',
-        textAlign: 'center',
-        textPosition: 'bottom',
-        textMargin: 2,
-        fontSize: 20,
-        background: '#ffffff',
-        margin: 0,
-        marginTop: undefined,
-        marginBottom: undefined,
-        marginLeft: undefined,
-        marginRight: undefined,
-        valid: function (valid) {
-        }
+        fontSize: 10
     }
     $scope.text = "Hola";
     $(document).ready(function(){
@@ -272,7 +258,8 @@ angular.module('frontendApp')
 
     }
     $scope.printBarCodes = function(){
-
+        var ele = $('#containerBarCodesToPrint');
+        
     }
     function IdentificarProducto (id , arrObj){
         var obj;
