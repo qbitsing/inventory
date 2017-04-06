@@ -34,6 +34,7 @@ angular.module('frontendApp')
     $scope.button_title_form = "Registrar Empleado";
     $scope.Empleado={};
     $scope.Empleado.rol=null;
+    $scope.Detallemodal={};
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
@@ -114,6 +115,30 @@ angular.module('frontendApp')
             }
         });
         $('#modalDetalles').modal('open');
+    }
+    $scope.abrirModal=function(_id){
+        $scope.Detallemodal.id=_id;
+        $scope.Detallemodal.titulo='Confirmar eliminación';
+        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar el empleado?';
+        $('#modalConfirmacion').modal('open');
+    }
+    $scope.Borrar=function(id){
+        $scope.Detallemodal={};
+         webServer
+        .getResource('empleados/'+id,{},'delete')
+        .then(function(data){
+            $scope.Empleados.forEach(function(ele, index){
+                if(ele._id==id){
+                    $scope.Empleados.splice(ele.index,1);
+                }
+            });
+            $scope.Detallemodal.mensaje='El empleado se ha eliminado exitosamente';
+        },function(data){
+            $scope.Detallemodal.mensaje=data.data.message;
+            console.log(data.data.message);
+        });
+        $scope.Detallemodal.titulo='Notificacion de eliminación';
+        $('#modalNotificacion').modal('open');
     }
     $scope.Editar = function(id){
         $scope.Empleado = IdentificarPersona(id,$scope.Empleados);

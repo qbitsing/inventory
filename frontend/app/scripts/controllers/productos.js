@@ -59,6 +59,7 @@ angular.module('frontendApp')
     $scope.Producto.Insumos=[];
     $scope.Producto.productos=[];
     $scope.check='producto';
+    $scope.Detallemodal={};
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
@@ -159,8 +160,34 @@ angular.module('frontendApp')
         }
         $scope.producto={}
     }
-    $scope.Borrar=function(index){
-        $scope.Producto.Insumos.splice(index,1);
+    $scope.abrirModal=function(_id){
+        $scope.Detallemodal.id=_id;
+        $scope.Detallemodal.titulo='Confirmar eliminación';
+        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar el producto?';
+        $('#modalConfirmacion').modal('open');
+    }
+    $scope.Borrar=function(id){
+        $scope.Detallemodal={};
+         webServer
+        .getResource('productos/'+id,{},'delete')
+        .then(function(data){
+            $scope.Productos.forEach(function(ele, index){
+                if(ele._id==id){
+                    $scope.Productos.splice(ele.index,1);
+                }
+            });
+            $scope.ProductosSelect.forEach(function(ele, index){
+                if(ele._id==id){
+                    $scope.ProductosSelect.splice(ele.index,1);
+                }
+            });
+            $scope.Detallemodal.mensaje='El producto se ha eliminado exitosamente';
+        },function(data){
+            $scope.Detallemodal.mensaje=data.data.message;
+            console.log(data.data.message);
+        });
+        $scope.Detallemodal.titulo='Notificacion de eliminación';
+        $('#modalNotificacion').modal('open');
     }
     $scope.Agregarkit=function(){
         var controlador=false;
@@ -235,9 +262,12 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Edicion de Productos";
         $scope.button_title_form = "Editar Producto";
         $scope.Producto = IdentificarProducto(id,$scope.Productos);
-        if($scope.Producto.productos.length>0){
+        if($scope.Producto.productos){
             $scope.check='kit';
+        }else{
+            $scope.check='producto';
         }
+
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Productos.find(function(ele){
