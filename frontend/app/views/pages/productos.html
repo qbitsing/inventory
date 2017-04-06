@@ -200,32 +200,27 @@
 						</select>
 						<label>Producto *</label>
 					</div>
-					<div class="input-field col s12 m6 l6">
-						<input type="number" ng-model="productBarCodeCant" name="barCodeCant" id="barCodeCant" required>
-						<label for="barCodeCant">cantidad *</label>
-					</div>
-				</div>
-				<button type="submit" class="btn btn-large blue accent-4" ng-disabled="productBarCodeForm.$invalid">Agregar</button>
-			</form>
-			<table>
-				<thead>
-					<tr>
-						<th>Producto</th>
-						<th>Cantidad</th>
-						<th>Codigo de Barras</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="item in productBarCode">
-						<td>{{item.producto.nombre}}</td>
-						<td>{{item.cantidad}}</td>
-						<td></td>
-						<td><button type="button" class="btn btn-danger" ng-click="productBarCode.splice($index , 1)">Eliminar</button></td>
-					</tr>
-				</tbody>
-      		</table>
-			<button type="button" class="btn btn-large blue" ng-show="productBarCode.length > 0" ng-click="printBarCodes()">Imprimir Codigos de barras</button>
+					<button type="submit" class="btn btn-large blue accent-4" ng-disabled="productBarCodeForm.$invalid">Agregar</button>
+				</form>
+				<table>
+					<thead>
+						<tr>
+								<th>Producto</th>
+								<th>Cantidad</th>
+								<th>Codigo de Barras</th>
+								<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in productBarCode">
+							<td>{{item.producto.nombre}}</td>
+							<td>{{item.cantidad}}</td>
+							<td><io-barcode code="{{item.producto._id}}" type="CODE128B"></io-barcode></td>
+							<td><button type="button" class="btn btn-danger" ng-click="productBarCode.splice($index , 1)">Eliminar</button></td>
+						</tr>
+					</tbody>
+      	</table>
+				<button type="button" class="btn btn-large blue" ng-show="productBarCode.length > 0" ng-click="printBarCodes()">Imprimir Codigos de barras</button>
     	</div>
 		</div>
     <div class="modal-footer">
