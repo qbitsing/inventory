@@ -253,7 +253,6 @@ angular.module('frontendApp')
         }else{
             $scope.check='producto';
         }
-
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Productos.find(function(ele){
