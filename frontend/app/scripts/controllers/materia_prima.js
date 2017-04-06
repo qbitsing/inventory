@@ -33,6 +33,7 @@ angular.module('frontendApp')
 	$scope.panel_title_form = "Registro de Materia Prima";
 	$scope.button_title_form = "Registrar Materia Prima";
 	$scope.Materia={};
+    $scope.Detallemodal={};
     $scope.Materia.unidad_medida={};
 	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
@@ -87,17 +88,22 @@ angular.module('frontendApp')
             });
             if($scope.panel_title_form=="Registro de Materia Prima"){
                 $scope.Materias.push($scope.Materia);
-                alert('Materia prima registrada correctamente');
+                $scope.Detallemodal.titulo='Notificación de registro';
+                $scope.Detallemodal.mensaje='Materia prima registrada correctamente';
             }else{
                 $scope.Materias[$scope.Materia.index] = $scope.Materia;
-                alert('Materia prima actualizada correctamente');
+                $scope.Detallemodal.titulo='Notificación de actualización';
+                $scope.Detallemodal.mensaje='Materia prima actualizada correctamente';
                 $scope.panel_title_form = "Registro de Materia Prima";
                 $scope.button_title_form = "Registrar Materia Prima";
             }
             $scope.Materia={};
         },function(data){
+            $scope.Detallemodal.titulo='Notificación de error';
+            $scope.Detallemodal.mensaje=data.data.message;
             console.log(data.data.message);
         });
+        $('#modalNotificacion').modal('open');
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Materias.find(function(ele){
@@ -117,7 +123,30 @@ angular.module('frontendApp')
         $scope.button_title_form = "Registrar Materia Prima";
         $scope.Materia={};
     }
-    
+    $scope.abrirModal=function(_id){
+        $scope.Detallemodal.id=_id;
+        $scope.Detallemodal.titulo='Confirmar eliminación';
+        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar la materia prima?';
+        $('#modalConfirmacion').modal('open');
+    }
+    $scope.Borrar=function(id){
+        $scope.Detallemodal={};
+         webServer
+        .getResource('fabricacion/'+id,{},'delete')
+        .then(function(data){
+            $scope.Entradas.forEach(function(ele, index){
+                if(ele._id==id){
+                    $scope.Entradas.splice(ele.index,1);
+                }
+            });
+            $scope.Detallemodal.mensaje='La materia prima se ha eliminado exitosamente';
+        },function(data){
+            $scope.Detallemodal.mensaje=data.data.message;
+            console.log(data.data.message);
+        });
+        $scope.Detallemodal.titulo='Notificacion de eliminación';
+        $('#modalNotificacion').modal('open');
+    }
     function listarmaterias(){
         webServer
         .getResource('materiaPrima',{},'get')

@@ -33,6 +33,7 @@ angular.module('frontendApp')
     $scope.panel_title_form = "Registro de venta";
     $scope.button_title_form = "Registrar venta";
     $scope.Orden={};
+    $scope.Detallemodal={};
     $scope.Orden.productos=[];
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
@@ -150,6 +151,30 @@ angular.module('frontendApp')
     $scope.BorrarProducto=function(index){
         $scope.Orden.productos.splice(index,1);
     }
+    $scope.abrirModal=function(_id){
+        $scope.Detallemodal.id=_id;
+        $scope.Detallemodal.titulo='Confirmar eliminación';
+        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar la orden de venta?';
+        $('#modalConfirmacion').modal('open');
+    }
+    $scope.Borrar=function(id){
+        $scope.Detallemodal={};
+         webServer
+        .getResource('orden_venta/'+id,{},'delete')
+        .then(function(data){
+            $scope.Entradas.forEach(function(ele, index){
+                if(ele._id==id){
+                    $scope.Entradas.splice(ele.index,1);
+                }
+            });
+            $scope.Detallemodal.mensaje='La orden de venta se ha eliminado exitosamente';
+        },function(data){
+            $scope.Detallemodal.mensaje=data.data.message;
+            console.log(data.data.message);
+        });
+        $scope.Detallemodal.titulo='Notificacion de eliminación';
+        $('#modalNotificacion').modal('open');
+    }
     $scope.EnviarOrden=function(){
         var ruta="";
         var metodo="";
@@ -170,10 +195,12 @@ angular.module('frontendApp')
             });
             if($scope.panel_title_form=="Registro de venta"){
                 $scope.Ordenes.push($scope.Orden);
-                alert('Venta registrada correctamente');
+                $scope.Detallemodal.titulo='Notificacion de registro';
+                $scope.Detallemodal.mensaje='Orden de compra registrada correctamente';
             }else{
                 $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
-                alert('Venta actualizada correctamente');
+                $scope.Detallemodal.titulo='Notificacion de actualización';
+                $scope.Detallemodal.mensaje='Orden de compra actualizada correctamente';
             }
             $scope.Orden={};
             $scope.Orden.productos=[];
@@ -185,8 +212,11 @@ angular.module('frontendApp')
             });
             $scope.Orden.consecutivo=$scope.Orden.consecutivo+1;
         },function(data){
+            $scope.Detallemodal.titulo='Notificacion de error';
+            $scope.Detallemodal.mensaje=data.data.message;
             console.log(data);
         });
+        $('#modalNotificacion').modal('open');
     }
     $scope.Editar = function(id){
         $scope.panel_title_form = "Edicion de Ventas";

@@ -18,6 +18,7 @@ angular.module('frontendApp')
     $scope.panel_title_form = "Registro de Entradas";
     $scope.button_title_form = "Registrar Entrada";
     $scope.Entrada={};
+    $scope.Detallemodal={};
     $scope.Entrada.orden_compra=[];
     $scope.Entrada.orden_compra.productos=[];
     $scope.Entrada.orden_compra.materia_prima=[];
@@ -98,13 +99,14 @@ angular.module('frontendApp')
             $scope.Entrada={};
             $scope.Entrada.orden_compra.productos=[];
             $scope.Entrada.orden_compra.materia_prima=[];
+            $scope.Detallemodal.titulo='Notificacion de registro';
             $scope.Detallemodal.mensaje='La entrada se ha registrado exitosamente';
             listarOrdenes();
         },function(data){
+            $scope.Detallemodal.titulo='Notificacion de eror';
             $scope.Detallemodal.mensaje=data.data.message;
             console.log(data.data.message);
         });
-        $scope.Detallemodal.titulo='Notificacion de registro';
         $('#modalNotificacion').modal('open');
     }
     function listarOrdenes(){

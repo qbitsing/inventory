@@ -107,9 +107,10 @@ angular.module('frontendApp')
                 $scope.Detallemodal.mensaje='Empleado actualizado correctamente';
             }
         },function(data){
+            $scope.Detallemodal.titulo='Notificacion de eror';
+            $scope.Detallemodal.mensaje=data.data.message;
             alert(data.data.message);
         });
-        
         $('#modalNotificacion').modal('open');
     }
     $scope.Detalles = function(id){

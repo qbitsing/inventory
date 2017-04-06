@@ -19,6 +19,7 @@ angular.module('frontendApp')
 	$scope.button_title_form = "Registrar fabricación";
 	$scope.check='orden';
 	$scope.fabricacion={};
+    $scope.Detallemodal={};
 	$scope.fabricacion.productos=[];
 	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
@@ -108,12 +109,13 @@ angular.module('frontendApp')
                 }
             });
             $scope.fabricacion.consecutivo=$scope.fabricacion.consecutivo+1;
+            $scope.Detallemodal.titulo='Notificacion de registro';
             $scope.Detallemodal.mensaje='La fabricación se ha registrado exitosamente';
         },function(data){
+            $scope.Detallemodal.titulo='Notificacion de eror';
             $scope.Detallemodal.mensaje=data.data.message;
             console.log(data);
-        });
-        $scope.Detallemodal.titulo='Notificacion de registro';
+        }); 
         $('#modalNotificacion').modal('open');
     }
     $scope.AgregarProducto=function(){

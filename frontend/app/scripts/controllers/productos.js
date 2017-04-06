@@ -42,6 +42,7 @@ angular.module('frontendApp')
 	$scope.panel_title_form = "Registro de Productos";
 	$scope.button_title_form = "Registrar Producto";
 	$scope.Producto={};
+    $scope.Detallemodal={};
     $scope.Producto.Insumos=[];
     $scope.Producto.productos=[];
     $scope.check='producto';
@@ -231,18 +232,23 @@ angular.module('frontendApp')
             }
             if($scope.panel_title_form=="Registro de Productos"){
                 $scope.Productos.push($scope.Producto);
-                alert('Producto registrado correctamente');
+                $scope.Detallemodal.titulo='Notificacion de registro';
+                $scope.Detallemodal.mensaje='Producto registrado correctamente';
             }else{
                 $scope.Productos[$scope.Producto.index] = $scope.Producto;
-                alert('Producto actualizada correctamente');
+                $scope.Detallemodal.titulo='Notificacion de actualización';
+                $scope.Detallemodal.mensaje='Producto atualizado correctamente';
             }
             $scope.Producto={};
             $scope.Producto.Insumos=[];
             $scope.Producto.productos=[];
             $scope.check='producto';
         },function(data){
+            $scope.Detallemodal.titulo='Notificacion de eror';
+            $scope.Detallemodal.mensaje=data.data.message;
             console.log(data);
         });
+        $('#modalNotificacion').modal('open');
     }
     $scope.Editar = function(id){
         $scope.panel_title_form = "Edicion de Productos";
