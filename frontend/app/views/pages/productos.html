@@ -226,9 +226,13 @@
 					</tbody>
       	</table>
 				<button type="button" class="btn btn-large blue" ng-show="productBarCode.length > 0" ng-click="printBarCodes()">Imprimir Codigos de barras</button>
-
-				<div id="containerBarCodesToPrint">
-
+				<div id="superContainer">
+					<div id="containerBarCodesToPrint" ng-show="false">
+						<div ng-repeat="item in productBarCode">
+							<h2>{{item.producto.nombre}}</h2>
+								<io-barcode ng-repeat="code in item.producto.barcodes" code="{{code.code}}" type="CODE128B" options="bc" style="margin-top: 10px"></io-barcode>
+						</div>
+					</div>
 				</div>
     	</div>
 		</div>

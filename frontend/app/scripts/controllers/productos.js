@@ -277,6 +277,12 @@ angular.module('frontendApp')
             if(ele.producto._id == pro._id) return bandera = false;
         });
         if(bandera){
+            pro.barcodes = [];
+            for(var i = 0; i < $scope.productBarCodeCant; i++){
+                pro.barcodes.push({
+                    code : '100-'+pro._id
+                });
+            }
             $scope.productBarCode.push({
                 producto: pro,
                 cantidad: $scope.productBarCodeCant
@@ -287,7 +293,11 @@ angular.module('frontendApp')
 
     }
     $scope.printBarCodes = function(){
-        var ele = $('#containerBarCodesToPrint');
+        var container = document.getElementById('containerBarCodesToPrint');
+        var newWindow = window.open();
+        newWindow.document.open();
+        newWindow.document.appendChild(container);
+        newWindow.print();
         
     }
     function IdentificarProducto (id , arrObj){
