@@ -45,6 +45,7 @@ angular.module('frontendApp')
     $scope.Detallemodal={};
     $scope.Producto.Insumos=[];
     $scope.Producto.productos=[];
+    $scope.Producto.procesos=[];
     $scope.check='producto';
     $scope.Detallemodal={};
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
@@ -147,6 +148,31 @@ angular.module('frontendApp')
         }
         $scope.producto={}
     }
+    $scope.AgregarProceso=function(){
+        var controlador=false;
+        var obj = {
+            _id : $scope.proceso._id.split(',')[0],
+            nombre : $scope.proceso._id.split(',')[1],
+            tipo : $scope.proceso._id.split(',')[2]
+        };
+        $scope.Producto.procesos.forEach(function(ele, index){
+            if(ele._id==obj._id){
+                controlador=true;
+            }
+        });
+        if(!controlador){
+            $scope.Producto.procesos.push(obj);
+        }else{
+            console.log('El proceso ya esta añadido');
+        }
+        $scope.proceso={}
+    }
+    $scope.Borrarproceso=function(index){
+        $scope.Producto.procesos.splice(index,1);
+    }
+    $scope.Borrarproducto=function(index){
+        $scope.Producto.Insumos.splice(index,1);
+    }
     $scope.abrirModal=function(_id){
         $scope.Detallemodal.id=_id;
         $scope.Detallemodal.titulo='Confirmar eliminación';
@@ -239,10 +265,13 @@ angular.module('frontendApp')
                 $scope.Productos[$scope.Producto.index] = $scope.Producto;
                 $scope.Detallemodal.titulo='Notificacion de actualización';
                 $scope.Detallemodal.mensaje='Producto atualizado correctamente';
+                $scope.panel_title_form = "Registro de Productos";
+	            $scope.button_title_form = "Registrar Producto";
             }
             $scope.Producto={};
             $scope.Producto.Insumos=[];
             $scope.Producto.productos=[];
+            $scope.Producto.procesos=[];
             $scope.check='producto';
         },function(data){
             $scope.Detallemodal.titulo='Notificacion de eror';
@@ -321,6 +350,7 @@ angular.module('frontendApp')
                     categoria : ele.categoria,
                     unidad_medida : ele.unidad_medida,
                     Insumos : ele.Insumos,
+                    procesos : ele.procesos,
                     productos : ele.productos,
                     precio : ele.precio
                 };

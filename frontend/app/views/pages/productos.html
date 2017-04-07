@@ -90,7 +90,7 @@
 										<tr ng-repeat="insumo in Producto.Insumos">
 											<td>{{insumo.nombre}}</td>
 											<td>{{insumo.cantidad}}</td>
-											<td><a class="btn btn-danger" class="cursor" ng-click="Borrar($index)">Eliminar</a></td>
+											<td><a class="btn btn-danger" class="cursor" ng-click="Borrarproducto($index)">Eliminar</a></td>
 										</tr>
 									</tbody>
 						      	</table>
@@ -114,9 +114,36 @@
 						      	</table>
 							</div>
 						</div>
+						<div class="row" ng-show="check=='producto'">
+							<div class="input-field col s12 m5 l5">
+								<select ng-model="proceso._id" material-select watch>
+	      							<option ng-repeat="proceso in Procesos" value="{{proceso._id}},{{proceso.nombre}},{{proceso.tipo}}">{{proceso.nombre}}-{{proceso.tipo}}</option>
+								</select>
+								<label>Procesos *</label>
+								</div>
+							<button type="button" class="btn btn-success col s4 m1 l1" ng-disabled="!(proceso._id)" ng-click="AgregarProceso()">Añadir</button>
+							<div class="input-field col s8 m6 l6">
+								<table class="highlight" ng-hide="Producto.procesos.length<1">
+									<thead>
+										<tr>
+											<th data-field="id">Proceso</th>
+											<th data-field="name">Tipo</th>
+											<th data-field="opcion">Opción</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="insumo in Producto.procesos">
+											<td>{{insumo.nombre}}</td>
+											<td>{{insumo.tipo}}</td>
+											<td><a class="btn btn-danger" class="cursor" ng-click="Borrarproceso($index)">Eliminar</a></td>
+										</tr>
+									</tbody>
+						      	</table>
+							</div>							
+						</div>
 						<div class="row">
 							<div class="col s12 m6 l4">
-								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formProductos.$invalid || (check.producto && Producto.Insumos.length<1) || (check.kit && Producto.productos.length<1)">{{button_title_form}}</button>
+								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formProductos.$invalid || ((check=='producto' && Producto.Insumos.length<1) ||(check=='producto' && Producto.procesos.length<1)) || (check=='kit' && Producto.productos.length<1)">{{button_title_form}}</button>
 							</div>
 						</div>						
 						<button type="button" class="btn btn-danger" ng-show="panel_title_form == 'Edicion de Productos'" ng-click="CancelarEditar()">Cancelar</button>
@@ -150,6 +177,21 @@
 			<li ng-show="Detalle.Insumos.length>0"> Marca: {{Detalle.marca || 'No registra'}}</li>
 			<li> Categoria: {{Detalle.categoria.nombre || 'No registra'}}</li>
 			<li> Precio: {{Detalle.precio || 'No registra'}}</li>
+			<li ng-show="Detalle.procesos.length>0"> Procesos:</li>
+			<table class="highlight" ng-show="Detalle.procesos.length>0">
+		        <thead>
+		        	<tr>
+						<th data-field="id">Proceso</th>
+						<th data-field="name">Tipo</th>
+		          	</tr>
+		        </thead>
+		        <tbody>
+		          	<tr ng-repeat="proceso in Detalle.procesos">
+			            <td>{{proceso.nombre}}</td>
+			            <td>{{proceso.tipo}}</td>
+		          	</tr>
+		        </tbody>
+		    </table>
 			<li ng-show="Detalle.Insumos.length>0"> Insumos:</li>
 			<table class="highlight" ng-show="Detalle.Insumos.length>0">
 		        <thead>
