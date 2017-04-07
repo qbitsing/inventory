@@ -92,7 +92,7 @@ angular.module('frontendApp')
             }
             $scope.Persona={};
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de eror';
+            $scope.Detallemodal.titulo='Notificacion de error';
             $scope.Detallemodal.mensaje=data.data.message;
             console.log(data);
         });

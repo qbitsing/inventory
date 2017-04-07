@@ -306,6 +306,7 @@ angular.module('frontendApp')
                     index: index,
                     _id : ele._id,
                     proveedor : ele.proveedor,
+                    consecutivo : ele.consecutivo,
                     productos : ele.productos,
                     materia_prima : ele.materia_prima,
                     observaciones : ele.observaciones,

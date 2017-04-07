@@ -34,6 +34,7 @@ angular.module('frontendApp')
     $scope.button_title_form = "Actualizar datos";
     $scope.Usuario=SesionUsuario.ObtenerSesion();
     $scope.MiUsuario={};
+    $scope.Detallemodal={};
     $scope.cambio=false;
     $scope.myCroppedImage='';
     $scope.contador=0;
@@ -89,15 +90,21 @@ angular.module('frontendApp')
             .getResource('personas/'+$scope.Usuario._id , $scope.Usuario , 'put')
             .then(function(data){
                 SesionUsuario.ActualizarSesion($scope.Usuario);
-                alert('Operación realizada con exito');
+                $scope.Detallemodal.titulo='Notificacion de actualización';
+                $scope.Detallemodal.mensaje='Operación realizada con exito';
             },function(data){
+                $scope.Detallemodal.titulo='Notificacion de error';
+                $scope.Detallemodal.mensaje=data.data.message;
             });
         }else{
             if(actualizo==1){
-                alert('Operación realizada con exito');
+                $scope.Detallemodal.titulo='Notificacion de actualización';
+                $scope.Detallemodal.mensaje='Operación realizada con exito';
             }else{
-                alert('No hay ningun dato por actualizar');
+                $scope.Detallemodal.titulo='Notificacion de actualización';
+                $scope.Detallemodal.mensaje='No hay ningun dato por actualizar';
             }
         }
+        $('#modalNotificacion').modal('open');
     }
   });
