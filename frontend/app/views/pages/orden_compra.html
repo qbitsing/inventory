@@ -21,6 +21,12 @@
 							</div>
 						</div>
 						<div class="row">
+							<div class="input-field col s12 m12 l12">
+					            <textarea id="observaciones" class="materialize-textarea" ng-model="Orden.observaciones" data-length="120"></textarea>
+					            <label for="observaciones">Observaciones</label>
+				        	</div>
+						</div>
+						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<select ng-model="Orden.Materia._id" material-select watch>
 	      							<option ng-repeat="materia in materias" value="{{materia._id}},{{materia.nombre}}">{{materia.nombre}}</option>
@@ -114,11 +120,12 @@
 </div>
 <div id="modalDetalles" class="modal modal-fixed-footer">
     <div class="modal-content">
-    	<h4 class="modal-title blue accent-4">Compra No. {{Detalle.numero_interno}}</h4>
+    	<h4 class="modal-title blue accent-4">Compra No. {{Detalle.consecutivo}}</h4>
     	<div class="row">
     		<ul>
-			<li> Numero interno: {{Detalle.numero_interno || 'No registra'}}</li>
+			<li> Numero interno: {{Detalle.consecutivo || 'No registra'}}</li>
 			<li> Proveedor: {{Detalle.proveedor.nombre || 'No registra'}}</li>
+			<li> Observaciones: {{Detalle.observaciones || 'No registra'}}</li>
 			<li ng-hide="Detalle.materia_prima.length<1"> <h5>Materias Primas:</h5></li>
 			<table class="highlight" ng-hide="Detalle.materia_prima.length<1">
 		        <thead>
@@ -154,5 +161,28 @@
 	</div>
     <div class="modal-footer">
       	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Cerrar</a>
+    </div>
+</div>
+<div id="modalNotificacion" class="modal modal-fixed-footer">
+    <div class="modal-content">
+    <h4 class="modal-title">{{Detallemodal.titulo}}</h4>
+    	<div class="row">
+    		<h5>{{Detallemodal.mensaje}}</h5>
+    	</div>
+	</div>
+    <div class="modal-footer">
+      	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Ok</a>
+    </div>
+</div>
+<div id="modalConfirmacion" class="modal modal-fixed-footer">
+    <div class="modal-content">
+    <h4 class="modal-title">{{Detallemodal.titulo}}</h4>
+    	<div class="row">
+    		<h5>{{Detallemodal.mensaje}}</h5>
+    	</div>
+	</div>
+    <div class="modal-footer">
+      	<button type="submit" ng-click="Borrar(Detallemodal.id)" class="modal-action waves-effect waves-green btn-flat">Confirmar</button>
+	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
     </div>
 </div>

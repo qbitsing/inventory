@@ -99,14 +99,19 @@ angular.module('frontendApp')
         .then(function(data){
             if($scope.panel_title_form=="Registro de Empleados"){
                 $scope.Empleados.push($scope.Empleado);
-                alert('Empleado registrado correctamente');
+                $scope.Detallemodal.titulo='Notificacion de registro';
+                $scope.Detallemodal.mensaje='Empleado registrado correctamente';
             }else{
                 $scope.Empleados[$scope.Empleado.index] = $scope.Empleado;
-                alert('Empleado actualizado correctamente');
+                $scope.Detallemodal.titulo='Notificacion de actualización';
+                $scope.Detallemodal.mensaje='Empleado actualizado correctamente';
             }
         },function(data){
+            $scope.Detallemodal.titulo='Notificacion de eror';
+            $scope.Detallemodal.mensaje=data.data.message;
             alert(data.data.message);
         });
+        $('#modalNotificacion').modal('open');
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Empleados.find(function(ele){

@@ -19,6 +19,7 @@ angular.module('frontendApp')
 	$scope.button_title_form = "Registrar fabricación";
 	$scope.check='orden';
 	$scope.fabricacion={};
+    $scope.Detallemodal={};
 	$scope.fabricacion.productos=[];
 	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
@@ -61,16 +62,35 @@ angular.module('frontendApp')
     $scope.BorrarProducto=function(index){
         $scope.fabricacion.productos.splice(index,1);
     }
+    $scope.abrirModal=function(_id){
+        $scope.Detallemodal.id=_id;
+        $scope.Detallemodal.titulo='Confirmar eliminación';
+        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar la fabricación?';
+        $('#modalConfirmacion').modal('open');
+    }
+    $scope.Borrar=function(id){
+        $scope.Detallemodal={};
+         webServer
+        .getResource('fabricacion/'+id,{},'delete')
+        .then(function(data){
+            $scope.Entradas.forEach(function(ele, index){
+                if(ele._id==id){
+                    $scope.Entradas.splice(ele.index,1);
+                }
+            });
+            $scope.Detallemodal.mensaje='La fabricación se ha eliminado exitosamente';
+        },function(data){
+            $scope.Detallemodal.mensaje=data.data.message;
+            console.log(data.data.message);
+        });
+        $scope.Detallemodal.titulo='Notificacion de eliminación';
+        $('#modalNotificacion').modal('open');
+    }
     $scope.EnviarFabricacion=function(){
         var ruta="";
         var metodo="";
-        if ($scope.panel_title_form=="Registro de venta") {
             ruta="fabricacion";
             metodo="post";
-        }else{
-            ruta="fabricacion/"+$scope.fabricacion._id;
-            metodo="put";
-        }
         webServer
         .getResource(ruta,$scope.fabricacion,metodo)
         .then(function(data){
@@ -79,13 +99,7 @@ angular.module('frontendApp')
                     $scope.fabricacion.responsable=ele;
                 }
             });
-            if($scope.panel_title_form=="Registro de fabricación"){
-                $scope.Fabricaciones.push($scope.fabricacion);
-                alert('Fabricación registrada correctamente');
-            }else{
-                $scope.Fabricaciones[$scope.fabricacion.index] = $scope.fabricacion;
-                alert('Fabricación actualizada correctamente');
-            }
+            $scope.Fabricaciones.push($scope.fabricacion);
             $scope.fabricacion={};
             $scope.fabricacion.productos=[];
             $scope.fabricacion.consecutivo=0;
@@ -95,9 +109,14 @@ angular.module('frontendApp')
                 }
             });
             $scope.fabricacion.consecutivo=$scope.fabricacion.consecutivo+1;
+            $scope.Detallemodal.titulo='Notificacion de registro';
+            $scope.Detallemodal.mensaje='La fabricación se ha registrado exitosamente';
         },function(data){
+            $scope.Detallemodal.titulo='Notificacion de eror';
+            $scope.Detallemodal.mensaje=data.data.message;
             console.log(data);
-        });
+        }); 
+        $('#modalNotificacion').modal('open');
     }
     $scope.AgregarProducto=function(){
         var controlador=false;

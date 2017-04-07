@@ -63,33 +63,44 @@
 	</div>
 </div>
 <div id="modalPss" class="modal modal-fixed-footer">
-    <form class="col s12" name="formPss">
-	    <div class="modal-content">
-	      	<h4 class="modal-title">Cambio de contraseña</h4>
-			<div class="row">
-			  <div class="row modal-form-row">
-			    <div class="input-field col s12">
-			      	<label for="pssactual">Contraseña actual*</label>
-					<input type="password" ng-model="Pss.pssactual" name="pssactual" id="pssactual"  required>
-			    </div>
-			  </div>
-			  <div class="row">
-			    <div class="input-field col s12">
-			      <label for="nueva">Contraseña nueva*</label>
-					<input type="password" ng-model="Pss.nueva" name="nueva" id="nueva"  required >
-			    </div>
-			  </div>
-			  <div class="row">
-			    <div class="input-field col s12">
-			      <label for="confirmar">Confirmar nueva contraseña*</label>
-					<input type="password" ng-model="Pss.confirmar" name="confirmar" id="confirmar"  required>
-			    </div>
-			  </div>
+	<form class="col s12" name="formPss">
+		<div class="modal-content">
+				<h4 class="modal-title">Cambio de contraseña</h4>
+		<div class="row">
+			<div class="row modal-form-row">
+				<div class="input-field col s12">
+						<label for="pssactual">Contraseña actual*</label>
+				<input type="password" ng-model="Pss.pssactual" name="pssactual" id="pssactual"  required>
+				</div>
 			</div>
-	    </div>
-	    <div class="modal-footer">
-	    		<button type="submit" ng-click="CambiarPss()" class="modal-action waves-effect waves-green btn-flat" ng-disabled="formPss.$invalid || Pss.nueva!=Pss.confirmar">Enviar</button>
-	      	<a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
-	    </div>
-    </form>
-  </div>
+			<div class="row">
+				<div class="input-field col s12">
+					<label for="nueva">Contraseña nueva*</label>
+				<input type="password" ng-model="Pss.nueva" name="nueva" id="nueva"  required >
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<label for="confirmar">Confirmar nueva contraseña*</label>
+				<input type="password" ng-model="Pss.confirmar" name="confirmar" id="confirmar"  required>
+				</div>
+			</div>
+		</div>
+		</div>
+		<div class="modal-footer">
+			<button type="submit" ng-click="CambiarPss()" class="modal-action waves-effect waves-green btn-flat" ng-disabled="formPss.$invalid || Pss.nueva!=Pss.confirmar">Enviar</button>
+			<a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
+		</div>
+	</form>
+</div>
+<div id="modalNotificacion" class="modal modal-fixed-footer">
+    <div class="modal-content">
+    <h4 class="modal-title">{{Detallemodal.titulo}}</h4>
+    	<div class="row">
+    		<h5>{{Detallemodal.mensaje}}</h5>
+    	</div>
+	</div>
+    <div class="modal-footer">
+      	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Ok</a>
+    </div>
+</div>

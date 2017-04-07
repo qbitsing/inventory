@@ -18,6 +18,7 @@ angular.module('frontendApp')
     $scope.panel_title_form = "Registro de Entradas";
     $scope.button_title_form = "Registrar Entrada";
     $scope.Entrada={};
+    $scope.Detallemodal={};
     $scope.Entrada.orden_compra=[];
     $scope.Entrada.orden_compra.productos=[];
     $scope.Entrada.orden_compra.materia_prima=[];
@@ -60,6 +61,30 @@ angular.module('frontendApp')
             $scope.Entrada.orden_compra.materia_prima=[];
         }
     }
+    $scope.abrirModal=function(_id){
+        $scope.Detallemodal.id=_id;
+        $scope.Detallemodal.titulo='Confirmar eliminación';
+        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar la entrada?';
+        $('#modalConfirmacion').modal('open');
+    }
+    $scope.Borrar=function(id){
+        $scope.Detallemodal={};
+         webServer
+        .getResource('entradas/'+id,{},'delete')
+        .then(function(data){
+            $scope.Entradas.forEach(function(ele, index){
+                if(ele._id==id){
+                    $scope.Entradas.splice(ele.index,1);
+                }
+            });
+            $scope.Detallemodal.mensaje='La entrada se ha eliminado exitosamente';
+        },function(data){
+            $scope.Detallemodal.mensaje=data.data.message;
+            console.log(data.data.message);
+        });
+        $scope.Detallemodal.titulo='Notificacion de eliminación';
+        $('#modalNotificacion').modal('open');
+    }
     $scope.EnviarEntrada=function(){
         $scope.Entrada.orden_compra.productos.forEach(function(ele, index){
             ele.cantidad_entrante=angular.element('#cantidad'+ele._id).val();
@@ -71,14 +96,18 @@ angular.module('frontendApp')
         .getResource('entradas',$scope.Entrada,'post')
         .then(function(data){
             $scope.Entradas.push($scope.Entrada);
-            alert('Entrada registrada correctamente');
             $scope.Entrada={};
             $scope.Entrada.orden_compra.productos=[];
             $scope.Entrada.orden_compra.materia_prima=[];
+            $scope.Detallemodal.titulo='Notificacion de registro';
+            $scope.Detallemodal.mensaje='La entrada se ha registrado exitosamente';
             listarOrdenes();
         },function(data){
-            console.log(data);
+            $scope.Detallemodal.titulo='Notificacion de eror';
+            $scope.Detallemodal.mensaje=data.data.message;
+            console.log(data.data.message);
         });
+        $('#modalNotificacion').modal('open');
     }
     function listarOrdenes(){
         webServer
@@ -107,22 +136,7 @@ angular.module('frontendApp')
         if(!$scope.Detalle.orden_compra.productos){
             $scope.Detalle.orden_compra.productos=[];
         }
-        console.log($scope.Detalle);
         $('#modaldeDetalles').modal('open');
-    }
-    $scope.Borrar = function(id){
-        webServer
-        .getResource('entradas/'+id,{},'delete')
-        .then(function(data){
-            $scope.Entradas.find(function(ele){
-                if(ele._id == id){
-                    $scope.Entradas.splice(ele.index,1);
-                }
-            });
-        },function(data){
-            alert('Ocurrio un error al eliminar la salida');
-            console.log(data.data.message);
-        });
     }
     function listarEntradas(){
         webServer
@@ -142,7 +156,6 @@ angular.module('frontendApp')
             listarOrdenes();
         });
     }
-    
     listarEntradas();
     function IdentificarEntrada(id , arrObj){
         var obj;

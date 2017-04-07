@@ -27,7 +27,6 @@
 								<label for="Direccion">Direccion *</label>
 								<input type="text" ng-model="Persona.direccion" id="Direccion" name="Direccion" required>
 							</div>
-							
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
@@ -38,7 +37,6 @@
 								<label for="Correo">Correo *</label>
 								<input type="email" ng-model="Persona.correo" id="Correo" name="Correo" required class="validate">
 							</div>
-							
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
@@ -49,7 +47,6 @@
 								<label for="Contacto">Contacto</label>
 								<input type="text" ng-model="Persona.contacto" id="Contacto" name="Contacto" >
 							</div>
-							
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
@@ -64,7 +61,6 @@
 								</select>
 								<label>Ciudad *</label>
 							</div>
-							
 						</div>
 						<div class="row">
 							<p class="col s6 m2 l2">
@@ -113,20 +109,43 @@
     	<h4 class="modal-title blue accent-4">{{Detalle.nombre}} {{Detalle.apellidos}}</h4>
     	<div class="row">
     		<ul>
-			<li> Documento: {{Detalle.documento || 'No registra'}}</li>
-			<li> Nombre: {{Detalle.nombre || 'No registra'}}</li>
-			<li> Apellidos: {{Detalle.apellidos || 'No registra'}}</li>
-			<li> Direccion: {{Detalle.direccion || 'No registra'}}</li>
-			<li> Telefono: {{Detalle.telefono || 'No registra'}}</li>
-			<li> Correo: {{Detalle.correo || 'No registra'}}</li>
-			<li> Fax: {{Detalle.fax || 'No registra'}}</li>
-			<li> Ciudad: {{Detalle.ciudad.nombre || 'No registra'}}</li>
-			<li> Contacto: {{Detalle.contacto || 'No registra'}}</li>
-			<li> Rol(es): {{Detalle.rol || 'No registra'}}</li>
-		</ul>
+				<li> Documento: {{Detalle.documento || 'No registra'}}</li>
+				<li> Nombre: {{Detalle.nombre || 'No registra'}}</li>
+				<li> Apellidos: {{Detalle.apellidos || 'No registra'}}</li>
+				<li> Direccion: {{Detalle.direccion || 'No registra'}}</li>
+				<li> Telefono: {{Detalle.telefono || 'No registra'}}</li>
+				<li> Correo: {{Detalle.correo || 'No registra'}}</li>
+				<li> Fax: {{Detalle.fax || 'No registra'}}</li>
+				<li> Ciudad: {{Detalle.ciudad.nombre || 'No registra'}}</li>
+				<li> Contacto: {{Detalle.contacto || 'No registra'}}</li>
+				<li> Rol(es): {{Detalle.rol || 'No registra'}}</li>
+			</ul>
     	</div>
 	</div>
     <div class="modal-footer">
       	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Cerrar</a>
+    </div>
+</div>
+<div id="modalNotificacion" class="modal modal-fixed-footer">
+    <div class="modal-content">
+    <h4 class="modal-title">{{Detallemodal.titulo}}</h4>
+    	<div class="row">
+    		<h5>{{Detallemodal.mensaje}}</h5>
+    	</div>
+	</div>
+    <div class="modal-footer">
+      	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Ok</a>
+    </div>
+</div>
+<div id="modalConfirmacion" class="modal modal-fixed-footer">
+    <div class="modal-content">
+    <h4 class="modal-title">{{Detallemodal.titulo}}</h4>
+    	<div class="row">
+    		<h5>{{Detallemodal.mensaje}}</h5>
+    	</div>
+	</div>
+    <div class="modal-footer">
+      	<button type="submit" ng-click="Borrar(Detallemodal.id)" class="modal-action waves-effect waves-green btn-flat">Confirmar</button>
+	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
     </div>
 </div>
