@@ -72,7 +72,7 @@
     </form>
 </div>
 <div id="modal3" class="modal modal-fixed-footer">
-    <form class="col s12" name="formUnidades">
+    <form class="col s12" name="formProcesos">
 	    <div class="modal-content">
 	      	<h4 class="modal-title">Registro de procesos de fabricacion</h4>
 			<div class="row">
@@ -83,16 +83,16 @@
 					</div>
 				</div>
 			 	<p>
-			     	<input class="with-gap" name="proceso" type="radio" id="orden" ng-model="radio.orden" value="true" />
-			     	<label for="orden">Proceso interno</label>
-			   		<input class="with-gap" name="proceso" type="radio" id="esporadica"  ng-model="radio.espo" value="true"/>
-			     	<label for="esporadica">Proceso externo</label>					  
+			     	<input class="with-gap" name="proceso" type="radio" id="interno" ng-model="proceso.tipo" value="Interno"/>
+			     	<label for="interno">Proceso interno</label>
+			   		<input class="with-gap" name="proceso" type="radio" id="externo"  ng-model="proceso.tipo" value="Externo"/>
+			     	<label for="externo">Proceso externo</label>					  
 		    	</p>
-			  <button type="submit" ng-click="EnviarUnidad()" class="modal-action waves-effect btn btn-large btn-primary" ng-disabled="formUnidades.$invalid">Registrar Proceso</button>
+			  <button type="submit" ng-click="EnviarProceso()" class="modal-action waves-effect btn btn-large btn-primary" ng-disabled="formProcesos.$invalid">Registrar Proceso</button>
 			</div>
 	    	
 			<div class="row">
-				<div class="gridStyle grid" ui-grid="gridOptionsModalUnidades" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
+				<div class="gridStyle grid" ui-grid="gridOptionsModalProcesos" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
 			</div>
 	    </div>
 	    <div class="modal-footer">

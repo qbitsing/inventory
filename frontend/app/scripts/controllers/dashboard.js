@@ -21,6 +21,7 @@ angular.module('frontendApp')
                 ready: function(modal, trigger) {
                     $scope.unidades=true;
                     $scope.categorias=false;
+                    $scope.procesos=false;
                 },
                 complete: function() {  } // Callback for Modal close
             }
@@ -35,6 +36,22 @@ angular.module('frontendApp')
                 ready: function(modal, trigger) {
                     $scope.unidades=false;
                     $scope.categorias=true;
+                    $scope.procesos=false;
+                },
+                complete: function() {  } // Callback for Modal close
+            }
+        );
+        $('#modal3').modal({
+                dismissible: true, // Modal can be dismissed by clicking outside of the modal
+                opacity: 0, // Opacity of modal background
+                inDuration: 300, // Transition in duration
+                outDuration: 200, // Transition out duration
+                startingTop: '10%', // Starting top style attribute
+                endingTop: '15%', // Ending top style attribute
+                ready: function(modal, trigger) {
+                    $scope.unidades=false;
+                    $scope.categorias=false;
+                    $scope.procesos=true;
                 },
                 complete: function() {  } // Callback for Modal close
             }
@@ -120,18 +137,41 @@ angular.module('frontendApp')
     }
     angular.extend($scope.gridOptionsModalUnidades , Tabla);
 
+    var casillaDeBotonesModalProcesos = '<div>'+BotonesTabla.BorrarModal+'</div>';
+    $scope.gridOptionsModalProcesos = {
+        columnDefs: [
+            {
+                field: 'nombre',
+                width:'33%',
+                minWidth: 200
+            },
+            {
+                field : 'interno o externo',
+			    cellTemplate : '<div> Proceso {{row.entity.tipo}}</div>',
+                width:'33%',
+                minWidth: 200
+            },
+            { 
+                name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotonesModalProcesos,
+                width:'34%',
+                minWidth: 200
+            }
+        ]
+    }
+    angular.extend($scope.gridOptionsModalProcesos , Tabla);
+
     $scope.EnviarUnidad=function(){
         webServer
         .getResource('unidades',$scope.Unidad_de_medida,'post')
         .then(function(data){
             $scope.Unidades.push($scope.Unidad_de_medida);
             $scope.Unidad_de_medida={};
-            alert('Unidad de medida registrada correctamente');
+            Materialize.toast('Unidad de medida registrada correctamente', 4000);
         },function(data){
+            Materialize.toast(data.data.message, 4000);
             console.log(data.data.message);
         });
     }
-
     function listarunidades(){
         webServer
         .getResource('unidades',{},'get')
@@ -143,10 +183,12 @@ angular.module('frontendApp')
                 $scope.Unidades=[];
                 $scope.gridOptionsModalUnidades.data = $scope.Unidades;
             }
+            listarCategorias();
         },function(data){
             $scope.Unidades=[];
             $scope.gridOptionsModalUnidades.data = $scope.Unidades;
             console.log(data.data.message);
+            listarCategorias();
         });
     }
     listarunidades();
@@ -157,16 +199,19 @@ angular.module('frontendApp')
         .then(function(data){
             $scope.Categorias.push($scope.categoria);
             $scope.categoria={};
-            alert('Categoria registrada correctamente');
+            Materialize.toast('Categoria registrada correctamente', 4000);
         },function(data){
+            Materialize.toast(data.data.message, 4000);
             console.log(data.data.message);
         });
     }
     $scope.BorrarModal = function(_id){
         if($scope.categorias){
             console.log('Categorias');
-        }else{
+        }else if($scope.unidades){
             console.log('Unidades');
+        }else{
+            console.log('Procesos');
         }
     }
     function listarCategorias(){
@@ -180,13 +225,43 @@ angular.module('frontendApp')
                 $scope.Categorias=[];
                 $scope.gridOptionsModalCategorias.data = $scope.Categorias;
             }
+            listarProcesos();
         },function(data){
             console.log(data.data.message);
             $scope.Categorias=[];
             $scope.gridOptionsModalCategorias.data = $scope.Categorias;
+            listarProcesos();
         });
     }
-    listarCategorias();
+    function listarProcesos(){
+        webServer
+        .getResource('procesos',{},'get')
+        .then(function(data){
+            if(data.data){
+                $scope.Procesos=data.data.datos;
+                $scope.gridOptionsModalProcesos.data = $scope.Procesos;
+            }else{
+                $scope.Procesos=[];
+                $scope.gridOptionsModalProcesos.data = $scope.Procesos;
+            }
+        },function(data){
+            console.log(data.data.message);
+            $scope.Procesos=[];
+            $scope.gridOptionsModalProcesos.data = $scope.Procesos;
+        });
+    }
+    $scope.EnviarProceso=function(){
+        webServer
+        .getResource('procesos',$scope.proceso,'post')
+        .then(function(data){
+            $scope.Procesos.push($scope.proceso);
+            $scope.proceso={};
+            Materialize.toast('Proceso registrado correctamente', 4000);
+        },function(data){
+            Materialize.toast(data.data.message, 4000);
+            console.log(data.data.message);
+        });
+    }
     $scope.sidenav = function(){
         angular.element(".sidenav").toggleClass('sidenav-hidden');
         angular.element(".top-nav").toggleClass('top-nav-hidden');

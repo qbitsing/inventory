@@ -128,6 +128,7 @@ angular.module('frontendApp')
         $('#modalConfirmacion').modal('open');
     }
     $scope.Borrar=function(id){
+        $('#modalConfirmacion').modal('close');
         $scope.Detallemodal={};
          webServer
         .getResource('empleados/'+id,{},'delete')

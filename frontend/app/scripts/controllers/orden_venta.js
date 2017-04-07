@@ -158,6 +158,7 @@ angular.module('frontendApp')
         $('#modalConfirmacion').modal('open');
     }
     $scope.Borrar=function(id){
+        $('#modalConfirmacion').modal('close');
         $scope.Detallemodal={};
          webServer
         .getResource('orden_venta/'+id,{},'delete')
