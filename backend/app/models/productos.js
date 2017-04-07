@@ -10,8 +10,9 @@ const ProductoSchema = new Schema({
     marca : String,
     categoria: {},
     Insumos : [],
+    procesos: [],
     productos : [],
-    precio: Number    
+    precio: Number
 });
 
 module.exports = mongoose.model('Producto' , ProductoSchema);
