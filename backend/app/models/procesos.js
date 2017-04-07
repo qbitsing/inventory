@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const procesoSchema = new Schema({
     nombre : String,
-    tipo: {type: String, enum: ['Interno', 'Esterno']}
+    tipo: {type: String, enum: ['Interno', 'Externo']}
 });
 
 

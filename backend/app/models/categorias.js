@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const CateriaSchema = new Schema({
-    nombre : String
+    nombre : String,
+    codigo: String
 });
 
 

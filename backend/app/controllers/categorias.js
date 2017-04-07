@@ -1,52 +1,59 @@
 'use strict';
 
 const categoriaModel = require('../models/categorias');
+const co = require('co');
 
-function listarAll (req, res){
-	categoriaModel.find({} , (err , datos)=>{
-        if(err) {
-            return res.status(500).send({
-                message : `ERROR al obtener la lista de categorias ${err}`
-            });            
-        }
-        if(datos.length < 1){
-            return res.status(404).send({
-                message : `No hay categorias registradas en la BD`
+let listarAll = co.wrap(function * (req, res){
+    try {
+        let datos = yield categoriaModel.find({});
+        if(datos.length > 0){
+            return res.status(200).send({
+                datos
             });
         }
 
-        return res.status(200).send({
-            datos
+        return res.status(404).send({
+            message: 'No hay categorias registradas en la base de datos'
         });
-    });
-}
+    } catch (e) {
+       return res.status(500).send({
+           message: `ERROR ${e}`
+       }); 
+    }
+});
 
-function crear (req, res) {
-	let categoria = new categoriaModel(req.body);
+let crear = co.wrap(function * (req, res){
+    try {
+        let categoria = new categoriaModel(req.body);
 
-    categoria.save((err , datos)=>{
-        if(err) return res.status(500).send({message : `ERROR al guardar la categoria en la DB ${err}`});
+        let datos = categoria.save();
 
         return res.status(200).send({
-            datos
+            datos: datos._id,
+            message: 'categoria creada exitosamente'
         });
-    });
-}
+    } catch (e) {
+        return res.status(500).send({
+            message: `ERROR ${e}`
+        });
+    }
+});
 
-function eliminar(req , res){
-    let categoriaId = req.params.id;
-	categoriaModel.findByIdAndRemove(categoriaId , (err)=>{
-		if(err){
-			return res.status(500).send({
-				message : `ERROR al intentar eliminar la categoria ${err}`
-			});
-		}
-		return res.status(200).send({
-			message : `categoria eliminada con exito`
-		});
-	});
-}
+let eliminar = co.wrap(function * (req, res){
+    try {
+        let categoriaId = req.params.id;
 
+        yield categoriaModel.findByIdAndRemove(categoriaId);
+
+        return res.status(200).send({
+            message: `categoria eliminada exitosamente`
+        });
+    } catch (e) {
+        return res.status(500).send({
+            message: `ERROR ${e}`
+        });
+    }
+});
 
 module.exports = {
 	listarAll,
