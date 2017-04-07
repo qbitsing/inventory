@@ -88,7 +88,7 @@
 			   		<input class="with-gap" name="proceso" type="radio" id="externo"  ng-model="proceso.tipo" value="Externo"/>
 			     	<label for="externo">Proceso externo</label>					  
 		    	</p>
-			  <button type="submit" ng-click="EnviarProceso()" class="modal-action waves-effect btn btn-large btn-primary" ng-disabled="formProcesos.$invalid">Registrar Proceso</button>
+			  <button type="submit" ng-click="EnviarProceso()" class="modal-action waves-effect btn btn-large btn-primary" ng-disabled="formProcesos.$invalid || !proceso.tipo">Registrar Proceso</button>
 			</div>
 	    	
 			<div class="row">
