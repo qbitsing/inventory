@@ -12,21 +12,20 @@ angular.module('frontendApp')
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
-                dismissible: true, // Modal can be dismissed by clicking outside of the modal
-                opacity: 0, // Opacity of modal background
-                inDuration: 300, // Transition in duration
-                outDuration: 200, // Transition out duration
-                startingTop: '10%', // Starting top style attribute
-                endingTop: '15%', // Ending top style attribute
-                ready: function(modal, trigger) {
-                },
-                complete: function() {  } // Callback for Modal close
-            }
-        );
+            dismissible: true, // Modal can be dismissed by clicking outside of the modal
+            opacity: 0, // Opacity of modal background
+            inDuration: 300, // Transition in duration
+            outDuration: 200, // Transition out duration
+            startingTop: '10%', // Starting top style attribute
+            endingTop: '15%', // Ending top style attribute
+            ready: function(modal, trigger) {
+            },
+            complete: function() {  } // Callback for Modal close
+        });
     });
     $scope.panelAnimate='';
     $scope.pageAnimate='';  
-    $timeout(function () {
+    $timeout(function(){
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
     },100);
@@ -127,7 +126,7 @@ angular.module('frontendApp')
     $scope.Borrar=function(id){
         $('#modalConfirmacion').modal('close');
         $scope.Detallemodal={};
-         webServer
+        webServer
         .getResource('empleados/'+id,{},'delete')
         .then(function(data){
             $scope.Empleados.forEach(function(ele, index){
