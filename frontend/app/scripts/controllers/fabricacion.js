@@ -88,12 +88,11 @@ angular.module('frontendApp')
         $('#modalNotificacion').modal('open');
     }
     $scope.EnviarFabricacion=function(){
-        var ruta="";
-        var metodo="";
-            ruta="fabricacion";
-            metodo="post";
+        if($scope.check!='orden'){
+            delete fabricacion.orden_venta;
+        }
         webServer
-        .getResource(ruta,$scope.fabricacion,metodo)
+        .getResource('fabricacion',$scope.fabricacion,'post')
         .then(function(data){
             $scope.personas.forEach(function(ele, index){
                 if(ele._id==$scope.fabricacion.responsable._id){
