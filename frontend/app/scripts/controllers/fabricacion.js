@@ -59,6 +59,14 @@ angular.module('frontendApp')
         $scope.fabricacion.productos=$scope.fabricacion.orden_venta.productos;
         delete $scope.fabricacion.orden_venta.productos;
     }
+    $scope.Detalles = function(id){
+        $scope.Detalle = $scope.Fabricaciones.find(function(ele){
+            if(ele._id == id){
+                return ele;
+            }
+        });
+        $('#modaldeDetalles').modal('open');
+    }
     $scope.BorrarProducto=function(index){
         $scope.fabricacion.productos.splice(index,1);
     }
@@ -68,10 +76,13 @@ angular.module('frontendApp')
         $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar la fabricación?';
         $('#modalConfirmacion').modal('open');
     }
+    $scope.CulminarFabricacion=function(_id){
+        console.log('Va a culminar la fabricación');
+    }
     $scope.Borrar=function(id){
         $('#modalConfirmacion').modal('close');
         $scope.Detallemodal={};
-         webServer
+        webServer
         .getResource('fabricacion/'+id,{},'delete')
         .then(function(data){
             $scope.Entradas.forEach(function(ele, index){

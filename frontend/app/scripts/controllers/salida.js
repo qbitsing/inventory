@@ -159,7 +159,8 @@ angular.module('frontendApp')
                     index: index,
                     _id : ele._id,
                     orden_venta : ele.orden_venta,
-                    observaciones : ele.observaciones
+                    observaciones : ele.observaciones,
+                    remision : remision
                 };
             }
         });

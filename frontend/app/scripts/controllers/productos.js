@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('ProductosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
+.controller('ProductosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer,SesionUsuario) {
     $scope.productBarCode = [];
     $scope.bc = {
         lineColor: '#000000',
@@ -18,6 +18,7 @@ angular.module('frontendApp')
         fontSize: 10
     }
     $scope.text = "Hola";
+    $scope.Usuario=SesionUsuario.ObtenerSesion();
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -67,7 +68,7 @@ angular.module('frontendApp')
                 minWidth: 160
             },
             {
-                field: 'precio',
+                field: 'cantidad',
                 width:'20%',
                 minWidth: 160
             },

@@ -72,9 +72,6 @@ angular.module('frontendApp')
             case 'super_administrador':
                 $scope.Empleado.super_administrador=true;
                 break;
-            case 'administrador':
-                $scope.Empleado.administrador=true;
-                break;
             case 'contador':
                 $scope.Empleado.contador=true;
                 break;
@@ -150,8 +147,6 @@ angular.module('frontendApp')
         $scope.Empleado = IdentificarPersona(id,$scope.Empleados);
         if($scope.Empleado.super_administrador){
             $scope.Empleado.rol='super_administrador';
-        }else if($scope.Empleado.administrador){
-            $scope.Empleado.rol='administrador';
         }else if($scope.Empleado.contador){
             $scope.Empleado.rol='contador';
         }else if($scope.Empleado.almacenista){

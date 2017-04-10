@@ -176,7 +176,8 @@
 			<li ng-show="Detalle.Insumos.length>0"> Minimo stock: {{Detalle.min_stock || 'No registra'}}</li>
 			<li ng-show="Detalle.Insumos.length>0"> Marca: {{Detalle.marca || 'No registra'}}</li>
 			<li> Categoria: {{Detalle.categoria.nombre || 'No registra'}}</li>
-			<li> Precio: {{Detalle.precio || 'No registra'}}</li>
+			<li ng-show="Usuario.rol!='Almacenista'"> Precio: {{Detalle.precio || 'No registra'}}</li>
+			<li> Cantidad: {{Detalle.cantidad || 'No registra'}}</li>
 			<li ng-show="Detalle.procesos.length>0"> Procesos:</li>
 			<table class="highlight" ng-show="Detalle.procesos.length>0">
 		        <thead>
