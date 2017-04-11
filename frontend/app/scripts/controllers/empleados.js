@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('EmpleadosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
+.controller('EmpleadosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer){
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
