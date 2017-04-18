@@ -115,6 +115,15 @@ angular.module('frontendApp')
                 return ele;
             }
         });
+        if($scope.Detalle.super_administrador){
+            $scope.Detalle.rol='super_administrador';
+        }else if($scope.Detalle.contador){
+            $scope.Detalle.rol='contador';
+        }else if($scope.Detalle.almacenista){
+            $scope.Detalle.rol='almacenista';
+        }else if($scope.Detalle.empleadon){
+            $scope.Detalle.rol='empleado';
+        }
         $('#modalDetalles').modal('open');
     }
     $scope.abrirModal=function(_id){

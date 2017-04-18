@@ -30,12 +30,12 @@ angular
     'uiCropper',
     'ui.materialize',
     'io-barcode'
-  ])
-  .config(function (localStorageServiceProvider) {
+])
+.config(function (localStorageServiceProvider) {
     localStorageServiceProvider
-      .setPrefix('inventoryPrinesApp')
-      .setStorageType('sessionStorage')
-      .setNotify(true, true)
+    .setPrefix('inventoryPrinesApp')
+    .setStorageType('sessionStorage')
+    .setNotify(true, true)
 })
 .config(function ($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/Login');
