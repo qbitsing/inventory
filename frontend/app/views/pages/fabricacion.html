@@ -17,18 +17,6 @@
 						    </p>
 						</div>
 						<div class="row">
-							<div class="input-field col s12 m6 l6">
-								<input type="number" ng-disabled="true" ng-model="fabricacion.consecutivo" id="consecutivo" name="consecutivo" required>
-								<label for="consecutivo">Consecutivo fabricación *</label>
-							</div>
-							<div class="input-field col s12 m6 l6">
-								<select material-select watch ng-model="fabricacion.responsable._id">
-	      							<option ng-repeat="persona in personas" value="{{persona._id}}">{{persona.nombre}} {{persona.apellidos}}</option>
-								</select>
-								<label>Persona responsable *</label>
-							</div>
-						</div>
-						<div class="row">
 							<div class="input-field col s12 m6 l6" ng-show="check=='orden'">
 								<label>Orden de venta *</label>
 								<select ng-change="CargarOrden()" id="orden" ng-model="Orden" material-select watch>
@@ -74,7 +62,7 @@
 						          	</tr>
 						        </thead>
 						        <tbody>
-						          	<tr ng-repeat="producto in Orden.productos">
+						          	<tr ng-repeat="producto in fabricacion.productos">
 							            <td>{{producto.nombre}}</td>
 							            <td>{{producto.cantidad}}</td>
 							            <td><a class="btn btn-danger" class="cursor" ng-click="BorrarProducto($index)">Eliminar</a></td>
@@ -83,14 +71,42 @@
 						      </table>
 							</div>
 						</div>
+						<div class="row">
+							<div class="input-field col s12 m4 l4">
+								<select ng-model="proceso._id" material-select watch>
+	      							<option ng-repeat="proceso in Procesos" value="{{proceso._id}},{{proceso.nombre}}">{{proceso.nombre}}</option>
+								</select>
+								<label>Procesos *</label>
+							</div>
+							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!proceso._id" ng-click="AgregarProceso()">Añadir</button>
+						</div>
+						<div class="row">
+							<div class="input-field col s12 m12 l12">
+							<table class="highlight" ng-hide="fabricacion.procesos.length<1">
+						        <thead>
+						        	<tr>
+										<th data-field="proceso">Proceso</th>
+										<th data-field="responsables">Responsable(s)</th>
+										<th data-field="opcion">Opciones</th>
+						          	</tr>
+						        </thead>
+						        <tbody>
+						          	<tr ng-repeat="proceso in fabricacion.procesos">
+							            <td>{{proceso.nombre}}</td>
+						            	<td><li ng-repeat="res in proceso.array_responsables">{{res.nombre}}</li></td>
+							            <td><a class="btn btn-success" class="cursor" ng-click="AbrirModal(proceso)">Añadir responsables</a><a class="btn btn-danger" class="cursor" ng-click="BorrarProceso($index)">Eliminar</a></td>
+						          	</tr>
+						        </tbody>
+						      </table>
+							</div>
+						</div>
 						<div class="row" >
 							<div class="col">
-								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formfabricacion.$invalid || fabricacion.productos.length<1">{{button_title_form}}</button>
+								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formfabricacion.$invalid || fabricacion.productos.length<1 || fabricacion.procesos.length<1">{{button_title_form}}</button>
 							</div>
 							<div class="col">
 								<button type="button" class="btn btn-large btn-danger" ng-hide="button_title_form='Registrar fabricación'">Cancelar</button>
 							</div>
-							
 						</div>
 					</form>
 				</div>
@@ -140,7 +156,6 @@
 					</tbody>
 				</table>
 				<li> Estado: {{Detalle.estado || 'No registra'}}</li>
-				<li ng-show="Detalle.estado!='pendiente'"><a ng-click="CulminarFabricacion(Detalle._id)" class="modal-action waves-effect waves-green btn-flat">Cuminar proceso de fabricación</a></li>
 			</ul>
     	</div>
 	</div>
@@ -169,6 +184,38 @@
     <div class="modal-footer">
       	<button type="submit" ng-click="Borrar(Detallemodal.id)" class="modal-action waves-effect waves-green btn-flat">Confirmar</button>
 	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+    </div>
+</div>
+<div id="modalResponsables" class="modal modal-fixed-footer">
+    <div class="modal-content">
+    <h4 class="modal-title">Añadir Responsables</h4>
+    	<div class="row">
+    		<form novalidate ng-submit="addresponsable()">
+    			<div class="row">
+					<div class="input-field col s12 m4 l4">
+						<select ng-model="from_modal.persona" material-select watch>
+								<option ng-repeat="persona in personas" value="{{persona}}">{{persona.nombre}}</option>
+						</select>
+						<label>Procesos *</label>
+					</div>
+					<button type="submit" class="btn btn-success col s4 m2 l2" ng-disabled="!from_modal.persona">Añadir</button>
+				</div>
+    		</form>
+
+    		<table>
+    			<tr>
+    				<td>Nombre</td>
+    				<td></td>
+    			</tr>
+    			<tr ng-repeat="res in modal.proceso.array_responsables">
+    				<td>{{res.nombre}} {{res.apellidos}}</td>
+    				<td><button ng-click="removeresponsable($index)">eliminar</button></td>
+    			</tr>
+    		</table>
+    	</div>
+	</div>
+    <div class="modal-footer">
+	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
     </div>
 </div>
 <script type="text/javascript" charset="utf-8">

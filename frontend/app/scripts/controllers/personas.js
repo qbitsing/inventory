@@ -33,6 +33,7 @@ angular.module('frontendApp')
     $scope.panel_title_form = "Registro de clientes y proveedores";
     $scope.button_title_form = "Registrar Persona";
     $scope.Persona={};
+    $scope.Persona.proveedor=false;
     $scope.Persona.rol={};
     $scope.Detallemodal={};
     var modalInstance=null;
@@ -77,6 +78,10 @@ angular.module('frontendApp')
         }else{
             ruta="personas/"+$scope.Persona._id;
             metodo="put";
+        }
+        if(!$scope.Persona.proveedor){
+            $scope.Persona.proveedorproductos=false;
+            $scope.Persona.proveedorfabricacion=false;
         }
         webServer
         .getResource(ruta,$scope.Persona,metodo)
