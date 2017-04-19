@@ -23,7 +23,6 @@ angular.module('frontendApp')
     $scope.modal={};
 	$scope.fabricacion.productos=[];
     $scope.fabricacion.procesos=[];
-<<<<<<< HEAD
     /*$('.datepicker').pickadate({
         labelMonthNext: 'Next month',
         labelMonthPrev: 'Previous month',
@@ -38,11 +37,8 @@ angular.module('frontendApp')
         clear: 'Limpiar',
         close: 'Cerrar'
     });*/
-	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Borrar+'</div>';
-=======
     $scope.modal_salida={};
 	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Salida+BotonesTabla.Borrar+'</div>';
->>>>>>> 9fd6c0138677cd3e88ee5aac804e16540f2b0206
     $scope.gridOptions = {
         columnDefs: [
             {
