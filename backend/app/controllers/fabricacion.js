@@ -48,9 +48,6 @@ let listarById = co.wrap(function * (req, res){
 let crear = co.wrap(function * (req, res){
   let fabricacion = req.body;
   try {
-    let responsable = yield personaModel.findById(req.body.responsable._id);
-    fabricacion.responsable = responsable;
-
     let newfabricacion = new fabricacionModel(fabricacion);
     yield newfabricacion.save();
 
@@ -76,7 +73,7 @@ let actualizar = co.wrap(function * (req, res){
     });
   } catch (e) {
     return res.status(500).send({
-      message: `ERROR `
+      message: `ERROR ${e}`
     });
   }
 });
