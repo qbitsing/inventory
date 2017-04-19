@@ -23,6 +23,20 @@ angular.module('frontendApp')
     $scope.modal={};
 	$scope.fabricacion.productos=[];
     $scope.fabricacion.procesos=[];
+    /*$('.datepicker').pickadate({
+        labelMonthNext: 'Next month',
+        labelMonthPrev: 'Previous month',
+        labelMonthSelect: 'Select a month',
+        labelYearSelect: 'Select a year',
+        monthsFull: [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ],
+        monthsShort: [ 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
+        weekdaysFull: [ 'Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado' ],
+        weekdaysShort: [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab' ],
+        weekdaysLetter: [ 'D', 'L', 'M', 'Mi', 'J', 'V', 'S' ],
+        today: 'Hoy',
+        clear: 'Limpiar',
+        close: 'Cerrar'
+    });*/
 	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
