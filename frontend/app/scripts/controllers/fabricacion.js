@@ -20,7 +20,9 @@ angular.module('frontendApp')
 	$scope.check='orden';
 	$scope.fabricacion={};
     $scope.Detallemodal={};
+    $scope.modal={};
 	$scope.fabricacion.productos=[];
+    $scope.fabricacion.procesos=[];
 	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
@@ -75,9 +77,6 @@ angular.module('frontendApp')
         $scope.Detallemodal.titulo='Confirmar eliminación';
         $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar la fabricación?';
         $('#modalConfirmacion').modal('open');
-    }
-    $scope.CulminarFabricacion=function(_id){
-        console.log('Va a culminar la fabricación');
     }
     $scope.Borrar=function(id){
         $('#modalConfirmacion').modal('close');
@@ -148,6 +147,51 @@ angular.module('frontendApp')
         }
         $scope.producto={};
     }
+    $scope.AgregarProceso=function(){
+        var controler=false;
+        var proceso = {
+            _id : $scope.proceso._id.split(',')[0],
+            nombre : $scope.proceso._id.split(',')[1],
+            array_responsables : [],
+            responsables: ''
+        };
+        $scope.fabricacion.procesos.forEach(function(ele, index){
+            if(ele._id==proceso._id){
+                controler=true;
+            }
+        });
+        if(!controler){
+            $scope.fabricacion.procesos.push(proceso);
+        }else{
+            console.log('El proceso ya esta añadido');
+        }
+    }
+    $scope.BorrarProceso=function(index){
+        var responsables = $scope.fabricacion.procesos[index].array_responsables;
+        $scope.personas = $scope.personas.concat(responsables);
+        $scope.fabricacion.procesos.splice(index,1);
+    }
+    $scope.AbrirModal = function(proceso){
+        $scope.modal.proceso=proceso;
+        $('#modalResponsables').modal('open');
+    }
+    $scope.addresponsable = function(){
+        var res = JSON.parse($scope.from_modal.persona);
+        var index = null;
+        $scope.modal.proceso.array_responsables.push(res);
+        $scope.personas.forEach(function(ele , i){
+            if(res._id == ele._id){
+                index = i;
+            }
+        });
+        $scope.personas.splice(index , 1);
+
+    }
+    $scope.removeresponsable = function(index){
+        var res = $scope.modal.proceso.array_responsables[index];
+        $scope.personas.push(res);
+        $scope.modal.proceso.array_responsables.splice(index , 1);
+    }
     function listarFabricaciones(){
         webServer
         .getResource('fabricacion',{},'get')
@@ -195,7 +239,7 @@ angular.module('frontendApp')
     }
     function listarPersonas(){
         webServer
-        .getResource('personas',{administrador:true,almacenista:true,contador:true,empleado:true},'get')
+        .getResource('personas',{empleado:true,proveedor:true},'get')
         .then(function(data){
             if(data.data){
                 $scope.personas = data.data.datos;

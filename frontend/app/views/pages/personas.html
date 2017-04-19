@@ -71,6 +71,14 @@
 								<input type="checkbox" ng-model="Persona.proveedor" id="Proveedor" />
 	      						<label for="Proveedor">Proveedor</label>
 							</p>
+							<p class="col s6 m2 l2" ng-show="Persona.proveedor">
+								<input type="checkbox"  ng-model="Persona.proveedorproductos" id="proveedorproductos"/>
+	      						<label for="proveedorproductos">Proveedor de productos</label>
+							</p>
+							<p class="col s6 m2 l2" ng-show="Persona.proveedor">
+								<input type="checkbox" ng-model="Persona.proveedorfabricacion" id="Proveedorfabricacion" />
+	      						<label for="Proveedorfabricacion">Proveedor de fabricación</label>
+							</p>
 						</div>
 						<div class="row">
 							<div class="col">
