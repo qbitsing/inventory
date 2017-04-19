@@ -7,10 +7,9 @@ const fabricacionSchema = new Schema({
   consecutivo: Number,
   fecha_solicitud: Date,
   fecha_entrega: Date,
-  responsable: {},
   autoriza: {},
   productos: [],
-  procesos_externos: [],
+  procesos: [],
   orden_venta: {}
 });
 
