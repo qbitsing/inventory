@@ -23,7 +23,8 @@ angular.module('frontendApp')
     $scope.modal={};
 	$scope.fabricacion.productos=[];
     $scope.fabricacion.procesos=[];
-	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Borrar+'</div>';
+    $scope.modal_salida={};
+	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Salida+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
             {
@@ -72,14 +73,27 @@ angular.module('frontendApp')
     $scope.BorrarProducto=function(index){
         $scope.fabricacion.productos.splice(index,1);
     }
+    $scope.abrirModalCrear=function(_id){
+        $scope.Detallemodal.titulo='Confirmar Registro';
+        $scope.Detallemodal.mensaje='¿Esta seguro que ha suministrado los responsables de los procesos y desea registrar la fabricación?';
+        $('#modalConfirmacion').modal('open');
+    }
+    $scope.Confirmar=function(){
+        if($scope.Detallemodal.titulo=='Confirmar Registro'){
+            EnviarFabricacion();
+        }else{
+            Borrar($scope.Detallemodal.id);
+        }
+        $('#modalConfirmacion').modal('close');
+    }
+
     $scope.abrirModal=function(_id){
         $scope.Detallemodal.id=_id;
         $scope.Detallemodal.titulo='Confirmar eliminación';
         $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar la fabricación?';
         $('#modalConfirmacion').modal('open');
     }
-    $scope.Borrar=function(id){
-        $('#modalConfirmacion').modal('close');
+    function Borrar(id){
         $scope.Detallemodal={};
         webServer
         .getResource('fabricacion/'+id,{},'delete')
@@ -97,9 +111,9 @@ angular.module('frontendApp')
         $scope.Detallemodal.titulo='Notificacion de eliminación';
         $('#modalNotificacion').modal('open');
     }
-    $scope.EnviarFabricacion=function(){
+    function EnviarFabricacion(){
         if($scope.check!='orden'){
-            delete fabricacion.orden_venta;
+            delete $scope.fabricacion.orden_venta;
         }
         webServer
         .getResource('fabricacion',$scope.fabricacion,'post')
@@ -122,7 +136,7 @@ angular.module('frontendApp')
             $scope.Detallemodal.titulo='Notificacion de registro';
             $scope.Detallemodal.mensaje='La fabricación se ha registrado exitosamente';
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de eror';
+            $scope.Detallemodal.titulo='Notificacion de error';
             $scope.Detallemodal.mensaje=data.data.message;
             console.log(data);
         }); 
@@ -152,6 +166,7 @@ angular.module('frontendApp')
         var proceso = {
             _id : $scope.proceso._id.split(',')[0],
             nombre : $scope.proceso._id.split(',')[1],
+            tipo : $scope.proceso._id.split(',')[2],
             array_responsables : [],
             responsables: ''
         };
@@ -185,13 +200,74 @@ angular.module('frontendApp')
             }
         });
         $scope.personas.splice(index , 1);
-
     }
     $scope.removeresponsable = function(index){
         var res = $scope.modal.proceso.array_responsables[index];
         $scope.personas.push(res);
         $scope.modal.proceso.array_responsables.splice(index , 1);
     }
+
+
+
+
+    $scope.AbrirModalSalida=function(_id){
+        $scope.Fabricaciones.forEach(function(ele , i){
+            if(_id == ele._id){
+                $scope.contenido_fabricacion=ele;
+            }
+        });
+        $('#modalSalidas').modal('open');
+    }
+    $scope.addproducto = function(){
+        var res = JSON.parse($scope.modal_salida.producto);
+        $scope.contenido_fabricacion.productos.forEach(function(ele , i){
+            if(res._id == ele._id){
+                if($scope.modal_salida.cantidad<ele.cantidad_disponible){
+                    $scope.modal_salida.productos.push(res);
+                    ele.cantidad_disponible=ele.cantidad_disponible-$scope.modal_salida.cantidad;
+                    ele.cantidad_saliente=ele.cantidad_saliente+$scope.modal_salida.cantidad;
+                }else{
+                    Materialize.toast('Error al intentar agregar el producto, la cantidad a sacar es mayor a la cantidad disponible', 4000);
+                }
+            }
+        });
+    }
+    $scope.removerproducto = function(producto){
+        var res = JSON.parse(producto);
+        $scope.contenido_fabricacion.productos.forEach(function(ele , i){
+            if(res._id == ele._id){
+                ele.cantidad_disponible=ele.cantidad_disponible+res.cantidad;
+                ele.cantidad_saliente=ele.cantidad_saliente-res.cantidad;
+            }
+        });
+        $scope.modal_salida.productos.splice(res.index , 1);
+    }
+    $scope.cargarProceso=function(){
+        $scope.modal_salida.proceso = JSON.parse(carga_proceso);
+    }
+    $scope.enviarRemision=function(){
+        webServer
+        .getResource('remision',$scope.modal_salida,'post')
+        .then(function(data){
+            $scope.Fabricaciones.forEach(function(ele , i){
+                if($scope.contenido_fabricacion._id == ele._id){
+                    ele.productos=$scope.contenido_fabricacion.productos;
+                }
+            });
+            $scope.modal_salida={};
+        }
+        ,function(data){
+            $scope.Detallemodal.titulo='Notificacion de error';
+            $scope.Detallemodal.mensaje=data.data.message;
+            console.log(data);
+        });
+    }
+
+
+
+
+
+
     function listarFabricaciones(){
         webServer
         .getResource('fabricacion',{},'get')
@@ -237,6 +313,20 @@ angular.module('frontendApp')
             listarPersonas();
         });
     }
+    function listarProductos(){
+        webServer
+        .getResource('productos',{},'get')
+        .then(function(data){
+            if(data.data){
+                $scope.Productos=data.data.datos;
+            }else{
+                $scope.Productos=[];
+            }
+        },function(data){
+            $scope.materias=[];
+            console.log(data.data.message);
+        });
+    }
     function listarPersonas(){
         webServer
         .getResource('personas',{empleado:true,proveedor:true},'get')
@@ -246,8 +336,10 @@ angular.module('frontendApp')
             }else{
                 $scope.personas = [];
             }
+            listarProductos();
         },function(data){
             console.log(data);
+            listarProductos();
         });
     }
 	listarFabricaciones();
