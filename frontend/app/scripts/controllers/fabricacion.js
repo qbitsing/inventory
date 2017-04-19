@@ -47,12 +47,12 @@ angular.module('frontendApp')
                 minWidth: 200
             },
             {
-                name:'persona responsable',field: 'responsable.nombre',
-                width:'20%',
+                name:'fecha de solicitud',field: 'fecha_solicitud',
+                width:'30%',
                 minWidth: 250
             },
             {
-                name:'fecha de solicitud',field: 'fecha_solicitud',
+                name:'fecha de entrega',field: 'fecha_entrega',
                 width:'30%',
                 minWidth: 250
             },
