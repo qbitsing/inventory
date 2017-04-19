@@ -7,7 +7,7 @@
 					<h3 class="panel-title">{{panel_title_form}}</h3>
 				</div>
 				<div class="panel-body" >
-					<form name="formfabricacion" ng-submit="EnviarFabricacion()">
+					<form name="formfabricacion" ng-submit="abrirModalCrear()">
 						<div class="row">
 							<p>
 								<input name="tipo" type="radio" ng-model="check" id="venta" value="orden"/>
@@ -30,12 +30,12 @@
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-								<label>Fecha de solicitud *</label>
-								<input type="date" ng-model="fabricacion.fecha_solicitud" class="datepicker" required>
+								<label for="fecha_solicitud" class="active">Fecha de solicitud *</label>
+								<input type="date" id="fecha_solicitud" ng-model="fabricacion.fecha_solicitud" required>
 							</div>
 							<div class="input-field col s12 m6 l6">
-								<label for="consecutivo">Fecha de entrega *</label>
-								<input type="date" ng-model="fabricacion.fecha_entrega" class="datepicker" required>
+								<label for="fecha_entrega" class="active">Fecha de entrega *</label>
+								<input type="date" id="fecha_entrega" ng-model="fabricacion.fecha_entrega"  required>
 							</div>
 						</div>
 						<div class="row">
@@ -49,7 +49,7 @@
 								<input type="number" ng-model="producto.cantidad" id="Cantidad" name="Cantidad">
 								<label for="Cantidad">Cantidad *</label>
 							</div>
-							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!(producto._id) || !(producto.cantidad)" ng-click="AgregarInsumo()">Añadir</button>
+							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!(producto._id) || !(producto.cantidad)" ng-click="AgregarProducto()">Añadir</button>
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
@@ -74,7 +74,7 @@
 						<div class="row">
 							<div class="input-field col s12 m4 l4">
 								<select ng-model="proceso._id" material-select watch>
-	      							<option ng-repeat="proceso in Procesos" value="{{proceso._id}},{{proceso.nombre}}">{{proceso.nombre}}</option>
+	      							<option ng-repeat="proceso in Procesos" value="{{proceso._id}},{{proceso.nombre}},{{proceso.tipo}}">{{proceso.nombre}}</option>
 								</select>
 								<label>Procesos *</label>
 							</div>
@@ -171,7 +171,7 @@
     	</div>
 	</div>
     <div class="modal-footer">
-      	<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Ok</a>
+      	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Ok</a>
     </div>
 </div>
 <div id="modalConfirmacion" class="modal modal-fixed-footer">
@@ -182,7 +182,7 @@
     	</div>
 	</div>
     <div class="modal-footer">
-      	<button type="submit" ng-click="Borrar(Detallemodal.id)" class="modal-action waves-effect waves-green btn-flat">Confirmar</button>
+      	<button type="submit" ng-click="Confirmar()" class="modal-action waves-effect waves-green btn-flat">Confirmar</button>
 	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
     </div>
 </div>
@@ -194,22 +194,21 @@
     			<div class="row">
 					<div class="input-field col s12 m4 l4">
 						<select ng-model="from_modal.persona" material-select watch>
-								<option ng-repeat="persona in personas" value="{{persona}}">{{persona.nombre}}</option>
+							<option ng-repeat="persona in personas" ng-if="(modal.proceso.tipo=='Externo' && persona.proveedor) || (modal.proceso.tipo=='Interno' && persona.empleado)" value="{{persona}}">{{persona.nombre}}</option>
 						</select>
-						<label>Procesos *</label>
+						<label>Responsable *</label>
 					</div>
 					<button type="submit" class="btn btn-success col s4 m2 l2" ng-disabled="!from_modal.persona">Añadir</button>
 				</div>
     		</form>
-
     		<table>
     			<tr>
     				<td>Nombre</td>
-    				<td></td>
+    				<td>Opción</td>
     			</tr>
     			<tr ng-repeat="res in modal.proceso.array_responsables">
     				<td>{{res.nombre}} {{res.apellidos}}</td>
-    				<td><button ng-click="removeresponsable($index)">eliminar</button></td>
+    				<td><button ng-click="removeresponsable($index)">Eliminar</button></td>
     			</tr>
     		</table>
     	</div>
@@ -218,19 +217,88 @@
 	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
     </div>
 </div>
+
+
+
+
+
+
+<div id="modalSalidas" class="modal modal-fixed-footer">
+    <div class="modal-content">
+	    <h4 class="modal-title">Generar remisión de salida</h4>
+	    <div class="row">
+	    <h5>Productos disponibles</h5>
+	    	<table>
+	    			<tr>
+	    				<td>Producto</td>
+	    				<td>Cantidad afuera</td>
+	    				<td>Cantidad disponible</td>
+	    			</tr>
+	    			<tr ng-repeat="producto in contenido_fabricacion.productos">
+	    				<td>{{producto.nombre}}</td>
+	    				<td>{{producto.cantidad_saliente}}</td>
+	    				<td>{{producto.cantidad_disponible}}</td>
+	    			</tr>
+	    		</table>
+	    </div>
+    	<div class="row">
+    		<form name="formSalida" ng-submit="enviarRemision()">
+    			<div class="row">
+					<div class="input-field col s12 m6 l6">
+						<select ng-model="modal_salida.producto" material-select watch>
+							<option ng-repeat="producto in contenido_fabricacion.productos" value="{{producto}}">{{producto.nombre}}</option>
+						</select>
+						<label>Producto *</label>
+					</div>
+					<div class="input-field col s8 m4 l4">
+						<input type="number" ng-model="modal_salida.cantidad" id="Cantidad" name="Cantidad">
+						<label for="Cantidad">Cantidad *</label>
+					</div>
+					<button type="button" ng-click="addproducto()" class="btn btn-success col s4 m2 l2" ng-disabled="!modal_salida.producto || !modal_salida.cantidad">Añadir</button>
+				</div>
+				<table>
+	    			<tr>
+	    				<td>Nombre</td>
+	    				<td>Cantidad</td>
+	    				<td>Opción</td>
+	    			</tr>
+	    			<tr ng-repeat="producto in modal_salida.productos">
+	    				<td>{{producto.nombre}}</td>
+		    			<td>{{producto.cantidad}}</td>
+	    				<td><button ng-click="removerproducto({{producto}})">Eliminar</button></td>
+	    			</tr>
+	    		</table>
+	    		<div class="row">
+	    			<div class="input-field col s12 m6 l6">
+						<select ng-model="modal_salida.carga_proceso" ng-change="cargarProceso()" material-select watch required>
+							<option ng-repeat="proceso in contenido_fabricacion.procesos" value="{{proceso}}">{{proceso.nombre}}</option>
+						</select>
+						<label>Proceso *</label>
+					</div>
+					<div class="input-field col s12 m6 l6">
+						<li ng-repeat="res in modal_salida.proceso.array_responsables">{{res.nombre}}</li>
+					</div>
+	    		</div>
+	    		<div class="row">
+					<div class="input-field col s12 m6 l6">
+						<label>Fecha de solicitud *</label>
+						<input type="date" ng-model="modal_salida.fecha_solicitud" class="datepicker" required>
+					</div>
+					<div class="input-field col s12 m6 l6">
+						<label for="consecutivo">Fecha de entrega *</label>
+						<input type="date" ng-model="modal_salida.fecha_entrega" class="datepicker" required>
+					</div>
+				</div>
+	    		<div class="row">
+	    			<button type="submit" class="btn btn-success col s4 m2 l2" ng-disabled="formSalida.$invalid || modal_salida.productos.length<1">Registrar remisión</button>
+	    		</div>
+    		</form>
+    	</div>
+	</div>
+    <div class="modal-footer">
+	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
+    </div>
+</div>
 <script type="text/javascript" charset="utf-8">
-	$('.datepicker').pickadate({
-		labelMonthNext: 'Next month',
-		labelMonthPrev: 'Previous month',
-		labelMonthSelect: 'Select a month',
-		labelYearSelect: 'Select a year',
-		monthsFull: [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ],
-		monthsShort: [ 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
-		weekdaysFull: [ 'Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado' ],
-		weekdaysShort: [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab' ],
-		weekdaysLetter: [ 'D', 'L', 'M', 'Mi', 'J', 'V', 'S' ],
-		today: 'Hoy',
-		clear: 'Limpiar',
-		close: 'Cerrar'
-	});
+	
 </script>
