@@ -71,7 +71,6 @@ angular.module('frontendApp')
     	var ruta="";
         var metodo="";
         if ($scope.panel_title_form=="Registro de Materia Prima") {
-        	$scope.Materia.cantidad=0;
             ruta="materiaPrima";
             metodo="post";
         }else{

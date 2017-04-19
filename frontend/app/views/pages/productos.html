@@ -50,6 +50,12 @@
 								<label for="Precio">Precio *</label>
 							</div>
 						</div>
+						<div class="row">
+							<div class="input-field col s12 m6 l6" ng-show="check=='producto'">
+								<input type="number" ng-model="Producto.cantidad" id="Cantidad" name="Cantidad" ng-required="check.producto">
+								<label for="Cantidad">Cantidad *</label>
+							</div>
+						</div>
 						<div class="row" ng-show="check=='producto'">
 							<div class="input-field col s12 m6 l6">
 								<select ng-model="producto.Insumo._id" material-select watch>

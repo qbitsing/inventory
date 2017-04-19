@@ -12,50 +12,47 @@ angular.module('frontendApp')
     $(document).ready(function(){
         $('.modal').modal();
         $('#modal1').modal({
-                dismissible: true, // Modal can be dismissed by clicking outside of the modal
-                opacity: 0, // Opacity of modal background
-                inDuration: 300, // Transition in duration
-                outDuration: 200, // Transition out duration
-                startingTop: '10%', // Starting top style attribute
-                endingTop: '15%', // Ending top style attribute
-                ready: function(modal, trigger) {
-                    $scope.unidades=true;
-                    $scope.categorias=false;
-                    $scope.procesos=false;
-                },
-                complete: function() {  } // Callback for Modal close
-            }
-        );
+            dismissible: true, // Modal can be dismissed by clicking outside of the modal
+            opacity: 0, // Opacity of modal background
+            inDuration: 300, // Transition in duration
+            outDuration: 200, // Transition out duration
+            startingTop: '10%', // Starting top style attribute
+            endingTop: '15%', // Ending top style attribute
+            ready: function(modal, trigger) {
+                $scope.unidades=true;
+                $scope.categorias=false;
+                $scope.procesos=false;
+            },
+            complete: function() {  } // Callback for Modal close
+        });
         $('#modal2').modal({
-                dismissible: true, // Modal can be dismissed by clicking outside of the modal
-                opacity: 0, // Opacity of modal background
-                inDuration: 300, // Transition in duration
-                outDuration: 200, // Transition out duration
-                startingTop: '10%', // Starting top style attribute
-                endingTop: '15%', // Ending top style attribute
-                ready: function(modal, trigger) {
-                    $scope.unidades=false;
-                    $scope.categorias=true;
-                    $scope.procesos=false;
-                },
-                complete: function() {  } // Callback for Modal close
-            }
-        );
+            dismissible: true, // Modal can be dismissed by clicking outside of the modal
+            opacity: 0, // Opacity of modal background
+            inDuration: 300, // Transition in duration
+            outDuration: 200, // Transition out duration
+            startingTop: '10%', // Starting top style attribute
+            endingTop: '15%', // Ending top style attribute
+            ready: function(modal, trigger) {
+                $scope.unidades=false;
+                $scope.categorias=true;
+                $scope.procesos=false;
+            },
+            complete: function() {  } // Callback for Modal close
+        });
         $('#modal3').modal({
-                dismissible: true, // Modal can be dismissed by clicking outside of the modal
-                opacity: 0, // Opacity of modal background
-                inDuration: 300, // Transition in duration
-                outDuration: 200, // Transition out duration
-                startingTop: '10%', // Starting top style attribute
-                endingTop: '15%', // Ending top style attribute
-                ready: function(modal, trigger) {
-                    $scope.unidades=false;
-                    $scope.categorias=false;
-                    $scope.procesos=true;
-                },
-                complete: function() {  } // Callback for Modal close
-            }
-        );
+            dismissible: true, // Modal can be dismissed by clicking outside of the modal
+            opacity: 0, // Opacity of modal background
+            inDuration: 300, // Transition in duration
+            outDuration: 200, // Transition out duration
+            startingTop: '10%', // Starting top style attribute
+            endingTop: '15%', // Ending top style attribute
+            ready: function(modal, trigger) {
+                $scope.unidades=false;
+                $scope.categorias=false;
+                $scope.procesos=true;
+            },
+            complete: function() {  } // Callback for Modal close
+        });
     });
     $scope.$state=$state;
     if(SesionUsuario.ObtenerSesion()==null){
