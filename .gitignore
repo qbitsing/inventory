@@ -3,4 +3,4 @@ frontend/bower_components
 backend/node_modules
 inventory.sublime-project
 inventory.sublime-workspace
-frontend/app/services/webserver.js
+frontend/app/scripts/services/webserver.js
