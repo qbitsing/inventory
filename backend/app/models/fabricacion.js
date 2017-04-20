@@ -10,7 +10,9 @@ const fabricacionSchema = new Schema({
   autoriza: {},
   productos: [],
   procesos: [],
-  orden_venta: {}
+  orden_venta: {},
+  estado: {type: String , enum:['Completa', 'Incompleta', 'En Fabricacion'], default: 'En Fabricacion'},
+  estado_remision: {type: String, enum:['Sin Remision' , 'Con Remision'], default: 'Sin Remision'}
 });
 
 module.exports = mongoose.model('fabricacion', fabricacionSchema);

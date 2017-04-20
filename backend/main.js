@@ -161,6 +161,14 @@ app.put('/procesos/:id', controllers.procesos.actualizar);
 app.delete('/procesos/:id', controllers.procesos.eliminar);
 //Fin Bloque de rutas de procesos
 
+// Bloque de Rutas de Remision
+app.get('/remision', controllers.remision.listarAll);
+
+app.get('/remision/:id', controllers.remision.listarById);
+
+app.post('/remision', controllers.remision.crear);
+//Fin Bloque de Rutas de Remision
+
 mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
   if(err){
     return console.log(`ERROR al conectar con la BD: ${err}`);
