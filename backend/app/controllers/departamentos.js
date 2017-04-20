@@ -21,6 +21,7 @@ function listarAll (req, res){
     });
 }
 
+
 function listarById (req, res) {
 	let departamentoId = req.params.id;
     departamentoModel.findById(departamentoId , (err , datos)=>{

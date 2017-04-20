@@ -46,15 +46,50 @@ let listarById = co.wrap(function * (req, res){
 });
 
 let crear = co.wrap(function * (req, res) {
+  let remicion = req.body;
+  remicion.fabricacion.estado_remision = 'Con Remision';
   try {
-    // statements
+    yield fabricacionModel.findByIdAndUpdate(remicion.fabricacion._id, remicion.fabricacion);
+
+    let newRemision = new remicionModel(remicion);
+
+    let saveRimision = yield newRemision.save();
+
+    return res.status(200).send({
+      message: 'Remisión registrada con exito',
+      datos: saveRimision._id
+    });
   } catch(e) {
-    // statements
-    console.log(e);
+    return res.status(500).send({
+      message:`ERROR ${e}`
+    });
   }
 });
 
 
+let eliminar = co.wrap(function *(req, res) {
+  let remisionId = req.params.id;
+  let remision = req.body;
+  try {
+    yield fabricacionModel.findByIdAndUpdate(remision.fabricacion._id, remision.fabricacion);
+
+    yield remicionModel.findByIdAndUpdate(remisionId, remision);
+
+    return res.status(200).send({
+      message:'Remisión cancelada con exito'
+    });
+  } catch (e) {
+    return res.status(500).send({
+      message:`ERROR ${e}`
+    });
+  }  
+});
+
+
+
 module.exports = {
-  listarAll
+  listarAll,
+  listarById,
+  crear,
+  eliminar
 };

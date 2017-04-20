@@ -4,7 +4,7 @@
   "description": "api restful para el manejo de inventario de prines sas",
   "main": "main.js",
   "scripts": {
-    "start": "nodemon main.js",
+    "start": "nodemon main.js -L",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
