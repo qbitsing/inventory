@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 
 
 const remicionSchema = new Schema({
+  fabricacion: {},
   proveedor : {},
   productos: [],
   fecha_entrega: Date,

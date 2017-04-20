@@ -46,8 +46,9 @@ let listarById = co.wrap(function * (req, res){
 });
 
 let crear = co.wrap(function * (req, res) {
+  let remicion = req.body;
   try {
-    // statements
+    
   } catch(e) {
     // statements
     console.log(e);
