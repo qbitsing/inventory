@@ -14,10 +14,10 @@ app.use(bodyParser.urlencoded({ extended: true , limit: '5mb'}));
 app.use(express.static(__dirname+'/assest'));
 app.use(bodyParser.json({limit: '5mb'}));
 app.use(function(req,res,next){
-	res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    next();
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  next();
 })
 
 
@@ -147,6 +147,8 @@ app.get('/fabricacion/:id', controllers.fabricacion.listarById);
 app.post('/fabricacion', controllers.fabricacion.crear);
 
 app.put('/fabricacion/:id', controllers.fabricacion.actualizar);
+
+app.delete('/fabricacion/:id', controllers.fabricacion.eliminar);
 // Fin Bloque de rutas de fabricacion
 
 //Bloque de rutas de procesos
@@ -161,12 +163,22 @@ app.put('/procesos/:id', controllers.procesos.actualizar);
 app.delete('/procesos/:id', controllers.procesos.eliminar);
 //Fin Bloque de rutas de procesos
 
+// Bloque de Rutas de Remision
+app.get('/remision', controllers.remision.listarAll);
+
+app.get('/remision/:id', controllers.remision.listarById);
+
+app.post('/remision', controllers.remision.crear);
+
+app.put('/remision/:id', controllers.remision.eliminar);
+//Fin Bloque de Rutas de Remision
+
 mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
-	if(err){
-		return console.log(`ERROR al conectar con la BD: ${err}`);
-	};
-	console.log('Conexión con la base de datos establecida');
-	app.listen(port, () => {
-		console.log(`Api REST corriendo en: http://localhost:${port}`);
-	});
+  if(err){
+    return console.log(`ERROR al conectar con la BD: ${err}`);
+  };
+  console.log('Conexión con la base de datos establecida');
+  app.listen(port, () => {
+    console.log(`Api REST corriendo en: http://localhost:${port}`);
+  });
 });

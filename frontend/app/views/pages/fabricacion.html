@@ -137,8 +137,8 @@
     		<ul>
 				<li> Numero interno de la fabricación: {{Detalle.consecutivo || 'No registra'}}</li>
 				<li ng-show="Detalle.orden_venta"> Cliente: {{Detalle.orden_venta.cliente.nombre || 'No registra'}}</li>
-				<li> Fecha de solicitud: {{Detalle.fecha_solicitud || 'No registra'}}</li>
-				<li> Fecha de entrega: {{Detalle.fecha_entrega || 'No registra'}}</li>
+				<li> Fecha de solicitud: {{convertirFecha(Detalle.fecha_solicitud) || 'No registra'}}</li>
+				<li> Fecha de entrega: {{convertirFecha(Detalle.fecha_entrega) || 'No registra'}}</li>
 				<li> Observaciones de la fabricación: {{Detalle.observaciones || 'No registra'}}</li>
 				<li ng-hide="Detalle.productos.length<1"> <h5>Productos:</h5></li>
 				<table class="highlight" ng-hide="Detalle.productos.length<1">
@@ -149,9 +149,9 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="producto in Detalle.orden_venta.productos">
+						<tr ng-repeat="producto in Detalle.productos">
 							<td>{{producto.nombre}}</td>
-							<td>{{producto.cantidad_saliente}}</td>
+							<td>{{producto.cantidad}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -263,9 +263,9 @@
 	    				<td>Opción</td>
 	    			</tr>
 	    			<tr ng-repeat="producto in modal_salida.productos">
-	    				<td>{{producto.nombre}}</td>
+	    				<td>{{producto.producto.nombre}}</td>
 		    			<td>{{producto.cantidad}}</td>
-	    				<td><button ng-click="removerproducto({{producto}})">Eliminar</button></td>
+	    				<td><button type="button" ng-click="removerproducto(producto)">Eliminar</button></td>
 	    			</tr>
 	    		</table>
 	    		<div class="row">
@@ -281,16 +281,16 @@
 	    		</div>
 	    		<div class="row">
 					<div class="input-field col s12 m6 l6">
-						<label>Fecha de solicitud *</label>
-						<input type="date" ng-model="modal_salida.fecha_solicitud" class="datepicker" required>
+						<label class="active">Fecha de solicitud *</label>
+						<input type="date" ng-model="modal_salida.fecha_solicitud" required>
 					</div>
 					<div class="input-field col s12 m6 l6">
-						<label for="consecutivo">Fecha de entrega *</label>
-						<input type="date" ng-model="modal_salida.fecha_entrega" class="datepicker" required>
+						<label class="active">Fecha de entrega *</label>
+						<input type="date" ng-model="modal_salida.fecha_entrega" required>
 					</div>
 				</div>
 	    		<div class="row">
-	    			<button type="submit" class="btn btn-success col s4 m2 l2" ng-disabled="formSalida.$invalid || modal_salida.productos.length<1">Registrar remisión</button>
+	    			<button type="submit" class="btn btn-success col" ng-disabled="formSalida.$invalid || modal_salida.productos.length<1">Registrar remisión</button>
 	    		</div>
     		</form>
     	</div>

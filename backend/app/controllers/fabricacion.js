@@ -68,7 +68,7 @@ let actualizar = co.wrap(function * (req, res){
   try {
     yield fabricacionModel.findByIdAndUpdate(fabricacionId, req.body);
     return res.send({
-      message: 'proceso de fabricacion actualizado con exito'
+      message: 'proceso de fabricación actualizado con exito'
     });
   } catch (e) {
     return res.status(500).send({
@@ -77,9 +77,25 @@ let actualizar = co.wrap(function * (req, res){
   }
 });
 
+let eliminar = co.wrap(function * (req, res){
+  let fabricacionId = req.params.id;
+
+  try {
+    yield fabricacionModel.findByIdAndRemove(fabricacionId);
+    return res.status(200).send({
+      message: 'Proceso de fabricación eliminado con exito'
+    });
+  } catch(e) {
+    return res.status(500).send({
+      message:`ERROR ${e}`
+    });
+  }
+});
+
 module.exports = {
   listarAll,
   listarById,
   crear,
-  actualizar
+  actualizar,
+  eliminar
 }
