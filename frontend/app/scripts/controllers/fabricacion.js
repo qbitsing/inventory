@@ -23,6 +23,9 @@ angular.module('frontendApp')
     $scope.modal={};
 	$scope.fabricacion.productos=[];
     $scope.fabricacion.procesos=[];
+    $scope.contenido_fabricacion={};
+    $scope.modal_salida={};
+    $scope.modal_salida.productos=[];
     /*$('.datepicker').pickadate({
         labelMonthNext: 'Next month',
         labelMonthPrev: 'Previous month',
@@ -37,7 +40,7 @@ angular.module('frontendApp')
         clear: 'Limpiar',
         close: 'Cerrar'
     });*/
-    $scope.modal_salida={};
+    
 	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Salida+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
@@ -47,18 +50,20 @@ angular.module('frontendApp')
                 minWidth: 200
             },
             {
-                name:'persona responsable',field: 'responsable.nombre',
+                name:'fecha de solicitud',
+                width:'20%',
+                cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha_solicitud)}}</div>',
+                minWidth: 250
+            },
+            {
+                name:'fecha de entrega',
+                cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha_entrega)}}</div>',
                 width:'20%',
                 minWidth: 250
             },
             {
-                name:'fecha de solicitud',field: 'fecha_solicitud',
-                width:'30%',
-                minWidth: 250
-            },
-            {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'30%',
+                width:'40%',
                 minWidth: 230
             }
         ]
@@ -93,12 +98,12 @@ angular.module('frontendApp')
         $('#modalConfirmacion').modal('open');
     }
     $scope.Confirmar=function(){
+        $('#modalConfirmacion').modal('close');
         if($scope.Detallemodal.titulo=='Confirmar Registro'){
             EnviarFabricacion();
         }else{
             Borrar($scope.Detallemodal.id);
         }
-        $('#modalConfirmacion').modal('close');
     }
 
     $scope.abrirModal=function(_id){
@@ -112,18 +117,21 @@ angular.module('frontendApp')
         webServer
         .getResource('fabricacion/'+id,{},'delete')
         .then(function(data){
-            $scope.Entradas.forEach(function(ele, index){
+            $scope.Fabricaciones.forEach(function(ele, index){
                 if(ele._id==id){
-                    $scope.Entradas.splice(ele.index,1);
+                    $scope.Fabricaciones.splice(ele.index,1);
                 }
             });
             $scope.Detallemodal.mensaje='La fabricación se ha eliminado exitosamente';
+            $scope.Detallemodal.titulo='Notificacion de eliminación';
+            $('#modalNotificacion').modal('open');
         },function(data){
             $scope.Detallemodal.mensaje=data.data.message;
             console.log(data.data.message);
+            $scope.Detallemodal.titulo='Notificacion de error';
+            $('#modalNotificacion').modal('open');
         });
-        $scope.Detallemodal.titulo='Notificacion de eliminación';
-        $('#modalNotificacion').modal('open');
+        
     }
     function EnviarFabricacion(){
         if($scope.check!='orden'){
@@ -149,19 +157,22 @@ angular.module('frontendApp')
             $scope.fabricacion.consecutivo=$scope.fabricacion.consecutivo+1;
             $scope.Detallemodal.titulo='Notificacion de registro';
             $scope.Detallemodal.mensaje='La fabricación se ha registrado exitosamente';
+            $('#modalNotificacion').modal('open');
         },function(data){
             $scope.Detallemodal.titulo='Notificacion de error';
             $scope.Detallemodal.mensaje=data.data.message;
             console.log(data);
+            $('#modalNotificacion').modal('open');
         }); 
-        $('#modalNotificacion').modal('open');
     }
     $scope.AgregarProducto=function(){
         var controlador=false;
         var obj = {
             _id : $scope.producto._id.split(',')[0],
             nombre : $scope.producto._id.split(',')[1],
-            cantidad : $scope.producto.cantidad
+            cantidad : $scope.producto.cantidad,
+            cantidad_saliente : 0,
+            cantidad_disponible : $scope.producto.cantidad
         };
         $scope.fabricacion.productos.forEach(function(ele, index){
             if(ele._id==obj._id){
@@ -230,16 +241,25 @@ angular.module('frontendApp')
                 $scope.contenido_fabricacion=ele;
             }
         });
+        $scope.modal_salida={};
+        $scope.modal_salida.productos=[];
         $('#modalSalidas').modal('open');
     }
     $scope.addproducto = function(){
         var res = JSON.parse($scope.modal_salida.producto);
+        res.cantidad_disponible=res.cantidad_disponible-$scope.modal_salida.cantidad;
+        res.cantidad_saliente=res.cantidad_saliente+$scope.modal_salida.cantidad;
         $scope.contenido_fabricacion.productos.forEach(function(ele , i){
             if(res._id == ele._id){
-                if($scope.modal_salida.cantidad<ele.cantidad_disponible){
-                    $scope.modal_salida.productos.push(res);
+                if($scope.modal_salida.cantidad<=ele.cantidad_disponible){
                     ele.cantidad_disponible=ele.cantidad_disponible-$scope.modal_salida.cantidad;
                     ele.cantidad_saliente=ele.cantidad_saliente+$scope.modal_salida.cantidad;
+                    var obj={
+                        producto : ele,
+                        cantidad : $scope.modal_salida.cantidad
+                    }
+                    $scope.modal_salida.productos.push(obj);
+                    $scope.modal_salida.cantidad='';
                 }else{
                     Materialize.toast('Error al intentar agregar el producto, la cantidad a sacar es mayor a la cantidad disponible', 4000);
                 }
@@ -247,19 +267,19 @@ angular.module('frontendApp')
         });
     }
     $scope.removerproducto = function(producto){
-        var res = JSON.parse(producto);
         $scope.contenido_fabricacion.productos.forEach(function(ele , i){
-            if(res._id == ele._id){
-                ele.cantidad_disponible=ele.cantidad_disponible+res.cantidad;
-                ele.cantidad_saliente=ele.cantidad_saliente-res.cantidad;
+            if(producto.producto._id == ele._id){
+                ele.cantidad_disponible=ele.cantidad_disponible+producto.cantidad;
+                ele.cantidad_saliente=ele.cantidad_saliente-producto.cantidad;
             }
         });
-        $scope.modal_salida.productos.splice(res.index , 1);
+        $scope.modal_salida.productos.splice(producto.index , 1);
     }
     $scope.cargarProceso=function(){
-        $scope.modal_salida.proceso = JSON.parse(carga_proceso);
+        $scope.modal_salida.proceso = JSON.parse($scope.modal_salida.carga_proceso);
     }
     $scope.enviarRemision=function(){
+        $scope.modal_salida.fabricacion=$scope.contenido_fabricacion;
         webServer
         .getResource('remision',$scope.modal_salida,'post')
         .then(function(data){
@@ -276,6 +296,13 @@ angular.module('frontendApp')
             console.log(data);
         });
     }
+    $scope.convertirFecha = function(fecha){
+        var date = new Date(fecha).getDate();
+        date += '/'+(new Date(fecha).getMonth()+1);
+        date += '/'+new Date(fecha).getFullYear();
+
+        return date;
+    }
 
 
 
@@ -286,21 +313,15 @@ angular.module('frontendApp')
         webServer
         .getResource('fabricacion',{},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Fabricaciones=data.data.datos;
-                $scope.gridOptions.data=$scope.Fabricaciones;
-                $scope.fabricacion.consecutivo=0;
-                $scope.Fabricaciones.forEach(function(ele, index){
-                    if(ele.consecutivo>=$scope.fabricacion.consecutivo){
-                        $scope.fabricacion.consecutivo=ele.consecutivo;
-                    }
-                });
-                $scope.fabricacion.consecutivo=$scope.fabricacion.consecutivo+1; 
-            }else{
-                $scope.fabricacion.consecutivo=1;
-                $scope.Fabricaciones=[];
-                $scope.gridOptions.data=$scope.Fabricaciones;
-            }
+            $scope.Fabricaciones=data.data.datos;
+            $scope.gridOptions.data=$scope.Fabricaciones;
+            $scope.fabricacion.consecutivo=0;
+            $scope.Fabricaciones.forEach(function(ele, index){
+                if(ele.consecutivo>=$scope.fabricacion.consecutivo){
+                    $scope.fabricacion.consecutivo=ele.consecutivo;
+                }
+            });
+            $scope.fabricacion.consecutivo=$scope.fabricacion.consecutivo+1;
             listarOrdenes();
         },function(data){
             $scope.fabricacion.consecutivo=1;
@@ -322,14 +343,13 @@ angular.module('frontendApp')
             listarPersonas();
         },function(data){
             $scope.Ordenes=[];
-            $scope.gridOptions.data=$scope.Ordenes;
             console.log(data.data.message);
             listarPersonas();
         });
     }
     function listarProductos(){
         webServer
-        .getResource('productos',{},'get')
+        .getResource('productos',{producto:true},'get')
         .then(function(data){
             if(data.data){
                 $scope.Productos=data.data.datos;
