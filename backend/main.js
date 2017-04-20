@@ -20,6 +20,8 @@ app.use(function(req,res,next){
     next();
 })
 
+
+
 // Bloque de Rutas de personas
 app.get('/personas', controllers.personas.listarAll);
 
