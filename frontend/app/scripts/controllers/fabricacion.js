@@ -11,6 +11,21 @@ angular.module('frontendApp')
 .controller('FabricacionCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';
+    $(document).ready(function(){
+        $('.modal').modal();
+        $('.modal').modal({
+                dismissible: true, // Modal can be dismissed by clicking outside of the modal
+                opacity: 0, // Opacity of modal background
+                inDuration: 300, // Transition in duration
+                outDuration: 200, // Transition out duration
+                startingTop: '10%', // Starting top style attribute
+                endingTop: '15%', // Ending top style attribute
+                ready: function(modal, trigger) {
+                },
+                complete: function() {  } // Callback for Modal close
+            }
+        );
+    });
 	$timeout(function () {
 		$scope.pageAnimate='pageAnimate';
 		$scope.panelAnimate='panelAnimate';
@@ -274,10 +289,12 @@ angular.module('frontendApp')
         $scope.personas = $scope.personas.concat(responsables);
         $scope.fabricacion.procesos.splice(index,1);
     }
+    
     $scope.AbrirModal = function(proceso){
         $scope.modal.proceso=proceso;
         $('#modalResponsables').modal('open');
     }
+    
     $scope.addresponsable = function(){
         var res = JSON.parse($scope.from_modal.persona);
         var index = null;
