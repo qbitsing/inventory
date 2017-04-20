@@ -181,24 +181,23 @@ angular.module('frontendApp')
 
     function EnviarFabricacion(){
         var metodo='';
-        if($scope.button_title_form='Registrar fabricación'){
+        var ruta='';
+        if($scope.button_title_form=='Registrar fabricación'){
             metodo='post';
+            ruta='fabricacion';
             $scope.fabricacion.estado='En Fabricación';
-            $scope.fabricacion.estado_remision='Sin Remisión';
+            $scope.fabricacion.estado_remision='Sin Remision';
         }else{
             metodo='put';
+            ruta='fabricacion/'+$scope.fabricacion._id;
         }
         if($scope.check!='orden'){
             delete $scope.fabricacion.orden_venta;
         }
+        console.log($scope.fabricacion);
         webServer
-        .getResource('fabricacion',$scope.fabricacion,metodo)
+        .getResource(ruta,$scope.fabricacion,metodo)
         .then(function(data){
-            $scope.personas.forEach(function(ele, index){
-                if(ele._id==$scope.fabricacion.responsable._id){
-                    $scope.fabricacion.responsable=ele;
-                }
-            });
             if($scope.button_title_form='Registrar fabricación'){
                 $scope.fabricacion._id=data.data.id;
                 $scope.Fabricaciones.push($scope.fabricacion);
@@ -368,11 +367,6 @@ angular.module('frontendApp')
         return date;
     }
 
-
-
-
-
-
     function listarFabricaciones(){
         webServer
         .getResource('fabricacion',{},'get')
@@ -435,6 +429,7 @@ angular.module('frontendApp')
             }else{
                 $scope.Remisiones=[];
             }
+            console.log($scope.Remisiones);
             listarFabricaciones();
         },function(data){
             listarFabricaciones();
