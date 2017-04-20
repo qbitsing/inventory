@@ -68,7 +68,21 @@ let crear = co.wrap(function * (req, res) {
 
 
 let eliminar = co.wrap(function *(req, res) {
-    
+  let remisionId = req.params.id;
+  let remision = req.body;
+  try {
+    yield fabricacionModel.findByIdAndUpdate(remision.fabricacion._id, remision.fabricacion);
+
+    yield remicionModel.findByIdAndUpdate(remisionId, remision);
+
+    return res.status(200).send({
+      message:'Remisión cancelada con exito'
+    });
+  } catch (e) {
+    return res.status(500).send({
+      message:`ERROR ${e}`
+    });
+  }  
 });
 
 
@@ -76,5 +90,6 @@ let eliminar = co.wrap(function *(req, res) {
 module.exports = {
   listarAll,
   listarById,
-  crear
+  crear,
+  eliminar
 };
