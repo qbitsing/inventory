@@ -34,6 +34,21 @@ let listarById = co.wrap(function * (req, res){
                 message:'El id indicaco con coincide con ninguna entrada en la base de datos'
             });
         }
+
+        return res.status(200).send({
+            datos
+        });
+    } catch (e) {
+        return res.status(500).send({
+            message: `ERROR ${e}`
+        });
+    }
+});
+
+let crear = co.wrap(function * (req, res){
+    let entrada = req.body;
+    try {
+                
     } catch (e) {
         
     }
