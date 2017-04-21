@@ -200,7 +200,7 @@ angular.module('frontendApp')
         if($scope.button_title_form=='Registrar fabricación'){
             metodo='post';
             ruta='fabricacion';
-            $scope.fabricacion.estado='En Fabricación';
+            $scope.fabricacion.estado='En Fabricacion';
             $scope.fabricacion.estado_remision='Sin Remision';
         }else{
             metodo='put';
@@ -359,6 +359,7 @@ angular.module('frontendApp')
         $scope.modal_salida.proceso = JSON.parse($scope.modal_salida.carga_proceso);
     }
     $scope.enviarRemision=function(){
+        $scope.modal_salida.estado='Sin Entrada';
         $scope.modal_salida.fabricacion=$scope.contenido_fabricacion;
         webServer
         .getResource('remision',$scope.modal_salida,'post')
@@ -368,7 +369,33 @@ angular.module('frontendApp')
                     ele.productos=$scope.contenido_fabricacion.productos;
                 }
             });
+            $scope.Remisiones.push($scope.modal_salida);
             $scope.modal_salida={};
+        }
+        ,function(data){
+            $scope.Detallemodal.titulo='Notificacion de error';
+            $scope.Detallemodal.mensaje=data.data.message;
+            console.log(data);
+        });
+    }
+    $scope.cancelarremision=function(remision){
+        remision.productos.forEach(function(elemento , index){
+            $scope.contenido_fabricacion.productos.forEach(function(ele , i){
+                if(elemento.producto._id == ele._id){
+                    ele.cantidad_disponible=ele.cantidad_disponible+elemento.cantidad;
+                    ele.cantidad_saliente=ele.cantidad_saliente-elemento.cantidad;
+                }
+            });
+        });
+        remision.fabricacion=$scope.contenido_fabricacion;
+        webServer
+        .getResource('remision/'+remision._id,remision,'put')
+        .then(function(data){
+           $scope.Remisiones.forEach(function(ele , i){
+                if (ele._id == remision._id) {
+                    ele.estado = 'Cancelada';
+                }
+           });
         }
         ,function(data){
             $scope.Detallemodal.titulo='Notificacion de error';
@@ -441,11 +468,7 @@ angular.module('frontendApp')
         webServer
         .getResource('remision',{},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Remisiones=data.data.datos;
-            }else{
-                $scope.Remisiones=[];
-            }
+            $scope.Remisiones=data.data.datos;
             console.log($scope.Remisiones);
             listarFabricaciones();
         },function(data){
