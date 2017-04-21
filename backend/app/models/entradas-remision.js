@@ -6,5 +6,6 @@ const Schema = mongoose.Schema;
 const entradaRemisionSchema = new Schema({
     fecha: {type: Date, default: Date.now()},
     remision: {},
-    productos: []
+    productos: [],
+    estado:{type: String, enum:['Cancelada']}
 });
