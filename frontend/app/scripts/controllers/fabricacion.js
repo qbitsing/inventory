@@ -479,7 +479,7 @@ angular.module('frontendApp')
     }
     function listarPersonas(){
         webServer
-        .getResource('personas',{empleado:true,proveedor:true},'get')
+        .getResource('personas',{empleado:true,proveedorfabricacion:true},'get')
         .then(function(data){
             if(data.data){
                 $scope.personas = data.data.datos;
