@@ -70,6 +70,7 @@ let crear = co.wrap(function * (req, res) {
 let eliminar = co.wrap(function *(req, res) {
   let remisionId = req.params.id;
   let remision = req.body;
+  remision.estado = 'Cancelada';
   try {
     yield fabricacionModel.findByIdAndUpdate(remision.fabricacion._id, remision.fabricacion);
 
