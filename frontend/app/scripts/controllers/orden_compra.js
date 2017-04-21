@@ -61,7 +61,7 @@ angular.module('frontendApp')
     $scope.Detallemodal={};
     function listarPersonas(){
         webServer
-        .getResource('personas',{proveedor:true},'get')
+        .getResource('personas',{proveedorproductos:true},'get')
         .then(function(data){
             if(data.data){
                 $scope.proveedores = data.data.datos;

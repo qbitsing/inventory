@@ -291,6 +291,7 @@
 						<label>Proceso *</label>
 					</div>
 					<div class="input-field col s12 m6 l6">
+						<label for="">Responsables</label>
 						<li ng-repeat="res in modal_salida.proceso.array_responsables">{{res.nombre}}</li>
 					</div>
 	    		</div>
@@ -322,7 +323,9 @@
 	    			<td><li ng-repeat="res in remision.productos">{{res.producto.nombre}}-{{res.cantidad}}</li></td>
 	    			<td>{{remision.proceso.nombre}}</td>
     				<td><li ng-repeat="res in remision.proceso.array_responsables">{{res.nombre}}</li></td>
-    				<td><button type="button" ng-click="cancelarremision(remision)">Cancelar</button></td>
+    				<td ng-if="remision.estado=='Sin Entrada'"><button type="button" ng-click="cancelarremision(remision)">Cancelar</button></td>
+    				<td ng-if="remision.estado=='Con Entrada'">La remisión no se puede cancelar</td>
+    				<td ng-if="remision.estado=='Cancelada'">Remisión cancelada</td>
     			</tr>
     		</table>
     	</div>
