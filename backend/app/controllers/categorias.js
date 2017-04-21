@@ -39,6 +39,7 @@ let crear = co.wrap(function * (req, res){
     }
 });
 
+
 let eliminar = co.wrap(function * (req, res){
     try {
         let categoriaId = req.params.id;
