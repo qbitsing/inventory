@@ -26,6 +26,8 @@ const personaSchema = Schema({
     },
     contrasena : String,
     proveedor:Boolean,
+    proveedorproductos: Boolean,
+    proveedorfabricacion: Boolean,
     cliente:Boolean,
     administardor:Boolean,
     almacenista:Boolean,
