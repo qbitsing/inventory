@@ -173,6 +173,8 @@ app.post('/remision', controllers.remision.crear);
 app.put('/remision/:id', controllers.remision.eliminar);
 //Fin Bloque de Rutas de Remision
 
+app.post('/entradar' , controllers.entradaRemision.crear);
+
 mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
   if(err){
     return console.log(`ERROR al conectar con la BD: ${err}`);

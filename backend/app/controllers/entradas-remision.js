@@ -48,8 +48,16 @@ let listarById = co.wrap(function * (req, res){
 let crear = co.wrap(function * (req, res){
     let entrada = req.body;
     try {
-                
+        let datos = new entradaModel(entrada);
+        let datos1 = yield datos.save();
+        return res.send(datos1);
     } catch (e) {
-        
+        return res.status(500).send({
+            message:`ERROR ${e}`
+        });
     }
 });
+
+module.exports = {
+    crear
+}
