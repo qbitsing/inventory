@@ -246,13 +246,15 @@
 	    	<table>
 	    			<tr>
 	    				<td>Producto</td>
-	    				<td>Cantidad afuera</td>
+	    				<td>Cantidad en zona externa</td>
 	    				<td>Cantidad disponible</td>
+	    				<td>Cantidad fabricada</td>
 	    			</tr>
 	    			<tr ng-repeat="producto in contenido_fabricacion.productos">
 	    				<td>{{producto.nombre}}</td>
 	    				<td>{{producto.cantidad_saliente}}</td>
 	    				<td>{{producto.cantidad_disponible}}</td>
+	    				<td>{{producto.cantidad_fabricada}}</td>
 	    			</tr>
 	    		</table>
 	    </div>
@@ -314,6 +316,117 @@
     		<h4>Lista de remisiones</h4>
     		<table>
     			<tr>
+    				<td>Consecutivo</td>
+    				<td>Productos-cantidades</td>
+    				<td>Proceso</td>
+    				<td>Responsables</td>
+    				<td>Opción</td>
+    			</tr>
+    			<tr ng-if="remision.fabricacion._id==contenido_fabricacion._id" ng-repeat="remision in Remisiones">
+    				<td>{{convertirConsecutivo(remision.consecutivo)}}</td>
+	    			<td><li ng-repeat="res in remision.productos">{{res.producto.nombre}}-{{res.cantidad}}</li></td>
+	    			<td>{{remision.proceso.nombre}}</td>
+    				<td><li ng-repeat="res in remision.proceso.array_responsables">{{res.nombre}}</li></td>
+    				<td ng-if="remision.estado=='Sin Entrada'"><button type="button" ng-click="cancelarremision(remision)">Cancelar</button></td>
+    				<td ng-if="remision.estado=='Con Entrada'">La remisión no se puede cancelar</td>
+    				<td ng-if="remision.estado=='Cancelada'">Remisión cancelada</td>
+    			</tr>
+    		</table>
+    	</div>
+	</div>
+    <div class="modal-footer">
+	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
+    </div>
+</div>
+
+
+
+
+
+
+<div id="modalEntradas" class="modal modal-fixed-footer">
+    <div class="modal-content">
+	    <h4 class="modal-title">Entradas</h4>
+	    <div class="row">
+	    <h5>Productos disponibles</h5>
+	    	<table>
+	    			<tr>
+	    				<td>Producto</td>
+	    				<td>Cantidad en areas externas</td>
+	    				<td>Cantidad disponible</td>
+	    				<td>Cantidad fabricada</td>
+	    			</tr>
+	    			<tr ng-repeat="producto in contenido_fabricacion.productos">
+	    				<td>{{producto.nombre}}</td>
+	    				<td>{{producto.cantidad_saliente}}</td>
+	    				<td>{{producto.cantidad_disponible}}</td>
+	    				<td>{{producto.cantidad_fabricada}}</td>
+	    			</tr>
+	    		</table>
+	    </div>
+	    <div class="row">
+			<p>
+				<input name="tipo" type="radio" ng-model="check_modal_entrada" id="entrada" value="entrada"/>
+				<label for="entrada">Entrada</label>
+				<input name="tipo" type="radio" ng-model="check_modal_entrada" id="remision" value="remision" />
+				<label for="remision">Remisión de salida</label>
+		    </p>
+		</div>
+		<div class="row" ng-show="check_modal_entrada=='remision'">
+			<div class="input-field col s12 m6 l6">
+				<select ng-model="modal_entrada.carga_remision" material-select watch>
+					<option ng-if="remision.fabricacion._id==contenido_fabricacion._id && (remision.estado!='Completada' || remision.estado!='Cancelada')" ng-repeat="remision in Remisiones" value="{{remision}}">{{convertirConsecutivo(remision.consecutivo)}}-{{remision.proceso.nombre}}</option>
+				</select>
+				<label>Remision de salida *</label>
+			</div>
+			<button type="button" ng-click="cargarRemision()" class="btn btn-success col s4 m2 l2" ng-disabled="!modal_entrada.carga_remision">Cargar</button>
+		</div>
+    	<div class="row">
+    		<form name="formEntrada" ng-submit="enviarEntrada()">
+    			<div class="row" ng-show="check_modal_entrada!='remision'">
+					<div class="input-field col s12 m6 l6">
+						<select ng-model="modal_entrada.producto" material-select watch>
+							<option ng-repeat="producto in contenido_fabricacion.productos" value="{{producto}}">{{producto.nombre}}</option>
+						</select>
+						<label>Producto *</label>
+					</div>
+					<div class="input-field col s8 m4 l4">
+						<input type="number" ng-model="modal_entrada.cantidad" id="Cantidad" name="Cantidad">
+						<label for="Cantidad">Cantidad *</label>
+					</div>
+					<button type="button" ng-click="addproductoentrada()" class="btn btn-success col s4 m2 l2" ng-disabled="!modal_entrada.producto || !modal_entrada.cantidad">Añadir</button>
+				</div>
+				<table>
+	    			<tr>
+	    				<td>Nombre</td>
+	    				<td>Cantidad</td>
+	    				<td>Opción</td>
+	    			</tr>
+	    			<tr ng-repeat="producto in modal_entrada.productos">
+	    				<td>{{producto.producto.nombre}}</td>
+		    			<td>{{producto.cantidad}}</td>
+	    				<td><button type="button" ng-click="removerproductoentrada(producto)">Eliminar</button></td>
+	    			</tr>
+	    		</table>
+	    		<div class="row" ng-show="check_modal_entrada=='remision'">
+	    			<div class="input-field col s12 m6 l6">
+						<input type="text" ng-disabled="true" ng-model="modal_entrada.proceso.nombre" id="Cantidad" name="Cantidad">
+						<label>Proceso *</label>
+					</div>
+					<div class="input-field col s12 m6 l6">
+						<label class="active">Responsables</label>
+						<li ng-repeat="res in modal_entrada.proceso.array_responsables">{{res.nombre}}</li>
+					</div>
+	    		</div>
+	    		<div class="row">
+	    			<button type="submit" class="btn btn-success col" ng-disabled="formEntrada.$invalid || modal_entrada.productos.length<1">Registrar entrada</button>
+	    		</div>
+    		</form>
+    	</div>
+    	<div class="row">
+    		<h4>Lista de remisiones</h4>
+    		<table>
+    			<tr>
     				<td>Productos-cantidades</td>
     				<td>Proceso</td>
     				<td>Responsables</td>
@@ -334,6 +447,3 @@
 	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
     </div>
 </div>
-<script type="text/javascript" charset="utf-8">
-	
-</script>
