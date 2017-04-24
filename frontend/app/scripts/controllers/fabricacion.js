@@ -19,7 +19,7 @@ angular.module('frontendApp')
                 inDuration: 300, // Transition in duration
                 outDuration: 200, // Transition out duration
                 startingTop: '10%', // Starting top style attribute
-                endingTop: '15%', // Ending top style attribute
+                endingTop: '15%', // Ending top style attribute,
                 ready: function(modal, trigger) {
                 },
                 complete: function() {  } // Callback for Modal close
