@@ -11,10 +11,12 @@ function listarAll (req, res){
 		let condiciones = [];
 		let personas = [];
 		query.proveedor ? condiciones.push({proveedor : true}) : null;
+		query.proveedorproductos ? condiciones.push({proveedorproductos: true}) : null;
+		query.proveedorfabricacion ? condiciones.push({proveedorfabricacion: true}) : null;
 		query.cliente ? condiciones.push({cliente : true}): null;
 		query.administrador ? condiciones.push({administrador : true}): null;
 		query.empleado ? condiciones.push({empleado : true}): null;
-		if(query.proveedor || query.cliente || query.administrador || query.empleado)
+		if(query.proveedor || query.cliente || query.administrador || query.empleado || query.proveedorfabricacion || query.proveedorproductos)
 			personas = yield personaModel.find({$or: condiciones});
 		return res.send({datos: personas});
 	});

@@ -173,6 +173,15 @@ app.post('/remision', controllers.remision.crear);
 app.put('/remision/:id', controllers.remision.eliminar);
 //Fin Bloque de Rutas de Remision
 
+//Bloque de Rutas de Entradas de Remicion
+app.post('/entrada/remision' , controllers.entradaRemision.crear);
+
+app.get('/entrada/remision' , controllers.entradaRemision.listarAll);
+
+app.get('/entrada/remision/:id' , controllers.entradaRemision.listarById);
+
+app.put('/entrada/remision/:id' , controllers.entradaRemision.eliminar);
+//Fin BLoque de Rutas Entradas de Remicion
 mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
   if(err){
     return console.log(`ERROR al conectar con la BD: ${err}`);
