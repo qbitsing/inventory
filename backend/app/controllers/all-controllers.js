@@ -14,6 +14,7 @@ const salidas = require('./salidas');
 const fabricacion = require('./fabricacion');
 const procesos = require('./procesos');
 const remision = require('./remicion');
+const entradaRemision = require('./entradas-remision');
 
 const controllers = {
 	personas,
@@ -29,7 +30,8 @@ const controllers = {
 	salidas,
 	fabricacion,
 	procesos,
-	remision
+	remision,
+	entradaRemision
 };
 
 module.exports = controllers;
