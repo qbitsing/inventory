@@ -16,7 +16,8 @@
     "express": "^4.14.1",
     "jwt-simple": "^0.5.1",
     "mongoose": "^4.8.5",
-    "phantom-html2pdf": "^4.0.0"
+    "phantom-html2pdf": "^4.0.0",
+    "mongoose-auto-increment": "^5.0.1"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

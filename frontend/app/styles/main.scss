@@ -429,3 +429,12 @@ $success:#00c853;
 .cursor{
   cursor:pointer;
 }
+table.bordered > thead > tr{
+  border-bottom: 2px solid $azul;
+}
+.danger-text{
+  color:$danger;
+}
+.warning-text{
+  color: $warning;
+}
