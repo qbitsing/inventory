@@ -132,8 +132,10 @@ angular.module('frontendApp')
         });
         if(!controlador){
             $scope.Orden.productos.push(obj);
+            $scope.Orden.Producto={};
         }else{
-            console.log('El insumo ya esta añadido');
+            Materialize.toast('El producto ya esta añadido', 4000);
+            $scope.Orden.Producto={};
         }
     }
     $scope.Detalles = function(id){

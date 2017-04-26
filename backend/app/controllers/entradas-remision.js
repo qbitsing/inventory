@@ -10,7 +10,7 @@ const co = require('co');
 let listarAll = co.wrap(function * (req, res){
     try {
         let datos = yield entradaModel.find({});
-        if(datos.lenght < 1){
+        if(datos.length < 1){
             return res.status(404).send({
                 message : 'No hay entradas registradas en la base de datos'
             });
@@ -50,9 +50,9 @@ let listarById = co.wrap(function * (req, res){
 let crear = co.wrap(function * (req, res){
     let entrada = req.body;
     try {
-        if(entrada.productos.lenght > 0){
+        if(entrada.productos.length > 0){
             for(var pro of entrada.productos){
-                yield productosModel.findByIdAndUpdate(pro._id, {$inc: {cantidad : pro.cantidad_entrante}});
+                yield productosModel.findByIdAndUpdate(pro.producto._id, {$inc: {cantidad : pro.cantidad}});
             }
         }else{
             return res.status(400).send({
@@ -96,7 +96,7 @@ let eliminar = co.wrap(function * (req, res){
         }
 
         for(var pro of entrada.productos){
-            yield productosModel.findByIdAndUpdate(pro._id, {$inc: {cantidad : (pro.cantidad_entrante * -1)}});            
+            yield productosModel.findByIdAndUpdate(pro.producto._id, {$inc: {cantidad : (pro.cantidad * -1)}});            
         }
         entrada.typeRemision ? yield remisionModel.findByIdAndUpdate(entrada.remision._id, remision) : null;
 

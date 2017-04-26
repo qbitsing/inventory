@@ -166,8 +166,10 @@ angular.module('frontendApp')
         });
         if(!controlador){
             $scope.Orden.productos.push(obj);
+            $scope.Orden.Producto={};
         }else{
-            console.log('El insumo ya esta añadido');
+            Materialize.toast('El producto ya esta añadido', 4000);
+            $scope.Orden.Producto={};
         }
     }
     $scope.AgregarMateria=function(){
@@ -189,8 +191,10 @@ angular.module('frontendApp')
         });
         if(!controlador){
             $scope.Orden.materia_prima.push(obj);
+            $scope.Orden.Materia={};
         }else{
-            console.log('El insumo ya esta añadido');
+            Materialize.toast('La materia prima ya esta añadida', 4000);
+            $scope.Orden.Materia={};
         }
     }
     $scope.BorrarMateria=function(index){

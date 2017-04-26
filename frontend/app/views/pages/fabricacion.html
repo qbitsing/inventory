@@ -413,31 +413,28 @@
 					<button type="button" ng-click="addproductoentrada()" class="btn btn-success col s4 m2 l2" ng-disabled="!modal_entrada.producto || !modal_entrada.cantidad">Añadir</button>
 				</div>
 				<table class="bordered striped">
-					<thead>
-						<tr>
-		    				<th>Nombre</th>
-		    				<th>Cantidad</th>
-		    				<th>Opción</th>
-		    			</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="producto in modal_entrada.productos">
-		    				<td>{{producto.producto.nombre}}</td>
-			    			<td>{{producto.cantidad}}</td>
-		    				<td><button type="button" ng-click="removerproductoentrada(producto)">Eliminar</button></td>
-		    			</tr>
-					</tbody>
-	    			
-	    			
+	    			<tr>
+	    				<td>Nombre</td>
+	    				<td ng-show="check_modal_entrada=='remision'">Cantidad faltante</td>
+	    				<td>Cantidad entrante</td>
+	    				<td>Opción</td>
+	    			</tr>
+	    			<tr ng-if="(check_modal_entrada=='remision' && producto.cantidad_faltante>0) || (check_modal_entrada=='entrada')" ng-repeat="producto in modal_entrada.productos">
+	    				<td>{{producto.producto.nombre}}</td>
+		    			<td ng-show="check_modal_entrada=='remision'">{{producto.cantidad_faltante}}</td>
+		    			<td ng-show="check_modal_entrada=='remision'"><input type="number"  value="{{producto.cantidad_faltante}}" id="cantidad{{producto.producto._id}}" name="cantidad"></td>
+		    			<td ng-show="check_modal_entrada!='remision'">{{producto.cantidad}}</td>
+	    				<td><button type="button" ng-click="removerproductoentrada(producto)">Eliminar</button></td>
+	    			</tr>
 	    		</table>
 	    		<div class="row" ng-show="check_modal_entrada=='remision'">
 	    			<div class="input-field col s12 m6 l6">
-						<input type="text" ng-disabled="true" ng-model="modal_entrada.proceso.nombre" id="Cantidad" name="Cantidad">
+						<input type="text" ng-disabled="true" ng-model="modal_entrada.remision.proceso.nombre" id="proceso" name="proceso">
 						<label>Proceso *</label>
 					</div>
 					<div class="input-field col s12 m6 l6">
 						<label class="active">Responsables</label>
-						<li ng-repeat="res in modal_entrada.proceso.array_responsables">{{res.nombre}}</li>
+						<li ng-repeat="res in modal_entrada.remision.proceso.array_responsables">{{res.nombre}}</li>
 					</div>
 	    		</div>
 	    		<div class="row">
@@ -446,7 +443,7 @@
     		</form>
     	</div>
     	<div class="row">
-    		<h4>Lista de remisiones</h4>
+    		<h4>Lista de Entradas</h4>
     		<table>
     			<tr>
     				<td>Productos-cantidades</td>
