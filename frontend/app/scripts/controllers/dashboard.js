@@ -262,6 +262,7 @@ angular.module('frontendApp')
     $scope.sidenav = function(){
         angular.element(".sidenav").toggleClass('sidenav-hidden');
         angular.element(".top-nav").toggleClass('top-nav-hidden');
+        angular.element(".titulo-pagina").toggleClass('titulo-pagina-hidden');
         angular.element(".perfil").toggleClass('perfil-hidden');
         angular.element(".main-view").toggleClass('main-view-full');
         angular.element(".side-nav>ul>li").click(function(event) {

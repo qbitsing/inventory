@@ -8,6 +8,7 @@ $gris:#424242;
 $warning:#ffd600;
 $danger:#d50000;
 $success:#00c853;
+
 /* label color */
 .input-field label {
   color: #000 !important;
@@ -428,4 +429,13 @@ $success:#00c853;
 }
 .cursor{
   cursor:pointer;
+}
+table.bordered > thead > tr{
+  border-bottom: 2px solid $azul;
+}
+.danger-text{
+  color:$danger;
+}
+.warning-text{
+  color: $warning;
 }
