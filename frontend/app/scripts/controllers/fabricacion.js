@@ -261,6 +261,7 @@ angular.module('frontendApp')
         });
         if(!controlador){
             $scope.fabricacion.productos.push(obj);
+
         }else{
             console.log('El insumo ya esta añadido');
         }
