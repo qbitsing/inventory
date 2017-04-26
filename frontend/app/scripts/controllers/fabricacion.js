@@ -548,7 +548,9 @@ angular.module('frontendApp')
                     }
                 });
                 if (conta1==conta) {
-                    $scope.contenido_fabricacion.estado='Completada';
+                    $scope.contenido_fabricacion.estado='Completa';
+                }else{
+                    $scope.contenido_fabricacion.estado='Incompleta';
                 }
             }
         }else{
@@ -561,7 +563,9 @@ angular.module('frontendApp')
                 }
             });
             if (contador1==contador) {
-                $scope.contenido_fabricacion.estado='Completada';
+                $scope.contenido_fabricacion.estado='Completa';
+            }else{
+                $scope.contenido_fabricacion.estado='Incompleta';
             }
         }
         $scope.modal_entrada.fabricacion=$scope.contenido_fabricacion;
@@ -574,7 +578,6 @@ angular.module('frontendApp')
                     ele=$scope.contenido_fabricacion;
                 }
             });
-
             $scope.EntradasFabricaciones.push($scope.modal_entrada);
             $scope.modal_entrada={};
             $scope.modal_entrada.consecutivo=0;
@@ -590,7 +593,81 @@ angular.module('frontendApp')
             console.log(data);
         });
     }
-
+    $scope.cancelarentrada=function(entrada){
+        var controlerfab=true;
+        entrada.estado='Cancelada';
+        if(entrada.remision){
+            var controler=true;
+            entrada.productos.forEach(function(elemento , index){
+                $scope.contenido_fabricacion.productos.forEach(function(ele , i){
+                    if(elemento.producto._id == ele._id){
+                        ele.cantidad_afuera=ele.cantidad_afuera+elemento.cantidad;
+                        ele.cantidad_fabricada=ele.cantidad_fabricada-elemento.cantidad;
+                    }
+                    if(ele.cantidad_fabricada>0){
+                        controlerfab=false;
+                    }
+                });
+            });
+            entrada.productos.forEach(function(elemento , index){
+                entrada.remision.productos.forEach(function(ele, i){
+                    if(elemento.producto._id == ele.producto._id){
+                        ele.cantidad_faltante=ele.cantidad_faltante+cantidad;
+                    }
+                    if(ele.cantidad_faltante<ele.cantidad){
+                        controler=false;
+                    }
+                });
+            });
+            if(controler){
+                entrada.remision.estado='Sin Entrada';
+            }else{
+                entrada.remision.estado='Con Entrada';
+            }
+            $scope.Remisiones.forEach(function(ele, index){
+                if(ele._id>=entrada.remision._id){
+                    ele=entrada.remision;
+                }
+            });
+        }else{
+            entrada.productos.forEach(function(elemento , index){
+                $scope.contenido_fabricacion.productos.forEach(function(ele , i){
+                    if(elemento.producto._id == ele._id){
+                        ele.cantidad_disponible=ele.cantidad_disponible+elemento.cantidad;
+                        ele.cantidad_fabricada=ele.cantidad_fabricada-elemento.cantidad;
+                    }
+                    if(ele.cantidad_fabricada>0){
+                        controlerfab=false;
+                    }
+                });
+            });
+        }
+        if(controlerfab){
+            $scope.contenido_fabricacion.estado='En Fabricacion';
+        }else{
+            $scope.contenido_fabricacion.estado='Incompleta';
+        }
+        entrada.fabricacion=$scope.contenido_fabricacion;
+        webServer
+        .getResource('entrada/remision'+entrada._id,entrada,'put')
+        .then(function(data){
+           $scope.EntradasFabricaciones.forEach(function(ele , i){
+                if (ele._id == entrada._id) {
+                    ele = entrada;
+                }
+           });
+           $scope.Fabricaciones.forEach(function(ele , i){
+                if($scope.contenido_fabricacion._id == ele._id){
+                    ele=$scope.contenido_fabricacion;
+                }
+            });
+            Materialize.toast(data.data.message,4000);
+        }
+        ,function(data){
+            Materialize.toast(data.data.message,4000);
+            console.log(data);
+        });
+    }
 
 
 
