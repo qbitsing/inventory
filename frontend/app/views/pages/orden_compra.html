@@ -20,12 +20,7 @@
 								<label>Proveedor*</label>
 							</div>
 						</div>
-						<div class="row">
-							<div class="input-field col s12 m12 l12">
-					            <textarea id="observaciones" class="materialize-textarea" ng-model="Orden.observaciones" data-length="120"></textarea>
-					            <label for="observaciones">Observaciones</label>
-				        	</div>
-						</div>
+						
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<select ng-model="Orden.Materia._id" material-select watch>
@@ -43,22 +38,22 @@
 						<div class="row">
 							<div class="col s12 m6 l6">
 								<div class="input-field col s8 m8 l8">
-									<input type="number" ng-model="Orden.Materia.cantidad" id="Cantidad" name="Cantidad">
-									<label for="Cantidad">Cantidad *</label>
+									<input type="number" ng-model="Orden.Materia.cantidad" id="Cantidad-materia" name="Cantidad-materia">
+									<label for="Cantidad-materia">Cantidad *</label>
 								</div>
 								<button type="button" class="btn btn-success col s4 m4 l4" ng-disabled="!(Orden.Materia._id) || !(Orden.Materia.cantidad)" ng-click="AgregarMateria()">Añadir</button>
 							</div>
 							<div class="col s12 m6 l6">
 								<div class="input-field col s8 m8 l8">
-									<input type="number" ng-model="Orden.Producto.cantidad" id="Cantidad" name="Cantidad">
-									<label for="Cantidad">Cantidad *</label>
+									<input type="number" ng-model="Orden.Producto.cantidad" id="Cantidad-producto" name="Cantidad-producto">
+									<label for="Cantidad-producto">Cantidad *</label>
 								</div>
 								<button type="button" class="btn btn-success col s4 m4 l4" ng-disabled="!(Orden.Producto._id) || !(Orden.Producto.cantidad)" ng-click="AgregarProducto()">Añadir</button>
 							</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-								<table class="highlight" ng-hide="Orden.materia_prima.length<1">
+								<table class="bordered striped" ng-hide="Orden.materia_prima.length<1">
 							        <thead>
 							        	<tr>
 											<th data-field="insumo">Insumo</th>
@@ -76,7 +71,7 @@
 						      	</table>
 							</div>
 							<div class="input-field col s12 m6 l6">
-								<table class="highlight" ng-hide="Orden.productos.length<1">
+								<table class="bordered striped" ng-hide="Orden.productos.length<1">
 							        <thead>
 							        	<tr>
 											<th data-field="id">Producto</th>
@@ -93,12 +88,19 @@
 							        </tbody>
 						      	</table>
 							</div>
+							<div class="row">
+							<div class="input-field col s12 m12 l12">
+					            <textarea id="observaciones" class="materialize-textarea" ng-model="Orden.observaciones" data-length="120"></textarea>
+					            <label for="observaciones">Observaciones</label>
+				        	</div>
+						</div>
 						</div>
 						<div class="row">
-							<div class="col s12 m6 l4">
+							<div class="col s12 m12 l12">
 								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formOrdenCompra.$invalid || (Orden.productos.length<1 && Orden.materia_prima.length<1)">{{button_title_form}}</button>
+								<button type="button" class="btn btn-large btn-danger" ng-show="panel_title_form == 'Edicion de Compras'" ng-click="CancelarEditar()">Cancelar</button>
 							</div>
-							<button type="button" class="btn btn-danger" ng-show="panel_title_form == 'Edicion de Compras'" ng-click="CancelarEditar()">Cancelar</button>
+							
 						</div>						
 					</form>
 				</div>

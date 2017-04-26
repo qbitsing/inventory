@@ -9,27 +9,21 @@
 				<div class="panel-body" >
 					<form name="formMateriaPrima" novalidate ng-submit="EnviarOrden()">
 						<div class="row">
-							<div class="input-field col s12 m12 l12">
+							<div class="input-field col s12 m6 l6">
+								<input type="text" ng-model="Orden.consecutivo" id="numero" ng-disabled="true" name="numero">
+								<label>Numero interno de compra*</label>
+							</div>
+							<div class="input-field col s12 m6 l6">
 								<select ng-model="Orden.cliente._id" material-select watch required>
-	      							<option ng-repeat="cliente in clientes" value="{{cliente._id}}">{{cliente.nombre}}</option>
+	      							<option ng-repeat="cliente in clientes" value="{{cliente._id}}">{{cliente.nombre}} {{cliente.apellidos}}</option>
 								</select>
 								<label>Cliente*</label>
 							</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-								<input type="text" ng-model="Orden.consecutivo" id="numero" ng-disabled="true" name="numero">
-								<label>Numero interno de compra*</label>
-							</div>
-							<div class="input-field col s12 m6 l6">
 								<label for="orden-cliente">Numero de orden cliente *</label>
 								<input type="text" name="orden-cliente" id="orden-cliente" ng-model="Orden.orden_compra_cliente" required>
-							</div>
-						</div>
-						<div class="row">
-							<div class="input-field col s12 m6 l6">
-								<label for="fecha_recepcion" class="active">Fecha de recepción *</label>
-								<input type="date" ide="fecha_recepcion" ng-model="Orden.fecha_recepcion" required>
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="lugar_entrega">Lugar entrega *</label>
@@ -38,10 +32,10 @@
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-					            <textarea id="observaciones" class="materialize-textarea" ng-model="Orden.observaciones" data-length="120"></textarea>
-					            <label for="observaciones">Observaciones</label>
-				        	</div>
-				          	<div class="input-field col s12 m6 l6">
+								<label for="fecha_recepcion" class="active">Fecha de recepción *</label>
+								<input type="date" ide="fecha_recepcion" ng-model="Orden.fecha_recepcion" required>
+							</div>
+							<div class="input-field col s12 m6 l6">
 								<label for="fecha_entrega" class="active">Fecha de entrega *</label>
 								<input type="date" id="fecha_entrega" ng-model="Orden.fecha_entrega" required>
 							</div>
@@ -63,10 +57,10 @@
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-							<table class="highlight" ng-hide="Orden.productos.length<1">
+							<table class="bordered striped" ng-hide="Orden.productos.length<1">
 						        <thead>
 						        	<tr>
-										<th data-field="insumo">Insumo</th>
+										<th data-field="insumo">Producto</th>
 										<th data-field="cantidad">Cantidad</th>
 										<th data-field="opcion">Opción</th>
 						          	</tr>
@@ -80,12 +74,17 @@
 						        </tbody>
 						      </table>
 							</div>
+							<div class="input-field col s12 m6 l6">
+					            <textarea id="observaciones" class="materialize-textarea" ng-model="Orden.observaciones" data-length="120"></textarea>
+					            <label for="observaciones">Observaciones</label>
+				        	</div>
 						</div>	
 						<div class="row">
-							<div class="col s12 m6 l4">
-								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formMateriaPrima.$invalid || Orden.productos.length<1">{{button_title_form}}</button>
-							</div>
-							<button type="button" class="btn btn-danger" ng-show="panel_title_form == 'Edicion de Ventas'" ng-click="CancelarEditar()">Cancelar</button>
+						<div class="col s12 m12 l12">
+							<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formMateriaPrima.$invalid || Orden.productos.length<1">{{button_title_form}}</button>
+							<button type="button" class="btn btn-large btn-danger" ng-show="panel_title_form == 'Edicion de Ventas'" ng-click="CancelarEditar()">Cancelar</button>
+						</div>
+							
 						</div>						
 					</form>
 				</div>
