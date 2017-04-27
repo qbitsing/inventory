@@ -64,7 +64,7 @@ function crear(req, res){
 							}else{
 								ele.cantidad_faltante -= ele.cantidad_entrante;
 							}
-							yield materiaModel.findByIdAndUpdate(ele._id, {$inc: {cantidad : ele.cantidad_entrante}});
+							yield materiaModel.findByIdAndUpdate(ele._id, {$inc: {cantidad : ele.cantidad_entrante }});
 							req.body.orden_compra.materia_prima.push(ele);
 						}
 					}
@@ -88,11 +88,11 @@ function crear(req, res){
 
 					let entrada = new entradaModel(req.body);
 
-					yield entrada.save();
+					let datos = yield entrada.save();
 
 					respond(200, {
 						message: 'Entrada registrada con exito',
-						datos: entrada
+						datos
 					});
 
 

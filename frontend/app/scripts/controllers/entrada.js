@@ -106,14 +106,12 @@ angular.module('frontendApp')
     $scope.EnviarEntrada=function(){
         if ($scope.Entrada.orden_compra.productos) {
             $scope.Entrada.orden_compra.productos.forEach(function(ele, index){
-                ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
-                ele.cantidad_faltante=ele.cantidad_faltante-ele.cantidad_saliente;
+                ele.cantidad_entrante=angular.element('#cantidad'+ele._id).val();
             });
         }
         if ($scope.Entrada.orden_compra.materia_prima) {
             $scope.Entrada.orden_compra.materia_prima.forEach(function(ele, index){
-                ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
-                ele.cantidad_faltante=ele.cantidad_faltante-ele.cantidad_saliente;
+                ele.cantidad_entrante=angular.element('#cantidad'+ele._id).val();
             });            
         }
         webServer
@@ -124,7 +122,7 @@ angular.module('frontendApp')
                 if (ele._id==$scope.Entrada.orden_compra._id) {
                     if (ele.productos) {
                         ele.productos.forEach(function(elemento,index){
-                            $scope.Entrada.orden_compra.productos.forEach(function(e, i){
+                            data.data.datos.orden_compra.productos.forEach(function(e, i){
                                 if(e._id==elemento._id){
                                     elemento=e;
                                 }
@@ -147,7 +145,6 @@ angular.module('frontendApp')
             $scope.Entrada.orden_compra.materia_prima=[];
             $scope.Detallemodal.titulo='Notificacion de registro';
             $scope.Detallemodal.mensaje='La entrada se ha registrado exitosamente';
-            listarOrdenes();
         },function(data){
             $scope.Detallemodal.titulo='Notificacion de eror';
             $scope.Detallemodal.mensaje=data.data.message;
