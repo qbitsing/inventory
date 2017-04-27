@@ -262,7 +262,7 @@ angular.module('frontendApp')
             $scope.fabricacion.productos.push(obj);
 
         }else{
-            console.log('El insumo ya esta añadido');
+            Materialize.toast('El producto ya esta añadido', 4000);
         }
         $scope.producto={};
     }
@@ -282,8 +282,9 @@ angular.module('frontendApp')
         if(!controler){
             $scope.fabricacion.procesos.push(proceso);
         }else{
-            console.log('El proceso ya esta añadido');
+            Materialize.toast('El proceso ya esta añadido', 4000);  
         }
+        $scope.proceso={};
     }
     $scope.BorrarProceso=function(index){
         var responsables = $scope.fabricacion.procesos[index].array_responsables;
