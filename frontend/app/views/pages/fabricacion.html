@@ -329,7 +329,7 @@
     		<table class="bordered striped">
     		<thead>
     			<tr>
-    				<th>Consecutivo</th>
+    				<th>Remisión No.</th>
     				<th>Productos-cantidades</th>
     				<th>Proceso</th>
     				<th>Responsables</th>
@@ -441,23 +441,26 @@
 	    			<button type="submit" class="btn btn-success col" ng-disabled="formEntrada.$invalid || modal_entrada.productos.length<1">Registrar entrada</button>
 	    		</div>
     		</form>
+    		<form name="formEliminarEntrda"></form>
     	</div>
     	<div class="row">
     		<h4>Lista de Entradas</h4>
     		<table>
     			<tr>
+    				<td>Entrada No.</td>
     				<td>Productos-cantidades</td>
     				<td>Proceso</td>
     				<td>Responsables</td>
     				<td>Opción</td>
     			</tr>
-    			<tr ng-if="remision.fabricacion._id==contenido_fabricacion._id" ng-repeat="remision in Remisiones">
-	    			<td><li ng-repeat="res in remision.productos">{{res.producto.nombre}}-{{res.cantidad}}</li></td>
-	    			<td>{{remision.proceso.nombre}}</td>
-    				<td><li ng-repeat="res in remision.proceso.array_responsables">{{res.nombre}}</li></td>
-    				<td ng-if="remision.estado=='Sin Entrada'"><button type="button" ng-click="cancelarremision(remision)">Cancelar</button></td>
-    				<td ng-if="remision.estado=='Con Entrada'">La remisión no se puede cancelar</td>
-    				<td ng-if="remision.estado=='Cancelada'">Remisión cancelada</td>
+    			<tr ng-if="entrada.fabricacion._id==contenido_fabricacion._id" ng-repeat="entrada in EntradasFabricaciones">
+    				<td>{{convertirConsecutivo(entrada.consecutivo)}}</td>
+	    			<td><li ng-repeat="res in entrada.productos">{{res.producto.nombre}} - {{res.cantidad}}</li></td>
+	    			<td>{{entrada.remision.proceso.nombre || 'No registra'}} </td>
+    				<td ng-show="entrada.remision.proceso.array_responsables"><li ng-repeat="res in entrada.remision.proceso.array_responsables">{{res.nombre}}</li></td>
+    				<td ng-hide="entrada.remision.proceso.array_responsables">No registra</td>
+    				<td ng-if="entrada.estado!='Cancelada'"><button type="button" ng-click="cancelarentrada(entrada)">Cancelar</button></td>
+    				<td ng-if="entrada.estado=='Cancelada'">Entrada cancelada</td>
     			</tr>
     		</table>
     	</div>
