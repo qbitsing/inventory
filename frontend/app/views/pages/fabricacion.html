@@ -207,16 +207,16 @@
     	<div class="row">
     		<form novalidate ng-submit="addresponsable()">
     			<div class="row">
-					<div class="input-field col s12 m4 l4">
+					<div class="input-field col s8 m8 l8">
 						<select ng-model="from_modal.persona" material-select watch>
 							<option ng-repeat="persona in personas" ng-if="(modal.proceso.tipo=='Externo' && persona.proveedor) || (modal.proceso.tipo=='Interno' && persona.empleado)" value="{{persona}}">{{persona.nombre}}</option>
 						</select>
 						<label>Responsable *</label>
 					</div>
-					<button type="submit" class="btn btn-success col s4 m2 l2" ng-disabled="!from_modal.persona">Añadir</button>
+					<button type="submit" class="btn btn-success col s4 m4 l4" ng-disabled="!from_modal.persona">Añadir</button>
 				</div>
     		</form>
-    		<table>
+    		<table class="bordered striped">
     			<thead>
     				<tr>
 	    				<th>Nombre</th>
@@ -226,7 +226,7 @@
     			<tbody>
     				<tr ng-repeat="res in modal.proceso.array_responsables">
 	    				<td>{{res.nombre}} {{res.apellidos}}</td>
-	    				<td><button ng-click="removeresponsable($index)">Eliminar</button></td>
+	    				<td><button ng-click="removeresponsable($index)" class="btn btn-danger">Eliminar</button></td>
 	    			</tr>
     			</tbody>
     			

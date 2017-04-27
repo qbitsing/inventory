@@ -145,7 +145,7 @@ angular.module('frontendApp')
         if(!controlador){
             $scope.Producto.Insumos.push(obj);
         }else{
-            console.log('El insumo ya esta añadido');
+            Materialize.toast('El insumo ya esta añadido', 4000);
         }
         $scope.producto={}
     }
@@ -164,7 +164,7 @@ angular.module('frontendApp')
         if(!controlador){
             $scope.Producto.procesos.push(obj);
         }else{
-            console.log('El proceso ya esta añadido');
+            Materialize.toast('El proceso ya esta añadido', 4000);
         }
         $scope.proceso={}
     }
@@ -219,7 +219,7 @@ angular.module('frontendApp')
         if(!controlador){
             $scope.Producto.productos.push(obj);
         }else{
-            console.log('El insumo ya esta añadido');
+            Materialize.toast('El producto ya esta añadido', 4000);
         }
         $scope.Kit={};
     }
@@ -282,8 +282,8 @@ angular.module('frontendApp')
         $('#modalNotificacion').modal('open');
     }
     $scope.Editar = function(id){
-        $scope.panel_title_form = "Edicion de Productos";
-        $scope.button_title_form = "Editar Producto";
+        $scope.panel_title_form = "Edicion de Producto";
+        $scope.button_title_form = "Actualizar Producto";
         $scope.Producto = IdentificarProducto(id,$scope.Productos);
         if($scope.Producto.productos){
             $scope.check='kit';
