@@ -62,38 +62,10 @@ function crear(req, res){
                 });
             }  
             req.body.cliente = clienteStored;
-            pasoCero();
+            pasoUno();
 
         });
-    }else pasoCero();
-
-    function pasoCero (){
-        if(req.body.productos){
-            var contador = 0;
-            for(var producto of req.body.productos){
-                productoModel.findById(producto._id, (err, productoStored)=>{
-                    if(err){
-                        ErroresProductos.push({
-                            message: `ERROR al intentar obtener el producto ${err}`
-                        });
-                    }
-                    if(!productoStored){
-                        ErroresProductos.push({
-                            message: `ERROR alguno de los productos indicados no esta en la base de datos ${producto.nombre}`
-                        });
-                    }
-                    productoStored.cantidad = producto.cantidad;
-                    productosArray.push(productoStored);
-                    contador ++;
-                    if(contador == req.body.productos.length){
-                        req.body.productos = productosArray
-                        pasoUno();
-                    }
-
-                });
-            }
-        }else pasoUno();
-    }
+    }else pasoUno();
 
     function pasoUno(){
         if(ErroresProductos.length>0){

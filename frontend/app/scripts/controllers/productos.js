@@ -17,7 +17,6 @@ angular.module('frontendApp')
         displayValue: true,
         fontSize: 10
     }
-    $scope.text = "Hola";
     $scope.Usuario=SesionUsuario.ObtenerSesion();
     $(document).ready(function(){
         $('.modal').modal();

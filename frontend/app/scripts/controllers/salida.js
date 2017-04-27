@@ -9,6 +9,21 @@
  */
 angular.module('frontendApp')
   .controller('SalidaCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
+    $(document).ready(function(){
+        $('.modal').modal();
+        $('.modal').modal({
+                dismissible: true, // Modal can be dismissed by clicking outside of the modal
+                opacity: 0, // Opacity of modal background
+                inDuration: 300, // Transition in duration
+                outDuration: 200, // Transition out duration
+                startingTop: '10%', // Starting top style attribute
+                endingTop: '15%', // Ending top style attribute
+                ready: function(modal, trigger) {
+                },
+                complete: function() {  } // Callback for Modal close
+            }
+        );
+    });
     $scope.panelAnimate='';
     $scope.pageAnimate='';  
     $timeout(function () {
@@ -19,7 +34,7 @@ angular.module('frontendApp')
     $scope.button_title_form = "Registrar salida";
     $scope.Salida={};
     $scope.Detallemodal={};
-    $scope.Salida.orden_venta=[];
+    $scope.Salida.orden_venta={};
     $scope.Salida.orden_venta.productos=[];
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
@@ -30,12 +45,7 @@ angular.module('frontendApp')
                 minWidth: 160
             },
             {
-                name:'numero de remision',field: 'remision',
-                width:'20%',
-                minWidth: 160
-            },
-            {
-                name:'cliente',field: 'orden_compra.cliente.nombre',
+                name:'cliente',field: 'orden_venta.cliente.nombre',
                 width:'30%',
                 minWidth: 200
             },
@@ -56,6 +66,7 @@ angular.module('frontendApp')
         if(!$scope.Salida.orden_venta.productos){
             $scope.Salida.orden_venta.productos=[];
         }
+        console.log($scope.Salida.orden_venta);
     }
     $scope.abrirModal=function(_id){
         $scope.Detallemodal.id=_id;
@@ -74,37 +85,53 @@ angular.module('frontendApp')
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
-            $scope.Detallemodal.mensaje='La salida se ha eliminado exitosamente';
-        },function(data){
+            $scope.Detallemodal.titulo='Notificacion de eliminación';
             $scope.Detallemodal.mensaje=data.data.message;
+            $('#modalNotificacion').modal('open');
+        },function(data){
+            $scope.Detallemodal.titulo='Notificacion de eliminación';
+            $scope.Detallemodal.mensaje=data.data.message;
+            $('#modalNotificacion').modal('open');
             console.log(data.data.message);
         });
-        $scope.Detallemodal.titulo='Notificacion de eliminación';
-        $('#modalNotificacion').modal('open');
     }
     $scope.EnviarSalida=function(){
-        $scope.Salida.orden_venta.productos.forEach(function(ele, index){
-            ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
-        });
-        $scope.Salida.orden_venta.materia_prima.forEach(function(ele, index){
-            ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
-        });
+        if ($scope.Salida.orden_venta.productos) {
+            $scope.Salida.orden_venta.productos.forEach(function(ele, index){
+                ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
+                ele.cantidad_faltante=ele.cantidad_faltante-ele.cantidad_saliente;
+            });
+        }
         webServer
         .getResource("salidas",$scope.Salida,"post")
         .then(function(data){
             $scope.Salidas.push($scope.Salida);
+            $scope.Ordenes.forEach(function(ele,ind){
+                if (ele._id==$scope.Salida.orden_venta._id) {
+                    if (ele.productos) {
+                        ele.productos.forEach(function(elemento,index){
+                            $scope.Salida.orden_venta.productos.forEach(function(e, i){
+                                if(e._id==elemento._id){
+                                    elemento=e;
+                                }
+                            });
+                        });
+                    }
+                }
+            });
             $scope.Salida={};
+            $scope.Salida.orden_venta={};
             $scope.Salida.orden_venta.productos=[];
-            $scope.Salida.orden_venta.materia_prima=[];
             $scope.Detallemodal.titulo='Notificacion de registro';
-            $scope.Detallemodal.mensaje='Salida registrada correctamente';
-            listarOrdenes(); 
+            $scope.Detallemodal.mensaje=data.data.message;
+            $('#modalNotificacion').modal('open'); 
         },function(data){
             $scope.Detallemodal.titulo='Notificacion de eror';
             $scope.Detallemodal.mensaje=data.data.message;
+            $('#modalNotificacion').modal('open');
             console.log(data);
         });
-        $('#modalNotificacion').modal('open');
+        
     }
     function listarOrdenes(){
         webServer
@@ -127,8 +154,8 @@ angular.module('frontendApp')
                 return ele;
             }
         });
-        if(!$scope.Detalle.orden_compra.productos){
-            $scope.Detalle.orden_compra.productos=[];
+        if(!$scope.Detalle.orden_venta.productos){
+            $scope.Detalle.orden_venta.productos=[];
         }
         $('#modaldeDetalles').modal('open');
     }

@@ -87,7 +87,6 @@
     		<ul>
 				<li> Numero interno de la venta: {{Detalle.orden_venta.consecutivo || 'No registra'}}</li>
 				<li> Cliente: {{Detalle.orden_venta.cliente.nombre || 'No registra'}}</li>
-				<li> Numero de remision: {{Detalle.remision || 'No registra'}}</li>
 				<li> Observaciones de la salida: {{Detalle.observaciones || 'No registra'}}</li>
 				<li ng-hide="Detalle.orden_venta.productos.length<1"> <h5>Productos:</h5></li>
 				<table class="highlight" ng-hide="Detalle.orden_venta.productos.length<1">

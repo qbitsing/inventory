@@ -84,15 +84,15 @@ let crear = co.wrap(function * (req, res){
 
 let eliminar = co.wrap(function *(req, res){
 		let salidaId = req.params.id;
-		let salida = yield entradaModel.findById(salidaId);
-
-		if(salida.orden_compra.productos.length > 0){
-			let productos = salida.orden_compra.productos;
-			salida.orden_compra.productos = [];
+		let salida = yield salidaModel.findById(salidaId);
+    console.log(salida.orden_venta.productos);
+		if(salida.orden_venta.productos.length > 0){
+			let productos = salida.orden_venta.productos;
+			salida.orden_venta.productos = [];
 			for(var ele of productos){
-				ele.cantidad_faltante += ele.cantidad_entrante;
-				yield productoModel.findByIdAndUpdate(ele._id, {$inc: {cantidad : ele.cantidad_entrante}});
-				entrada.orden_compra.productos.push(ele);
+				ele.cantidad_faltante += ele.cantidad_saliente;
+				yield productoModel.findByIdAndUpdate(ele._id, {$inc: {cantidad : ele.cantidad_saliente}});
+				salida.orden_venta.productos.push(ele);
 			}
 		}
 

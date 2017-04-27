@@ -123,7 +123,9 @@ angular.module('frontendApp')
         var obj = {
             _id : $scope.Orden.Producto._id.split(',')[0],
             nombre : $scope.Orden.Producto._id.split(',')[1],
-            cantidad : $scope.Orden.Producto.cantidad
+            cantidad : $scope.Orden.Producto.cantidad,
+            cantidad_faltante : $scope.Orden.Producto.cantidad,
+            cantidad_saliente : 0
         };
         $scope.Orden.productos.forEach(function(ele, index){
             if(ele._id==obj._id){
@@ -178,6 +180,7 @@ angular.module('frontendApp')
         $('#modalNotificacion').modal('open');
     }
     $scope.EnviarOrden=function(){
+        console.log($scope.Orden);
         var ruta="";
         var metodo="";
         if ($scope.panel_title_form=="Registro de venta") {
