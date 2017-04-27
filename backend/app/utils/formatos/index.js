@@ -2,8 +2,9 @@
 
 const pdf = require('phantom-html2pdf');
 const remisionTrabajo = require('./remision-trabajo');
+const ordenTrabajo = require('./orden-trabajo');
 
-let html = remisionTrabajo.getHtml(
+let html = ordenTrabajo.getHtml(
     {
         consecutivo : 1001, 
         dir : __dirname,
@@ -34,8 +35,7 @@ let html = remisionTrabajo.getHtml(
 );
 
 let options = {
-    html,
-    css: `${__dirname}/remision-trabajo/index.css`
+    html
 };
 
 pdf.convert(options, (err , result)=>{

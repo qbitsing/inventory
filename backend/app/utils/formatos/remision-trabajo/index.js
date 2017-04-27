@@ -12,8 +12,6 @@ function getRowTable(row){
 
 module.exports = {
     getHtml: data => {
-        let rowsTable = data.productos.map(getRowTable);
-        rowsTable = rowsTable.join(' ');
         let html = `
             <div class="head">
                 <div class="row">
@@ -67,7 +65,7 @@ module.exports = {
                             <td class="colspan7"> DESCRIPCION </td>
                             <td> CANTIDAD </td>
                         </tr>
-                        ${rowsTable}
+                        ${data.productos.map(getRowTable).join(' ')}
                     </table>
                 </div>
             </div>
@@ -88,6 +86,9 @@ module.exports = {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <meta http-equiv="X-UA-Compatible" content="ie=edge">
                 <title>Document</title>
+                <link rel="stylesheet" href="${data.dir}/assest/bootstrap.css">
+                <link rel="stylesheet" href="${data.dir}/remision-trabajo/index.css">
+
             </head>
             <body>
                 ${html}
