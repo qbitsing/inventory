@@ -61,12 +61,12 @@ angular.module('frontendApp')
         close: 'Cerrar'
     });*/
     
-	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Salida+BotonesTabla.Entrada+BotonesTabla.Borrar+'</div>';
+	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Salida+BotonesTabla.Entrada+BotonesTabla.MateriaPrima+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
             {
                 name:'orden de fabricacion',field: 'consecutivo',
-                width:'20%',
+                width:'15%',
                 minWidth: 200
             },
             {
@@ -83,7 +83,7 @@ angular.module('frontendApp')
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'40%',
+                width:'45%',
                 minWidth: 230
             }
         ]
@@ -634,7 +634,7 @@ angular.module('frontendApp')
             entrada.productos.forEach(function(elemento , index){
                 entrada.remision.productos.forEach(function(ele, i){
                     if(elemento.producto._id == ele.producto._id){
-                        ele.cantidad_faltante=ele.cantidad_faltante+cantidad;
+                        ele.cantidad_faltante=ele.cantidad_faltante+elemento.cantidad;
                     }
                     if(ele.cantidad_faltante<ele.cantidad){
                         controler=false;
@@ -685,6 +685,7 @@ angular.module('frontendApp')
                     ele=$scope.contenido_fabricacion;
                 }
             });
+            alert('Hola .l.')
             Materialize.toast(data.data.message,4000);
             $scope.cancelarentrada={};
             $scope.cancelarent=true;

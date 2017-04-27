@@ -253,6 +253,7 @@ angular.module('frontendApp')
                 }
             });
             if($scope.panel_title_form=="Registro de Compra"){
+                $scope.Orden._id=data.data.id;
                 $scope.Ordenes.push($scope.Orden);
                 $scope.Detallemodal.titulo='Notificacion de registro';
                 $scope.Detallemodal.mensaje='Orden de compra registrada correctamente';

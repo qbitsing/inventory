@@ -86,6 +86,7 @@ angular.module('frontendApp')
                 }
             });
             if($scope.panel_title_form=="Registro de Materia Prima"){
+                $scope.Materia._id=data.data.id;
                 $scope.Materias.push($scope.Materia);
                 $scope.Detallemodal.titulo='Notificación de registro';
                 $scope.Detallemodal.mensaje='Materia prima registrada correctamente';

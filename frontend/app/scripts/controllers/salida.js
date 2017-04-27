@@ -105,6 +105,7 @@ angular.module('frontendApp')
         webServer
         .getResource("salidas",$scope.Salida,"post")
         .then(function(data){
+            $scope.Salida._id=data.data._id;
             $scope.Salidas.push($scope.Salida);
             $scope.Ordenes.forEach(function(ele,ind){
                 if (ele._id==$scope.Salida.orden_venta._id) {

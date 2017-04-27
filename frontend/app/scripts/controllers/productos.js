@@ -242,8 +242,7 @@ angular.module('frontendApp')
         }
         webServer
         .getResource(ruta,$scope.Producto,metodo)
-        .then(function(data){ 
-            $scope.Producto._id=data.data._id;
+        .then(function(data){
             $scope.Categorias.forEach(function(ele, index){
                 if(ele._id==$scope.Producto.categoria._id){
                     $scope.Producto.categoria=ele;
@@ -258,6 +257,7 @@ angular.module('frontendApp')
                 $scope.ProductosSelect.push($scope.Producto);
             }
             if($scope.panel_title_form=="Registro de Productos"){
+                $scope.Producto._id=data.data._id;
                 $scope.Productos.push($scope.Producto);
                 $scope.Detallemodal.titulo='Notificacion de registro';
                 $scope.Detallemodal.mensaje='Producto registrado correctamente';
