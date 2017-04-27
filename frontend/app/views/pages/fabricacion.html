@@ -24,7 +24,7 @@
 								</select>
 							</div>
 							<div class="input-field col s12 m6 l6" ng-show="check=='orden'">
-								<input type="number" ng-disabled="true" ng-model="fabricacion.orden_venta.cliente.nombre" id="consecutivo" name="consecutivo" ng-required="check.orden">
+								<input type="text" ng-disabled="true" ng-model="fabricacion.orden_venta.cliente.nombre" id="consecutivo" name="consecutivo" ng-required="check.orden">
 								<label for="consecutivo">Cliente *</label>
 							</div>
 						</div>
@@ -165,8 +165,8 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="producto in Detalle.procesos">
-							<td>{{producto.nombre}}</td>
+						<tr ng-repeat="proceso in Detalle.procesos">
+							<td>{{proceso.nombre}}</td>
 							<td><li ng-repeat="res in proceso.array_responsables">{{res.nombre}}</li></td>
 						</tr>
 					</tbody>
@@ -325,7 +325,7 @@
     		</form>
     	</div>
     	<div class="row" ng-show="!cancelarsal">
-    		<form name="formEliminarSalida" ng-submit="cancelarlasalida()" >
+    		<form name="formEliminarSalida" ng-submit="cancelarlaremision()" >
     			<div class="row"><h3>Cancelar Salida</h3></div>
 	    		<div class="row">
 	    			<div class="input-field col s12 m6 l6">
@@ -504,5 +504,54 @@
 	</div>
     <div class="modal-footer">
 	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
+    </div>
+</div>
+
+
+<div id="modalMateriaPrima" class="modal modal-fixed-footer">
+    <div class="modal-content">
+    	<h4 class="modal-title blue accent-4">Salida de insumos</h4>
+    	<div class="row">
+    		<ul>
+				<li> Numero interno de la fabricación: {{Detalle.consecutivo || 'No registra'}}</li>
+				<li ng-show="Detalle.orden_venta"> Cliente: {{Detalle.orden_venta.cliente.nombre || 'No registra'}}</li>
+				<li> Fecha de solicitud: {{convertirFecha(Detalle.fecha_solicitud) || 'No registra'}}</li>
+				<li> Fecha de entrega: {{convertirFecha(Detalle.fecha_entrega) || 'No registra'}}</li>
+				<li> Estado: {{Detalle.estado || 'No registra'}}</li>
+				<li ng-hide="Detalle.productos.length<1"> <h5>Productos:</h5></li>
+				<table class="bordered striped" ng-hide="Detalle.productos.length<1">
+					<thead>
+						<tr>
+							<th data-field="id">Nombre</th>
+							<th data-field="name">Cantidad</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="producto in Detalle.productos">
+							<td>{{producto.nombre}}</td>
+							<td>{{producto.cantidad}}</td>
+						</tr>
+					</tbody>
+				</table>
+				<li ng-hide="Detalle.procesos.length<1"> <h5>Procesos:</h5></li>
+				<table class="bordered striped" ng-hide="Detalle.procesos.length<1">
+					<thead>
+						<tr>
+							<th data-field="id">Nombre</th>
+							<th data-field="name">Responsable(s)</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="producto in Detalle.procesos">
+							<td>{{producto.nombre}}</td>
+							<td><li ng-repeat="res in proceso.array_responsables">{{res.nombre}}</li></td>
+						</tr>
+					</tbody>
+				</table>
+			</ul>
+    	</div>
+	</div>
+    <div class="modal-footer">
+      	<a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
     </div>
 </div>

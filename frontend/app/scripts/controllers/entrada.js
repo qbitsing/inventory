@@ -117,6 +117,7 @@ angular.module('frontendApp')
         webServer
         .getResource('entradas',$scope.Entrada,'post')
         .then(function(data){
+            $scope.Entrada._id=data.data.id;
             $scope.Entradas.push($scope.Entrada);
             $scope.Ordenes.forEach(function(ele,ind){
                 if (ele._id==$scope.Entrada.orden_compra._id) {
@@ -141,6 +142,7 @@ angular.module('frontendApp')
                 }
             });
             $scope.Entrada={};
+            $scope.Entrada.orden_compra={};
             $scope.Entrada.orden_compra.productos=[];
             $scope.Entrada.orden_compra.materia_prima=[];
             $scope.Detallemodal.titulo='Notificacion de registro';

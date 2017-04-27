@@ -94,6 +94,7 @@ angular.module('frontendApp')
         .getResource(ruta,$scope.Empleado,metodo)
         .then(function(data){
             if($scope.panel_title_form=="Registro de Empleados"){
+                $scope.Empleado._id=data.data.id;
                 $scope.Empleados.push($scope.Empleado);
                 $scope.Detallemodal.titulo='Notificacion de registro';
                 $scope.Detallemodal.mensaje='Empleado registrado correctamente';

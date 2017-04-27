@@ -87,6 +87,7 @@ angular.module('frontendApp')
         .getResource(ruta,$scope.Persona,metodo)
         .then(function(data){
             if($scope.panel_title_form=="Registro de clientes y proveedores"){
+                $scope.Persona._id=data.data.id;
                 $scope.Personas.push($scope.Persona);
                 $scope.Detallemodal.titulo='Notificacion de registro';
                 $scope.Detallemodal.mensaje='Persona registrada correctamente';
