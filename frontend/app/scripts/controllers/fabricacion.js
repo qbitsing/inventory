@@ -42,6 +42,10 @@ angular.module('frontendApp')
     $scope.modal_salida={};
     $scope.modal_salida.productos=[];
     $scope.Remisiones=[];
+    $scope.cancelarentrada={};
+    $scope.cancelarsalida={};
+    $scope.cancelarent=true;
+    $scope.cancelarsal=true;
     /*$('.datepicker').pickadate({
         labelMonthNext: 'Next month',
         labelMonthPrev: 'Previous month',
@@ -327,6 +331,8 @@ angular.module('frontendApp')
             }
         });
         $scope.modal_salida={};
+        $scope.cancelarsal=true;
+        $scope.cancelarsalida={};
         $scope.modal_salida.productos=[];
         $scope.modal_salida.consecutivo=0;
         $scope.Remisiones.forEach(function(ele, index){
@@ -335,6 +341,7 @@ angular.module('frontendApp')
             }
         });
         $scope.modal_salida.consecutivo=$scope.modal_salida.consecutivo+1;
+        console.log($scope.modal_salida.consecutivo);
         $('#modalSalidas').modal('open');
     }
     $scope.addproducto = function(){
@@ -401,7 +408,13 @@ angular.module('frontendApp')
             console.log(data);
         });
     }
-    $scope.cancelarremision=function(remision){
+    $scope.abrircancelarremision=function(remision){
+        $scope.cancelarsalida=remision;
+        $scope.cancelarsal=false;
+        $scope.cancelarsalida.no_consecutivo=$scope.convertirConsecutivo($scope.cancelarsalida.consecutivo);
+    }
+    $scope.cancelarlaremision=function(){
+        var remision=$scope.cancelarsalida;
         remision.productos.forEach(function(elemento , index){
             $scope.contenido_fabricacion.productos.forEach(function(ele , i){
                 if(elemento.producto._id == ele._id){
@@ -434,6 +447,8 @@ angular.module('frontendApp')
 
 
 
+
+
     $scope.AbrirModalEntrada=function(_id){
         $scope.Fabricaciones.forEach(function(ele , i){
             if(_id == ele._id){
@@ -441,13 +456,19 @@ angular.module('frontendApp')
             }
         });
         $scope.modal_entrada={};
+        $scope.cancelarent=true;
+        $scope.cancelarentrada={};
         $scope.modal_entrada.productos=[];
         $scope.check_modal_entrada='entrada';
         $('#modalEntradas').modal('open');
+        $scope.modal_entrada.consecutivo=0;
+        $scope.EntradasFabricaciones.forEach(function(ele, index){
+            if(ele.consecutivo>=$scope.modal_entrada.consecutivo){
+                $scope.modal_entrada.consecutivo=ele.consecutivo;
+            }
+        });
+        $scope.modal_entrada.consecutivo=$scope.modal_entrada.consecutivo+1;
     }
-
-
-
     $scope.addproductoentrada = function(){
         var res = JSON.parse($scope.modal_entrada.producto);
         res.cantidad_disponible=res.cantidad_disponible-$scope.modal_entrada.cantidad;
@@ -470,8 +491,7 @@ angular.module('frontendApp')
                     res.cantidad_cantidad_fabricada=res.cantidad_cantidad_fabricada-$scope.modal_entrada.cantidad;
                 }
             }
-        });
-        console.log($scope.modal_entrada.productos);       
+        });     
     }
     $scope.removerproductoentrada = function(producto){
         if($scope.check_modal_entrada=='entrada'){
@@ -593,7 +613,8 @@ angular.module('frontendApp')
             console.log(data);
         });
     }
-    $scope.cancelarentrada=function(entrada){
+    $scope.cancelarlaentrada=function(){
+        var entrada=$scope.cancelarentrada;
         var controlerfab=true;
         entrada.estado='Cancelada';
         if(entrada.remision){
@@ -624,11 +645,6 @@ angular.module('frontendApp')
             }else{
                 entrada.remision.estado='Con Entrada';
             }
-            $scope.Remisiones.forEach(function(ele, index){
-                if(ele._id>=entrada.remision._id){
-                    ele=entrada.remision;
-                }
-            });
         }else{
             entrada.productos.forEach(function(elemento , index){
                 $scope.contenido_fabricacion.productos.forEach(function(ele , i){
@@ -649,8 +665,15 @@ angular.module('frontendApp')
         }
         entrada.fabricacion=$scope.contenido_fabricacion;
         webServer
-        .getResource('entrada/remision'+entrada._id,entrada,'put')
+        .getResource('entrada/remision/'+entrada._id,entrada,'put')
         .then(function(data){
+            if (entrada.remision) {
+                $scope.Remisiones.forEach(function(ele, index){
+                    if(ele._id==entrada.remision._id){
+                        ele=entrada.remision;
+                    }
+                });
+            }
            $scope.EntradasFabricaciones.forEach(function(ele , i){
                 if (ele._id == entrada._id) {
                     ele = entrada;
@@ -662,11 +685,20 @@ angular.module('frontendApp')
                 }
             });
             Materialize.toast(data.data.message,4000);
+            $scope.cancelarentrada={};
+            $scope.cancelarent=true;
         }
         ,function(data){
             Materialize.toast(data.data.message,4000);
             console.log(data);
+            $scope.cancelarentrada={};
+            $scope.cancelarent=true;
         });
+    }
+    $scope.abrircancelarentrada=function(entrada){
+        $scope.cancelarent=false;
+        $scope.cancelarentrada=entrada;
+        $scope.cancelarentrada.no_consecutivo=$scope.convertirConsecutivo($scope.cancelarentrada.consecutivo);
     }
 
 
