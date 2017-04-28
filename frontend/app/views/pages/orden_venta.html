@@ -109,29 +109,29 @@
     	<h4 class="modal-title blue accent-4">Venta No. {{Detalle.numero_interno}}</h4>
     	<div class="row">
     		<ul>
-			<li> Numero interno: {{Detalle.numero_interno || 'No registra'}}</li>
-			<li> Cliente: {{Detalle.cliente.nombre || 'No registra'}}</li>
-			<li> Numero de Orden del Cliente: {{Detalle.orden_compra_cliente || 'No registra'}}</li>
-			<li> Fecha de Recepción: {{Detalle.fecha_recepcion || 'No registra'}}</li>
-			<li> Lugar de Entrega: {{Detalle.cliente.nombre || 'No registra'}}</li>
-			<li> Fecha de Entrega: {{Detalle.fecha_entrega || 'No registra'}}</li>
-			<li> Observaciones: {{Detalle.observaciones || 'No registra'}}</li>
-			<li ng-hide="Detalle.productos.length<1"> <h5>Productos:</h5></li>
-			<table class="highlight" ng-hide="Detalle.productos.length<1">
-		        <thead>
-		        	<tr>
-						<th data-field="id">Nombre</th>
-						<th data-field="name">Cantidad</th>
-		          	</tr>
-		        </thead>
-		        <tbody>
-		          	<tr ng-repeat="producto in Detalle.productos">
-			            <td>{{producto.nombre}}</td>
-			            <td>{{producto.cantidad}}</td>
-		          	</tr>
-		        </tbody>
-		    </table>
-		</ul>
+				<li> Numero interno: {{Detalle.numero_interno || 'No registra'}}</li>
+				<li> Cliente: {{Detalle.cliente.nombre || 'No registra'}}</li>
+				<li> Numero de Orden del Cliente: {{Detalle.orden_compra_cliente || 'No registra'}}</li>
+				<li> Fecha de Recepción: {{convertirFecha(Detalle.fecha_recepcion) || 'No registra'}}</li>
+				<li> Lugar de Entrega: {{Detalle.cliente.nombre || 'No registra'}}</li>
+				<li> Fecha de Entrega: {{convertirFecha(Detalle.fecha_entrega) || 'No registra'}}</li>
+				<li> Observaciones: {{Detalle.observaciones || 'No registra'}}</li>
+				<li ng-hide="Detalle.productos.length<1"> <h5>Productos:</h5></li>
+				<table class="highlight" ng-hide="Detalle.productos.length<1">
+			        <thead>
+			        	<tr>
+							<th data-field="id">Nombre</th>
+							<th data-field="name">Cantidad</th>
+			          	</tr>
+			        </thead>
+			        <tbody>
+			          	<tr ng-repeat="producto in Detalle.productos">
+				            <td>{{producto.nombre}}</td>
+				            <td>{{producto.cantidad}}</td>
+			          	</tr>
+			        </tbody>
+			    </table>
+			</ul>
     	</div>
 	</div>
     <div class="modal-footer">

@@ -64,9 +64,10 @@ angular.module('frontendApp')
 	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Salida+BotonesTabla.Entrada+BotonesTabla.MateriaPrima+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
-            {
-                name:'orden de fabricacion',field: 'consecutivo',
+        {
+                name:'orden de fabricacion',
                 width:'15%',
+                cellTemplate: '<div>{{grid.appScope.convertirConsecutivo(row.entity.consecutivo)}}</div>',
                 minWidth: 200
             },
             {
@@ -190,12 +191,13 @@ angular.module('frontendApp')
         $scope.fabricacion.procesos=[];
         $scope.proceso={};
         $scope.producto={};
-        $scope.fabricacion.consecutivo=0;
+        $scope.fabricacion.consecutivo=999;
         $scope.Fabricaciones.forEach(function(ele, index){
             if(ele.consecutivo>=$scope.fabricacion.consecutivo){
                 $scope.fabricacion.consecutivo=ele.consecutivo;
             }
         });
+        $scope.fabricacion.consecutivo=$scope.fabricacion.consecutivo+1;
     }
 
     function EnviarFabricacion(){
@@ -229,7 +231,7 @@ angular.module('frontendApp')
             $scope.fabricacion.procesos=[];
             $scope.proceso={};
             $scope.producto={};
-            $scope.fabricacion.consecutivo=0;
+            $scope.fabricacion.consecutivo=999;
             $scope.Fabricaciones.forEach(function(ele, index){
                 if(ele.consecutivo>=$scope.fabricacion.consecutivo){
                     $scope.fabricacion.consecutivo=ele.consecutivo;
@@ -326,7 +328,7 @@ angular.module('frontendApp')
         $scope.cancelarsal=true;
         $scope.cancelarsalida={};
         $scope.modal_salida.productos=[];
-        $scope.modal_salida.consecutivo=0;
+        $scope.modal_salida.consecutivo=999;
         $scope.Remisiones.forEach(function(ele, index){
             if(ele.consecutivo>=$scope.modal_salida.consecutivo){
                 $scope.modal_salida.consecutivo=ele.consecutivo;
@@ -385,7 +387,7 @@ angular.module('frontendApp')
             });
             $scope.Remisiones.push($scope.modal_salida);
             $scope.modal_salida={};
-            $scope.modal_salida.consecutivo=0;
+            $scope.modal_salida.consecutivo=999;
             $scope.Remisiones.forEach(function(ele, index){
                 if(ele.consecutivo>=$scope.modal_salida.consecutivo){
                     $scope.modal_salida.consecutivo=ele.consecutivo;
@@ -448,7 +450,7 @@ angular.module('frontendApp')
         $scope.modal_entrada.productos=[];
         $scope.check_modal_entrada='entrada';
         $('#modalEntradas').modal('open');
-        $scope.modal_entrada.consecutivo=0;
+        $scope.modal_entrada.consecutivo=999;
         $scope.EntradasFabricaciones.forEach(function(ele, index){
             if(ele.consecutivo>=$scope.modal_entrada.consecutivo){
                 $scope.modal_entrada.consecutivo=ele.consecutivo;
@@ -586,7 +588,7 @@ angular.module('frontendApp')
             });
             $scope.EntradasFabricaciones.push($scope.modal_entrada);
             $scope.modal_entrada={};
-            $scope.modal_entrada.consecutivo=0;
+            $scope.modal_entrada.consecutivo=999;
             $scope.EntradasFabricaciones.forEach(function(ele, index){
                 if(ele.consecutivo>=$scope.modal_entrada.consecutivo){
                     $scope.modal_entrada.consecutivo=ele.consecutivo;
@@ -795,15 +797,12 @@ angular.module('frontendApp')
             console.log(data);
         });
     }
-
-
     $scope.convertirFecha = function(fecha){
         var date = new Date(fecha).getDate();
         date += '/'+(new Date(fecha).getMonth()+1);
         date += '/'+new Date(fecha).getFullYear();
         return date;
     }
-
     $scope.convertirConsecutivo = function(numero){
         var num = '';
         if (numero<10) {
@@ -817,14 +816,13 @@ angular.module('frontendApp')
         }
         return num;
     }
-
     function listarFabricaciones(){
         webServer
         .getResource('fabricacion',{},'get')
         .then(function(data){
             $scope.Fabricaciones=data.data.datos;
             $scope.gridOptions.data=$scope.Fabricaciones;
-            $scope.fabricacion.consecutivo=0;
+            $scope.fabricacion.consecutivo=999;
             $scope.Fabricaciones.forEach(function(ele, index){
                 if(ele.consecutivo>=$scope.fabricacion.consecutivo){
                     $scope.fabricacion.consecutivo=ele.consecutivo;

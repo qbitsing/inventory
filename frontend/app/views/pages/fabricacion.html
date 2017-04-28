@@ -136,7 +136,7 @@
     	<h4 class="modal-title blue accent-4">Orden de fabricación</h4>
     	<div class="row">
     		<ul>
-				<li> Numero interno de la fabricación: {{Detalle.consecutivo || 'No registra'}}</li>
+				<li> Numero interno de la fabricación: {{convertirConsecutivo(Detalle.consecutivo) || 'No registra'}}</li>
 				<li ng-show="Detalle.orden_venta"> Cliente: {{Detalle.orden_venta.cliente.nombre || 'No registra'}}</li>
 				<li> Fecha de solicitud: {{convertirFecha(Detalle.fecha_solicitud) || 'No registra'}}</li>
 				<li> Fecha de entrega: {{convertirFecha(Detalle.fecha_entrega) || 'No registra'}}</li>

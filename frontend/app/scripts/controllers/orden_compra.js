@@ -125,7 +125,7 @@ angular.module('frontendApp')
             if(data.data){
                 $scope.Ordenes=data.data.datos;
                 $scope.gridOptions.data=$scope.Ordenes;
-                $scope.Orden.consecutivo=0;
+                $scope.Orden.consecutivo=999;
                 $scope.Ordenes.forEach(function(ele, index){
                     if(ele.consecutivo>=$scope.Orden.consecutivo){
                         $scope.Orden.consecutivo=ele.consecutivo;
@@ -135,13 +135,13 @@ angular.module('frontendApp')
             }else{
                 $scope.Ordenes=[];
                 $scope.gridOptions.data=$scope.Ordenes;
-                $scope.Orden.consecutivo='1';
+                $scope.Orden.consecutivo=1000;
             }
             listarProductos();
         },function(data){
             $scope.Ordenes=[];
             $scope.gridOptions.data=$scope.Ordenes;
-            $scope.Orden.consecutivo='1';
+            $scope.Orden.consecutivo=1000;
             console.log(data.data.message);
             listarProductos();
         });
@@ -265,7 +265,7 @@ angular.module('frontendApp')
             $scope.Orden={};
             $scope.Orden.productos=[];
             $scope.Orden.materia_prima=[];
-            $scope.Orden.consecutivo=0;
+            $scope.Orden.consecutivo=999;
             $scope.Ordenes.forEach(function(ele, index){
                 if(ele.consecutivo>=$scope.Orden.consecutivo){
                     $scope.Orden.consecutivo=ele.consecutivo;
@@ -296,7 +296,7 @@ angular.module('frontendApp')
         $scope.Orden.materia_prima=[];
         $scope.panel_title_form = "Registro de Compra";
         $scope.button_title_form = "Registrar compra";
-        $scope.Orden.consecutivo=0;
+        $scope.Orden.consecutivo=999;
         $scope.Ordenes.forEach(function(ele, index){
             if(ele.consecutivo>=$scope.Orden.consecutivo){
                 $scope.Orden.consecutivo=ele.consecutivo;

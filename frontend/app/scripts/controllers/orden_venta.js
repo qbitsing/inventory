@@ -96,7 +96,7 @@ angular.module('frontendApp')
             if(data.data){
                 $scope.Ordenes=data.data.datos;
                 $scope.gridOptions.data=$scope.Ordenes;
-                $scope.Orden.consecutivo=0;
+                $scope.Orden.consecutivo=999;
                 $scope.Ordenes.forEach(function(ele, index){
                     if(ele.consecutivo>=$scope.Orden.consecutivo){
                         $scope.Orden.consecutivo=ele.consecutivo;
@@ -104,13 +104,13 @@ angular.module('frontendApp')
                 });
                 $scope.Orden.consecutivo=$scope.Orden.consecutivo+1; 
             }else{
-                $scope.Orden.consecutivo='1';
+                $scope.Orden.consecutivo=1000;
                 $scope.Ordenes=[];
                 $scope.gridOptions.data=$scope.Ordenes;
             }
             listarPersonas();
         },function(data){
-            $scope.Orden.consecutivo='1';
+            $scope.Orden.consecutivo=1000;
             $scope.Ordenes=[];
             $scope.gridOptions.data=$scope.Ordenes;
             console.log(data.data.message);
@@ -212,7 +212,7 @@ angular.module('frontendApp')
             }
             $scope.Orden={};
             $scope.Orden.productos=[];
-            $scope.Orden.consecutivo=0;
+            $scope.Orden.consecutivo=999;
             $scope.Ordenes.forEach(function(ele, index){
                 if(ele.consecutivo>=$scope.Orden.consecutivo){
                     $scope.Orden.consecutivo=ele.consecutivo;
@@ -226,7 +226,6 @@ angular.module('frontendApp')
             $('#modalNotificacion').modal('open');
             console.log(data);
         });
-        
     }
     $scope.Editar = function(id){
         $scope.panel_title_form = "Edicion de Ventas";
@@ -241,13 +240,19 @@ angular.module('frontendApp')
         $scope.Orden.productos=[];
         $scope.panel_title_form = "Registro de venta";
         $scope.button_title_form = "Registrar venta";
-        $scope.Orden.consecutivo=0;
+        $scope.Orden.consecutivo=999;
         $scope.Ordenes.forEach(function(ele, index){
             if(ele.consecutivo>=$scope.Orden.consecutivo){
                 $scope.Orden.consecutivo=ele.consecutivo;
             }
         });
         $scope.Orden.consecutivo=$scope.Orden.consecutivo+1; 
+    }
+    $scope.convertirFecha = function(fecha){
+        var date = new Date(fecha).getDate();
+        date += '/'+(new Date(fecha).getMonth()+1);
+        date += '/'+new Date(fecha).getFullYear();
+        return date;
     }
     function IdentificarOrden (id , arrObj){
         var obj;
@@ -259,8 +264,8 @@ angular.module('frontendApp')
                     cliente : ele.cliente,
                     productos : ele.productos,
                     observaciones : ele.observaciones,
-                    fecha_recepcion : ele.fecha_recepcion,
-                    fecha_entrega : ele.fecha_entrega,
+                    fecha_recepcion : new Date (Date.parse(ele.fecha_recepcion)),
+                    fecha_entrega : new Date (Date.parse(ele.fecha_entrega)),
                     lugar_entrega : ele.lugar_entrega
                 };
             }
