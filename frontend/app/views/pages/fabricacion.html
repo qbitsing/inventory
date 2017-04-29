@@ -136,7 +136,7 @@
     	<h4 class="modal-title blue accent-4">Orden de fabricación</h4>
     	<div class="row">
     		<ul>
-				<li> Numero interno de la fabricación: {{Detalle.consecutivo || 'No registra'}}</li>
+				<li> Numero interno de la fabricación: {{convertirConsecutivo(Detalle.consecutivo) || 'No registra'}}</li>
 				<li ng-show="Detalle.orden_venta"> Cliente: {{Detalle.orden_venta.cliente.nombre || 'No registra'}}</li>
 				<li> Fecha de solicitud: {{convertirFecha(Detalle.fecha_solicitud) || 'No registra'}}</li>
 				<li> Fecha de entrega: {{convertirFecha(Detalle.fecha_entrega) || 'No registra'}}</li>
@@ -229,8 +229,6 @@
 	    				<td><button ng-click="removeresponsable($index)" class="btn btn-danger">Eliminar</button></td>
 	    			</tr>
     			</tbody>
-    			
-    			
     		</table>
     	</div>
 	</div>
@@ -261,8 +259,7 @@
 	    				<td>{{producto.cantidad_fabricada}}</td>
 	    			</tr>
 	    		</tbody>
-	    			
-	    		</table>
+	    	</table>
 	    </div>
     	<div class="row">
     		<form name="formSalida" ng-submit="enviarRemision()">
@@ -274,8 +271,8 @@
 						<label>Producto *</label>
 					</div>
 					<div class="input-field col s8 m4 l4">
-						<input type="number" ng-model="modal_salida.cantidad" id="Cantidad" name="Cantidad">
-						<label for="Cantidad">Cantidad *</label>
+						<input type="number" ng-model="modal_salida.cantidad" id="CantidadRemision" name="CantidadRemision">
+						<label for="CantidadRemision">Cantidad *</label>
 					</div>
 					<button type="button" ng-click="addproducto()" class="btn btn-success col s4 m2 l2" ng-disabled="!modal_salida.producto || !modal_salida.cantidad">Añadir</button>
 				</div>
@@ -295,7 +292,6 @@
 		    				<td><button type="button" ng-click="removerproducto(producto)" class="btn btn-tabla btn-danger">Eliminar</button></td>
 		    			</tr>
 	    			</tbody>
-	    			
 	    		</table>
 	    		<div class="row">
 	    			<div class="input-field col s12 m6 l6">
@@ -345,28 +341,26 @@
     	<div class="row">
     		<h4>Lista de remisiones</h4>
     		<table class="bordered striped">
-    		<thead>
-    			<tr>
-    				<th>Remisión No.</th>
-    				<th>Productos-cantidades</th>
-    				<th>Proceso</th>
-    				<th>Responsables</th>
-    				<th>Opción</th>
-    			</tr>
-    		</thead>
-    		<tbody>
-    			<tr ng-if="remision.fabricacion._id==contenido_fabricacion._id" ng-repeat="remision in Remisiones">
-    				<td>{{convertirConsecutivo(remision.consecutivo)}}</td>
-	    			<td><li ng-repeat="res in remision.productos">{{res.producto.nombre}}-{{res.cantidad}}</li></td>
-	    			<td>{{remision.proceso.nombre}}</td>
-    				<td><li ng-repeat="res in remision.proceso.array_responsables">{{res.nombre}}</li></td>
-    				<td ng-if="remision.estado=='Sin Entrada'"><button type="button" class="btn btn-tabla btn-danger" ng-click="abrircancelarremision(remision)">Cancelar</button></td>
-    				<td ng-if="remision.estado=='Con Entrada'" class="warning-text">La remisión no se puede cancelar</td>
-    				<td ng-if="remision.estado=='Cancelada'" class="danger-text">Remisión cancelada</td>
-    			</tr>
-    		</tbody>
-    			
-    			
+	    		<thead>
+	    			<tr>
+	    				<th>Remisión No.</th>
+	    				<th>Productos - Cantidades</th>
+	    				<th>Proceso</th>
+	    				<th>Responsables</th>
+	    				<th>Opción</th>
+	    			</tr>
+	    		</thead>
+	    		<tbody>
+	    			<tr ng-if="remision.fabricacion._id==contenido_fabricacion._id" ng-repeat="remision in Remisiones">
+	    				<td>{{convertirConsecutivo(remision.consecutivo)}}</td>
+		    			<td><li ng-repeat="res in remision.productos">{{res.producto.nombre}} - {{res.cantidad}}</li></td>
+		    			<td>{{remision.proceso.nombre}}</td>
+	    				<td><li ng-repeat="res in remision.proceso.array_responsables">{{res.nombre}}</li></td>
+	    				<td ng-if="remision.estado=='Sin Entrada'"><button type="button" class="btn btn-tabla btn-danger" ng-click="abrircancelarremision(remision)">Cancelar</button></td>
+	    				<td ng-if="remision.estado=='Con Entrada'" class="warning-text">La remisión no se puede cancelar</td>
+	    				<td ng-if="remision.estado=='Cancelada'" class="danger-text">Remisión cancelada</td>
+	    			</tr>
+	    		</tbody>
     		</table>
     	</div>
 	</div>
@@ -425,8 +419,8 @@
 						<label>Producto *</label>
 					</div>
 					<div class="input-field col s8 m4 l4">
-						<input type="number" ng-model="modal_entrada.cantidad" id="Cantidad" name="Cantidad">
-						<label for="Cantidad">Cantidad *</label>
+						<input type="number" ng-model="modal_entrada.cantidad" id="CantidadEntrada" name="CantidadEntrada">
+						<label for="CantidadEntrada">Cantidad *</label>
 					</div>
 					<button type="button" ng-click="addproductoentrada()" class="btn btn-success col s4 m2 l2" ng-disabled="!modal_entrada.producto || !modal_entrada.cantidad">Añadir</button>
 				</div>
@@ -483,7 +477,7 @@
     		<table>
     			<tr>
     				<td>Entrada No.</td>
-    				<td>Productos-cantidades</td>
+    				<td>Productos - cantidades</td>
     				<td>Proceso</td>
     				<td>Responsables</td>
     				<td>Opción</td>
@@ -510,48 +504,116 @@
 
 <div id="modalMateriaPrima" class="modal modal-fixed-footer">
     <div class="modal-content">
-    	<h4 class="modal-title blue accent-4">Salida de insumos</h4>
+	    <h4 class="modal-title">Salida de insumos</h4>
     	<div class="row">
-    		<ul>
-				<li> Numero interno de la fabricación: {{Detalle.consecutivo || 'No registra'}}</li>
-				<li ng-show="Detalle.orden_venta"> Cliente: {{Detalle.orden_venta.cliente.nombre || 'No registra'}}</li>
-				<li> Fecha de solicitud: {{convertirFecha(Detalle.fecha_solicitud) || 'No registra'}}</li>
-				<li> Fecha de entrega: {{convertirFecha(Detalle.fecha_entrega) || 'No registra'}}</li>
-				<li> Estado: {{Detalle.estado || 'No registra'}}</li>
-				<li ng-hide="Detalle.productos.length<1"> <h5>Productos:</h5></li>
-				<table class="bordered striped" ng-hide="Detalle.productos.length<1">
+    		<form name="formSalidaInsumos" ng-submit="enviarSalidaInsumos()">
+	    		<div class="row">
+					<h5>Materias primas:</h5>
+					<div class="input-field col s12 m6 l6">
+						<select ng-model="salida_materia.Materia" material-select watch>
+							<option ng-repeat="materia in Materias" value="{{materia}}">{{materia.nombre}}</option>
+						</select>
+						<label>Materia prima *</label>
+					</div>
+					<div class="input-field col s8 m4 l4">
+						<input type="number" ng-model="salida_materia.cantidadMateria" id="Cantidadinsumo" name="Cantidadinsumo">
+						<label for="Cantidadinsumo">Cantidad *</label>
+					</div>
+					<button type="button" ng-click="addmateriainsumo()" class="btn btn-success col s4 m2 l2" ng-disabled="!salida_materia.Materia || !salida_materia.cantidadMateria">Añadir</button>
+				</div>
+				<table class="bordered striped">
 					<thead>
 						<tr>
-							<th data-field="id">Nombre</th>
-							<th data-field="name">Cantidad</th>
-						</tr>
+		    				<th>Nombre</th>
+		    				<th>Cantidad</th>
+		    				<th>Opción</th>
+		    			</tr>
 					</thead>
-					<tbody>
-						<tr ng-repeat="producto in Detalle.productos">
-							<td>{{producto.nombre}}</td>
-							<td>{{producto.cantidad}}</td>
-						</tr>
-					</tbody>
-				</table>
-				<li ng-hide="Detalle.procesos.length<1"> <h5>Procesos:</h5></li>
-				<table class="bordered striped" ng-hide="Detalle.procesos.length<1">
+	    			<tbody>
+	    				<tr ng-repeat="materia in salida_insumos.materia_prima">
+		    				<td>{{materia.materia.nombre}}</td>
+			    			<td>{{materia.cantidad}}</td>
+		    				<td><button type="button" ng-click="removermateriainsumo(materia)" class="btn btn-tabla btn-danger">Eliminar</button></td>
+		    			</tr>
+	    			</tbody>
+	    		</table>
+				<div class="row">
+					<h5>Productos:</h5>
+					<div class="input-field col s12 m6 l6">
+						<select ng-model="salida_productos.producto" material-select watch>
+							<option ng-repeat="producto in Productos" value="{{producto}}">{{producto.nombre}}</option>
+						</select>
+						<label>Producto *</label>
+					</div>
+					<div class="input-field col s8 m4 l4">
+						<input type="number" ng-model="salida_productos.cantidad" id="Cantidadproductoinsumo" name="Cantidadproductoinsumo">
+						<label for="Cantidadproductoinsumo">Cantidad *</label>
+					</div>
+					<button type="button" ng-click="addproductoinsumo()" class="btn btn-success col s4 m2 l2" ng-disabled="!salida_productos.producto || !salida_productos.cantidad">Añadir</button>
+				</div>
+				<table class="bordered striped">
 					<thead>
 						<tr>
-							<th data-field="id">Nombre</th>
-							<th data-field="name">Responsable(s)</th>
-						</tr>
+		    				<th>Nombre</th>
+		    				<th>Cantidad</th>
+		    				<th>Opción</th>
+		    			</tr>
 					</thead>
-					<tbody>
-						<tr ng-repeat="producto in Detalle.procesos">
-							<td>{{producto.nombre}}</td>
-							<td><li ng-repeat="res in proceso.array_responsables">{{res.nombre}}</li></td>
-						</tr>
-					</tbody>
-				</table>
-			</ul>
+	    			<tbody>
+	    				<tr ng-repeat="producto in salida_insumos.productos">
+		    				<td>{{producto.producto.nombre}}</td>
+			    			<td>{{producto.cantidad}}</td>
+		    				<td><button type="button" ng-click="removerproductoinsumo(producto)" class="btn btn-tabla btn-danger">Eliminar</button></td>
+		    			</tr>
+	    			</tbody>
+	    		</table>
+	    		<div class="row">
+	    			<button type="submit" class="btn btn-success col" ng-disabled="salida_insumos.productos.length<1 && salida_insumos.materia_prima.length<1">Registrar salida</button>
+	    		</div>
+    		</form>
+    	</div>
+    	<div class="row" ng-show="!cancelarsal">
+    		<form name="formEliminarSalida" ng-submit="cancelarlasalidainsumo()" >
+    			<div class="row"><h3>Cancelar Salida</h3></div>
+	    		<div class="row">
+	    			<div class="input-field col s12 m6 l6">
+						<input type="text" ng-disabled="true" ng-model="cancelarsalida.no_consecutivo" id="salida_no" name="salida_no" required>
+						<label for="salida_no">Salida No. *</label>
+					</div>
+					<div class="input-field col s12 m6 l6">
+						<textarea id="observaciones" ng-model="cancelarsalida.observaciones" class="materialize-textarea" data-length="120" required></textarea>
+						<label for="observaciones">Observaciones de cancelación *</label>
+					</div>
+	    		</div>
+	    		<div class="row">
+	    			<button type="submit" class="btn btn-success col" ng-disabled="formEliminarSalida.$invalid">Cancelar Salida</button>
+	    		</div>
+    		</form>
+    	</div>
+    	<div class="row">
+    		<h4>Lista de salidas</h4>
+    		<table class="bordered striped">
+    		<thead>
+    			<tr>
+    				<th>Producto - Cantidad</th>
+    				<th>Materia prima - Cantidad</th>
+    				<th>Opción</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			<tr ng-if="salida.fabricacion._id==salida_insumos.fabricacion._id" ng-repeat="salida in SalidasInsumos">
+	    			<td ng-show="salida.productos"><li ng-repeat="res in salida.productos">{{res.producto.nombre}} - {{res.cantidad}}</li></td>
+	    			<td ng-hide="salida.productos">No registra</td>
+	    			<td ng-show="salida.materia_prima"><li ng-repeat="res in salida.materia_prima">{{res.producto.nombre}} - {{res.cantidad}}</li></td>
+	    			<td ng-hide="salida.materia_prima">No registra</td>
+    				<td ng-if="salida.estado!='Cancelada'"><button type="button" ng-click="cancelarsalidainsumos(salida)">Cancelar</button></td>
+    				<td ng-if="salida.estado=='Cancelada'" class="danger-text">Salida cancelada</td>
+    			</tr>
+    		</tbody>
+    		</table>
     	</div>
 	</div>
     <div class="modal-footer">
-      	<a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
+	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
     </div>
 </div>
