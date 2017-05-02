@@ -33,7 +33,6 @@ angular.module('frontendApp')
     $scope.panel_title_form = "Registro de Entradas";
     $scope.button_title_form = "Registrar Entrada";
     $scope.Entrada={};
-    $scope.Detallemodal={};
     $scope.Entrada.orden_compra=[];
     $scope.Entrada.orden_compra.productos=[];
     $scope.Entrada.orden_compra.materia_prima=[];
@@ -77,15 +76,27 @@ angular.module('frontendApp')
         }
     }
     $scope.abrirModal=function(_id){
-        $scope.Detallemodal.id=_id;
-        $scope.Detallemodal.titulo='Confirmar eliminación';
-        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar la entrada?';
-        $('#modalConfirmacion').modal('open');
+        swal({
+            title: "Confirmar Eliminación",
+            text: "¿Esta seguro de borrar la entrada?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Borrar!",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm){
+            if (isConfirm) {
+                Borrar(_id);
+            } else {
+                swal("Cancelado", "La entrada no se borrará", "error");
+            }
+        });
     }
     $scope.Borrar=function(id){
-        $('#modalConfirmacion').modal('close');
-        $scope.Detallemodal={};
-         webServer
+        webServer
         .getResource('entradas/'+id,{},'delete')
         .then(function(data){
             $scope.Entradas.forEach(function(ele, index){

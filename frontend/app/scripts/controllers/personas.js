@@ -35,7 +35,6 @@ angular.module('frontendApp')
     $scope.Persona={};
     $scope.Persona.proveedor=false;
     $scope.Persona.rol={};
-    $scope.Detallemodal={};
     var modalInstance=null;
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
@@ -100,15 +99,27 @@ angular.module('frontendApp')
         });
     }
     $scope.abrirModal=function(_id){
-        $scope.Detallemodal.id=_id;
-        $scope.Detallemodal.titulo='Confirmar eliminación';
-        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar esta persona?';
-        $('#modalConfirmacion').modal('open');
+        swal({
+            title: "Confirmar Eliminación",
+            text: "¿Esta seguro de borrar esta persona?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Borrar!",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm){
+            if (isConfirm) {
+                Borrar(_id);
+            } else {
+                swal("Cancelado", "La persona no se borrará", "error");
+            }
+        });
     }
     $scope.Borrar=function(id){
-        $('#modalConfirmacion').modal('close');
-        $scope.Detallemodal={};
-         webServer
+        webServer
         .getResource('orden_venta/'+id,{},'delete')
         .then(function(data){
             $scope.Entradas.forEach(function(ele, index){

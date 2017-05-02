@@ -33,7 +33,6 @@ angular.module('frontendApp')
 	$scope.panel_title_form = "Registro de Materia Prima";
 	$scope.button_title_form = "Registrar Materia Prima";
 	$scope.Materia={};
-    $scope.Detallemodal={};
     $scope.Materia.unidad_medida={};
 	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
@@ -120,15 +119,27 @@ angular.module('frontendApp')
         $scope.Materia={};
     }
     $scope.abrirModal=function(_id){
-        $scope.Detallemodal.id=_id;
-        $scope.Detallemodal.titulo='Confirmar eliminación';
-        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar la materia prima?';
-        $('#modalConfirmacion').modal('open');
+        swal({
+            title: "Confirmar Eliminación",
+            text: "¿Esta seguro de borrar la materia prima?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Borrar!",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm){
+            if (isConfirm) {
+                Borrar(_id);
+            } else {
+                swal("Cancelado", "La materia prima no se borrará", "error");
+            }
+        });
     }
     $scope.Borrar=function(id){
-        $('#modalConfirmacion').modal('close');
-        $scope.Detallemodal={};
-         webServer
+        webServer
         .getResource('fabricacion/'+id,{},'delete')
         .then(function(data){
             $scope.Entradas.forEach(function(ele, index){
