@@ -141,7 +141,7 @@ angular.module('frontendApp')
     $scope.abrirModal=function(_id){
         swal({
             title: "Confirmar Eliminación",
-            text: "¿Esta seguro de borrar la fabricacion?",
+            text: "¿Esta seguro de borrar la fabricación?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
@@ -186,7 +186,7 @@ angular.module('frontendApp')
     }
 
     $scope.Editar = function(id){
-        $scope.panel_title_form = "Edicion de Fabricacion";
+        $scope.panel_title_form = "Edicion de Fabricación";
         $scope.button_title_form = "Actualizar Fabricación";
         $scope.fabricacion = IdentificarFabricacion(id,$scope.Fabricaciones);
         if ($scope.fabricacion.orden_venta) {

@@ -9,7 +9,7 @@ const co = require('co');
 let listarAll = co.wrap(function* (req, res){
   let datos;
   try {
-    datos = yield salidaModel.find({});
+    datos = yield salidaModel.find({},null, {short: {fecha: -1}});
   } catch (e) {
     return res.status(500).send({
       message: `ERROR al intentar buscar salidas en la base de datos ${e}`

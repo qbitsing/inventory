@@ -5,7 +5,7 @@ const co = require('co');
 
 let listarAll = co.wrap(function * (req, res){
     try {
-        let datos = yield categoriaModel.find({});
+        let datos = yield categoriaModel.find({}, null, {sort: {nombre: 1}} );
         if(datos.length > 0){
             return res.status(200).send({
                 datos
