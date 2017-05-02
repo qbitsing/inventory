@@ -275,6 +275,8 @@ angular.module('frontendApp')
                     $scope.Orden.consecutivo=ele.consecutivo;
                 }
             });
+            $scope.panel_title_form = "Registro de Compra";
+            $scope.button_title_form = "Registrar compra";
             $scope.Orden.consecutivo=$scope.Orden.consecutivo+1;
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");
