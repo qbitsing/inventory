@@ -24,7 +24,7 @@
 <div id="modal2" class="modal modal-fixed-footer">
     <form class="col s12" name="formCategorias">
 	    <div class="modal-content">
-	      	<h4 class="modal-title">Registro de Categorias</h4>
+	      	<h4 class="modal-title">{{TituloPanelCategorias}}</h4>
 			<div class="row">
 			  <div class="row modal-form-row">
 			    <div class="input-field col s12">
@@ -36,9 +36,11 @@
 					<input type="text" ng-model="categoria.codigo" name="codigo" id="codigo"  required>
 			    </div>
 			  </div>
-			  <button type="submit" ng-click="EnviarCategoria()" class="modal-action waves-effect btn btn-large btn-primary" ng-disabled="formCategorias.$invalid">Registrar Categoria</button>
 			</div>
-	    	
+			<div class="row">
+			  	<button type="submit" ng-click="EnviarCategoria()" class="modal-action waves-effect btn btn-large btn-primary" ng-disabled="formCategorias.$invalid">{{TituloBotonCategorias}}</button>
+				<button type="button" ng-click="Cancelar()" class="modal-action waves-effect btn btn-warning btn-primary" ng-hide="TituloPanelCategorias=='Registro de Categorias'">Cancelar</button>
+			</div>
 			<div class="row">
 				<div class="gridStyle grid" ui-grid="gridOptionsModalCategorias" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
 			</div>
@@ -51,17 +53,19 @@
 <div id="modal1" class="modal modal-fixed-footer">
     <form class="col s12" name="formUnidades">
 	    <div class="modal-content">
-	      	<h4 class="modal-title">Registro de Unidades de Medida</h4>
+	      	<h4 class="modal-title">{{TituloPanelUnidades}}</h4>
 			<div class="row">
-			  <div class="row modal-form-row">
-			    <div class="input-field col s12">
-			      	<label for="nombre">Nombre</label>
-					<input type="text" ng-model="Unidad_de_medida.nombre" name="nombre" id="nombre"  required>
-			    </div>
-			  </div>
-			  <button type="submit" ng-click="EnviarUnidad()" class="modal-action waves-effect btn btn-large btn-primary" ng-disabled="formUnidades.$invalid">Registrar Unidad de Medida</button>
+				<div class="row modal-form-row">
+					<div class="input-field col s12">
+					  	<label for="nombre">Nombre</label>
+						<input type="text" ng-model="Unidad_de_medida.nombre" name="nombre" id="nombre"  required>
+					</div>
+				</div>
 			</div>
-	    	
+			<div class="row">
+		  		<button type="submit" ng-click="EnviarUnidad()" class="modal-action waves-effect btn btn-large btn-primary" ng-disabled="formUnidades.$invalid">{{TituloBotonUnidades}}</button>
+			  	<button type="button" ng-click="Cancelar()" class="modal-action waves-effect btn btn-warning btn-primary" ng-hide="TituloPanelUnidades=='Registro de Unidades de Medida'">Cancelar</button>
+			</div>
 			<div class="row">
 				<div class="gridStyle grid" ui-grid="gridOptionsModalUnidades" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
 			</div>
@@ -74,7 +78,7 @@
 <div id="modal3" class="modal modal-fixed-footer">
     <form class="col s12" name="formProcesos">
 	    <div class="modal-content">
-	      	<h4 class="modal-title">Registro de procesos de fabricacion</h4>
+	      	<h4 class="modal-title">{{TituloPanelProcesos}}</h4>
 			<div class="row">
 				<div class="row modal-form-row">
 					<div class="input-field col s12">
@@ -88,7 +92,10 @@
 			   		<input class="with-gap" name="proceso" type="radio" id="externo"  ng-model="proceso.tipo" value="Externo"/>
 			     	<label for="externo">Proceso externo</label>					  
 		    	</p>
-			  <button type="submit" ng-click="EnviarProceso()" class="modal-action waves-effect btn btn-large btn-primary" ng-disabled="formProcesos.$invalid || !proceso.tipo">Registrar Proceso</button>
+			</div>
+			<div class="row">
+			  	<button type="submit" ng-click="EnviarProceso()" class="modal-action waves-effect btn btn-large btn-primary" ng-disabled="formProcesos.$invalid || !proceso.tipo">{{TituloBotonProcesos}}</button>
+				<button type="button" ng-click="Cancelar()" class="modal-action waves-effect btn btn-warning btn-primary" ng-hide="TituloPanelProcesos=='Registro de procesos de fabricación'">Cancelar</button>
 			</div>
 			<div class="row">
 				<div class="gridStyle grid" ui-grid="gridOptionsModalProcesos" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>

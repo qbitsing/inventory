@@ -999,7 +999,7 @@ angular.module('frontendApp')
     }
     function listarSalidasInsumos(){
         webServer
-        .getResource('fabricaciones/insumos',{},'get')
+        .getResource('fabricacion/insumos',{},'get')
         .then(function(data){
             $scope.SalidasInsumos=data.data.datos;
         },function(data){
