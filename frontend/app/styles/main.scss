@@ -286,8 +286,8 @@ $success:#00c853;
   }
 }
 .titulo-pagina{
-  position:fixed;
-  top:64px;
+  position:absolute;
+  top:0;
   left:0;
   right:0;
   z-index: 3;

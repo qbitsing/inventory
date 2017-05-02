@@ -81,11 +81,9 @@
 							</p>
 						</div>
 						<div class="row">
-							<div class="col">
+							<div class="col s12 m12 l12">
 								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formPersonas.$invalid || (!Persona.cliente && !Persona.proveedor)">{{button_title_form}}</button>
-							</div>
-							<div class="col">
-								<button type="button" class="btn btn-large btn-danger" ng-show="button_title_form == 'Editar Persona'" ng-click="CancelarEditar()">Cancelar</button>
+								<button type="button" class="btn btn-large btn-danger" ng-show="button_title_form == 'Actualizar Persona'" ng-click="CancelarEditar()">Cancelar</button>
 							</div>
 							
 						</div>
