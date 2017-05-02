@@ -17,7 +17,7 @@ function listarAll (req, res){
 		query.administrador ? condiciones.push({administrador : true}): null;
 		query.empleado ? condiciones.push({empleado : true}): null;
 		if(query.proveedor || query.cliente || query.administrador || query.empleado || query.proveedorfabricacion || query.proveedorproductos)
-			personas = yield personaModel.find({$or: condiciones});
+			personas = yield personaModel.find({$or: condiciones},null, {short: {nombre: 1}});
 		return res.send({datos: personas});
 	});
 	promise();

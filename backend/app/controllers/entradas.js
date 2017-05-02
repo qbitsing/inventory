@@ -8,7 +8,7 @@ const ordenModel = require('../models/orden-compra');
 const co = require('co');
 
 function listarAll(req, res){
-		entradaModel.find({}, (err, entradaStored)=>{
+		entradaModel.find({},null, {sort: {fecha: -1}} , (err, entradaStored)=>{
 				if(err){
 						return res.status(500).send({
 								message: `ERROR al intentar listar las entradas ${err}`

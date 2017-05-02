@@ -7,7 +7,7 @@ const procesosModel = require('../models/procesos');
 
 let listarAll = co.wrap(function * (req, res){
   try{
-    let datos = yield procesosModel.find({});
+    let datos = yield procesosModel.find({},null, {short: {nombre: 1}});
     if(datos.length > 0){
       return res.status(200).send({
         datos

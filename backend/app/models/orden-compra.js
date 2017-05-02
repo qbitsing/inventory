@@ -9,7 +9,8 @@ const ordenCompraSchema = new Schema({
     consecutivo: {type: Number},
     materia_prima: [],
     observaciones: String,
-    estado: {type: String , enum:['activo' , 'finalizado']}
+    estado: {type: String , enum:['activo' , 'finalizado']},
+    fecha: {type: Date, default: Date.now()}
 });
 
 module.exports = mongoose.model('orden_compra', ordenCompraSchema);

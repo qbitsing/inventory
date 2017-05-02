@@ -3,7 +3,7 @@
 const departamentoModel = require('../models/departamentos');
 
 function listarAll (req, res){
-	departamentoModel.find({} , (err , datos)=>{
+	departamentoModel.find({}, null, {sort: {nombre: 1}} , (err , datos)=>{
         if(err) {
             return res.status(500).send({
                 message : `ERROR al obtener la lista de departamentos ${err}`

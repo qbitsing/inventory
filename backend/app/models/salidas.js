@@ -7,7 +7,8 @@ const Schema = mongoose.Schema;
 const salidaSchema = new Schema({
     orden_venta:{},
     persona_entrada: {},
-    observaciones: String
+    observaciones: String,
+    fecha: {type:Date, default: Date.now()}
 });
 
 

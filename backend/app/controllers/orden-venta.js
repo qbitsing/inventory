@@ -5,7 +5,7 @@ const clienteModel = require('../models/personas');
 const productoModel = require('../models/productos');
 
 function listarAll(req, res){
-    ordenVentaModel.find({}, (err , ordenStored)=>{
+    ordenVentaModel.find({},null, {sort: {fecha_recepcion: -1}} , (err , ordenStored)=>{
         if(err){
             return res.status(500).send({
                 message: `ERROR al intentar obtener la lista de ordenes de venta ${err}`

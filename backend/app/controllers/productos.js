@@ -6,7 +6,7 @@ const materiaPrimaModel = require('../models/materia-prima');
 const categoriaModel = require('../models/categorias');
 
 function listarAll(req, res){
-    ProductoModel.find({}, (err , productoStrored)=>{
+    ProductoModel.find({},null, {short: {nombre: 1}}, (err , productoStrored)=>{
         if(err){
             return res.status(500).send({
                 message: `ERROR al intentar obtener la lista de prductos ${err}`
