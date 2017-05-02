@@ -144,6 +144,11 @@ angular.module('frontendApp')
             console.log(data.data.message);
         });
     }
+    function scroll(){
+         $("html, body").animate({
+            scrollTop: 0
+        }, 1000); 
+    }
     $scope.Editar = function(id){
         $scope.Empleado = IdentificarPersona(id,$scope.Empleados);
         if($scope.Empleado.super_administrador){
@@ -155,8 +160,9 @@ angular.module('frontendApp')
         }else if($scope.Empleado.empleado){
             $scope.Empleado.rol='empleado';
         }
-        $scope.panel_title_form = "Edicion de Empleados";
-        $scope.button_title_form = "Editar Empleado";
+        $scope.panel_title_form = "Edicion de Empleado";
+        $scope.button_title_form = "Actualizar Empleado";
+        scroll();
     }
     $scope.CancelarEditar=function(){
         $scope.Empleado={};

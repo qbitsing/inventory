@@ -109,10 +109,16 @@ angular.module('frontendApp')
         });
         $('#modalDetalles').modal('open');
     }
+    function scroll(){
+         $("html, body").animate({
+            scrollTop: 0
+        }, 1000); 
+    }
     $scope.Editar = function(id){
         $scope.Materia=IdentificarMateria(id,$scope.Materias);
         $scope.panel_title_form = "Edicion de Materia Prima";
-        $scope.button_title_form = "Editar Materia Prima";
+        $scope.button_title_form = "Actualizar Materia Prima";
+        scroll();
     }
     $scope.CancelarEditar=function(){
         $scope.panel_title_form = "Registro de Materia Prima";

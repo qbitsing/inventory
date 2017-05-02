@@ -156,7 +156,6 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptionsModalProcesos , Tabla);
-
     $scope.EnviarUnidad=function(){
         webServer
         .getResource('unidades',$scope.Unidad_de_medida,'post')
@@ -280,4 +279,13 @@ angular.module('frontendApp')
         SesionUsuario.CerrarSesion();
     	$state.go('Login');
     }
+    function scroll(){
+         $("html, body").animate({
+            scrollTop: 0
+        }, 1000); 
+    }
+    angular.element(".side-nav>ul>li").click(function(){
+       scroll();
+    });
+    
   });

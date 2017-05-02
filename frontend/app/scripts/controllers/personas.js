@@ -140,15 +140,21 @@ angular.module('frontendApp')
         $scope.Detalle.rol+='.';
         $('#modalDetalles').modal('open');
     }
-    
+    function scroll(){
+         $("html, body").animate({
+            scrollTop: 0
+        }, 1000); 
+    }
     $scope.Editar = function(id){
         $scope.panel_title_form = "Edicion de clientes y proveedores";
-        $scope.button_title_form = "Editar Persona";
+        $scope.button_title_form = "Actualizar Persona";
         $scope.Persona = IdentificarPersona(id,$scope.Personas);
+        scroll();
         console.log($scope.Persona);  
         if($scope.Persona.ciudad){
             $scope.Persona.departamento = $scope.Persona.ciudad.departamento._id;
         }
+        
     }
     
     $scope.CancelarEditar=function(){

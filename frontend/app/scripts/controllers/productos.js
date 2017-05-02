@@ -271,6 +271,11 @@ angular.module('frontendApp')
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
+    function scroll(){
+         $("html, body").animate({
+            scrollTop: 0
+        }, 1000); 
+    }
     $scope.Editar = function(id){
         $scope.panel_title_form = "Edicion de Producto";
         $scope.button_title_form = "Actualizar Producto";
@@ -280,6 +285,7 @@ angular.module('frontendApp')
         }else{
             $scope.check='producto';
         }
+        scroll();
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Productos.find(function(ele){
