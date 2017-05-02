@@ -32,7 +32,6 @@ angular.module('frontendApp')
     $scope.panel_title_form = "Registro de venta";
     $scope.button_title_form = "Registrar venta";
     $scope.Orden={};
-    $scope.Detallemodal={};
     $scope.Orden.productos=[];
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
@@ -155,14 +154,26 @@ angular.module('frontendApp')
         $scope.Orden.productos.splice(index,1);
     }
     $scope.abrirModal=function(_id){
-        $scope.Detallemodal.id=_id;
-        $scope.Detallemodal.titulo='Confirmar eliminación';
-        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar la orden de venta?';
-        $('#modalConfirmacion').modal('open');
+        swal({
+            title: "Confirmar Eliminación",
+            text: "¿Esta seguro de borrar la orden de venta?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Borrar!",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm){
+            if (isConfirm) {
+                Borrar(_id);
+            } else {
+                swal("Cancelado", "La orden de venta no se borrará", "error");
+            }
+        });
     }
     $scope.Borrar=function(id){
-        $('#modalConfirmacion').modal('close');
-        $scope.Detallemodal={};
          webServer
         .getResource('orden_venta/'+id,{},'delete')
         .then(function(data){

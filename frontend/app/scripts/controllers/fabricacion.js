@@ -34,7 +34,6 @@ angular.module('frontendApp')
 	$scope.button_title_form = "Registrar fabricación";
 	$scope.check='orden';
 	$scope.fabricacion={};
-    $scope.Detallemodal={};
     $scope.modal={};
 	$scope.fabricacion.productos=[];
     $scope.fabricacion.procesos=[];
@@ -43,7 +42,7 @@ angular.module('frontendApp')
     $scope.modal_salida.productos=[];
     $scope.Remisiones=[];
     $scope.cancelarentrada={};
-    $scope.cancelarsalida={
+    $scope.cancelarsalida={};
     /*$('.datepicker').pickadate({
         labelMonthNext: 'Next month',
         labelMonthPrev: 'Previous month',
@@ -111,28 +110,47 @@ angular.module('frontendApp')
     $scope.BorrarProducto=function(index){
         $scope.fabricacion.productos.splice(index,1);
     }
-    $scope.abrirModalCrear=function(_id){
-        $scope.Detallemodal.titulo='Confirmar Registro';
-        $scope.Detallemodal.mensaje='¿Esta seguro que ha suministrado los responsables de los procesos y desea registrar la fabricación?';
-        $('#modalConfirmacion').modal('open');
+    $scope.abrirModalCrear=function(){
+        swal({
+            title: "Confirmar Registro",
+            text: "¿Esta seguro que ha suministrado los responsables de los procesos y desea registrar la fabricación?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Registrar!",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm){
+            if (isConfirm) {
+                EnviarFabricacion();
+            } else {
+                swal("Cancelado", "La fabricación no se registrará", "error");
+            }
+        });
     }
-    $scope.Confirmar=function(){
-        $('#modalConfirmacion').modal('close');
-        if($scope.Detallemodal.titulo=='Confirmar Registro'){
-            EnviarFabricacion();
-        }else{
-            Borrar($scope.Detallemodal.id);
-        }
-    }
-
     $scope.abrirModal=function(_id){
-        $scope.Detallemodal.id=_id;
-        $scope.Detallemodal.titulo='Confirmar eliminación';
-        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar la fabricación?';
-        $('#modalConfirmacion').modal('open');
+        swal({
+            title: "Confirmar Eliminación",
+            text: "¿Esta seguro de borrar la fabricacion?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Borrar!",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm){
+            if (isConfirm) {
+                Borrar(_id);
+            } else {
+                swal("Cancelado", "La fabricación no se borrará", "error");
+            }
+        });
     }
     function Borrar(id){
-        $scope.Detallemodal={};
         var controler=true;
         $scope.Fabricaciones.forEach(function(ele, index){
             if (ele._id==id) {
@@ -150,12 +168,12 @@ angular.module('frontendApp')
                         $scope.Fabricaciones.splice(ele.index,1);
                     }
                 });
-                sweetAlert("Completado...", data.data.message , "success");
+                swal("Completado...", data.data.message , "success");
             },function(data){
-                sweetAlert("Oops...", data.data.message , "error");
+                swal("Oops...", data.data.message , "error");
             });
         }else{
-            sweetAlert("Oops...", "La fabricación no se puede eliminar porque ya posee productos dentro del inventario" , "error");
+            swal("Oops...", "La fabricación no se puede eliminar porque ya posee productos dentro del inventario" , "error");
         }   
     }
 
@@ -420,7 +438,7 @@ angular.module('frontendApp')
             });
             remision.fabricacion=$scope.contenido_fabricacion;
             webServer
-            .getResource('remision'+remision._id,remision,'put')
+            .getResource('remision/'+remision._id,remision,'put')
             .then(function(data){
                $scope.Remisiones.forEach(function(ele , i){
                     if (ele._id == remision._id) {
@@ -432,10 +450,10 @@ angular.module('frontendApp')
                         ele.productos=$scope.contenido_fabricacion.productos;
                     }
                 });
-                Materialize.toast(data.data.message,4000);
+                swal("Completado...", data.data.message , "success");
             }
             ,function(data){
-                Materialize.toast(data.data.message,4000);
+                swal("Oops...", data.data.message , "error");
                 console.log(data);
             });
         }
@@ -596,10 +614,10 @@ angular.module('frontendApp')
                     $scope.modal_entrada.consecutivo=ele.consecutivo;
                 }
             });
-            Materialize.toast(data.data.message,4000);
+            sweetAlert("Completado...", data.data.message , "success");
         }
         ,function(data){
-            Materialize.toast(data.data.message,4000);
+            sweetAlert("Oops...", data.data.message , "error");
             console.log(data);
         });
     }
@@ -655,7 +673,7 @@ angular.module('frontendApp')
         }
         entrada.fabricacion=$scope.contenido_fabricacion;
         webServer
-        .getResource('entrada/remision'+entrada._id,entrada,'put')
+        .getResource('entrada/remision/'+entrada._id,entrada,'put')
         .then(function(data){
             if (entrada.remision) {
                 $scope.Remisiones.forEach(function(ele, index){
@@ -674,15 +692,13 @@ angular.module('frontendApp')
                     ele=$scope.contenido_fabricacion;
                 }
             });
-            Materialize.toast(data.data.message,4000);
+            swal("Completado...", data.data.message , "success");
             $scope.cancelarentrada={};
-   
         }
         ,function(data){
-            Materialize.toast(data.data.message,4000);
+            swal("Oops...", data.data.message , "error");
             console.log(data);
             $scope.cancelarentrada={};
-   
         });
     }
     $scope.abrircancelarentrada=function(entrada){
@@ -873,10 +889,10 @@ angular.module('frontendApp')
                     });
                 });
             }
-            Materialize.toast(data.data.message,4000);
+            swal("Completado...", data.data.message , "success");
         }
         ,function(data){
-            Materialize.toast(data.data.message,4000);
+            swal("Oops...", data.data.message , "error");
             console.log(data);
         });
     }
