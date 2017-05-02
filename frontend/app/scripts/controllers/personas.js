@@ -35,7 +35,6 @@ angular.module('frontendApp')
     $scope.Persona={};
     $scope.Persona.proveedor=false;
     $scope.Persona.rol={};
-    $scope.Detallemodal={};
     var modalInstance=null;
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
@@ -89,31 +88,38 @@ angular.module('frontendApp')
             if($scope.panel_title_form=="Registro de clientes y proveedores"){
                 $scope.Persona._id=data.data.id;
                 $scope.Personas.push($scope.Persona);
-                $scope.Detallemodal.titulo='Notificacion de registro';
-                $scope.Detallemodal.mensaje='Persona registrada correctamente';
             }else{
                 $scope.Personas[$scope.Persona.index] = $scope.Persona;
-                $scope.Detallemodal.titulo='Notificacion de actualización';
-                $scope.Detallemodal.mensaje='Persona actualizada correctamente';
             }
             $scope.Persona={};
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de error';
-            $scope.Detallemodal.mensaje=data.data.message;
+            sweetAlert("Oops...", data.data.message , "error");
             console.log(data);
         });
-        $('#modalNotificacion').modal('open');
     }
     $scope.abrirModal=function(_id){
-        $scope.Detallemodal.id=_id;
-        $scope.Detallemodal.titulo='Confirmar eliminación';
-        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar esta persona?';
-        $('#modalConfirmacion').modal('open');
+        swal({
+            title: "Confirmar Eliminación",
+            text: "¿Esta seguro de borrar esta persona?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Borrar!",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm){
+            if (isConfirm) {
+                Borrar(_id);
+            } else {
+                swal("Cancelado", "La persona no se borrará", "error");
+            }
+        });
     }
     $scope.Borrar=function(id){
-        $('#modalConfirmacion').modal('close');
-        $scope.Detallemodal={};
-         webServer
+        webServer
         .getResource('orden_venta/'+id,{},'delete')
         .then(function(data){
             $scope.Entradas.forEach(function(ele, index){
@@ -121,13 +127,10 @@ angular.module('frontendApp')
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
-            $scope.Detallemodal.mensaje='La persona se ha eliminado exitosamente';
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data.data.message);
+            sweetAlert("Oops...", data.data.message , "error");
         });
-        $scope.Detallemodal.titulo='Notificacion de eliminación';
-        $('#modalNotificacion').modal('open');
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Personas.find(function(ele){
@@ -148,15 +151,21 @@ angular.module('frontendApp')
         $scope.Detalle.rol+='.';
         $('#modalDetalles').modal('open');
     }
-    
+    function scroll(){
+         $("html, body").animate({
+            scrollTop: 0
+        }, 1000); 
+    }
     $scope.Editar = function(id){
         $scope.panel_title_form = "Edicion de clientes y proveedores";
-        $scope.button_title_form = "Editar Persona";
+        $scope.button_title_form = "Actualizar Persona";
         $scope.Persona = IdentificarPersona(id,$scope.Personas);
+        scroll();
         console.log($scope.Persona);  
         if($scope.Persona.ciudad){
             $scope.Persona.departamento = $scope.Persona.ciudad.departamento._id;
         }
+        
     }
     
     $scope.CancelarEditar=function(){

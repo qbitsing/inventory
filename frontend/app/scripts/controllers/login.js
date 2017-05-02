@@ -20,7 +20,7 @@ angular.module('frontendApp')
                 $state.go('Home');
   			}
   		},function(data){
-            alert(data.data.message);
+            sweetAlert("Oops...", data.data.message, "error");
   		});
   	}
   });

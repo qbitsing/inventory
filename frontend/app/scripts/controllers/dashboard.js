@@ -94,7 +94,6 @@ angular.module('frontendApp')
             }
         }
     }
-
     var casillaDeBotonesModalCategorias = '<div>'+BotonesTabla.BorrarModal+'</div>';
     $scope.gridOptionsModalCategorias = {
         columnDefs: [
@@ -156,35 +155,27 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptionsModalProcesos , Tabla);
-
     $scope.EnviarUnidad=function(){
         webServer
         .getResource('unidades',$scope.Unidad_de_medida,'post')
         .then(function(data){
             $scope.Unidades.push($scope.Unidad_de_medida);
             $scope.Unidad_de_medida={};
-            Materialize.toast('Unidad de medida registrada correctamente', 4000);
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            Materialize.toast(data.data.message, 4000);
-            console.log(data.data.message);
+            sweetAlert("Oops...", data.data.message , "error");
         });
     }
     function listarunidades(){
         webServer
         .getResource('unidades',{},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Unidades=data.data.datos;
-                $scope.gridOptionsModalUnidades.data = $scope.Unidades;
-            }else{
-                $scope.Unidades=[];
-                $scope.gridOptionsModalUnidades.data = $scope.Unidades;
-            }
+            $scope.Unidades=data.data.datos;
+            $scope.gridOptionsModalUnidades.data = $scope.Unidades;
             listarCategorias();
         },function(data){
             $scope.Unidades=[];
             $scope.gridOptionsModalUnidades.data = $scope.Unidades;
-            console.log(data.data.message);
             listarCategorias();
         });
     }
@@ -196,10 +187,9 @@ angular.module('frontendApp')
         .then(function(data){
             $scope.Categorias.push($scope.categoria);
             $scope.categoria={};
-            Materialize.toast('Categoria registrada correctamente', 4000);
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            Materialize.toast(data.data.message, 4000);
-            console.log(data.data.message);
+            sweetAlert("Oops...", data.data.message , "error");
         });
     }
     $scope.BorrarModal = function(_id){
@@ -207,7 +197,7 @@ angular.module('frontendApp')
             console.log('Categorias');
         }else if($scope.unidades){
             console.log('Unidades');
-        }else{
+        }else if($scope.procesos){
             console.log('Procesos');
         }
     }
@@ -224,7 +214,6 @@ angular.module('frontendApp')
             }
             listarProcesos();
         },function(data){
-            console.log(data.data.message);
             $scope.Categorias=[];
             $scope.gridOptionsModalCategorias.data = $scope.Categorias;
             listarProcesos();
@@ -242,7 +231,6 @@ angular.module('frontendApp')
                 $scope.gridOptionsModalProcesos.data = $scope.Procesos;
             }
         },function(data){
-            console.log(data.data.message);
             $scope.Procesos=[];
             $scope.gridOptionsModalProcesos.data = $scope.Procesos;
         });
@@ -253,10 +241,9 @@ angular.module('frontendApp')
         .then(function(data){
             $scope.Procesos.push($scope.proceso);
             $scope.proceso={};
-            Materialize.toast('Proceso registrado correctamente', 4000);
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            Materialize.toast(data.data.message, 4000);
-            console.log(data.data.message);
+            sweetAlert("Oops...", data.data.message , "error");
         });
     }
     $scope.sidenav = function(){
@@ -272,7 +259,6 @@ angular.module('frontendApp')
                 angular.element(".perfil").addClass('perfil-hidden');
                 angular.element(".main-view").addClass('main-view-full');
             }
-            
         });
     }
     $scope.active=true;
@@ -280,4 +266,12 @@ angular.module('frontendApp')
         SesionUsuario.CerrarSesion();
     	$state.go('Login');
     }
-  });
+    function scroll(){
+         $("html, body").animate({
+            scrollTop: 0
+        }, 1000); 
+    }
+    angular.element(".side-nav>ul>li").click(function(){
+       scroll();
+    });
+});

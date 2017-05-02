@@ -33,7 +33,6 @@ angular.module('frontendApp')
     $scope.button_title_form = "Registrar Empleado";
     $scope.Empleado={};
     $scope.Empleado.rol=null;
-    $scope.Detallemodal={};
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
@@ -96,19 +95,13 @@ angular.module('frontendApp')
             if($scope.panel_title_form=="Registro de Empleados"){
                 $scope.Empleado._id=data.data.id;
                 $scope.Empleados.push($scope.Empleado);
-                $scope.Detallemodal.titulo='Notificacion de registro';
-                $scope.Detallemodal.mensaje='Empleado registrado correctamente';
             }else{
                 $scope.Empleados[$scope.Empleado.index] = $scope.Empleado;
-                $scope.Detallemodal.titulo='Notificacion de actualización';
-                $scope.Detallemodal.mensaje='Empleado actualizado correctamente';
             }
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de eror';
-            $scope.Detallemodal.mensaje=data.data.message;
-            alert(data.data.message);
+            sweetAlert("Oops...", data.data.message , "error");
         });
-        $('#modalNotificacion').modal('open');
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Empleados.find(function(ele){
@@ -128,14 +121,26 @@ angular.module('frontendApp')
         $('#modalDetalles').modal('open');
     }
     $scope.abrirModal=function(_id){
-        $scope.Detallemodal.id=_id;
-        $scope.Detallemodal.titulo='Confirmar eliminación';
-        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar el empleado?';
-        $('#modalConfirmacion').modal('open');
+        swal({
+            title: "Confirmar Eliminación",
+            text: "¿Esta seguro de borrar el empleado de la base de datos?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Borrar!",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm){
+            if (isConfirm) {
+                Borrar(_id);
+            } else {
+                swal("Cancelado", "El empleado no se borrará", "error");
+            }
+        });
     }
     $scope.Borrar=function(id){
-        $('#modalConfirmacion').modal('close');
-        $scope.Detallemodal={};
         webServer
         .getResource('empleados/'+id,{},'delete')
         .then(function(data){
@@ -144,13 +149,16 @@ angular.module('frontendApp')
                     $scope.Empleados.splice(ele.index,1);
                 }
             });
-            $scope.Detallemodal.mensaje='El empleado se ha eliminado exitosamente';
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.mensaje=data.data.message;
+            sweetAlert("Oops...", data.data.message , "error");
             console.log(data.data.message);
         });
-        $scope.Detallemodal.titulo='Notificacion de eliminación';
-        $('#modalNotificacion').modal('open');
+    }
+    function scroll(){
+         $("html, body").animate({
+            scrollTop: 0
+        }, 1000); 
     }
     $scope.Editar = function(id){
         $scope.Empleado = IdentificarPersona(id,$scope.Empleados);
@@ -163,8 +171,9 @@ angular.module('frontendApp')
         }else if($scope.Empleado.empleado){
             $scope.Empleado.rol='empleado';
         }
-        $scope.panel_title_form = "Edicion de Empleados";
-        $scope.button_title_form = "Editar Empleado";
+        $scope.panel_title_form = "Edicion de Empleado";
+        $scope.button_title_form = "Actualizar Empleado";
+        scroll();
     }
     $scope.CancelarEditar=function(){
         $scope.Empleado={};

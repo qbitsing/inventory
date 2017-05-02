@@ -42,12 +42,10 @@ angular.module('frontendApp')
 	$scope.panel_title_form = "Registro de Productos";
 	$scope.button_title_form = "Registrar Producto";
 	$scope.Producto={};
-    $scope.Detallemodal={};
     $scope.Producto.Insumos=[];
     $scope.Producto.productos=[];
     $scope.Producto.procesos=[];
     $scope.check='producto';
-    $scope.Detallemodal={};
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
@@ -174,15 +172,27 @@ angular.module('frontendApp')
         $scope.Producto.Insumos.splice(index,1);
     }
     $scope.abrirModal=function(_id){
-        $scope.Detallemodal.id=_id;
-        $scope.Detallemodal.titulo='Confirmar eliminación';
-        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar el producto?';
-        $('#modalConfirmacion').modal('open');
+        swal({
+            title: "Confirmar Eliminación",
+            text: "¿Esta seguro de borrar el producto?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Borrar!",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm){
+            if (isConfirm) {
+                Borrar(_id);
+            } else {
+                swal("Cancelado", "El producto no se borrará", "error");
+            }
+        });
     }
     $scope.Borrar=function(id){
-        $('#modalConfirmacion').modal('close');
-        $scope.Detallemodal={};
-         webServer
+        webServer
         .getResource('productos/'+id,{},'delete')
         .then(function(data){
             $scope.Productos.forEach(function(ele, index){
@@ -195,13 +205,10 @@ angular.module('frontendApp')
                     $scope.ProductosSelect.splice(ele.index,1);
                 }
             });
-            $scope.Detallemodal.mensaje='El producto se ha eliminado exitosamente';
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data.data.message);
+            sweetAlert("Oops...", data.data.message , "error");
         });
-        $scope.Detallemodal.titulo='Notificacion de eliminación';
-        $('#modalNotificacion').modal('open');
     }
     $scope.Agregarkit=function(){
         var controlador=false;
@@ -259,12 +266,8 @@ angular.module('frontendApp')
             if($scope.panel_title_form=="Registro de Productos"){
                 $scope.Producto._id=data.data._id;
                 $scope.Productos.push($scope.Producto);
-                $scope.Detallemodal.titulo='Notificacion de registro';
-                $scope.Detallemodal.mensaje='Producto registrado correctamente';
             }else{
                 $scope.Productos[$scope.Producto.index] = $scope.Producto;
-                $scope.Detallemodal.titulo='Notificacion de actualización';
-                $scope.Detallemodal.mensaje='Producto atualizado correctamente';
                 $scope.panel_title_form = "Registro de Productos";
 	            $scope.button_title_form = "Registrar Producto";
             }
@@ -273,12 +276,15 @@ angular.module('frontendApp')
             $scope.Producto.productos=[];
             $scope.Producto.procesos=[];
             $scope.check='producto';
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de eror';
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data);
+            sweetAlert("Oops...", data.data.message , "error");
         });
-        $('#modalNotificacion').modal('open');
+    }
+    function scroll(){
+         $("html, body").animate({
+            scrollTop: 0
+        }, 1000); 
     }
     $scope.Editar = function(id){
         $scope.panel_title_form = "Edicion de Producto";
@@ -289,6 +295,7 @@ angular.module('frontendApp')
         }else{
             $scope.check='producto';
         }
+        scroll();
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Productos.find(function(ele){

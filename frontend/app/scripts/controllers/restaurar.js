@@ -13,9 +13,9 @@ angular.module('frontendApp')
   		webServer
         .getResource('personas/contrasena/',$scope.Usuario,'put')
         .then(function(data){
-            alert('Su contraseña es:'+data.data.pass);
+            sweetAlert("Completado...", "Su contraseña es:"+data.data.pass , "error");
         },function(data){
-            console.log(data);
+            sweetAlert("Oops...", data.data.message , "error");
         });
   	}
   });

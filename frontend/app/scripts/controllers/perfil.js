@@ -90,21 +90,17 @@ angular.module('frontendApp')
             .getResource('personas/'+$scope.Usuario._id , $scope.Usuario , 'put')
             .then(function(data){
                 SesionUsuario.ActualizarSesion($scope.Usuario);
-                $scope.Detallemodal.titulo='Notificacion de actualización';
-                $scope.Detallemodal.mensaje='Operación realizada con exito';
+                sweetAlert("Completado...", data.data.message , "success");
             },function(data){
-                $scope.Detallemodal.titulo='Notificacion de error';
-                $scope.Detallemodal.mensaje=data.data.message;
+                sweetAlert("Oops...", data.data.message , "error");
             });
         }else{
             if(actualizo==1){
-                $scope.Detallemodal.titulo='Notificacion de actualización';
                 $scope.Detallemodal.mensaje='Operación realizada con exito';
             }else{
-                $scope.Detallemodal.titulo='Notificacion de actualización';
                 $scope.Detallemodal.mensaje='No hay ningun dato por actualizar';
             }
+            sweetAlert("Completado...", $scope.Detallemodal.mensaje , "error");
         }
-        $('#modalNotificacion').modal('open');
     }
   });

@@ -33,7 +33,6 @@ angular.module('frontendApp')
     $scope.panel_title_form = "Registro de Salidas";
     $scope.button_title_form = "Registrar salida";
     $scope.Salida={};
-    $scope.Detallemodal={};
     $scope.Salida.orden_venta={};
     $scope.Salida.orden_venta.productos=[];
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Borrar+'</div>';
@@ -69,14 +68,26 @@ angular.module('frontendApp')
         console.log($scope.Salida.orden_venta);
     }
     $scope.abrirModal=function(_id){
-        $scope.Detallemodal.id=_id;
-        $scope.Detallemodal.titulo='Confirmar eliminación';
-        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar esta salida?';
-        $('#modalConfirmacion').modal('open');
+        swal({
+            title: "Confirmar Eliminación",
+            text: "¿Esta seguro de borrar la salida?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Borrar!",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm){
+            if (isConfirm) {
+                Borrar(_id);
+            } else {
+                swal("Cancelado", "La salida no se borrará", "error");
+            }
+        });
     }
     $scope.Borrar=function(id){
-        $('#modalConfirmacion').modal('close');
-        $scope.Detallemodal={};
          webServer
         .getResource('salidas/'+id,{},'delete')
         .then(function(data){
@@ -85,14 +96,9 @@ angular.module('frontendApp')
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
-            $scope.Detallemodal.titulo='Notificacion de eliminación';
-            $scope.Detallemodal.mensaje=data.data.message;
-            $('#modalNotificacion').modal('open');
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de eliminación';
-            $scope.Detallemodal.mensaje=data.data.message;
-            $('#modalNotificacion').modal('open');
-            console.log(data.data.message);
+            sweetAlert("Oops...", data.data.message , "error");
         });
     }
     $scope.EnviarSalida=function(){
@@ -123,14 +129,9 @@ angular.module('frontendApp')
             $scope.Salida={};
             $scope.Salida.orden_venta={};
             $scope.Salida.orden_venta.productos=[];
-            $scope.Detallemodal.titulo='Notificacion de registro';
-            $scope.Detallemodal.mensaje=data.data.message;
-            $('#modalNotificacion').modal('open'); 
+            sweetAlert("Completado...", data.data.message , "success"); 
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de eror';
-            $scope.Detallemodal.mensaje=data.data.message;
-            $('#modalNotificacion').modal('open');
-            console.log(data);
+            sweetAlert("Oops...", data.data.message , "error");
         });
         
     }

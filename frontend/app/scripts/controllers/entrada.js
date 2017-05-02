@@ -33,7 +33,6 @@ angular.module('frontendApp')
     $scope.panel_title_form = "Registro de Entradas";
     $scope.button_title_form = "Registrar Entrada";
     $scope.Entrada={};
-    $scope.Detallemodal={};
     $scope.Entrada.orden_compra=[];
     $scope.Entrada.orden_compra.productos=[];
     $scope.Entrada.orden_compra.materia_prima=[];
@@ -77,15 +76,27 @@ angular.module('frontendApp')
         }
     }
     $scope.abrirModal=function(_id){
-        $scope.Detallemodal.id=_id;
-        $scope.Detallemodal.titulo='Confirmar eliminación';
-        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar la entrada?';
-        $('#modalConfirmacion').modal('open');
+        swal({
+            title: "Confirmar Eliminación",
+            text: "¿Esta seguro de borrar la entrada?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Borrar!",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm){
+            if (isConfirm) {
+                Borrar(_id);
+            } else {
+                swal("Cancelado", "La entrada no se borrará", "error");
+            }
+        });
     }
     $scope.Borrar=function(id){
-        $('#modalConfirmacion').modal('close');
-        $scope.Detallemodal={};
-         webServer
+        webServer
         .getResource('entradas/'+id,{},'delete')
         .then(function(data){
             $scope.Entradas.forEach(function(ele, index){
@@ -93,13 +104,9 @@ angular.module('frontendApp')
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
-            $scope.Detallemodal.mensaje='La entrada se ha eliminado exitosamente';
-            $scope.Detallemodal.titulo='Notificacion de eliminación';
-            $('#modalNotificacion').modal('open');
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.mensaje=data.data.message;
-            $scope.Detallemodal.titulo='Notificacion de eliminación';
-            $('#modalNotificacion').modal('open');
+            sweetAlert("Oops...", data.data.message , "error");
             console.log(data.data.message);
         });
     }
@@ -145,14 +152,11 @@ angular.module('frontendApp')
             $scope.Entrada.orden_compra={};
             $scope.Entrada.orden_compra.productos=[];
             $scope.Entrada.orden_compra.materia_prima=[];
-            $scope.Detallemodal.titulo='Notificacion de registro';
-            $scope.Detallemodal.mensaje='La entrada se ha registrado exitosamente';
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de eror';
-            $scope.Detallemodal.mensaje=data.data.message;
+            sweetAlert("Oops...", data.data.message , "error");
             console.log(data.data.message);
         });
-        $('#modalNotificacion').modal('open');
     }
     function listarOrdenes(){
         webServer

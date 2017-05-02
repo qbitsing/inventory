@@ -150,7 +150,7 @@
 						<div class="row">
 							<div class="col s12 m12 l12">
 								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formProductos.$invalid || ((check=='producto' && Producto.Insumos.length<1) ||(check=='producto' && Producto.procesos.length<1)) || (check=='kit' && Producto.productos.length<1)">{{button_title_form}}</button>
-								<button type="button" class="btn btn-large btn-danger" ng-show="panel_title_form == 'Edicion de Productos'" ng-click="CancelarEditar()">Cancelar</button>
+								<button type="button" class="btn btn-large btn-danger" ng-show="panel_title_form == 'Edicion de Producto'" ng-click="CancelarEditar()">Cancelar</button>
 							</div>
 						</div>						
 						
@@ -287,28 +287,5 @@
 	</div>
     <div class="modal-footer">
       	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Cerrar</a>
-    </div>
-</div>
-<div id="modalNotificacion" class="modal modal-fixed-footer">
-    <div class="modal-content">
-    <h4 class="modal-title">{{Detallemodal.titulo}}</h4>
-    	<div class="row">
-    		<h5>{{Detallemodal.mensaje}}</h5>
-    	</div>
-	</div>
-    <div class="modal-footer">
-      	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Ok</a>
-    </div>
-</div>
-<div id="modalConfirmacion" class="modal modal-fixed-footer">
-    <div class="modal-content">
-    <h4 class="modal-title">{{Detallemodal.titulo}}</h4>
-    	<div class="row">
-    		<h5>{{Detallemodal.mensaje}}</h5>
-    	</div>
-	</div>
-    <div class="modal-footer">
-      	<button type="submit" ng-click="Borrar(Detallemodal.id)" class="modal-action waves-effect waves-green btn-flat">Confirmar</button>
-	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
     </div>
 </div>

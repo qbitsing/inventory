@@ -58,7 +58,6 @@ angular.module('frontendApp')
     $scope.Orden.materia_prima=[];
     $scope.productos=[];
     $scope.materias=[];
-    $scope.Detallemodal={};
     function listarPersonas(){
         webServer
         .getResource('personas',{proveedorproductos:true},'get')
@@ -125,7 +124,7 @@ angular.module('frontendApp')
             if(data.data){
                 $scope.Ordenes=data.data.datos;
                 $scope.gridOptions.data=$scope.Ordenes;
-                $scope.Orden.consecutivo=0;
+                $scope.Orden.consecutivo=999;
                 $scope.Ordenes.forEach(function(ele, index){
                     if(ele.consecutivo>=$scope.Orden.consecutivo){
                         $scope.Orden.consecutivo=ele.consecutivo;
@@ -135,13 +134,13 @@ angular.module('frontendApp')
             }else{
                 $scope.Ordenes=[];
                 $scope.gridOptions.data=$scope.Ordenes;
-                $scope.Orden.consecutivo='1';
+                $scope.Orden.consecutivo=1000;
             }
             listarProductos();
         },function(data){
             $scope.Ordenes=[];
             $scope.gridOptions.data=$scope.Ordenes;
-            $scope.Orden.consecutivo='1';
+            $scope.Orden.consecutivo=1000;
             console.log(data.data.message);
             listarProductos();
         });
@@ -204,15 +203,27 @@ angular.module('frontendApp')
         $scope.Orden.productos.splice(index,1);
     }
     $scope.abrirModal=function(_id){
-        $scope.Detallemodal.id=_id;
-        $scope.Detallemodal.titulo='Confirmar eliminación';
-        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar la orden de compra?';
-        $('#modalConfirmacion').modal('open');
+        swal({
+            title: "Confirmar Eliminación",
+            text: "¿Esta seguro de borrar la orden de compra?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Borrar!",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm){
+            if (isConfirm) {
+                Borrar(_id);
+            } else {
+                swal("Cancelado", "La orden de compra no se borrará", "error");
+            }
+        });
     }
     $scope.Borrar=function(id){
-        $('#modalConfirmacion').modal('close');
-        $scope.Detallemodal={};
-         webServer
+        webServer
         .getResource('orden_compra/'+id,{},'delete')
         .then(function(data){
             $scope.Entradas.forEach(function(ele, index){
@@ -220,13 +231,10 @@ angular.module('frontendApp')
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
-            $scope.Detallemodal.mensaje='La orden de compra se ha eliminado exitosamente';
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data.data.message);
+            sweetAlert("Oops...", data.data.message , "error");
         });
-        $scope.Detallemodal.titulo='Notificacion de eliminación';
-        $('#modalNotificacion').modal('open');
     }
     $scope.EnviarOrden=function(){
         if($scope.Orden.productos.length<1){
@@ -247,6 +255,7 @@ angular.module('frontendApp')
         webServer
         .getResource(ruta,$scope.Orden,metodo)
         .then(function(data){
+            sweetAlert("Completado...", data.data.message , "success");
             $scope.proveedores.forEach(function(ele, index){
                 if(ele._id==$scope.Orden.proveedor._id){
                     $scope.Orden.proveedor=ele;
@@ -255,17 +264,13 @@ angular.module('frontendApp')
             if($scope.panel_title_form=="Registro de Compra"){
                 $scope.Orden._id=data.data.id;
                 $scope.Ordenes.push($scope.Orden);
-                $scope.Detallemodal.titulo='Notificacion de registro';
-                $scope.Detallemodal.mensaje='Orden de compra registrada correctamente';
             }else{
                 $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
-                $scope.Detallemodal.titulo='Notificacion de actualización';
-                $scope.Detallemodal.mensaje='Orden de compra actualizada correctamente';
             }
             $scope.Orden={};
             $scope.Orden.productos=[];
             $scope.Orden.materia_prima=[];
-            $scope.Orden.consecutivo=0;
+            $scope.Orden.consecutivo=999;
             $scope.Ordenes.forEach(function(ele, index){
                 if(ele.consecutivo>=$scope.Orden.consecutivo){
                     $scope.Orden.consecutivo=ele.consecutivo;
@@ -273,15 +278,17 @@ angular.module('frontendApp')
             });
             $scope.Orden.consecutivo=$scope.Orden.consecutivo+1;
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de error';
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data);
+            sweetAlert("Oops...", data.data.message , "error");
         });
-        $('#modalNotificacion').modal('open');
+    }
+    function scroll(){
+         $("html, body").animate({
+            scrollTop: 0
+        }, 1000); 
     }
     $scope.Editar = function(id){
-        $scope.panel_title_form = "Edicion de Compras";
-        $scope.button_title_form = "Editar compra";
+        $scope.panel_title_form = "Edicion de Compra";
+        $scope.button_title_form = "Actualizar compra";
         $scope.Orden=IdentificarOrden(id,$scope.Ordenes);
         if(!$scope.Orden.productos){
             $scope.Orden.productos=[];
@@ -289,6 +296,7 @@ angular.module('frontendApp')
         if(!$scope.Orden.materia_prima){
             $scope.Orden.materia_prima=[];
         }
+        scroll();
     }
     $scope.CancelarEditar=function(){
         $scope.Orden={};
@@ -296,7 +304,7 @@ angular.module('frontendApp')
         $scope.Orden.materia_prima=[];
         $scope.panel_title_form = "Registro de Compra";
         $scope.button_title_form = "Registrar compra";
-        $scope.Orden.consecutivo=0;
+        $scope.Orden.consecutivo=999;
         $scope.Ordenes.forEach(function(ele, index){
             if(ele.consecutivo>=$scope.Orden.consecutivo){
                 $scope.Orden.consecutivo=ele.consecutivo;

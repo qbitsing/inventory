@@ -82,7 +82,7 @@
 						<div class="row">
 						<div class="col s12 m12 l12">
 							<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formMateriaPrima.$invalid || Orden.productos.length<1">{{button_title_form}}</button>
-							<button type="button" class="btn btn-large btn-danger" ng-show="panel_title_form == 'Edicion de Ventas'" ng-click="CancelarEditar()">Cancelar</button>
+							<button type="button" class="btn btn-large btn-danger" ng-show="panel_title_form == 'Edicion de Venta'" ng-click="CancelarEditar()">Cancelar</button>
 						</div>
 							
 						</div>						
@@ -109,72 +109,32 @@
     	<h4 class="modal-title blue accent-4">Venta No. {{Detalle.numero_interno}}</h4>
     	<div class="row">
     		<ul>
-			<li> Numero interno: {{Detalle.numero_interno || 'No registra'}}</li>
-			<li> Cliente: {{Detalle.cliente.nombre || 'No registra'}}</li>
-			<li> Numero de Orden del Cliente: {{Detalle.orden_compra_cliente || 'No registra'}}</li>
-			<li> Fecha de Recepción: {{Detalle.fecha_recepcion || 'No registra'}}</li>
-			<li> Lugar de Entrega: {{Detalle.cliente.nombre || 'No registra'}}</li>
-			<li> Fecha de Entrega: {{Detalle.fecha_entrega || 'No registra'}}</li>
-			<li> Observaciones: {{Detalle.observaciones || 'No registra'}}</li>
-			<li ng-hide="Detalle.productos.length<1"> <h5>Productos:</h5></li>
-			<table class="highlight" ng-hide="Detalle.productos.length<1">
-		        <thead>
-		        	<tr>
-						<th data-field="id">Nombre</th>
-						<th data-field="name">Cantidad</th>
-		          	</tr>
-		        </thead>
-		        <tbody>
-		          	<tr ng-repeat="producto in Detalle.productos">
-			            <td>{{producto.nombre}}</td>
-			            <td>{{producto.cantidad}}</td>
-		          	</tr>
-		        </tbody>
-		    </table>
-		</ul>
+				<li> Numero interno: {{Detalle.numero_interno || 'No registra'}}</li>
+				<li> Cliente: {{Detalle.cliente.nombre || 'No registra'}}</li>
+				<li> Numero de Orden del Cliente: {{Detalle.orden_compra_cliente || 'No registra'}}</li>
+				<li> Fecha de Recepción: {{convertirFecha(Detalle.fecha_recepcion) || 'No registra'}}</li>
+				<li> Lugar de Entrega: {{Detalle.cliente.nombre || 'No registra'}}</li>
+				<li> Fecha de Entrega: {{convertirFecha(Detalle.fecha_entrega) || 'No registra'}}</li>
+				<li> Observaciones: {{Detalle.observaciones || 'No registra'}}</li>
+				<li ng-hide="Detalle.productos.length<1"> <h5>Productos:</h5></li>
+				<table class="highlight" ng-hide="Detalle.productos.length<1">
+			        <thead>
+			        	<tr>
+							<th data-field="id">Nombre</th>
+							<th data-field="name">Cantidad</th>
+			          	</tr>
+			        </thead>
+			        <tbody>
+			          	<tr ng-repeat="producto in Detalle.productos">
+				            <td>{{producto.nombre}}</td>
+				            <td>{{producto.cantidad}}</td>
+			          	</tr>
+			        </tbody>
+			    </table>
+			</ul>
     	</div>
 	</div>
     <div class="modal-footer">
       	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Cerrar</a>
     </div>
 </div>
-<div id="modalNotificacion" class="modal modal-fixed-footer">
-    <div class="modal-content">
-    <h4 class="modal-title">{{Detallemodal.titulo}}</h4>
-    	<div class="row">
-    		<h5>{{Detallemodal.mensaje}}</h5>
-    	</div>
-	</div>
-    <div class="modal-footer">
-      	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Ok</a>
-    </div>
-</div>
-<div id="modalConfirmacion" class="modal modal-fixed-footer">
-    <div class="modal-content">
-    <h4 class="modal-title">{{Detallemodal.titulo}}</h4>
-    	<div class="row">
-    		<h5>{{Detallemodal.mensaje}}</h5>
-    	</div>
-	</div>
-    <div class="modal-footer">
-      	<button type="submit" ng-click="Borrar(Detallemodal.id)" class="modal-action waves-effect waves-green btn-flat">Confirmar</button>
-	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-    </div>
-</div>
-<script type="text/javascript" charset="utf-8">
-	$('.datepicker').pickadate({
-  labelMonthNext: 'Next month',
-  labelMonthPrev: 'Previous month',
-  labelMonthSelect: 'Select a month',
-  labelYearSelect: 'Select a year',
-  monthsFull: [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ],
-  monthsShort: [ 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
-  weekdaysFull: [ 'Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado' ],
-  weekdaysShort: [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab' ],
-  weekdaysLetter: [ 'D', 'L', 'M', 'Mi', 'J', 'V', 'S' ],
-  today: 'Hoy',
-  clear: 'Limpiar',
-  close: 'Cerrar'
-});
-	$('textarea#observaciones').characterCounter();
-</script>
