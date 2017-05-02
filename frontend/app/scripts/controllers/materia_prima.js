@@ -88,22 +88,18 @@ angular.module('frontendApp')
             if($scope.panel_title_form=="Registro de Materia Prima"){
                 $scope.Materia._id=data.data.id;
                 $scope.Materias.push($scope.Materia);
-                $scope.Detallemodal.titulo='Notificación de registro';
-                $scope.Detallemodal.mensaje='Materia prima registrada correctamente';
+                sweetAlert("Completado...", data.data.message , "succeess");
             }else{
                 $scope.Materias[$scope.Materia.index] = $scope.Materia;
-                $scope.Detallemodal.titulo='Notificación de actualización';
-                $scope.Detallemodal.mensaje='Materia prima actualizada correctamente';
+                sweetAlert("Completado...", data.data.message , "succeess");
                 $scope.panel_title_form = "Registro de Materia Prima";
                 $scope.button_title_form = "Registrar Materia Prima";
             }
             $scope.Materia={};
         },function(data){
-            $scope.Detallemodal.titulo='Notificación de error';
-            $scope.Detallemodal.mensaje=data.data.message;
+            sweetAlert("Oops...", data.data.message , "error");
             console.log(data.data.message);
         });
-        $('#modalNotificacion').modal('open');
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Materias.find(function(ele){
@@ -140,13 +136,10 @@ angular.module('frontendApp')
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
-            $scope.Detallemodal.mensaje='La materia prima se ha eliminado exitosamente';
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data.data.message);
+            sweetAlert("Oops...", data.data.message , "error");
         });
-        $scope.Detallemodal.titulo='Notificacion de eliminación';
-        $('#modalNotificacion').modal('open');
     }
     function listarmaterias(){
         webServer

@@ -43,9 +43,7 @@ angular.module('frontendApp')
     $scope.modal_salida.productos=[];
     $scope.Remisiones=[];
     $scope.cancelarentrada={};
-    $scope.cancelarsalida={};
-    $scope.cancelarent=true;
-    $scope.cancelarsal=true;
+    $scope.cancelarsalida={
     /*$('.datepicker').pickadate({
         labelMonthNext: 'Next month',
         labelMonthPrev: 'Previous month',
@@ -152,19 +150,12 @@ angular.module('frontendApp')
                         $scope.Fabricaciones.splice(ele.index,1);
                     }
                 });
-                $scope.Detallemodal.mensaje=data.data.message;
-                $scope.Detallemodal.titulo='Notificación de eliminación';
-                $('#modalNotificacion').modal('open');
+                sweetAlert("Completado...", data.data.message , "success");
             },function(data){
-                $scope.Detallemodal.mensaje=data.data.message;
-                console.log(data.data.message);
-                $scope.Detallemodal.titulo='Notificación de error';
-                $('#modalNotificacion').modal('open');
+                sweetAlert("Oops...", data.data.message , "error");
             });
         }else{
-            $scope.Detallemodal.titulo='Notificación de error';
-            $scope.Detallemodal.mensaje='La fabricación no se puede eliminar porque ya posee productos dentro del inventario';
-            $('#modalNotificacion').modal('open');
+            sweetAlert("Oops...", "La fabricación no se puede eliminar porque ya posee productos dentro del inventario" , "error");
         }   
     }
 
@@ -177,7 +168,6 @@ angular.module('frontendApp')
         }else{
             $scope.check='stock';
         }
-
     }
     
     $scope.CancelarEditar=function(){
@@ -221,10 +211,8 @@ angular.module('frontendApp')
             if($scope.button_title_form='Registrar fabricación'){
                 $scope.fabricacion._id=data.data.id;
                 $scope.Fabricaciones.push($scope.fabricacion);
-                $scope.Detallemodal.titulo='Notificación de registro';
             }else{
                 $scope.Fabricaciones[$scope.fabricacion.index] = $scope.fabricacion;
-                $scope.Detallemodal.titulo='Notificación de actualización';
             }
             $scope.fabricacion={};
             $scope.fabricacion.productos=[];
@@ -238,13 +226,9 @@ angular.module('frontendApp')
                 }
             });
             $scope.fabricacion.consecutivo=$scope.fabricacion.consecutivo+1;
-            $scope.Detallemodal.mensaje=data.data.message;
-            $('#modalNotificacion').modal('open');
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.titulo='Notificación de error';
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data);
-            $('#modalNotificacion').modal('open');
+            sweetAlert("Oops...", data.data.message , "error");
         }); 
     }
     $scope.AgregarProducto=function(){
@@ -325,7 +309,6 @@ angular.module('frontendApp')
             }
         });
         $scope.modal_salida={};
-        $scope.cancelarsal=true;
         $scope.cancelarsalida={};
         $scope.modal_salida.productos=[];
         $scope.modal_salida.consecutivo=999;
@@ -403,39 +386,59 @@ angular.module('frontendApp')
     }
     $scope.abrircancelarremision=function(remision){
         $scope.cancelarsalida=remision;
-        $scope.cancelarsal=false;
-        $scope.cancelarsalida.no_consecutivo=$scope.convertirConsecutivo($scope.cancelarsalida.consecutivo);
+        swal({
+            title: "Cancelar remisión",
+            text: "Por favor ingrese las observaciones:",
+            type: "input",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            animation: "slide-from-top",
+            inputPlaceholder: "Observaciones"
+        },
+        function(inputValue){
+            if (inputValue === false) return false;
+            if (inputValue === "") {
+                swal.showInputError("El campo es requerido");
+                return false
+            }
+            $scope.cancelarsalida.observaciones=inputValue;
+            $scope.cancelarlaremision();
+        });
     }
     $scope.cancelarlaremision=function(){
         var remision=$scope.cancelarsalida;
-        remision.productos.forEach(function(elemento , index){
-            $scope.contenido_fabricacion.productos.forEach(function(ele , i){
-                if(elemento.producto._id == ele._id){
-                    ele.cantidad_disponible=ele.cantidad_disponible+elemento.cantidad;
-                    ele.cantidad_saliente=ele.cantidad_saliente-elemento.cantidad;
-                }
+        if(remision.estado=='Con Entrada'){
+            Materialize.toast( "La remisión no se puede cancelar ya que hay productos que ya ingresaron a inventario" , 4000 );
+        }else{
+            remision.productos.forEach(function(elemento , index){
+                $scope.contenido_fabricacion.productos.forEach(function(ele , i){
+                    if(elemento.producto._id == ele._id){
+                        ele.cantidad_disponible=ele.cantidad_disponible+elemento.cantidad;
+                        ele.cantidad_saliente=ele.cantidad_saliente-elemento.cantidad;
+                    }
+                });
             });
-        });
-        remision.fabricacion=$scope.contenido_fabricacion;
-        webServer
-        .getResource('remision/'+remision._id,remision,'put')
-        .then(function(data){
-           $scope.Remisiones.forEach(function(ele , i){
-                if (ele._id == remision._id) {
-                    ele.estado = 'Cancelada';
-                }
-           });
-           $scope.Fabricaciones.forEach(function(ele , i){
-                if($scope.contenido_fabricacion._id == ele._id){
-                    ele.productos=$scope.contenido_fabricacion.productos;
-                }
+            remision.fabricacion=$scope.contenido_fabricacion;
+            webServer
+            .getResource('remision'+remision._id,remision,'put')
+            .then(function(data){
+               $scope.Remisiones.forEach(function(ele , i){
+                    if (ele._id == remision._id) {
+                        ele.estado = 'Cancelada';
+                    }
+               });
+               $scope.Fabricaciones.forEach(function(ele , i){
+                    if($scope.contenido_fabricacion._id == ele._id){
+                        ele.productos=$scope.contenido_fabricacion.productos;
+                    }
+                });
+                Materialize.toast(data.data.message,4000);
+            }
+            ,function(data){
+                Materialize.toast(data.data.message,4000);
+                console.log(data);
             });
-            Materialize.toast(data.data.message,4000);
         }
-        ,function(data){
-            Materialize.toast(data.data.message,4000);
-            console.log(data);
-        });
     }
 
     $scope.AbrirModalEntrada=function(_id){
@@ -445,7 +448,6 @@ angular.module('frontendApp')
             }
         });
         $scope.modal_entrada={};
-        $scope.cancelarent=true;
         $scope.cancelarentrada={};
         $scope.modal_entrada.productos=[];
         $scope.check_modal_entrada='entrada';
@@ -653,7 +655,7 @@ angular.module('frontendApp')
         }
         entrada.fabricacion=$scope.contenido_fabricacion;
         webServer
-        .getResource('entrada/remision/'+entrada._id,entrada,'put')
+        .getResource('entrada/remision'+entrada._id,entrada,'put')
         .then(function(data){
             if (entrada.remision) {
                 $scope.Remisiones.forEach(function(ele, index){
@@ -674,22 +676,36 @@ angular.module('frontendApp')
             });
             Materialize.toast(data.data.message,4000);
             $scope.cancelarentrada={};
-            $scope.cancelarent=true;
+   
         }
         ,function(data){
             Materialize.toast(data.data.message,4000);
             console.log(data);
             $scope.cancelarentrada={};
-            $scope.cancelarent=true;
+   
         });
     }
     $scope.abrircancelarentrada=function(entrada){
-        $scope.cancelarent=false;
         $scope.cancelarentrada=entrada;
-        $scope.cancelarentrada.no_consecutivo=$scope.convertirConsecutivo($scope.cancelarentrada.consecutivo);
+        swal({
+            title: "Cancelar entrada",
+            text: "Por favor ingrese las observaciones:",
+            type: "input",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            animation: "slide-from-top",
+            inputPlaceholder: "Observaciones"
+        },
+        function(inputValue){
+            if (inputValue === false) return false;
+            if (inputValue === "") {
+                swal.showInputError("El campo es requerido");
+                return false
+            }
+            $scope.cancelarentrada.observaciones=inputValue;
+            $scope.cancelarlaentrada();
+        });
     }
-
-
 
     $scope.AbrirModalMateriaPrima=function(_id){
         $scope.salida_insumos={};
@@ -790,6 +806,73 @@ angular.module('frontendApp')
             $scope.SalidasInsumos.push($scope.salida_insumos);
             $scope.salida_insumos.productos=[];
             $scope.salida_insumos.materia=[];
+            Materialize.toast(data.data.message,4000);
+        }
+        ,function(data){
+            Materialize.toast(data.data.message,4000);
+            console.log(data);
+        });
+    }
+    $scope.abrircancelarsalidainsumos=function(salida){
+        $scope.cancelarsalidainsumos=salida;
+        swal({
+            title: "Cancelar la salida de insumos",
+            text: "Por favor ingrese las observaciones:",
+            type: "input",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            animation: "slide-from-top",
+            inputPlaceholder: "Observaciones"
+        },
+        function(inputValue){
+            if (inputValue === false) return false;
+            if (inputValue === "") {
+                swal.showInputError("El campo es requerido");
+                return false
+            }
+            $scope.cancelarsalidainsumos.observaciones=inputValue;
+            $scope.cancelarlasalidainsumos();
+        });
+    }
+    $scope.cancelarlasalidainsumos=function(){
+        var salida=$scope.cancelarsalidainsumos;
+        if(salida.productos){
+            salida.productos.forEach(function(ele, ind){
+                ele.producto.cantidad=ele.producto.cantidad+ele.cantidad;
+            });
+        }
+        if (salida.materia_prima) {
+            salida.materia_prima.forEach(function(ele, ind){
+                ele.materia.cantidad=ele.materia.cantidad+ele.cantidad;
+            });
+        }
+        salida.fabricacion=$scope.contenido_fabricacion;
+        webServer
+        .getResource('fabricacion/insumos'+salida._id,salida,'put')
+        .then(function(data){
+            $scope.SalidasInsumos.forEach(function(ele , i){
+                if (ele._id == salida._id) {
+                    ele.estado = 'Cancelada';
+                }
+            });
+            if (salida.productos) {
+                $scope.Productos.forEach(function(elemento, index){
+                    salida.productos.forEach(function(ele, ind){
+                        if (elemento._id==ele.producto._id) {
+                            elemento=ele.producto;
+                        }
+                    });
+                });
+            }
+            if (salida.materia_prima) {
+                $scope.Materias.forEach(function(elemento, index){
+                    salida.materia_prima.forEach(function(ele, ind){
+                        if (elemento._id==ele.materia._id) {
+                            elemento=ele.materia;
+                        }
+                    });
+                });
+            }
             Materialize.toast(data.data.message,4000);
         }
         ,function(data){

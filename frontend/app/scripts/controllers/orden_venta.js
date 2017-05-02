@@ -171,14 +171,9 @@ angular.module('frontendApp')
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
-            $scope.Detallemodal.mensaje='La orden de venta se ha eliminado exitosamente';
-            $scope.Detallemodal.titulo='Notificacion de eliminación';
-            $('#modalNotificacion').modal('open');
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data.data.message);
-            $scope.Detallemodal.titulo='Notificacion de eliminación';
-            $('#modalNotificacion').modal('open');
+            sweetAlert("Oops...", data.data.message , "error");
         });
     }
     $scope.EnviarOrden=function(){
@@ -203,12 +198,8 @@ angular.module('frontendApp')
             if($scope.panel_title_form=="Registro de venta"){
                 $scope.Orden._id=data.data.id;
                 $scope.Ordenes.push($scope.Orden);
-                $scope.Detallemodal.titulo='Notificacion de registro';
-                $scope.Detallemodal.mensaje='Orden de compra registrada correctamente';
             }else{
                 $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
-                $scope.Detallemodal.titulo='Notificacion de actualización';
-                $scope.Detallemodal.mensaje='Orden de compra actualizada correctamente';
             }
             $scope.Orden={};
             $scope.Orden.productos=[];
@@ -219,12 +210,9 @@ angular.module('frontendApp')
                 }
             });
             $scope.Orden.consecutivo=$scope.Orden.consecutivo+1;
-            $('#modalNotificacion').modal('open');
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de error';
-            $scope.Detallemodal.mensaje=data.data.message;
-            $('#modalNotificacion').modal('open');
-            console.log(data);
+            sweetAlert("Oops...", data.data.message , "error");
         });
     }
     $scope.Editar = function(id){

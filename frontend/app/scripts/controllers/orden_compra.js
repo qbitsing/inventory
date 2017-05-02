@@ -220,13 +220,10 @@ angular.module('frontendApp')
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
-            $scope.Detallemodal.mensaje='La orden de compra se ha eliminado exitosamente';
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data.data.message);
+            sweetAlert("Oops...", data.data.message , "error");
         });
-        $scope.Detallemodal.titulo='Notificacion de eliminación';
-        $('#modalNotificacion').modal('open');
     }
     $scope.EnviarOrden=function(){
         if($scope.Orden.productos.length<1){
@@ -247,6 +244,7 @@ angular.module('frontendApp')
         webServer
         .getResource(ruta,$scope.Orden,metodo)
         .then(function(data){
+            sweetAlert("Completado...", data.data.message , "success");
             $scope.proveedores.forEach(function(ele, index){
                 if(ele._id==$scope.Orden.proveedor._id){
                     $scope.Orden.proveedor=ele;
@@ -255,12 +253,8 @@ angular.module('frontendApp')
             if($scope.panel_title_form=="Registro de Compra"){
                 $scope.Orden._id=data.data.id;
                 $scope.Ordenes.push($scope.Orden);
-                $scope.Detallemodal.titulo='Notificacion de registro';
-                $scope.Detallemodal.mensaje='Orden de compra registrada correctamente';
             }else{
                 $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
-                $scope.Detallemodal.titulo='Notificacion de actualización';
-                $scope.Detallemodal.mensaje='Orden de compra actualizada correctamente';
             }
             $scope.Orden={};
             $scope.Orden.productos=[];
@@ -273,11 +267,8 @@ angular.module('frontendApp')
             });
             $scope.Orden.consecutivo=$scope.Orden.consecutivo+1;
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de error';
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data);
+            sweetAlert("Oops...", data.data.message , "error");
         });
-        $('#modalNotificacion').modal('open');
     }
     $scope.Editar = function(id){
         $scope.panel_title_form = "Edicion de Compras";

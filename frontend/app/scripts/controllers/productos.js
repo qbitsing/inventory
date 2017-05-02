@@ -195,13 +195,10 @@ angular.module('frontendApp')
                     $scope.ProductosSelect.splice(ele.index,1);
                 }
             });
-            $scope.Detallemodal.mensaje='El producto se ha eliminado exitosamente';
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data.data.message);
+            sweetAlert("Oops...", data.data.message , "error");
         });
-        $scope.Detallemodal.titulo='Notificacion de eliminación';
-        $('#modalNotificacion').modal('open');
     }
     $scope.Agregarkit=function(){
         var controlador=false;
@@ -259,12 +256,8 @@ angular.module('frontendApp')
             if($scope.panel_title_form=="Registro de Productos"){
                 $scope.Producto._id=data.data._id;
                 $scope.Productos.push($scope.Producto);
-                $scope.Detallemodal.titulo='Notificacion de registro';
-                $scope.Detallemodal.mensaje='Producto registrado correctamente';
             }else{
                 $scope.Productos[$scope.Producto.index] = $scope.Producto;
-                $scope.Detallemodal.titulo='Notificacion de actualización';
-                $scope.Detallemodal.mensaje='Producto atualizado correctamente';
                 $scope.panel_title_form = "Registro de Productos";
 	            $scope.button_title_form = "Registrar Producto";
             }
@@ -273,12 +266,10 @@ angular.module('frontendApp')
             $scope.Producto.productos=[];
             $scope.Producto.procesos=[];
             $scope.check='producto';
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de eror';
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data);
+            sweetAlert("Oops...", data.data.message , "error");
         });
-        $('#modalNotificacion').modal('open');
     }
     $scope.Editar = function(id){
         $scope.panel_title_form = "Edicion de Producto";

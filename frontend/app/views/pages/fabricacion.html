@@ -178,17 +178,6 @@
       	<a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
     </div>
 </div>
-<div id="modalNotificacion" class="modal modal-fixed-footer">
-    <div class="modal-content">
-    <h4 class="modal-title">{{Detallemodal.titulo}}</h4>
-    	<div class="row">
-    		<h5>{{Detallemodal.mensaje}}</h5>
-    	</div>
-	</div>
-    <div class="modal-footer">
-      	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Ok</a>
-    </div>
-</div>
 <div id="modalConfirmacion" class="modal modal-fixed-footer">
     <div class="modal-content">
     <h4 class="modal-title">{{Detallemodal.titulo}}</h4>
@@ -320,24 +309,6 @@
 	    		</div>
     		</form>
     	</div>
-    	<div class="row" ng-show="!cancelarsal">
-    		<form name="formEliminarSalida" ng-submit="cancelarlaremision()" >
-    			<div class="row"><h3>Cancelar Salida</h3></div>
-	    		<div class="row">
-	    			<div class="input-field col s12 m6 l6">
-						<input type="text" ng-disabled="true" ng-model="cancelarsalida.no_consecutivo" id="salida_no" name="salida_no" required>
-						<label for="salida_no">Salida No. *</label>
-					</div>
-					<div class="input-field col s12 m6 l6">
-						<textarea id="observaciones" ng-model="cancelarsalida.observaciones" class="materialize-textarea" data-length="120" required></textarea>
-						<label for="observaciones">Observaciones de cancelación *</label>
-					</div>
-	    		</div>
-	    		<div class="row">
-	    			<button type="submit" class="btn btn-success col" ng-disabled="formEliminarSalida.$invalid">Cancelar Salida</button>
-	    		</div>
-    		</form>
-    	</div>
     	<div class="row">
     		<h4>Lista de remisiones</h4>
     		<table class="bordered striped">
@@ -392,7 +363,7 @@
 		    	</tbody>
 	    	</table>
 	    </div>
-	    <div class="row" ng-show="cancelarent">
+	    <div class="row">
 			<p>
 				<input name="tipo" type="radio" ng-model="check_modal_entrada" id="entrada" value="entrada"/>
 				<label for="entrada">Entrada</label>
@@ -400,7 +371,7 @@
 				<label for="remision">Remisión de salida</label>
 		    </p>
 		</div>
-		<div class="row" ng-show="check_modal_entrada=='remision'" ng-show="cancelarent">
+		<div class="row" ng-show="check_modal_entrada=='remision'">
 			<div class="input-field col s12 m6 l6">
 				<select ng-model="modal_entrada.carga_remision" material-select watch>
 					<option ng-if="remision.fabricacion._id==contenido_fabricacion._id && (remision.estado!='Completada' || remision.estado!='Cancelada')" ng-repeat="remision in Remisiones" value="{{remision}}">{{convertirConsecutivo(remision.consecutivo)}}-{{remision.proceso.nombre}}</option>
@@ -409,7 +380,7 @@
 			</div>
 			<button type="button" ng-click="cargarRemision()" class="btn btn-success col s4 m2 l2" ng-disabled="!modal_entrada.carga_remision">Cargar</button>
 		</div>
-    	<div class="row" ng-show="cancelarent">
+    	<div class="row">
     		<form name="formEntrada" ng-submit="enviarEntrada()">
     			<div class="row" ng-show="check_modal_entrada!='remision'">
 					<div class="input-field col s12 m6 l6">
@@ -454,7 +425,7 @@
 	    		</div>
     		</form>
     	</div>
-    	<div class="row" ng-show="!cancelarent">
+    	<div class="row">
     		<form name="formEliminarEntrda" ng-submit="cancelarlaentrada()" >
     			<div class="row"><h3>Cancelar Entrada</h3></div>
 	    		<div class="row">
@@ -572,24 +543,6 @@
 	    		</div>
     		</form>
     	</div>
-    	<div class="row" ng-show="!cancelarsal">
-    		<form name="formEliminarSalida" ng-submit="cancelarlasalidainsumo()" >
-    			<div class="row"><h3>Cancelar Salida</h3></div>
-	    		<div class="row">
-	    			<div class="input-field col s12 m6 l6">
-						<input type="text" ng-disabled="true" ng-model="cancelarsalida.no_consecutivo" id="salida_no" name="salida_no" required>
-						<label for="salida_no">Salida No. *</label>
-					</div>
-					<div class="input-field col s12 m6 l6">
-						<textarea id="observaciones" ng-model="cancelarsalida.observaciones" class="materialize-textarea" data-length="120" required></textarea>
-						<label for="observaciones">Observaciones de cancelación *</label>
-					</div>
-	    		</div>
-	    		<div class="row">
-	    			<button type="submit" class="btn btn-success col" ng-disabled="formEliminarSalida.$invalid">Cancelar Salida</button>
-	    		</div>
-    		</form>
-    	</div>
     	<div class="row">
     		<h4>Lista de salidas</h4>
     		<table class="bordered striped">
@@ -606,7 +559,7 @@
 	    			<td ng-hide="salida.productos">No registra</td>
 	    			<td ng-show="salida.materia_prima"><li ng-repeat="res in salida.materia_prima">{{res.producto.nombre}} - {{res.cantidad}}</li></td>
 	    			<td ng-hide="salida.materia_prima">No registra</td>
-    				<td ng-if="salida.estado!='Cancelada'"><button type="button" ng-click="cancelarsalidainsumos(salida)">Cancelar</button></td>
+    				<td ng-if="salida.estado!='Cancelada'"><button type="button" ng-click="abrircancelarsalidainsumos(salida)">Cancelar</button></td>
     				<td ng-if="salida.estado=='Cancelada'" class="danger-text">Salida cancelada</td>
     			</tr>
     		</tbody>

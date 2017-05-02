@@ -85,14 +85,9 @@ angular.module('frontendApp')
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
-            $scope.Detallemodal.titulo='Notificacion de eliminación';
-            $scope.Detallemodal.mensaje=data.data.message;
-            $('#modalNotificacion').modal('open');
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de eliminación';
-            $scope.Detallemodal.mensaje=data.data.message;
-            $('#modalNotificacion').modal('open');
-            console.log(data.data.message);
+            sweetAlert("Oops...", data.data.message , "error");
         });
     }
     $scope.EnviarSalida=function(){
@@ -123,14 +118,9 @@ angular.module('frontendApp')
             $scope.Salida={};
             $scope.Salida.orden_venta={};
             $scope.Salida.orden_venta.productos=[];
-            $scope.Detallemodal.titulo='Notificacion de registro';
-            $scope.Detallemodal.mensaje=data.data.message;
-            $('#modalNotificacion').modal('open'); 
+            sweetAlert("Completado...", data.data.message , "success"); 
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de eror';
-            $scope.Detallemodal.mensaje=data.data.message;
-            $('#modalNotificacion').modal('open');
-            console.log(data);
+            sweetAlert("Oops...", data.data.message , "error");
         });
         
     }

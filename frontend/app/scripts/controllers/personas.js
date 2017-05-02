@@ -89,20 +89,15 @@ angular.module('frontendApp')
             if($scope.panel_title_form=="Registro de clientes y proveedores"){
                 $scope.Persona._id=data.data.id;
                 $scope.Personas.push($scope.Persona);
-                $scope.Detallemodal.titulo='Notificacion de registro';
-                $scope.Detallemodal.mensaje='Persona registrada correctamente';
             }else{
                 $scope.Personas[$scope.Persona.index] = $scope.Persona;
-                $scope.Detallemodal.titulo='Notificacion de actualización';
-                $scope.Detallemodal.mensaje='Persona actualizada correctamente';
             }
             $scope.Persona={};
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de error';
-            $scope.Detallemodal.mensaje=data.data.message;
+            sweetAlert("Oops...", data.data.message , "error");
             console.log(data);
         });
-        $('#modalNotificacion').modal('open');
     }
     $scope.abrirModal=function(_id){
         $scope.Detallemodal.id=_id;
@@ -121,13 +116,10 @@ angular.module('frontendApp')
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
-            $scope.Detallemodal.mensaje='La persona se ha eliminado exitosamente';
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data.data.message);
+            sweetAlert("Oops...", data.data.message , "error");
         });
-        $scope.Detallemodal.titulo='Notificacion de eliminación';
-        $('#modalNotificacion').modal('open');
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Personas.find(function(ele){

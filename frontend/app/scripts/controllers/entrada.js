@@ -93,13 +93,9 @@ angular.module('frontendApp')
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
-            $scope.Detallemodal.mensaje='La entrada se ha eliminado exitosamente';
-            $scope.Detallemodal.titulo='Notificacion de eliminación';
-            $('#modalNotificacion').modal('open');
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.mensaje=data.data.message;
-            $scope.Detallemodal.titulo='Notificacion de eliminación';
-            $('#modalNotificacion').modal('open');
+            sweetAlert("Oops...", data.data.message , "error");
             console.log(data.data.message);
         });
     }
@@ -145,14 +141,11 @@ angular.module('frontendApp')
             $scope.Entrada.orden_compra={};
             $scope.Entrada.orden_compra.productos=[];
             $scope.Entrada.orden_compra.materia_prima=[];
-            $scope.Detallemodal.titulo='Notificacion de registro';
-            $scope.Detallemodal.mensaje='La entrada se ha registrado exitosamente';
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de eror';
-            $scope.Detallemodal.mensaje=data.data.message;
+            sweetAlert("Oops...", data.data.message , "error");
             console.log(data.data.message);
         });
-        $('#modalNotificacion').modal('open');
     }
     function listarOrdenes(){
         webServer

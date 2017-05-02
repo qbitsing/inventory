@@ -96,19 +96,13 @@ angular.module('frontendApp')
             if($scope.panel_title_form=="Registro de Empleados"){
                 $scope.Empleado._id=data.data.id;
                 $scope.Empleados.push($scope.Empleado);
-                $scope.Detallemodal.titulo='Notificacion de registro';
-                $scope.Detallemodal.mensaje='Empleado registrado correctamente';
             }else{
                 $scope.Empleados[$scope.Empleado.index] = $scope.Empleado;
-                $scope.Detallemodal.titulo='Notificacion de actualización';
-                $scope.Detallemodal.mensaje='Empleado actualizado correctamente';
             }
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de eror';
-            $scope.Detallemodal.mensaje=data.data.message;
-            alert(data.data.message);
+            sweetAlert("Oops...", data.data.message , "error");
         });
-        $('#modalNotificacion').modal('open');
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Empleados.find(function(ele){
@@ -144,13 +138,11 @@ angular.module('frontendApp')
                     $scope.Empleados.splice(ele.index,1);
                 }
             });
-            $scope.Detallemodal.mensaje='El empleado se ha eliminado exitosamente';
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.mensaje=data.data.message;
+            sweetAlert("Oops...", data.data.message , "error");
             console.log(data.data.message);
         });
-        $scope.Detallemodal.titulo='Notificacion de eliminación';
-        $('#modalNotificacion').modal('open');
     }
     $scope.Editar = function(id){
         $scope.Empleado = IdentificarPersona(id,$scope.Empleados);
