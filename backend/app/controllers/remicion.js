@@ -6,7 +6,7 @@ const fabricacionModel = require('../models/fabricacion');
 
 let listarAll = co.wrap(function * (req, res) {
   try {
-    let remiciones = yield remicionModel.find({});
+    let remiciones = yield remicionModel.find({}, null, {short: {fecha_solicitud: -1}});
 
     if(remiciones.length < 1){
       return res.status(404).send({

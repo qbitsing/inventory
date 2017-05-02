@@ -182,6 +182,18 @@ app.get('/entrada/remision/:id' , controllers.entradaRemision.listarById);
 
 app.put('/entrada/remision/:id' , controllers.entradaRemision.eliminar);
 //Fin BLoque de Rutas Entradas de Remicion
+
+//Bloque de Rutas de Salidas de Fabricacion
+
+app.post('/fabricacion/insumos', controllers.salidasFabricacion.crear);
+
+app.get('/fabricacion/insumos', controllers.salidasFabricacion.listarAll);
+
+app.put('/fabricacion/insumos', controllers.salidasFabricacion.eliminar);
+
+
+//Fin Bloque de Rutas de Salidas de Fabricacion
+
 mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
   if(err){
     return console.log(`ERROR al conectar con la BD: ${err}`);

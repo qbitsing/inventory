@@ -3,7 +3,7 @@
 const unidadModel = require('../models/unidades');
 
 function listarAll (req, res){
-	unidadModel.find({} , (err , datos , count)=>{
+	unidadModel.find({} ,null, {short: {nombre: 1}}, (err , datos , count)=>{
         if(err) {
             return res.status(500).send({
                 message : `ERROR al obtener la lista de unidades ${err}`

@@ -9,7 +9,7 @@ const co = require('co');
 
 let listarAll = co.wrap(function * (req, res){
     try {
-        let datos = yield entradaModel.find({});
+        let datos = yield entradaModel.find({},null, {sort: {fecha: -1}} );
         if(datos.length < 1){
             return res.status(404).send({
                 message : 'No hay entradas registradas en la base de datos'

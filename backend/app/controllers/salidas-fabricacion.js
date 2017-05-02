@@ -9,7 +9,7 @@ const salidaModel = require('../models/salidas-fabricacion.js');
 
 let listarAll = co.wrap(function * (req, res){
     try {
-        let datos = yield salidaModel.find({});
+        let datos = yield salidaModel.find({},null, {short: {fecha: -1}});
 
         if(datos.length < 1){
             return res.status(404).send({

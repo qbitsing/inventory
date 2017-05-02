@@ -9,7 +9,7 @@ const co = require('co');
 
 let listarAll = co.wrap(function * (req, res){
   try {
-    let datos = yield fabricacionModel.find({});
+    let datos = yield fabricacionModel.find({},null, {sort: {fecha_solicitud: -1}} );
     if(datos.length > 0){
       return res.status(200).send({
         datos

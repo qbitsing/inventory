@@ -6,7 +6,7 @@ const productoModel = require('../models/productos');
 const materiaPrimaModel = require('../models/materia-prima');
 
 function listarAll(req, res){
-    ordenCompraModel.find({}, (err , ordenStored)=>{
+    ordenCompraModel.find({},null, {sort: {fecha: -1}} , (err , ordenStored)=>{
         if(err){
             return res.status(500).send({
                 message: `ERROR al intentar obtener la lista de ordenes de compra ${err}`

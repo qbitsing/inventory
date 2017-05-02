@@ -3,7 +3,7 @@
 const ciudadModel = require('../models/ciudades');
 
 function listarAll (req, res){
-	ciudadModel.find({} , (err , datos , count)=>{
+	ciudadModel.find({}, null, {sort: {nombre: 1}}  , (err , datos , count)=>{
         if(err) {
             return res.status(500).send({
                 message : `ERROR al obtener la lista de ciudades ${err}`
