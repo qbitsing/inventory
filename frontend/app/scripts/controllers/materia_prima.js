@@ -87,13 +87,12 @@ angular.module('frontendApp')
             if($scope.panel_title_form=="Registro de Materia Prima"){
                 $scope.Materia._id=data.data.id;
                 $scope.Materias.push($scope.Materia);
-                sweetAlert("Completado...", data.data.message , "succeess");
             }else{
                 $scope.Materias[$scope.Materia.index] = $scope.Materia;
-                sweetAlert("Completado...", data.data.message , "succeess");
                 $scope.panel_title_form = "Registro de Materia Prima";
                 $scope.button_title_form = "Registrar Materia Prima";
             }
+            sweetAlert("Completado...", data.data.message , "success");
             $scope.Materia={};
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");

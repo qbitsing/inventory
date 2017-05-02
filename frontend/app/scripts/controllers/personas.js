@@ -93,6 +93,8 @@ angular.module('frontendApp')
             }
             $scope.Persona={};
             sweetAlert("Completado...", data.data.message , "success");
+            $scope.panel_title_form = "Registro de clientes y proveedores";
+            $scope.button_title_form = "Registrar Persona";
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");
             console.log(data);

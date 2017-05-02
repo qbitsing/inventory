@@ -98,7 +98,11 @@ angular.module('frontendApp')
             }else{
                 $scope.Empleados[$scope.Empleado.index] = $scope.Empleado;
             }
+            $scope.Empleado ={};
             sweetAlert("Completado...", data.data.message , "success");
+            $scope.panel_title_form = "Registro de Empleados";
+            $scope.button_title_form = "Registrar Empleado";
+
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");
         });
