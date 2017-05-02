@@ -15,13 +15,6 @@ const entradaRemisionSchema = new Schema({
     typeRemision: {type: Boolean, default: false}
 });
 
-entradaRemisionSchema.plugin(autoIncrement.plugin, {
-    model: 'entradaremision',
-    field: 'consecutivo',
-    startAt: 1000,
-    incrementBy: 1
-});
-
 module.exports = mongoose.model('entradaremision', entradaRemisionSchema);
 
 

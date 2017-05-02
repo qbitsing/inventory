@@ -73,7 +73,7 @@ let crear = co.wrap(function * (req, res){
 
         return res.status(200).send({
             message: 'Entrada registrada con exito',
-            datos
+            id : datos._id
         });
 
     } catch (e) {
@@ -105,7 +105,7 @@ let eliminar = co.wrap(function * (req, res){
         yield entradaModel.findByIdAndUpdate(entrada._id , {estado: 'Cancelada', asunto: req.body.asunto});
 
         return res.status(200).send({
-            message: 'Entrada Eliminada con Exito'
+            message: 'Entrada cancelada con Exito'
         });
     } catch (e) {
         return res.status(500).send({

@@ -107,6 +107,9 @@ function actualizar(req, res){
                 pasoDos();
             });
         }else pasoDos();
+
+    }
+    function pasoDos(){
         var ordenId = req.params.id;
         ordenCompraModel.findByIdAndUpdate(ordenId, req.body , (err , ordenStored)=>{
             if(err){
@@ -118,7 +121,7 @@ function actualizar(req, res){
             return res.status(200).send({
                 datos: ordenStored
             });
-        })
+        });
     }
 }
 
