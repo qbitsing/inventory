@@ -14,17 +14,16 @@ angular.module('frontendApp')
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
-                dismissible: true, // Modal can be dismissed by clicking outside of the modal
-                opacity: 0, // Opacity of modal background
-                inDuration: 300, // Transition in duration
-                outDuration: 200, // Transition out duration
-                startingTop: '10%', // Starting top style attribute
-                endingTop: '15%', // Ending top style attribute,
-                ready: function(modal, trigger) {
-                },
-                complete: function() {  } // Callback for Modal close
-            }
-        );
+            dismissible: true, // Modal can be dismissed by clicking outside of the modal
+            opacity: 0, // Opacity of modal background
+            inDuration: 300, // Transition in duration
+            outDuration: 200, // Transition out duration
+            startingTop: '10%', // Starting top style attribute
+            endingTop: '15%', // Ending top style attribute,
+            ready: function(modal, trigger) {
+            },
+            complete: function() {  } // Callback for Modal close
+        });
     });
 	$timeout(function () {
 		$scope.pageAnimate='pageAnimate';
@@ -111,13 +110,22 @@ angular.module('frontendApp')
         $scope.fabricacion.productos.splice(index,1);
     }
     $scope.abrirModalCrear=function(){
+        var titulo="";
+        var boton="";
+        if ($scope.button_title_form=='Registrar fabricación') {
+            titulo="Confirmar Registro";
+            boton="Si, Registrar!";
+        }else{
+            titulo="Confirmar Cambios";
+            boton="Si, Actualizar!";
+        }
         swal({
-            title: "Confirmar Registro",
+            title: titulo,
             text: "¿Esta seguro que ha suministrado los responsables de los procesos y desea registrar la fabricación?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Si, Registrar!",
+            confirmButtonText: boton,
             cancelButtonText: "No, Cancelar!",
             closeOnConfirm: false,
             closeOnCancel: false
@@ -133,7 +141,7 @@ angular.module('frontendApp')
     $scope.abrirModal=function(_id){
         swal({
             title: "Confirmar Eliminación",
-            text: "¿Esta seguro de borrar la fabricacion?",
+            text: "¿Esta seguro de borrar la fabricación?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
@@ -178,8 +186,8 @@ angular.module('frontendApp')
     }
 
     $scope.Editar = function(id){
-        $scope.panel_title_form = "Edicion de Fabricaciones";
-        $scope.button_title_form = "Editar Fabricación";
+        $scope.panel_title_form = "Edicion de Fabricación";
+        $scope.button_title_form = "Actualizar Fabricación";
         $scope.fabricacion = IdentificarFabricacion(id,$scope.Fabricaciones);
         if ($scope.fabricacion.orden_venta) {
             $scope.check='orden';
@@ -245,6 +253,8 @@ angular.module('frontendApp')
             });
             $scope.fabricacion.consecutivo=$scope.fabricacion.consecutivo+1;
             sweetAlert("Completado...", data.data.message , "success");
+            $scope.panel_title_form = "Registro de Fabricacion";
+            $scope.button_title_form = "Registrar fabricación";
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");
         }); 

@@ -12,17 +12,16 @@ angular.module('frontendApp')
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
-                dismissible: true, // Modal can be dismissed by clicking outside of the modal
-                opacity: 0, // Opacity of modal background
-                inDuration: 300, // Transition in duration
-                outDuration: 200, // Transition out duration
-                startingTop: '10%', // Starting top style attribute
-                endingTop: '15%', // Ending top style attribute
-                ready: function(modal, trigger) {
-                },
-                complete: function() {  } // Callback for Modal close
-            }
-        );
+            dismissible: true, // Modal can be dismissed by clicking outside of the modal
+            opacity: 0, // Opacity of modal background
+            inDuration: 300, // Transition in duration
+            outDuration: 200, // Transition out duration
+            startingTop: '10%', // Starting top style attribute
+            endingTop: '15%', // Ending top style attribute
+            ready: function(modal, trigger) {
+            },
+            complete: function() {  } // Callback for Modal close
+        });
     });
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';  
@@ -87,13 +86,12 @@ angular.module('frontendApp')
             if($scope.panel_title_form=="Registro de Materia Prima"){
                 $scope.Materia._id=data.data.id;
                 $scope.Materias.push($scope.Materia);
-                sweetAlert("Completado...", data.data.message , "succeess");
             }else{
                 $scope.Materias[$scope.Materia.index] = $scope.Materia;
-                sweetAlert("Completado...", data.data.message , "succeess");
                 $scope.panel_title_form = "Registro de Materia Prima";
                 $scope.button_title_form = "Registrar Materia Prima";
             }
+            sweetAlert("Completado...", data.data.message , "success");
             $scope.Materia={};
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");

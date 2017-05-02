@@ -12,17 +12,16 @@ angular.module('frontendApp')
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
-                dismissible: true, // Modal can be dismissed by clicking outside of the modal
-                opacity: 0, // Opacity of modal background
-                inDuration: 300, // Transition in duration
-                outDuration: 200, // Transition out duration
-                startingTop: '10%', // Starting top style attribute
-                endingTop: '15%', // Ending top style attribute
-                ready: function(modal, trigger) {
-                },
-                complete: function() {  } // Callback for Modal close
-            }
-        );
+            dismissible: true, // Modal can be dismissed by clicking outside of the modal
+            opacity: 0, // Opacity of modal background
+            inDuration: 300, // Transition in duration
+            outDuration: 200, // Transition out duration
+            startingTop: '10%', // Starting top style attribute
+            endingTop: '15%', // Ending top style attribute
+            ready: function(modal, trigger) {
+            },
+            complete: function() {  } // Callback for Modal close
+        });
     });
     $scope.panelAnimate='';
     $scope.pageAnimate='';  
@@ -93,6 +92,8 @@ angular.module('frontendApp')
             }
             $scope.Persona={};
             sweetAlert("Completado...", data.data.message , "success");
+            $scope.panel_title_form = "Registro de clientes y proveedores";
+            $scope.button_title_form = "Registrar Persona";
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");
             console.log(data);
