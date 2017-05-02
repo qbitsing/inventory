@@ -280,9 +280,14 @@ angular.module('frontendApp')
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
+    function scroll(){
+         $("html, body").animate({
+            scrollTop: 0
+        }, 1000); 
+    }
     $scope.Editar = function(id){
-        $scope.panel_title_form = "Edicion de Compras";
-        $scope.button_title_form = "Editar compra";
+        $scope.panel_title_form = "Edicion de Compra";
+        $scope.button_title_form = "Actualizar compra";
         $scope.Orden=IdentificarOrden(id,$scope.Ordenes);
         if(!$scope.Orden.productos){
             $scope.Orden.productos=[];
@@ -290,6 +295,7 @@ angular.module('frontendApp')
         if(!$scope.Orden.materia_prima){
             $scope.Orden.materia_prima=[];
         }
+        scroll();
     }
     $scope.CancelarEditar=function(){
         $scope.Orden={};

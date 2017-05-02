@@ -201,6 +201,7 @@ angular.module('frontendApp')
         webServer
         .getResource(ruta,$scope.Orden,metodo)
         .then(function(data){
+            console.log(data.data);
             $scope.clientes.forEach(function(ele, index){
                 if(ele._id==$scope.Orden.cliente._id){
                     $scope.Orden.cliente=ele;
@@ -222,17 +223,26 @@ angular.module('frontendApp')
             });
             $scope.Orden.consecutivo=$scope.Orden.consecutivo+1;
             sweetAlert("Completado...", data.data.message , "success");
+            $scope.panel_title_form = "Registro de venta";
+            $scope.button_title_form = "Registrar venta";
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
+    function scroll(){
+         $("html, body").animate({
+            scrollTop: 0
+        }, 1000); 
+    }
     $scope.Editar = function(id){
-        $scope.panel_title_form = "Edicion de Ventas";
-        $scope.button_title_form = "Editar Venta";
+        $scope.panel_title_form = "Edicion de Venta";
+        $scope.button_title_form = "Actualizar Venta";
         $scope.Orden=IdentificarOrden(id,$scope.Ordenes);
         if(!$scope.Orden.productos){
             $scope.Orden.productos=[];
         }
+        scroll();
+
     }
     $scope.CancelarEditar=function(){
         $scope.Orden={};
@@ -263,6 +273,7 @@ angular.module('frontendApp')
                     cliente : ele.cliente,
                     productos : ele.productos,
                     observaciones : ele.observaciones,
+                    orden_compra_cliente: ele.orden_compra_cliente,
                     fecha_recepcion : new Date (Date.parse(ele.fecha_recepcion)),
                     fecha_entrega : new Date (Date.parse(ele.fecha_entrega)),
                     lugar_entrega : ele.lugar_entrega
