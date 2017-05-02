@@ -190,7 +190,7 @@ angular.module('frontendApp')
             }
         });
     }
-    $scope.Borrar=function(id){
+   function Borrar(id){
         webServer
         .getResource('productos/'+id,{},'delete')
         .then(function(data){
