@@ -210,6 +210,7 @@ angular.module('frontendApp')
         .then(function(data){
             if(data.data.datos){
                 $scope.Departamentos=data.data.datos;
+                $scope.Persona.departamento = $scope.Departamentos[0]._id;
             }else{
                 $scope.Departamentos=[];
             }
