@@ -177,8 +177,8 @@ angular.module('frontendApp')
     }
 
     $scope.Editar = function(id){
-        $scope.panel_title_form = "Edicion de Fabricaciones";
-        $scope.button_title_form = "Editar Fabricación";
+        $scope.panel_title_form = "Edicion de Fabricacion";
+        $scope.button_title_form = "Actualizar Fabricación";
         $scope.fabricacion = IdentificarFabricacion(id,$scope.Fabricaciones);
         if ($scope.fabricacion.orden_venta) {
             $scope.check='orden';
@@ -244,6 +244,8 @@ angular.module('frontendApp')
             });
             $scope.fabricacion.consecutivo=$scope.fabricacion.consecutivo+1;
             sweetAlert("Completado...", data.data.message , "success");
+            $scope.panel_title_form = "Registro de Fabricacion";
+            $scope.button_title_form = "Registrar fabricación";
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");
         }); 
