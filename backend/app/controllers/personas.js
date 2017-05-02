@@ -79,6 +79,7 @@ function crear (req, res) {
 	}
 	function insertar(){
 		req.body.ciudad = ciudad;
+		
 		var persona = new personaModel(req.body);
 		persona.save((err, personaStored)=>{
 			if(err){
