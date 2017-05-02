@@ -110,13 +110,22 @@ angular.module('frontendApp')
         $scope.fabricacion.productos.splice(index,1);
     }
     $scope.abrirModalCrear=function(){
+        var titulo="";
+        var boton="";
+        if ($scope.button_title_form=='Registrar fabricación') {
+            titulo="Confirmar Registro";
+            boton="Si, Registrar!";
+        }else{
+            titulo="Confirmar Cambios";
+            boton="Si, Actualizar!";
+        }
         swal({
-            title: "Confirmar Registro",
+            title: titulo,
             text: "¿Esta seguro que ha suministrado los responsables de los procesos y desea registrar la fabricación?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Si, Registrar!",
+            confirmButtonText: boton,
             cancelButtonText: "No, Cancelar!",
             closeOnConfirm: false,
             closeOnCancel: false
