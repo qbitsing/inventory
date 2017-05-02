@@ -395,11 +395,10 @@ angular.module('frontendApp')
                 }
             });
             $scope.modal_salida.consecutivo=$scope.modal_salida.consecutivo+1;
-            Materialize.toast(data.data.message,4000);
+            sweetAlert("Completado...", data.data.message , "success");
         }
         ,function(data){
-            Materialize.toast(data.data.message,4000);
-            console.log(data);
+            sweetAlert("Oops...", data.data.message , "error");
         });
     }
     $scope.abrircancelarremision=function(remision){
@@ -454,7 +453,6 @@ angular.module('frontendApp')
             }
             ,function(data){
                 swal("Oops...", data.data.message , "error");
-                console.log(data);
             });
         }
     }
@@ -618,7 +616,6 @@ angular.module('frontendApp')
         }
         ,function(data){
             sweetAlert("Oops...", data.data.message , "error");
-            console.log(data);
         });
     }
     $scope.cancelarlaentrada=function(){
@@ -697,7 +694,6 @@ angular.module('frontendApp')
         }
         ,function(data){
             swal("Oops...", data.data.message , "error");
-            console.log(data);
             $scope.cancelarentrada={};
         });
     }
@@ -822,11 +818,10 @@ angular.module('frontendApp')
             $scope.SalidasInsumos.push($scope.salida_insumos);
             $scope.salida_insumos.productos=[];
             $scope.salida_insumos.materia=[];
-            Materialize.toast(data.data.message,4000);
+            sweetAlert("Completado...", data.data.message , "success");
         }
         ,function(data){
-            Materialize.toast(data.data.message,4000);
-            console.log(data);
+            sweetAlert("Oops...", data.data.message , "error");
         });
     }
     $scope.abrircancelarsalidainsumos=function(salida){
@@ -893,7 +888,6 @@ angular.module('frontendApp')
         }
         ,function(data){
             swal("Oops...", data.data.message , "error");
-            console.log(data);
         });
     }
     $scope.convertirFecha = function(fecha){
@@ -1023,7 +1017,6 @@ angular.module('frontendApp')
             listarProductos();
         },function(data){
             $scope.personas = [];
-            console.log(data);
             listarProductos();
         });
     }
