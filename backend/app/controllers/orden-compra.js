@@ -9,8 +9,17 @@ const co = require('co');
 
 let listarAll = co.wrap(function * (req, res){
     try {
-        let datos = yield ordenCompraModel.find({}, null, {sort: {fecha: -1}});
+        let query = req.query;
+        let condiciones = [];
+        query.Activo ? condiciones.push({estado: 'Activo'}) : null;
+        query.Finalizado ? condiciones.push({estado: 'Finalizado'}) : null;
+        query.Entradas ? condiciones.push({estado: 'Con Entradas'}) : null;
 
+        let datos = [];
+
+        //if(query.Activo || query.Finalizado || query.Entradas)        
+        //    datos = yield ordenCompraModel.find({$or: condiciones}, null, {sort: {fecha: -1}});
+        datos = yield ordenCompraModel.find({}, null, {sort: {fecha: -1}});
         if(datos.length < 1) {
             return res.status(404).send({
                 message: `ERROR no hay ordenes de compra registradas`
