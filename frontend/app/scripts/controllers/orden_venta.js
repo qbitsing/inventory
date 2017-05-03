@@ -173,13 +173,13 @@ angular.module('frontendApp')
             }
         });
     }
-    $scope.Borrar=function(id){
-         webServer
+    function Borrar(id){
+        webServer
         .getResource('orden_venta/'+id,{},'delete')
         .then(function(data){
-            $scope.Entradas.forEach(function(ele, index){
+            $scope.Ordenes.forEach(function(ele, index){
                 if(ele._id==id){
-                    $scope.Entradas.splice(ele.index,1);
+                    $scope.Ordenes.splice(ele.index,1);
                 }
             });
             sweetAlert("Completado...", data.data.message , "success");
