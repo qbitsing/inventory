@@ -53,7 +53,7 @@ let crear = co.wrap(function * (req, res){
     try {
         let proveedor;
         if(req.body.proveedor){
-            let proveedor = yield proveedorModel.findById(req.body.proveedor._id);
+            proveedor = yield proveedorModel.findById(req.body.proveedor._id);
 
             if(!proveedor){
                 return res.status(404).send({
@@ -70,8 +70,7 @@ let crear = co.wrap(function * (req, res){
 
         return res.status(200).send({
             message: 'Orden de Compra registrada con exito',
-            id: datos._id,
-            datos
+            id: datos._id
         });
 
 
@@ -82,59 +81,48 @@ let crear = co.wrap(function * (req, res){
     }
 });
 
-function actualizar(req, res){
-    pasoUno();
-    function pasoUno(){
+let actualizar = co.wrap(function * (req, res){
+    try {
+        let ordenId = req.params.id;
+
+        let proveedor;
         if(req.body.proveedor){
-            proveedorModel.findById(req.body.proveedor._id , (err, proveedorStrored)=>{
-                if(err){
-                    return res.status(500).send({
-                        message : `ERROR al obtener el proveedor ${err}`
-                    });
-                }
+            proveedor = yield proveedorModel.findById(req.body.proveedor._id);
 
-                if(!proveedorStrored){
-                    return res.status(404).send({
-                        message : `ERROR el proveedor indicado no s encuentra en la base de datos`
-                    });
-                }
-
-                req.body.proveedor = proveedorStrored;
-                pasoDos();
-            });
-        }else pasoDos();
-
-    }
-    function pasoDos(){
-        var ordenId = req.params.id;
-        ordenCompraModel.findByIdAndUpdate(ordenId, req.body , (err , ordenStored)=>{
-            if(err){
-                return res.status(500).send({
-                    message : `ERROR al intentar actualizar el recurso en la base de datos ${err}`
+            if(!proveedor){
+                return res.status(404).send({
+                    message: `ERROR el proveedor indicado no s encuentra en la base de datos`
                 });
             }
+        }
 
-            return res.status(200).send({
-                datos: ordenStored
-            });
+        yield ordenCompraModel.findByIdAndUpdate(ordenId, req.body);
+
+        return res.status(200).send({
+            message: 'Orden de Compra Actualizada con Exito'
+        });
+
+    } catch (e) {
+        return res.status(500).send({
+            message: `ERROR ${e}`
         });
     }
-}
+});
 
-function eliminar(req, res){
-    let ordenId = req.params.id;
-	ordenCompraModel.findByIdAndRemove(ordenId , (err)=>{
-		if(err){
-			return res.status(500).send({
-				message : `ERROR al intentar eliminar el registro ${err}`
-			});
-		}
-		return res.status(200).send({
-			message : `registro eliminado con exito`
-		});
-	});    
-}
+let eliminar = co.wrap(function * (req, res){
+    try {
+        let ordenId = req.params.id;
+        yield ordenCompraModel.findByIdAndRemove(ordenId);
 
+        return res.status(200).send({
+            message: 'Orden de Compra Eliminada con Exito'
+        });
+    } catch (e) {
+        return res.status(500).send({
+            message: `ERROR ${e}`
+        });
+    }
+});
 
 module.exports = {
     listarAll,
