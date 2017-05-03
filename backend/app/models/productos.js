@@ -12,7 +12,9 @@ const ProductoSchema = new Schema({
     Insumos : [],
     procesos: [],
     productos : [],
-    precio: Number
+    precio: Number,
+    consecutivo: Number,
+    codigo: Number
 });
 
 module.exports = mongoose.model('Producto' , ProductoSchema);

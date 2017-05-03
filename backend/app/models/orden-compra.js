@@ -9,7 +9,7 @@ const ordenCompraSchema = new Schema({
     consecutivo: {type: Number},
     materia_prima: [],
     observaciones: String,
-    estado: {type: String , enum:['activo' , 'finalizado']},
+    estado: {type: String , enum:['Activo' , 'Finalizado', 'Con Entradas'], default: 'Activo'},
     fecha: {type: Date, default: Date.now()}
 });
 
