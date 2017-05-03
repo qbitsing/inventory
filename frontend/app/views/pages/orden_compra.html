@@ -127,6 +127,7 @@
     		<ul>
 			<li> Numero interno: {{Detalle.consecutivo || 'No registra'}}</li>
 			<li> Proveedor: {{Detalle.proveedor.nombre || 'No registra'}}</li>
+			<li> Fecha: {{Detalle.fecha || 'No registra'}}</li>
 			<li> Observaciones: {{Detalle.observaciones || 'No registra'}}</li>
 			<li ng-hide="Detalle.materia_prima.length<1"> <h5>Materias Primas:</h5></li>
 			<table class="highlight" ng-hide="Detalle.materia_prima.length<1">

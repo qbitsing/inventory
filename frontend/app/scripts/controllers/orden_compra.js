@@ -261,6 +261,10 @@ angular.module('frontendApp')
                 }
             });
             if($scope.panel_title_form=="Registro de Compra"){
+                var date = new Date(Date.now()).getDate();
+                date += '/'+(new Date(Date.now()).getMonth()+1);
+                date += '/'+new Date(Date.now()).getFullYear();
+                $scope.fecha=date;
                 $scope.Orden._id=data.data.id;
                 $scope.Ordenes.push($scope.Orden);
             }else{
@@ -324,10 +328,7 @@ angular.module('frontendApp')
                     consecutivo : ele.consecutivo,
                     productos : ele.productos,
                     materia_prima : ele.materia_prima,
-                    observaciones : ele.observaciones,
-                    fecha_recepcion : ele.fecha_recepcion,
-                    fecha_entrega : ele.fecha_entrega,
-                    lugar_entrega : ele.lugar_entrega
+                    observaciones : ele.observaciones
                 };
             }
         });

@@ -94,7 +94,9 @@ angular.module('frontendApp')
             }
         }
     }
-    var casillaDeBotonesModalCategorias = '<div>'+BotonesTabla.BorrarModal+'</div>';
+    $scope.TituloPanelCategorias='Registro de Categorias';
+    $scope.TituloBotonCategorias='Registrar Categoria';
+    var casillaDeBotonesModalCategorias = '<div>'+BotonesTabla.EditarModal+'</div>';
     $scope.gridOptionsModalCategorias = {
         columnDefs: [
             {
@@ -115,8 +117,9 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptionsModalCategorias , Tabla);
-
-    var casillaDeBotonesModalUnidades = '<div>'+BotonesTabla.BorrarModal+'</div>';
+    $scope.TituloPanelUnidades='Registro de Unidades de Medida';
+    $scope.TituloBotonUnidades='Registrar Unidad de Medida';
+    var casillaDeBotonesModalUnidades = '<div>'+BotonesTabla.EditarModal+'</div>';
     $scope.gridOptionsModalUnidades = {
         columnDefs: [
             {
@@ -132,8 +135,9 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptionsModalUnidades , Tabla);
-
-    var casillaDeBotonesModalProcesos = '<div>'+BotonesTabla.BorrarModal+'</div>';
+    $scope.TituloPanelProcesos='Registro de procesos de fabricación';
+    $scope.TituloBotonProcesos='Registrar Proceso';
+    var casillaDeBotonesModalProcesos = '<div>'+BotonesTabla.EditarModal+'</div>';
     $scope.gridOptionsModalProcesos = {
         columnDefs: [
             {
@@ -156,10 +160,23 @@ angular.module('frontendApp')
     }
     angular.extend($scope.gridOptionsModalProcesos , Tabla);
     $scope.EnviarUnidad=function(){
+        var ruta='';
+        var metodo='';
+        if($scope.TituloPanelUnidades=='Registro de Unidades de Medida'){
+            ruta='unidades';
+            metodo='post';
+        }else{
+            ruta='unidades/'+$scope.Unidad_de_medida._id;
+            metodo='put';
+        }
         webServer
-        .getResource('unidades',$scope.Unidad_de_medida,'post')
+        .getResource(ruta,$scope.Unidad_de_medida,metodo)
         .then(function(data){
-            $scope.Unidades.push($scope.Unidad_de_medida);
+            if($scope.TituloPanelCategorias=='Registro de Categorias'){
+                $scope.Unidades.push($scope.Unidad_de_medida);
+            }else{
+                $scope.Unidades[$scope.Unidad_de_medida.index] = $scope.Unidad_de_medida;
+            }
             $scope.Unidad_de_medida={};
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
@@ -182,23 +199,69 @@ angular.module('frontendApp')
     listarunidades();
 
     $scope.EnviarCategoria=function(){
+        var ruta='';
+        var metodo='';
+        if($scope.TituloPanelCategorias=='Registro de Categorias'){
+            ruta='categorias';
+            metodo='post';
+        }else{
+            ruta='categorias/'+$scope.categoria._id;
+            metodo='put';
+        }
         webServer
-        .getResource('categorias',$scope.categoria,'post')
+        .getResource(ruta,$scope.categoria,metodo)
         .then(function(data){
-            $scope.Categorias.push($scope.categoria);
+            if($scope.TituloPanelCategorias=='Registro de Categorias'){
+                $scope.Categorias.push($scope.categoria);
+            }else{
+                $scope.Categorias[$scope.categoria.index] = $scope.categoria;
+            }
             $scope.categoria={};
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
-    $scope.BorrarModal = function(_id){
+    $scope.EditarModal = function(_id){
         if($scope.categorias){
-            console.log('Categorias');
+            $scope.Categorias.forEach(function(ele,index){
+                if (ele._id==_id) {
+                    $scope.categoria = ele;
+                }
+            });
+            $scope.TituloPanelCategorias='Edición de Categorias';
+            $scope.TituloBotonCategorias='Editar Categoria';
         }else if($scope.unidades){
-            console.log('Unidades');
+            $scope.Unidades.forEach(function(ele,index){
+                if (ele._id==_id) {
+                    $scope.Unidad_de_medida = ele;
+                }
+            });
+            $scope.TituloPanelUnidades='Edición de Unidades de Medida';
+            $scope.TituloBotonUnidades='Editar Unidad de Medida';
         }else if($scope.procesos){
-            console.log('Procesos');
+            $scope.Procesos.forEach(function(ele,index){
+                if (ele._id==_id) {
+                    $scope.proceso = ele;
+                }
+            });
+            $scope.TituloPanelProcesos='Edición de Procesos';
+            $scope.TituloBotonProcesos='Editar Proceso';
+        }
+    }
+    $scope.Cancelar=function(){
+        if($scope.categorias){
+            $scope.TituloPanelCategorias='Registro de Categorias';
+            $scope.TituloBotonCategorias='Registrar Categoria';
+            $scope.categoria={};
+        }else if($scope.unidades){
+            $scope.TituloPanelUnidades='Registro de Unidades de Medida';
+            $scope.TituloBotonUnidades='Registrar Unidad de Medida';
+            $scope.Unidad_de_medida={};
+        }else if($scope.procesos){
+            $scope.TituloPanelProcesos='Registro de procesos de fabricación';
+            $scope.TituloBotonProcesos='Registrar Proceso';
+            $scope.proceso={};
         }
     }
     function listarCategorias(){
@@ -236,10 +299,23 @@ angular.module('frontendApp')
         });
     }
     $scope.EnviarProceso=function(){
+        var ruta='';
+        var metodo='';
+        if($scope.TituloPanelProcesos=='Registro de procesos de fabricación'){
+            ruta='procesos';
+            metodo='post';
+        }else{
+            ruta='procesos/'+$scope.proceso._id;
+            metodo='put';
+        }
         webServer
-        .getResource('procesos',$scope.proceso,'post')
+        .getResource(ruta,$scope.proceso,metodo)
         .then(function(data){
-            $scope.Procesos.push($scope.proceso);
+            if($scope.TituloPanelProcesos=='Registro de procesos de fabricación'){
+                $scope.Procesos.push($scope.proceso);
+            }else{
+                $scope.Procesos[$scope.proceso.index] = $scope.proceso;
+            }
             $scope.proceso={};
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
