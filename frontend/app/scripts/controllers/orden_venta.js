@@ -47,6 +47,12 @@ angular.module('frontendApp')
                 minWidth: 250
             },
             {
+                name:'fecha de solicitud',
+                width:'20%',
+                cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha_recepcion)}}</div>',
+                minWidth: 250
+            },
+            {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
                 width:'40%',
                 minWidth: 230

@@ -69,10 +69,28 @@ angular.module('frontendApp')
         });
         if(!$scope.Entrada.orden_compra.productos){
             $scope.Entrada.orden_compra.productos=[];
+        }else{
+            $scope.Entrada.orden_compra.productos.forEach(function(ele,index){
+                if (ele.cantidad_faltante==0) {
+                    $scope.Entrada.orden_compra.productos.splice(ele.index,1);
+                }
+            });
         }
         if(!$scope.Entrada.orden_compra.materia_prima){
             $scope.Entrada.orden_compra.materia_prima=[];
+        }else{
+            $scope.Entrada.orden_compra.materia_prima.forEach(function(ele,index){
+                if (ele.cantidad_faltante==0) {
+                    $scope.Entrada.orden_compra.materia_prima.splice(ele.index,1);
+                }
+            });
         }
+    }
+    $scope.convertirFecha = function(fecha){
+        var date = new Date(fecha).getDate();
+        date += '/'+(new Date(fecha).getMonth()+1);
+        date += '/'+new Date(fecha).getFullYear();
+        return date;
     }
     $scope.abrirModal=function(_id){
         swal({
@@ -94,12 +112,42 @@ angular.module('frontendApp')
             }
         });
     }
-    $scope.Borrar=function(id){
+    function Borrar(id){
         webServer
         .getResource('entradas/'+id,{},'delete')
         .then(function(data){
             $scope.Entradas.forEach(function(ele, index){
                 if(ele._id==id){
+                    if (ele.orden_compra.productos) {
+                        $scope.Ordenes.forEach(function(e,i){
+                            if (e._id==ele.orden_compra._id) {
+                                if (e.productos) {
+                                    e.productos.forEach(function(elemento,index){
+                                        ele.orden_compra.productos.forEach(function(e, i){
+                                            if(e._id==elemento._id){
+                                                elemento.cantidad_faltante=elemento.cantidad_faltante+e.cantidad_entrante;
+                                            }
+                                        });
+                                    });
+                                }
+                            }
+                        });
+                    }
+                    if (ele.orden_compra.materia_prima) {
+                        $scope.Ordenes.forEach(function(e,i){
+                            if (e._id==ele.orden_compra._id) {
+                                if (e.materia_prima) {
+                                    e.materia_prima.forEach(function(elemento,index){
+                                        ele.orden_compra.materia_prima.forEach(function(e, i){
+                                            if(e._id==elemento._id){
+                                                elemento.cantidad_faltante=elemento.cantidad_faltante+e.cantidad_entrante;
+                                            }
+                                        });
+                                    });
+                                }
+                            }
+                        });
+                    }
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
@@ -127,7 +175,8 @@ angular.module('frontendApp')
             $scope.Entradas.push($scope.Entrada);
             $scope.Ordenes.forEach(function(ele,ind){
                 if (ele._id==$scope.Entrada.orden_compra._id) {
-                    if (ele.productos) {
+                    ele.estado=data.data.datos.estado;
+                    if (ele.productos && data.data.datos.orden_compra.productos) {
                         ele.productos.forEach(function(elemento,index){
                             data.data.datos.orden_compra.productos.forEach(function(e, i){
                                 if(e._id==elemento._id){
@@ -136,9 +185,9 @@ angular.module('frontendApp')
                             });
                         });
                     }
-                    if (ele.materia_prima) {
+                    if (ele.materia_prima && data.data.datos.orden_compra.materia_prima) {
                         ele.materia_prima.forEach(function(elemento,index){
-                            $scope.Entrada.orden_compra.productos.forEach(function(e, i){
+                            data.data.datos.orden_compra.materia_prima.forEach(function(e, i){
                                 if(e._id==elemento._id){
                                     elemento=e;
                                 }
@@ -205,18 +254,4 @@ angular.module('frontendApp')
         });
     }
     listarEntradas();
-    function IdentificarEntrada(id , arrObj){
-        var obj;
-        arrObj.forEach(function(ele , index){
-            if(ele._id ==  id){
-                obj = {
-                    index: index,
-                    _id : ele._id,
-                    orden_compra : ele.orden_compra,
-                    observaciones : ele.observaciones
-                };
-            }
-        });
-        return obj;
-    }
   });

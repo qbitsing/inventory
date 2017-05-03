@@ -45,6 +45,12 @@ angular.module('frontendApp')
                 minWidth: 250
             },
             {
+                name:'fecha de solicitud',
+                width:'20%',
+                cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha)}}</div>',
+                minWidth: 250
+            },
+            {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
                 width:'40%',
                 minWidth: 230
@@ -261,10 +267,7 @@ angular.module('frontendApp')
                 }
             });
             if($scope.panel_title_form=="Registro de Compra"){
-                var date = new Date(Date.now()).getDate();
-                date += '/'+(new Date(Date.now()).getMonth()+1);
-                date += '/'+new Date(Date.now()).getFullYear();
-                $scope.fecha=date;
+                $scope.Orden.fecha=new Date(Date.now());
                 $scope.Orden._id=data.data.id;
                 $scope.Ordenes.push($scope.Orden);
             }else{
@@ -279,9 +282,9 @@ angular.module('frontendApp')
                     $scope.Orden.consecutivo=ele.consecutivo;
                 }
             });
+            $scope.Orden.consecutivo=$scope.Orden.consecutivo+1;
             $scope.panel_title_form = "Registro de Compra";
             $scope.button_title_form = "Registrar compra";
-            $scope.Orden.consecutivo=$scope.Orden.consecutivo+1;
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");
         });

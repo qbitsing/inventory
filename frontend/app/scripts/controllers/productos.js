@@ -49,28 +49,33 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
+                field: 'codigo',
+                width:'15%',
+                minWidth: 160
+            },
+            {
                 field: 'nombre',
-                width:'20%',
+                width:'15%',
                 minWidth: 160
             },
             {
                 field: 'marca',
-                width:'20%',
+                width:'15%',
                 minWidth: 160
             },
             {
                 name: 'categoria', field: 'categoria.nombre',
-                width:'20%',
+                width:'15%',
                 minWidth: 160
             },
             {
                 field: 'cantidad',
-                width:'20%',
+                width:'15%',
                 minWidth: 160
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'20%',
+                width:'25%',
                 minWidth: 230
             }
         ]
@@ -103,6 +108,13 @@ angular.module('frontendApp')
                 $scope.Productos=[];
                 $scope.gridOptions.data=$scope.Productos;
             }
+            $scope.Producto.consecutivo=999;
+            $scope.Productos.forEach(function(ele, index){
+                if(ele.consecutivo>=$scope.Producto.consecutivo){
+                    $scope.Producto.consecutivo=ele.consecutivo;
+                }
+            });
+            $scope.Producto.consecutivo=$scope.Producto.consecutivo+1;
             listarInsumos();
         },function(data){
             $scope.Productos=[];
@@ -234,10 +246,20 @@ angular.module('frontendApp')
     $scope.EnviarProducto=function(){
         var ruta="";
         var metodo="";
-        if($scope.check=='producto'){
-            $scope.Producto.productos=null;
+        $scope.Categorias.forEach(function(ele,index){
+            if ($scope.Producto.categoria._id==ele._id) {
+                $scope.Producto.categoria=ele;
+            }
+        });
+        if($scope.check=='kit'){
+            $scope.Producto.Insumos=null;
         }else{
-            $scope.Producto.Insumos=null
+            $scope.Unidades.forEach(function(ele, index){
+                if(ele._id==$scope.Producto.unidad_medida._id){
+                    $scope.Producto.unidad_medida=ele;
+                }
+            });
+            $scope.Producto.codigo=$scope.Producto.categoria.codigo+''+$scope.Producto.consecutivo;
         }
         if ($scope.panel_title_form=="Registro de Productos") {
             ruta="productos";
@@ -249,24 +271,21 @@ angular.module('frontendApp')
         webServer
         .getResource(ruta,$scope.Producto,metodo)
         .then(function(data){
-            $scope.Categorias.forEach(function(ele, index){
-                if(ele._id==$scope.Producto.categoria._id){
-                    $scope.Producto.categoria=ele;
-                }
-            });
-            if($scope.check=='producto'){
-                $scope.Unidades.forEach(function(ele, index){
-                    if(ele._id==$scope.Producto.unidad_medida._id){
-                        $scope.Producto.unidad_medida=ele;
-                    }
-                });
-                $scope.ProductosSelect.push($scope.Producto);
-            }
             if($scope.panel_title_form=="Registro de Productos"){
                 $scope.Producto._id=data.data._id;
                 $scope.Productos.push($scope.Producto);
+                if($scope.check=='producto'){
+                    $scope.ProductosSelect.push($scope.Producto);
+                }
             }else{
                 $scope.Productos[$scope.Producto.index] = $scope.Producto;
+                if($scope.check=='producto'){
+                    $scope.ProductosSelect.forEach(function(ele, index){
+                        if(ele._id==$scope.Producto._id){
+                            $scope.ProductosSelect[$scope.Producto.index] = $scope.Producto;
+                        }
+                    });
+                }
                 $scope.panel_title_form = "Registro de Productos";
 	            $scope.button_title_form = "Registrar Producto";
             }
@@ -281,7 +300,7 @@ angular.module('frontendApp')
         });
     }
     function scroll(){
-         $("html, body").animate({
+        $("html, body").animate({
             scrollTop: 0
         }, 1000); 
     }

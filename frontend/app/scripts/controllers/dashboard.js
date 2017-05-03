@@ -55,6 +55,7 @@ angular.module('frontendApp')
         });
     });
     $scope.$state=$state;
+    $scope.categoria={};
     if(SesionUsuario.ObtenerSesion()==null){
         $state.go('Login');
     }else{
@@ -217,6 +218,13 @@ angular.module('frontendApp')
                 $scope.Categorias[$scope.categoria.index] = $scope.categoria;
             }
             $scope.categoria={};
+            $scope.categoria.codigo=0;
+            $scope.Categorias.forEach(function(ele, index){
+                if(ele.codigo>=$scope.categoria.codigo){
+                    $scope.categoria.codigo=ele.codigo;
+                }
+            });
+            $scope.categoria.codigo=$scope.categoria.codigo+1;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");
@@ -254,6 +262,13 @@ angular.module('frontendApp')
             $scope.TituloPanelCategorias='Registro de Categorias';
             $scope.TituloBotonCategorias='Registrar Categoria';
             $scope.categoria={};
+            $scope.categoria.codigo=0;
+            $scope.Categorias.forEach(function(ele, index){
+                if(ele.codigo>=$scope.categoria.codigo){
+                    $scope.categoria.codigo=ele.codigo;
+                }
+            });
+            $scope.categoria.codigo=$scope.categoria.codigo+1;
         }else if($scope.unidades){
             $scope.TituloPanelUnidades='Registro de Unidades de Medida';
             $scope.TituloBotonUnidades='Registrar Unidad de Medida';
@@ -268,17 +283,20 @@ angular.module('frontendApp')
         webServer
         .getResource('categorias',{},'get')
         .then(function(data){
-            if(data.data){
                 $scope.Categorias=data.data.datos;
                 $scope.gridOptionsModalCategorias.data = $scope.Categorias;
-            }else{
-                $scope.Categorias=[];
-                $scope.gridOptionsModalCategorias.data = $scope.Categorias;
-            }
+                $scope.categoria.codigo=0;
+                $scope.Categorias.forEach(function(ele, index){
+                    if(ele.codigo>=$scope.categoria.codigo){
+                        $scope.categoria.codigo=ele.codigo;
+                    }
+                });
+                $scope.categoria.codigo=$scope.categoria.codigo+1;
             listarProcesos();
         },function(data){
             $scope.Categorias=[];
             $scope.gridOptionsModalCategorias.data = $scope.Categorias;
+            $scope.categoria.codigo=0;
             listarProcesos();
         });
     }

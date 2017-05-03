@@ -96,7 +96,6 @@ angular.module('frontendApp')
             $scope.fabricacion.orden_venta.productos=[];
         }
         $scope.fabricacion.productos=$scope.fabricacion.orden_venta.productos;
-        delete $scope.fabricacion.orden_venta.productos;
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Fabricaciones.find(function(ele){
