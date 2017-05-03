@@ -212,6 +212,8 @@ angular.module('frontendApp')
                 $scope.Ordenes.push($scope.Orden);
             }else{
                 $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
+                $scope.panel_title_form = "Registro de venta";
+                $scope.button_title_form = "Registrar venta";
             }
             $scope.Orden={};
             $scope.Orden.productos=[];
@@ -223,8 +225,6 @@ angular.module('frontendApp')
             });
             $scope.Orden.consecutivo=$scope.Orden.consecutivo+1;
             sweetAlert("Completado...", data.data.message , "success");
-            $scope.panel_title_form = "Registro de venta";
-            $scope.button_title_form = "Registrar venta";
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");
         });
@@ -242,7 +242,6 @@ angular.module('frontendApp')
             $scope.Orden.productos=[];
         }
         scroll();
-
     }
     $scope.CancelarEditar=function(){
         $scope.Orden={};
