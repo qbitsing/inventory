@@ -76,6 +76,7 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptions , Tabla);
+
     function listarInsumos(){
         webServer
         .getResource('materiaPrima',{},'get')

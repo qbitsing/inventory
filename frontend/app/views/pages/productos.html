@@ -46,7 +46,7 @@
 								<label>Unidad de medida *</label>
 							</div>
 							<div class="input-field col s12 m6 l6">
-								<input type="number" ng-model="Producto.precio" id="Precio" name="Precio" required>
+								<input type="number" ng-model="Producto.precio" id="Precio" name="Precio" required >
 								<label for="Precio">Precio *</label>
 							</div>
 						</div>
@@ -185,8 +185,8 @@
 			<li> Categoria: {{Detalle.categoria.nombre || 'No registra'}}</li>
 			<li ng-show="Usuario.rol!='Almacenista'"> Precio: {{Detalle.precio || 'No registra'}}</li>
 			<li> Cantidad: {{Detalle.cantidad || 'No registra'}}</li>
-			<li ng-show="Detalle.procesos.length>0"> Procesos:</li>
-			<table class="highlight" ng-show="Detalle.procesos.length>0">
+			<li ng-show="Detalle.procesos.length>0"> <h4>Procesos:</h4></li>
+			<table class="bordered striped" ng-show="Detalle.procesos.length>0">
 		        <thead>
 		        	<tr>
 						<th data-field="id">Proceso</th>
@@ -200,8 +200,8 @@
 		          	</tr>
 		        </tbody>
 		    </table>
-			<li ng-show="Detalle.Insumos.length>0"> Insumos:</li>
-			<table class="highlight" ng-show="Detalle.Insumos.length>0">
+			<li ng-show="Detalle.Insumos.length>0"> <h4>Insumos:</h4></li>
+			<table class="bordered striped" ng-show="Detalle.Insumos.length>0">
 		        <thead>
 		        	<tr>
 						<th data-field="id">Insumo</th>
@@ -215,8 +215,8 @@
 		          	</tr>
 		        </tbody>
 		    </table>
-			<li ng-show="Detalle.productos.length>0"> Productos:</li>
-			<table class="highlight" ng-show="Detalle.productos.length>0">
+			<li ng-show="Detalle.productos.length>0"> <h4>Productos:</h4></li>
+			<table class="bordered striped" ng-show="Detalle.productos.length>0">
 		        <thead>
 		        	<tr>
 						<th data-field="id">Producto</th>
