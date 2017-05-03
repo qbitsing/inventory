@@ -221,18 +221,18 @@ angular.module('frontendApp')
             }
         });
     }
-    $scope.Borrar=function(id){
+    function Borrar (id){
         webServer
         .getResource('orden_compra/'+id,{},'delete')
         .then(function(data){
-            $scope.Entradas.forEach(function(ele, index){
+            $scope.Ordenes.forEach(function(ele, index){
                 if(ele._id==id){
-                    $scope.Entradas.splice(ele.index,1);
+                    $scope.Ordenes.splice(ele.index,1);
                 }
             });
-            sweetAlert("Completado...", data.data.message , "success");
+            swal("Completado...", data.data.message , "success");
         },function(data){
-            sweetAlert("Oops...", data.data.message , "error");
+            swal("Oops...", data.data.message , "error");
         });
     }
     $scope.EnviarOrden=function(){
