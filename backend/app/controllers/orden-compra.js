@@ -4,35 +4,34 @@ const ordenCompraModel = require('../models/orden-compra');
 const proveedorModel = require('../models/personas');
 const productoModel = require('../models/productos');
 const materiaPrimaModel = require('../models/materia-prima');
+const co = require('co');
 
-function listarAll(req, res){
-    ordenCompraModel.find({},null, {sort: {fecha: -1}} , (err , ordenStored)=>{
-        if(err){
-            return res.status(500).send({
-                message: `ERROR al intentar obtener la lista de ordenes de compra ${err}`
-            });
-        }
 
-        if(ordenStored.length < 1){
+let listarAll = co.wrap(function * (req, res){
+    try {
+        let datos = yield ordenCompraModel.find({}, null, {sort: {fecha: -1}});
+
+        if(datos.length < 1) {
             return res.status(404).send({
                 message: `ERROR no hay ordenes de compra registradas`
             });
         }
 
         return res.status(200).send({
-            datos : ordenStored
+            datos
         });
-    });
-}
+    } catch (e) {
+        return res.status(500).send({
+            message:`ERROR ${e}`
+        });
+    }
+});
 
-function listarById(req, res){
-    let ordenId = req.params.id;
-    ordenCompraModel.findById(ordenId, (err , ordenStored)=>{
-        if(err){
-            return res.status(500).send({
-                message : `ERROR al intentar obtener el recurso ${err}`
-            });
-        }
+let listarById = co.wrap(function * (req, res){
+    try {
+        let ordenId = req.params.id;
+
+        let datos = yield ordenCompraModel.findById(ordenId);
 
         if(!productoStrored){
             return res.status(404).send({
@@ -43,102 +42,87 @@ function listarById(req, res){
         return res.status(200).send({
             datos : ordenStored
         });
-
-    });
-}
-
-function crear(req, res){
-    pasoUno();
-    function pasoUno(){
-        if(req.body.proveedor){
-            proveedorModel.findById(req.body.proveedor._id , (err, proveedorStrored)=>{
-                if(err){
-                    return res.status(500).send({
-                        message : `ERROR al obtener el proveedor ${err}`
-                    });
-                }
-
-                if(!proveedorStrored){
-                    return res.status(404).send({
-                        message : `ERROR el proveedor indicado no s encuentra en la base de datos`
-                    });
-                }
-
-                req.body.proveedor = proveedorStrored;
-                pasoDos();
-            });
-        }else pasoDos();
+    } catch (e) {
+        return res.status(500).send({
+            message : `ERROR ${e}`
+        });
     }
+});
 
-    function pasoDos(){
+let crear = co.wrap(function * (req, res){
+    try {
+        let proveedor;
+        if(req.body.proveedor){
+            proveedor = yield proveedorModel.findById(req.body.proveedor._id);
+
+            if(!proveedor){
+                return res.status(404).send({
+                    message: `ERROR el proveedor indicado no s encuentra en la base de datos`
+                });
+            }
+        }
+
+        req.body.proveedor = proveedor;
+
         let newOrdenCompra = new ordenCompraModel(req.body);
-        newOrdenCompra.save((err , ordenStored)=>{
-            if(err){
-                return res.status(500).send({
-                    message : `ERROR al intentar almacenar el recurso en la base de datos ${err}`
-                });
-            }
 
-            return res.status(200).send({
-                datos: ordenStored
-            });
+        let datos = yield newOrdenCompra.save();
+
+        return res.status(200).send({
+            message: 'Orden de Compra registrada con exito',
+            id: datos._id
+        });
+
+
+    } catch (e) {
+        return res.status(500).send({
+            message: `ERROR ${e}`
         });
     }
-}
+});
 
-function actualizar(req, res){
-    pasoUno();
-    function pasoUno(){
+let actualizar = co.wrap(function * (req, res){
+    try {
+        let ordenId = req.params.id;
+
+        let proveedor;
         if(req.body.proveedor){
-            proveedorModel.findById(req.body.proveedor._id , (err, proveedorStrored)=>{
-                if(err){
-                    return res.status(500).send({
-                        message : `ERROR al obtener el proveedor ${err}`
-                    });
-                }
+            proveedor = yield proveedorModel.findById(req.body.proveedor._id);
 
-                if(!proveedorStrored){
-                    return res.status(404).send({
-                        message : `ERROR el proveedor indicado no s encuentra en la base de datos`
-                    });
-                }
-
-                req.body.proveedor = proveedorStrored;
-                pasoDos();
-            });
-        }else pasoDos();
-
-    }
-    function pasoDos(){
-        var ordenId = req.params.id;
-        ordenCompraModel.findByIdAndUpdate(ordenId, req.body , (err , ordenStored)=>{
-            if(err){
-                return res.status(500).send({
-                    message : `ERROR al intentar actualizar el recurso en la base de datos ${err}`
+            if(!proveedor){
+                return res.status(404).send({
+                    message: `ERROR el proveedor indicado no s encuentra en la base de datos`
                 });
             }
+        }
 
-            return res.status(200).send({
-                datos: ordenStored
-            });
+        yield ordenCompraModel.findByIdAndUpdate(ordenId, req.body);
+
+        return res.status(200).send({
+            message: 'Orden de Compra Actualizada con Exito'
+        });
+
+    } catch (e) {
+        return res.status(500).send({
+            message: `ERROR ${e}`
         });
     }
-}
+});
 
-function eliminar(req, res){
-    let ordenId = req.params.id;
-	ordenCompraModel.findByIdAndRemove(ordenId , (err)=>{
-		if(err){
-			return res.status(500).send({
-				message : `ERROR al intentar eliminar el registro ${err}`
-			});
-		}
-		return res.status(200).send({
-			message : `registro eliminado con exito`
-		});
-	});    
-}
+let eliminar = co.wrap(function * (req, res){
+    try {
+        let ordenId = req.params.id;
+        yield ordenCompraModel.findByIdAndRemove(ordenId);
 
+        return res.status(200).send({
+            message: 'Orden de Compra Eliminada con Exito'
+        });
+    } catch (e) {
+        return res.status(500).send({
+            message: `ERROR ${e}`
+        });
+    }
+});
 
 module.exports = {
     listarAll,
