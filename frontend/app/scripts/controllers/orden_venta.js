@@ -182,9 +182,9 @@ angular.module('frontendApp')
                     $scope.Ordenes.splice(ele.index,1);
                 }
             });
-            sweetAlert("Completado...", data.data.message , "success");
+            swal("Completado...", data.data.message , "success");
         },function(data){
-            sweetAlert("Oops...", data.data.message , "error");
+            swal("Oops...", data.data.message , "error");
         });
     }
     $scope.EnviarOrden=function(){
