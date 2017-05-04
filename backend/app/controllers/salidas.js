@@ -48,53 +48,84 @@ let listarById = co.wrap(function * (req, res){
 });
 
 let crear = co.wrap(function * (req, res){
-  if(req.body.orden_venta){
-    if(req.body.orden_venta.productos.length > 0){
-      let productos = req.body.orden_venta.productos;
-      req.body.orden_venta.productos = [];
-      for(var ele of productos){
-        if(ele.cantidad_saliente > 0){
-          ele.cantidad_faltante -= ele.cantidad_saliente;
-          yield productoModel.findByIdAndUpdate(ele._id, {$inc: {cantidad : (ele.cantidad_saliente * -1)}});
+  try {
+      if(req.body.orden_venta){
+        if(req.body.orden_venta.productos.length > 0){
+          let productos = req.body.orden_venta.productos;
+          let noDisponibles = [];
+          let contador = 0;
+          req.body.orden_venta.productos = [];
+          for(var ele of productos){
+            let pro = yield productoModel.findById(ele._id);
+            if(pro.cantidad < ele.cantidad){
+              noDisponibles.push(`No se puede realizar la salida ya que no cuenta con ${ele.cantidad} de ${ele.nombre}`);
+            }
+          }
+
+          if(noDisponibles.length > 0){
+            return res.status(400).send({
+              noDisponibles
+            });
+          }
+          for(var ele of productos){
+            if(ele.cantidad_faltante == 0) contador ++;
+            if(ele.cantidad_saliente > 0){
+              ele.cantidad_faltante -= ele.cantidad_saliente;
+              let pro = yield productoModel.findById(ele._id);
+              pro.apartados -= ele.cantidad;
+              pro.cantidad -= ele.cantidad;
+              yield productoModel.findByIdAndUpdate(pro._id, pro);          
+            }
+            req.body.orden_venta.productos.push(ele);
+          }
+          req.body.orden_venta.estado = 'Con Salida';
+
+          if(contador == req.body.orden_venta.productos.length) req.body.orden_venta.estado = 'Finalizado'
+          yield ordenModel.findByIdAndUpdate(req.body.orden_venta._id);
+
+          let salida = new salidaModel(req.body);
+
+          yield salida.save();
+
+          return res.status(200).send({
+            message: 'Salida registrada con exito'
+          });
+
+        }else{
+          return res.status(400).send({
+            message: 'Error: no es posible registrar la salida ya que no se especificaron productos a entregar'
+          });
         }
-        req.body.orden_venta.productos.push(ele);
+      }else{
+        return res.status(400).send({
+          message: 'Error: no es posible registrar la salida ya que no se especifico una orden de venta'
+        });
       }
-
-      yield ordenModel.findByIdAndUpdate(req.body.orden_venta._id);
-
-      let salida = new salidaModel(req.body);
-
-      yield salida.save();
-
-      return res.status(200).send({
-        message: 'Salida registrada con exito'
-      });
-
-    }else{
-      return res.status(400).send({
-        message: 'Error: no es posible registrar la salida ya que no se especificaron productos a entregar'
-      });
-    }
-  }else{
-    return res.status(400).send({
-      message: 'Error: no es posible registrar la salida ya que no se especifico una orden de venta'
+  } catch (e) {
+    return res.status(500).send({
+      message: `ERROR ${e}`
     });
   }
+
 });
 
 let eliminar = co.wrap(function *(req, res){
 		let salidaId = req.params.id;
 		let salida = yield salidaModel.findById(salidaId);
-    console.log(salida.orden_venta.productos);
 		if(salida.orden_venta.productos.length > 0){
 			let productos = salida.orden_venta.productos;
 			salida.orden_venta.productos = [];
 			for(var ele of productos){
 				ele.cantidad_faltante += ele.cantidad_saliente;
-				yield productoModel.findByIdAndUpdate(ele._id, {$inc: {cantidad : ele.cantidad_saliente}});
+        let pro = yield productoModel.findById(ele._id);
+        pro.apartados += ele.cantidad;
+        pro.cantidad += ele.cantidad;
+        yield productoModel.findByIdAndUpdate(pro._id, pro);
 				salida.orden_venta.productos.push(ele);
 			}
 		}
+
+    salida.orden_venta.estado = 'Con Salidas';
 
 		yield ordenModel.findByIdAndUpdate(salida.orden_venta._id , salida.orden_venta);
 
