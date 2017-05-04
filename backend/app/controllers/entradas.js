@@ -120,6 +120,7 @@ let crear = co.wrap(function * (req, res){
 
 
 let eliminar = co.wrap(function *(req, res){
+	try {
 		let entradaId = req.params.id;
 		let entrada = yield entradaModel.findById(entradaId);
 
@@ -161,13 +162,18 @@ let eliminar = co.wrap(function *(req, res){
 		return res.status(200).send({
 			message: 'Entrada anulada con exito, los cambios han sido revertidos en la base de datos'
 		});
+	} catch (e) {
+		return res.status(500).send({
+			message: `ERROR ${e}`
+		});
+	}
 
 });
 
 
 module.exports = {
-		listarAll,
-		listarById,
-		crear,
-		eliminar
+	listarAll,
+	listarById,
+	crear,
+	eliminar
 };
