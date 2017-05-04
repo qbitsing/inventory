@@ -93,7 +93,7 @@ angular.module('frontendApp')
         .getResource(ruta,$scope.Empleado,metodo)
         .then(function(data){
             if($scope.panel_title_form=="Registro de Empleados"){
-                $scope.Empleado._id=data.data.id;
+                $scope.Empleado._id=data.data.datos._id;
                 $scope.Empleados.push($scope.Empleado);
             }else{
                 $scope.Empleados[$scope.Empleado.index] = $scope.Empleado;

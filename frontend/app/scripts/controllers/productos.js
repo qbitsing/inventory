@@ -69,9 +69,10 @@ angular.module('frontendApp')
                 minWidth: 160
             },
             {
-                field: 'cantidad',
-                width:'15%',
-                minWidth: 160
+                name:'cantidad',
+                width:'20%',
+                cellTemplate: '<div>{{row.entity.cantidad}} {{row.entity.unidad_medida.nombre}}</div>',
+                minWidth: 250
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
@@ -109,13 +110,6 @@ angular.module('frontendApp')
                 $scope.Productos=[];
                 $scope.gridOptions.data=$scope.Productos;
             }
-            $scope.Producto.consecutivo=999;
-            $scope.Productos.forEach(function(ele, index){
-                if(ele.consecutivo>=$scope.Producto.consecutivo){
-                    $scope.Producto.consecutivo=ele.consecutivo;
-                }
-            });
-            $scope.Producto.consecutivo=$scope.Producto.consecutivo+1;
             listarInsumos();
         },function(data){
             $scope.Productos=[];
@@ -254,13 +248,14 @@ angular.module('frontendApp')
         });
         if($scope.check=='kit'){
             $scope.Producto.Insumos=null;
+            $scope.Producto.tipo='kit';
         }else{
+            $scope.Producto.tipo='producto';
             $scope.Unidades.forEach(function(ele, index){
                 if(ele._id==$scope.Producto.unidad_medida._id){
                     $scope.Producto.unidad_medida=ele;
                 }
             });
-            $scope.Producto.codigo=$scope.Producto.categoria.codigo+''+$scope.Producto.consecutivo;
         }
         if ($scope.panel_title_form=="Registro de Productos") {
             ruta="productos";
@@ -273,11 +268,13 @@ angular.module('frontendApp')
         .getResource(ruta,$scope.Producto,metodo)
         .then(function(data){
             if($scope.panel_title_form=="Registro de Productos"){
-                $scope.Producto._id=data.data._id;
-                $scope.Productos.push($scope.Producto);
+                $scope.Producto._id=data.data.datos._id;
+                $scope.Producto.consecutivo_producto=data.data.datos.consecutivo_producto;
                 if($scope.check=='producto'){
+                    $scope.Producto.codigo=$scope.Producto.categoria.codigo+''+$scope.Producto.consecutivo_producto;
                     $scope.ProductosSelect.push($scope.Producto);
                 }
+                $scope.Productos.push($scope.Producto);
             }else{
                 $scope.Productos[$scope.Producto.index] = $scope.Producto;
                 if($scope.check=='producto'){

@@ -9,11 +9,7 @@
 				<div class="panel-body" >
 					<form name="formOrdenCompra" novalidate ng-submit="EnviarOrden()">
 						<div class="row">
-							<div class="input-field col s12 m6 l6">
-								<input type="text" ng-model="Orden.consecutivo" id="numero" ng-disabled="true" name="numero">
-								<label>Numero interno de compra*</label>
-							</div>
-							<div class="input-field col s12 m6 l6">
+							<div class="input-field col s12 m12 l12">
 								<select ng-model="Orden.proveedor._id" material-select watch required>
 	      							<option ng-repeat="proveedor in proveedores" value="{{proveedor._id}}">{{proveedor.nombre}}</option>
 								</select>
@@ -122,10 +118,10 @@
 </div>
 <div id="modalDetalles" class="modal modal-fixed-footer">
     <div class="modal-content">
-    	<h4 class="modal-title blue accent-4">Compra No. {{Detalle.consecutivo}}</h4>
+    	<h4 class="modal-title blue accent-4">Compra No. {{Detalle.consecutivo_orden_compra}}</h4>
     	<div class="row">
     		<ul>
-			<li> Numero interno: {{Detalle.consecutivo || 'No registra'}}</li>
+			<li> Numero interno: {{Detalle.consecutivo_orden_compra || 'No registra'}}</li>
 			<li> Proveedor: {{Detalle.proveedor.nombre || 'No registra'}}</li>
 			<li> Fecha: {{convertirFecha(Detalle.fecha) || 'No registra'}}</li>
 			<li> Observaciones: {{Detalle.observaciones || 'No registra'}}</li>

@@ -20,12 +20,12 @@
 							<div class="input-field col s12 m6 l6" ng-show="check=='orden'">
 								<label for="ordenn">Orden de venta *</label>
 								<select id="ordenn" ng-change="CargarOrden()" id="orden" ng-model="Orden" material-select watch>
-	      							<option ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.consecutivo}}-{{orden.cliente.nombre}}</option>
+	      							<option ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.consecutivo_orden_venta}}-{{orden.cliente.nombre}}</option>
 								</select>
 							</div>
 							<div class="input-field col s12 m6 l6" ng-show="check=='orden'">
-								<input type="text" ng-disabled="true" ng-model="fabricacion.orden_venta.cliente.nombre" id="consecutivo" name="consecutivo" ng-required="check.orden">
-								<label for="consecutivo">Cliente *</label>
+								<input type="text" ng-disabled="true" ng-model="fabricacion.orden_venta.cliente.nombre" id="cliente_orden" name="cliente_orden" ng-required="check.orden">
+								<label for="cliente_orden">Cliente *</label>
 							</div>
 						</div>
 						<div class="row">
@@ -134,7 +134,7 @@
     	<h4 class="modal-title blue accent-4">Orden de fabricación</h4>
     	<div class="row">
     		<ul>
-				<li> Numero interno de la fabricación: {{convertirConsecutivo(Detalle.consecutivo) || 'No registra'}}</li>
+				<li> Numero interno de la fabricación: {{Detalle.consecutivo_fabricacion || 'No registra'}}</li>
 				<li ng-show="Detalle.orden_venta"> Cliente: {{Detalle.orden_venta.cliente.nombre || 'No registra'}}</li>
 				<li> Fecha de solicitud: {{convertirFecha(Detalle.fecha_solicitud) || 'No registra'}}</li>
 				<li> Fecha de entrega: {{convertirFecha(Detalle.fecha_entrega) || 'No registra'}}</li>
@@ -309,7 +309,7 @@
 	    		</thead>
 	    		<tbody>
 	    			<tr ng-if="remision.fabricacion._id==contenido_fabricacion._id" ng-repeat="remision in Remisiones">
-	    				<td>{{convertirConsecutivo(remision.consecutivo)}}</td>
+	    				<td>{{remision.consecutivo_remision}}</td>
 		    			<td><li ng-repeat="res in remision.productos">{{res.producto.nombre}} - {{res.cantidad}}</li></td>
 		    			<td>{{remision.proceso.nombre}}</td>
 	    				<td><li ng-repeat="res in remision.proceso.array_responsables">{{res.nombre}}</li></td>
@@ -360,7 +360,7 @@
 		<div class="row" ng-show="check_modal_entrada=='remision'">
 			<div class="input-field col s12 m6 l6">
 				<select ng-model="modal_entrada.carga_remision" material-select watch>
-					<option ng-if="remision.fabricacion._id==contenido_fabricacion._id && (remision.estado!='Completada' || remision.estado!='Cancelada')" ng-repeat="remision in Remisiones" value="{{remision}}">{{convertirConsecutivo(remision.consecutivo)}}-{{remision.proceso.nombre}}</option>
+					<option ng-if="remision.fabricacion._id==contenido_fabricacion._id && (remision.estado!='Completada' || remision.estado!='Cancelada')" ng-repeat="remision in Remisiones" value="{{remision}}">{{remision.consecutivo_remision}}-{{remision.proceso.nombre}}</option>
 				</select>
 				<label>Remision de salida *</label>
 			</div>
@@ -429,7 +429,7 @@
     				<td>Observaciones</td>
     			</tr>
     			<tr ng-if="entrada.fabricacion._id==contenido_fabricacion._id" ng-repeat="entrada in EntradasFabricaciones">
-    				<td>{{convertirConsecutivo(entrada.consecutivo)}}</td>
+    				<td>{{entrada.consecutivo_entrada_remision}}</td>
 	    			<td><li ng-repeat="res in entrada.productos">{{res.producto.nombre}} - {{res.cantidad}}</li></td>
 	    			<td>{{entrada.remision.proceso.nombre || 'No registra'}} </td>
     				<td ng-show="entrada.remision.proceso.array_responsables"><li ng-repeat="res in entrada.remision.proceso.array_responsables">{{res.nombre}}</li></td>

@@ -174,6 +174,7 @@ angular.module('frontendApp')
         .getResource(ruta,$scope.Unidad_de_medida,metodo)
         .then(function(data){
             if($scope.TituloPanelCategorias=='Registro de Categorias'){
+                $scope.Unidad_de_medida._id=data.data.datos._id;
                 $scope.Unidades.push($scope.Unidad_de_medida);
             }else{
                 $scope.Unidades[$scope.Unidad_de_medida.index] = $scope.Unidad_de_medida;
@@ -213,18 +214,13 @@ angular.module('frontendApp')
         .getResource(ruta,$scope.categoria,metodo)
         .then(function(data){
             if($scope.TituloPanelCategorias=='Registro de Categorias'){
+                $scope.categoria._id=data.data.datos._id;
+                $scope.categoria.codigo=data.data.datos.codigo;
                 $scope.Categorias.push($scope.categoria);
             }else{
                 $scope.Categorias[$scope.categoria.index] = $scope.categoria;
             }
             $scope.categoria={};
-            $scope.categoria.codigo=0;
-            $scope.Categorias.forEach(function(ele, index){
-                if(ele.codigo>=$scope.categoria.codigo){
-                    $scope.categoria.codigo=ele.codigo;
-                }
-            });
-            $scope.categoria.codigo=$scope.categoria.codigo+1;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");
@@ -262,13 +258,6 @@ angular.module('frontendApp')
             $scope.TituloPanelCategorias='Registro de Categorias';
             $scope.TituloBotonCategorias='Registrar Categoria';
             $scope.categoria={};
-            $scope.categoria.codigo=0;
-            $scope.Categorias.forEach(function(ele, index){
-                if(ele.codigo>=$scope.categoria.codigo){
-                    $scope.categoria.codigo=ele.codigo;
-                }
-            });
-            $scope.categoria.codigo=$scope.categoria.codigo+1;
         }else if($scope.unidades){
             $scope.TituloPanelUnidades='Registro de Unidades de Medida';
             $scope.TituloBotonUnidades='Registrar Unidad de Medida';
@@ -283,20 +272,12 @@ angular.module('frontendApp')
         webServer
         .getResource('categorias',{},'get')
         .then(function(data){
-                $scope.Categorias=data.data.datos;
-                $scope.gridOptionsModalCategorias.data = $scope.Categorias;
-                $scope.categoria.codigo=0;
-                $scope.Categorias.forEach(function(ele, index){
-                    if(ele.codigo>=$scope.categoria.codigo){
-                        $scope.categoria.codigo=ele.codigo;
-                    }
-                });
-                $scope.categoria.codigo=$scope.categoria.codigo+1;
+            $scope.Categorias=data.data.datos;
+            $scope.gridOptionsModalCategorias.data = $scope.Categorias;
             listarProcesos();
         },function(data){
             $scope.Categorias=[];
             $scope.gridOptionsModalCategorias.data = $scope.Categorias;
-            $scope.categoria.codigo=0;
             listarProcesos();
         });
     }
@@ -330,6 +311,7 @@ angular.module('frontendApp')
         .getResource(ruta,$scope.proceso,metodo)
         .then(function(data){
             if($scope.TituloPanelProcesos=='Registro de procesos de fabricación'){
+                $scope.proceso._id=data.data.datos._id;
                 $scope.Procesos.push($scope.proceso);
             }else{
                 $scope.Procesos[$scope.proceso.index] = $scope.proceso;

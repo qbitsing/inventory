@@ -38,7 +38,7 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
-                name:'orden de venta',field: 'orden_venta.consecutivo',
+                name:'orden de venta',field: 'orden_venta.consecutivo_orden_venta',
                 width:'20%',
                 minWidth: 160
             },
@@ -66,7 +66,7 @@ angular.module('frontendApp')
         }else{
             $scope.Salida.orden_venta.productos.forEach(function(ele,index){
                 if (ele.cantidad_faltante==0) {
-                    $scope.Entrada.orden_compra.productos.splice(ele.index,1);
+                    $scope.Entrada.orden_venta.productos.splice(ele.index,1);
                 }
             });
         }
@@ -130,24 +130,31 @@ angular.module('frontendApp')
         webServer
         .getResource("salidas",$scope.Salida,"post")
         .then(function(data){
-            $scope.Salida._id=data.data._id;
+            $scope.Salida.consecutivo_salida=data.data.datos.consecutivo_salida;
+            $scope.Salida._id=data.data.datos._id;
             $scope.Salidas.push($scope.Salida);
             $scope.Ordenes.forEach(function(ele,ind){
                 if (ele._id==$scope.Salida.orden_venta._id) {
-                    if (ele.productos) {
-                        ele.productos.forEach(function(elemento,index){
-                            $scope.Salida.orden_venta.productos.forEach(function(e, i){
-                                if(e._id==elemento._id){
-                                    elemento=e;
-                                }
+                    if(data.data.data.datos.orden_venta.estado=='Finalizado'){
+                        $scope.Ordenes.splice(ele.index,1);
+                    }else{
+                        ele.estado=data.data.datos.orden_venta.estado;
+                        if (ele.productos && data.data.datos.orden_venta.productos) {
+                            ele.productos.forEach(function(elemento,index){
+                                data.data.datos.orden_venta.productos.forEach(function(e, i){
+                                    if(e._id==elemento._id){
+                                        elemento=e;
+                                    }
+                                });
                             });
-                        });
+                        }
                     }
                 }
             });
             $scope.Salida={};
             $scope.Salida.orden_venta={};
             $scope.Salida.orden_venta.productos=[];
+            $scope.Orden.venta=null;
             sweetAlert("Completado...", data.data.message , "success"); 
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");
@@ -156,7 +163,7 @@ angular.module('frontendApp')
     }
     function listarOrdenes(){
         webServer
-        .getResource('orden_venta',{},'get')
+        .getResource('orden_venta',{Activo: true, Salidas:true},'get')
         .then(function(data){
             if(data.data){
                 $scope.Ordenes=data.data.datos;

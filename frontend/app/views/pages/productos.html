@@ -149,13 +149,22 @@
 						      	</table>
 							</div>							
 						</div>
+						<div class="row" ng-show="check=='producto'">
+							<p class="col s6 m2 l2">
+								<input type="checkbox" ng-model="Producto.fabricado" id="fabricado"/>
+	      						<label for="fabricado">Fabricado</label>
+							</p>
+							<p class="col s6 m2 l2">
+								<input type="checkbox" ng-model="Producto.comprado" id="comprado" />
+	      						<label for="comprado">Comprado</label>
+							</p>
+						</div>
 						<div class="row">
 							<div class="col s12 m12 l12">
 								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formProductos.$invalid || ((check=='producto' && Producto.Insumos.length<1 && Producto.productos.length<1) ||(check=='producto' && Producto.procesos.length<1)) || (check=='kit' && Producto.productos.length<1)">{{button_title_form}}</button>
 								<button type="button" class="btn btn-large btn-danger" ng-show="panel_title_form == 'Edicion de Producto'" ng-click="CancelarEditar()">Cancelar</button>
 							</div>
-						</div>						
-						
+						</div>
 					</form>
 				</div>
 			</div>
