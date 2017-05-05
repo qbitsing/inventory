@@ -29,7 +29,7 @@ let crear = co.wrap(function * (req, res){
         let datos = categoria.save();
 
         return res.status(200).send({
-            datos: datos._id,
+            datos,
             message: 'categoria creada exitosamente'
         });
     } catch (e) {

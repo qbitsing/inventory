@@ -55,9 +55,9 @@ let crear = co.wrap(function * (req, res){
           let noDisponibles = [];
           let contador = 0;
           req.body.orden_venta.productos = [];
-          for(var ele of productos){
+          for(let ele of productos){
             let pro = yield productoModel.findById(ele._id);
-            if(pro.cantidad < ele.cantidad){
+            if(pro.cantidad < ele.cantidad_saliente){
               noDisponibles.push(`No se puede realizar la salida ya que no cuenta con ${ele.cantidad} de ${ele.nombre}`);
             }
           }
@@ -67,28 +67,28 @@ let crear = co.wrap(function * (req, res){
               noDisponibles
             });
           }
-          for(var ele of productos){
-            if(ele.cantidad_faltante == 0) contador ++;
+          for(let ele of productos){
             if(ele.cantidad_saliente > 0){
-              ele.cantidad_faltante -= ele.cantidad_saliente;
               let pro = yield productoModel.findById(ele._id);
-              pro.apartados -= ele.cantidad;
-              pro.cantidad -= ele.cantidad;
+              pro.apartados -= ele.cantidad_saliente;
+              pro.cantidad -= ele.cantidad_saliente;
               yield productoModel.findByIdAndUpdate(pro._id, pro);          
             }
+            if(ele.cantidad_faltante == 0) contador ++;
             req.body.orden_venta.productos.push(ele);
           }
-          req.body.orden_venta.estado = 'Con Salida';
+          req.body.orden_venta.estado = 'Con Salidas';
 
           if(contador == req.body.orden_venta.productos.length) req.body.orden_venta.estado = 'Finalizado'
-          yield ordenModel.findByIdAndUpdate(req.body.orden_venta._id);
+          yield ordenModel.findByIdAndUpdate(req.body.orden_venta._id, req.body.orden_venta);
 
           let salida = new salidaModel(req.body);
 
-          yield salida.save();
+          let datos = yield salida.save();
 
           return res.status(200).send({
-            message: 'Salida registrada con exito'
+            message: 'Salida registrada con exito',
+            datos
           });
 
         }else{
@@ -115,7 +115,7 @@ let eliminar = co.wrap(function *(req, res){
 		if(salida.orden_venta.productos.length > 0){
 			let productos = salida.orden_venta.productos;
 			salida.orden_venta.productos = [];
-			for(var ele of productos){
+			for(let ele of productos){
 				ele.cantidad_faltante += ele.cantidad_saliente;
         let pro = yield productoModel.findById(ele._id);
         pro.apartados += ele.cantidad;

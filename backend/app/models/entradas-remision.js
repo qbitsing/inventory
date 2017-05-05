@@ -10,9 +10,16 @@ const entradaRemisionSchema = new Schema({
     fabricacion: {},
     productos: [],
     estado:{type: String, enum:['Cancelada']},
-    consecutivo: Number,
+    entrada_remision_consecutivo: Number,
     asunto: String,
     typeRemision: {type: Boolean, default: false}
+});
+
+entradaRemisionSchema.plugin(autoIncrement.plugin, {
+    model: 'entradaremision',
+    field: 'entrada_remision_consecutivo',
+    startAt: 1000,
+    incrementBy: 1
 });
 
 module.exports = mongoose.model('entradaremision', entradaRemisionSchema);

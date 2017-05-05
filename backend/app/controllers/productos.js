@@ -163,9 +163,20 @@ function crear(req, res){
                     message : `ERROR al intentar almacenar el recurso en la abse de datos ${err}`
                 });
             }
-            return res.status(200).send({
-                datos: materiaPrimaStored
+            materiaPrimaStored.codigo = parseInt(`${materiaPrimaStored.categoria.codigo}${materiaPrimaStored.producto_consecutivo}`);
+            ProductoModel.findByIdAndUpdate(materiaPrimaStored._id, materiaPrimaStored, (err, datos)=>{
+                if(err){
+                    return res.status(500).send({
+                        message : `ERROR al intentar almacenar el recurso en la abse de datos ${err}`
+                    });
+                }
+                datos.codigo = parseInt(`${datos.categoria.codigo}${datos.producto_consecutivo}`);
+                return res.status(200).send({
+                    datos,
+                    message: 'Produto Creado Con Exito'
+                });
             });
+            
         });
     }
 }
