@@ -29,8 +29,7 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="input-field col s12 m6 l6" ng-show="check=='producto'">								
-								<input type="text" ng-model="Producto.marca" id="marca" name="marca" ng-required="check.producto">
+							<div class="input-field col s12 m6 l6" ng-show="check=='producto'">			<input type="text" ng-model="Producto.marca" id="marca" name="marca" ng-required="check.producto">
 								<label for="marca">Marca *</label>
 							</div>
 							<div class="input-field col s12 m6 l6" ng-show="check=='producto'">								
@@ -190,12 +189,12 @@
     	<div class="row">
     		<ul>
 			<li> Nombre: {{Detalle.nombre || 'No registra'}}</li>
-			<li ng-show="Detalle.Insumos.length>0"> Unidad de medida: {{Detalle.unidad_medida.nombre || 'No registra'}}</li>
-			<li ng-show="Detalle.Insumos.length>0"> Minimo stock: {{Detalle.min_stock || 'No registra'}}</li>
-			<li ng-show="Detalle.Insumos.length>0"> Marca: {{Detalle.marca || 'No registra'}}</li>
+			<li ng-show="Detalle.tipo=='producto'"> Minimo stock: {{Detalle.min_stock || 'No registra'}}</li>
+			<li ng-show="Detalle.tipo=='producto'"> Marca: {{Detalle.marca || 'No registra'}}</li>
 			<li> Categoria: {{Detalle.categoria.nombre || 'No registra'}}</li>
 			<li ng-show="Usuario.rol!='Almacenista'"> Precio: {{Detalle.precio || 'No registra'}}</li>
-			<li> Cantidad: {{Detalle.cantidad || 'No registra'}}</li>
+			<li> Cantidad: {{Detalle.cantidad}} {{Detalle.unidad_medida.nombre}}</li>
+			<li> Tipo: {{Detalle.tipo}}</li>
 			<li ng-show="Detalle.procesos.length>0"> <h4>Procesos:</h4></li>
 			<table class="bordered striped" ng-show="Detalle.procesos.length>0">
 		        <thead>

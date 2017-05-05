@@ -371,6 +371,7 @@ angular.module('frontendApp')
                     cantidad : ele.cantidad,
                     marca : ele.marca,
                     categoria : ele.categoria,
+                    tipo : ele.tipo,
                     unidad_medida : ele.unidad_medida,
                     Insumos : ele.Insumos,
                     procesos : ele.procesos,

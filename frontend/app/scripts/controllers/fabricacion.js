@@ -896,7 +896,7 @@ angular.module('frontendApp')
     }
     function listarProductos(){
         webServer
-        .getResource('productos',{producto:true,fabricado:true},'get')
+        .getResource('productos',{producto:true},'get')
         .then(function(data){
             if(data.data){
                 $scope.Productos=data.data.datos;
