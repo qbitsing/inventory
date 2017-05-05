@@ -1,6 +1,7 @@
 'use strict';
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const autoIncrement = require('../utils/auto-increment.js');
 
 const ProductoSchema = new Schema({
     nombre : String,
@@ -14,9 +15,21 @@ const ProductoSchema = new Schema({
     procesos: [],
     productos : [],
     precio: Number,
-    consecutivo: Number,
+    producto_consecutivo: Number,
     codigo: Number,
-    tipo: {type: String, enum:['producto', 'kit']}
+    tipo: {type: String, enum:['producto', 'kit']},
+    fabricado: Boolean,
+    comprado: Boolean
 });
 
-module.exports = mongoose.model('Producto' , ProductoSchema);
+ProductoSchema.plugin(autoIncrement.plugin, {
+    model: 'Producto',
+    field: 'producto_consecutivo',
+    startAt: 1000,
+    incrementBy: 1
+});
+
+
+const modelProduct = mongoose.model('Producto' , ProductoSchema);
+
+module.exports = modelProduct
