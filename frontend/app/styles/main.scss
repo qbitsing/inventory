@@ -87,7 +87,7 @@ $success:#00c853;
 }
 .main-view{
   transition:all 0.3s linear;
-  z-index: -1;
+  z-index: 1;
   position:absolute;
   right:0;
   top:64px;
@@ -106,6 +106,7 @@ $success:#00c853;
   right:0!important;
   width:auto;
   transition:all 0.3s linear;
+  z-index: 2;
   .dropdown-content{
     margin-top: 64px;
     z-index: 2;
@@ -121,7 +122,6 @@ $success:#00c853;
   background: none;
   transform: translateX(0)!important;
   padding:0;
-  
   ul{
     margin:0;
     li{ 
@@ -151,7 +151,7 @@ $success:#00c853;
   }
   .main-view{
     transition:all 0.3s linear;
-    z-index: -1;
+    z-index: 1;
     position:absolute;
     right:0;
     top:64px;
@@ -169,6 +169,7 @@ $success:#00c853;
   }
   .sidenav{
      width:100% !important; 
+     z-index: 2 !important;
   }
   .top-nav-hidden{
     left:0!important;
@@ -181,14 +182,13 @@ $success:#00c853;
   }
   .main-view{
     transition:all 0.3s linear;
-    z-index: -1;
     position:absolute;
     right:0;
-    top:64px;
+    top:56px;
     height:auto;
     left:0;
     .titulo-pagina{
-      top:56px;
+      top:0;
     }
   }
 }
@@ -228,6 +228,7 @@ $success:#00c853;
   transition:all 0.3s linear;
   overflow-y:scroll;
   overflow-x:hidden;
+  z-index: 1;
   &::-webkit-scrollbar {
         width: 10px;
         }  
@@ -390,6 +391,7 @@ $success:#00c853;
   display:none!important;
 }
 .modal{
+  top:100px !important;
   .modal-content{
     .modal-title{
       position:fixed;
