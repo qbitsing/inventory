@@ -27,8 +27,7 @@ ProductoSchema.plugin(autoIncrement.plugin, {
     incrementBy: 1
 });
 
-ProductoSchema.post('save', function(product){
-    console.log(product.categoria);
-});
 
-module.exports = mongoose.model('Producto' , ProductoSchema);
+const modelProduct = mongoose.model('Producto' , ProductoSchema);
+
+module.exports = modelProduct
