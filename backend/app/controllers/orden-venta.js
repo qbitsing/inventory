@@ -3,160 +3,135 @@
 const ordenVentaModel = require('../models/orden-venta');
 const clienteModel = require('../models/personas');
 const productoModel = require('../models/productos');
+const co = require('co');
 
-function listarAll(req, res){
-    ordenVentaModel.find({},null, {sort: {fecha_recepcion: -1}} , (err , ordenStored)=>{
-        if(err){
-            return res.status(500).send({
-                message: `ERROR al intentar obtener la lista de ordenes de venta ${err}`
-            });
-        }
+let listarAll = co.wrap(function * (req, res){
+    try {
+        let query = req.query;
+        let condiciones = [];
+        query.Activo ? condiciones.push({estado: 'Activo'}) : null;
+        query.Finalizado ? condiciones.push({estado: 'Finalizado'}) : null;
+        query.Salidas ? condiciones.push({estado: 'Con Salidas'}) : null;
 
-        if(ordenStored.length < 1){
+        let datos = [];
+
+        //if(query.Activo || query.Finalizado || query.Entradas)        
+        //    datos = yield ordenVentaModel.find({$or: condiciones}, null, {sort: {fecha_recepcion: -1}});
+        datos = yield ordenVentaModel.find({},null, {sort: {fecha_recepcion: -1}});
+
+        if(datos.length < 1){
             return res.status(404).send({
-                message: `ERROR no hay ordenes de venta registradas`
+                message: `no hay ordenes de venta registradas`
             });
         }
 
         return res.status(200).send({
-            datos : ordenStored
+            datos
         });
-    });
-}
+    } catch (error) {
+        return res.status(500).send({
+            message: `ERROR ${e}`
+        });
+    }
+});
 
-function listarById(req, res){
-    let ordenId = req.params.id;
-    ordenVentaModel.findById(ordenId, (err , ordenStored)=>{
-        if(err){
-            return res.status(500).send({
-                message : `ERROR al intentar obtener el recurso ${err}`
-            });
-        }
-
-        if(!ordenStored){
+let listarById = co.wrap(function * (req, res){
+    try {
+        let ordenId = req.params.id;
+        let datos = yield ordenVentaModel.findById(ordenId);
+        if(!datos){
             return res.status(404).send({
-                message : `ERROR no se encuentra ningun registro con el ID indicado`
+                message : `no se encuentra ningun registro con el ID indicado`
             });
         }
-
         return res.status(200).send({
-            datos : ordenStored
+            datos
         });
+    } catch (e) {
+        return res.status(500).send({
+            message : `ERROR ${e}`
+        });
+    }
+});
 
-    });
-}
-
-function crear(req, res){
-    var productosArray = [];
-    var ErroresProductos = [];
-    if(req.body.cliente){
-        clienteModel.findById(req.body.cliente._id, (err, clienteStored)=>{
-            if(err){
-                return res.status(500).send({
-                    message: `ERROR al intentar obtener el cliente ${err}`
-                });
+let crear = co.wrap(function * (req, res){
+    try {
+        if(req.body.cliente){
+            req.body.cliente = yield clienteModel.findById(req.body.cliente._id);
+        }
+        let noDisponible = [];
+        for(let ele of req.body.productos){
+            let pro = yield productoModel.findById(ele._id);
+            let disponible = pro.cantidad - pro.min_stock;
+            if(pro.cantidad < ele.cantidad){
+                noDisponible.push(`No cuenta con las cantidad suficiente de ${ele.nombre} en inventario`);
+            }else if(disponible < ele.cantidad){
+                noDisponible.push(`El minimo stock  de ${ele.nombre} se esta superando`);
+            }else if((pro.cantidad - pro.apartados) < ele.cantidad){
+                noDisponible.push(`El inventario cuenta con el producto ${ele.nombre} pero ya hay ${pro.apartados} apartados en otras ordenes de venta`);
+            }else if((disponible - pro.apartados) < ele.cantidad){
+                noDisponible.push(`El inventario cuenta con el producto ${ele.nombre} pero ya hay ${pro.apartados} apartados en otras ordenes de venta,
+                y al despacharlos se supera el minimo stock`);                
             }
-            if(!clienteStored){
-                return res.status(404).send({
-                    message: `ERROR el cliente indicado no esta registrado en la base de datos`
-                });
-            }  
-            req.body.cliente = clienteStored;
-            pasoUno();
 
-        });
-    }else pasoUno();
+            pro.apartados += ele.cantidad;
 
-    function pasoUno(){
-        if(ErroresProductos.length>0){
-            return res.status(500).send({
-                ErroresProductos
-            });
+            yield productoModel.findByIdAndUpdate(pro._id, pro);
         }
         let newOrdenVenta = new ordenVentaModel(req.body);
-        newOrdenVenta.save((err , ordenStored)=>{
-            if(err){
-                return res.status(500).send({
-                    message : `ERROR al intentar almacenar el recurso en la base de datos ${err}`
-                });
-            }
+        let datos = yield newOrdenVenta.save();
 
-            return res.status(200).send({
-                datos: ordenStored
-            });
+        return res.status(200).send({
+            datos,
+            noDisponible,
+            message: 'Se ha registrado la orden de venta exitosamente',
+            id: datos._id
+        });
+    } catch (e) {
+        return res.status(500).send({
+            message: `ERROR ${e}`
         });
     }
-}
+});
 
-function actualizar(req, res){
-    var ErroresProductos = [];
-    var productosArray = [];
-    if(req.body.cliente){
-        clienteModel.findById(req.body.cliente._id, (err, clienteStored)=>{
-            if(err){
-                return res.status(500).send({
-                    message: `ERROR al intentar obtener el cliente ${err}`
-                });
-            }
-            if(!clienteStored){
-                return res.status(404).send({
-                    message: `ERROR el cliente indicado no esta registrado en la base de datos`
-                });
-            }  
-            req.body.cliente = clienteStored;
-            pasoCero();
-
-        });
-    }else pasoCero();
-
-    function pasoCero (){
-        if(req.body.productos){
-            var contador = 0;
-            for(var producto of req.body.productos){
-                productoModel.findById(producto._id, (err, productoStored)=>{
-                    if(err){
-                        ErroresProductos.push({
-                            message: `ERROR al intentar obtener el producto ${err}`
-                        });
-                    }
-                    if(!productoStored){
-                        ErroresProductos.push({
-                            message: `ERROR alguno de los productos indicados no esta en la base de datos ${producto.nombre}`
-                        });
-                    }
-                    productoStored.cantidad = producto.cantidad;
-                    productosArray.push(productoStored);
-                    contador ++;
-                    if(contador == req.body.productos.length){
-                        req.body.productos = productosArray
-                        pasoUno();
-                    }
-
-                });
-            }
-        }else pasoUno();
-    }
-
-    function pasoUno(){
-        if(ErroresProductos.length>0){
-            return res.status(500).send({
-                ErroresProductos
-            });
+let actualizar = co.wrap(function * (req, res){
+    try {
+        let ordenId = req.params.id; 
+        if(req.body.cliente){
+            req.body.cliente = yield clienteModel.findById(req.body.cliente._id);
         }
-        var ordenId = req.params.id;
-        ordenVentaModel.findByIdAndUpdate(ordenId, req.body , (err , ordenStored)=>{
-            if(err){
-                return res.status(500).send({
-                    message : `ERROR al intentar actualizar el recurso en la base de datos ${err}`
-                });
+        let noDisponible = [];
+        for(let ele of req.body.productos){
+            let pro = yield productoModel.findById(ele._id);
+            let disponible = pro.cantidad - pro.min_stock;
+            if(pro.cantidad < ele.cantidad){
+                noDisponible.push(`No cuenta con las cantidad suficiente de ${ele.nombre} en inventario`);
+            }else if(disponible < ele.cantidad){
+                noDisponible.push(`El minimo stock  de ${ele.nombre} se esta superando`);
+            }else if((pro.cantidad - pro.apartados) < ele.cantidad){
+                noDisponible.push(`El inventario cuenta con el producto ${ele.nombre} pero ya hay ${pro.apartados} apartados en otras ordenes de venta`);
+            }else if((disponible - pro.apartados) < ele.cantidad){
+                noDisponible.push(`El inventario cuenta con el producto ${ele.nombre} pero ya hay ${pro.apartados} apartados en otras ordenes de venta,
+                y al despacharlos se supera el minimo stock`);                
             }
 
-            return res.status(200).send({
-                datos: ordenStored
-            });
-        })
+            pro.apartados += ele.cantidad;
+
+            yield productoModel.findByIdAndUpdate(pro._id, pro);
+        }
+
+        yield ordenVentaModel.findByIdAndUpdate(ordenId, req.body);
+
+        return res.status(200).send({
+            message: 'Orden de venta actualizada con exito',
+            noDisponible
+        });
+    } catch (e) {
+        return res.status(500).send({
+            message: `ERROR ${e}`
+        });
     }
-}
+});
 
 function eliminar(req, res){
     let ordenId = req.params.id;
