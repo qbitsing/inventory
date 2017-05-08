@@ -39,12 +39,15 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="input-field col s12 m6 l6">
+							<div class="input-field col s10 m5 l5">
 								<select ng-model="producto._id" material-select watch>
 	      							<option ng-if="panel_title_form=='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in Productos" value="{{producto._id}},{{producto.nombre}}">{{producto.nombre}}</option>
 	      							<option ng-if="panel_title_form!='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in fabricacion.productos" value="{{producto._id}},{{producto.nombre}}">{{producto.nombre}}</option>
 								</select>
 								<label>Productos *</label>
+							</div>
+							<div class="input-field col s2 m1 l1">
+								<input type="text" ng-change="cargarProducto()" ng-model="producto.codigo" id="codigo_barras" name="codigo_barras">
 							</div>
 							<div class="input-field col s8 m4 l4">
 								<input type="number" ng-model="producto.cantidad" id="Cantidad" name="Cantidad">

@@ -12,8 +12,7 @@ angular.module('frontendApp')
     $scope.productBarCode = [];
     $scope.bc = {
         lineColor: '#000000',
-        width: 0.5,
-        height: 25,
+        height: 50,
         displayValue: true,
         fontSize: 10
     }
@@ -82,7 +81,6 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptions , Tabla);
-
     function listarInsumos(){
         webServer
         .getResource('materiaPrima',{},'get')
@@ -133,6 +131,19 @@ angular.module('frontendApp')
         });
     }
     listarProductos();
+    $scope.cargarProducto=function(){
+        var conter=true;
+        $scope.Productos.forEach(function(ele , index){
+            if($scope.Kit.codigo == ele.codigo){
+                $scope.Kit.producto._id=ele._id+','+ele.nombre;
+                conter=false;
+            }
+        });
+        if (conter) {
+            $scope.Kit.producto={};
+            $scope.Kit.producto._id='';
+        }
+    }
     $scope.AgregarInsumo=function(){
         var controlador=false;
         var obj = {
@@ -339,7 +350,7 @@ angular.module('frontendApp')
             pro.barcodes = [];
             for(var i = 0; i < $scope.productBarCodeCant; i++){
                 pro.barcodes.push({
-                    code : '100-'+pro._id
+                    code : pro.codigo
                 });
             }
             $scope.productBarCode.push({

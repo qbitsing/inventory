@@ -16,7 +16,6 @@
 								<label>Proveedor*</label>
 							</div>
 						</div>
-						
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<select ng-model="Orden.Materia._id" material-select watch>
@@ -24,12 +23,14 @@
 								</select>
 								<label>Materias primas *</label>
 							</div>
-							<div class="input-field col s12 m6 l6">
-								<input type="text" ng-change="cargarProducto()" ng-model="Orden.Producto.codigo" id="codigo_barras" name="codigo_barras">
+							<div class="input-field col s10 m5 l5">
 								<select ng-model="Orden.Producto._id" id="select_producto" material-select watch>
 	      							<option ng-repeat="producto in productos" value="{{producto._id}},{{producto.nombre}}">{{producto.nombre}}</option>
 								</select>
 								<label for="select_producto">Productos *</label>
+							</div>
+							<div class="input-field col s2 m1 l1">
+								<input type="text" ng-change="cargarProducto()" ng-model="Orden.Producto.codigo" id="codigo_barras" name="codigo_barras">
 							</div>
 						</div>
 						<div class="row">

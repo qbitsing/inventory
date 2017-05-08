@@ -182,7 +182,6 @@ angular.module('frontendApp')
             $scope.check='stock';
         }
     }
-    
     $scope.CancelarEditar=function(){
         listarFabricaciones();
         $scope.panel_title_form = "Registro de Fabricaciones";
@@ -195,7 +194,18 @@ angular.module('frontendApp')
         $scope.proceso={};
         $scope.producto={};
     }
-
+    $scope.cargarProducto=function(){
+        var conter=true;
+        $scope.Productos.forEach(function(ele , index){
+            if($scope.producto.codigo == ele.codigo){
+                $scope.producto._id=ele._id+','+ele.nombre;
+                conter=false;
+            }
+        });
+        if (conter) {
+            $scope.producto._id='';
+        }
+    }
     function EnviarFabricacion(){
         var metodo='';
         var ruta='';
