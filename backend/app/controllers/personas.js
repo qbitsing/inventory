@@ -4,6 +4,7 @@ const personaModel = require('../models/personas');
 const ciudadModel = require('../models/ciudades');
 const bcrypt = require('bcrypt-nodejs');
 const co = require('co');
+const transporter = require('../utils/email').transporter;
 
 function listarAll (req, res){
 	let query = req.query;
@@ -44,66 +45,39 @@ function listarById (req, res) {
 	});
 }
 
-/*let crear = co.wrap(function * (req, res){
+let crear = co.wrap(function * (req, res){
 	try {
 		let pass = '';
-		req.body.
+		if(req.body.ciudad){
+			req.body.ciudad = yield ciudadModel.findById(req.body.ciudad._id);
+		}
+		if(req.body.administrador|| req.body.super_administrador || req.body.contador || req.body.almacenista){
+			pass = CreatePass();
+			req.body.contrasena = encryptarContrasena(pass);
+			let mailOptions = {
+				from: 'Produciones Industriales Esperanza S.A.S.',
+				to: req.body.correo,
+				subject: 'Registro en la plataforma de inventario',
+				text: `Cordial Saludo Sr(a) ${req.body.nombre} su registro en la plataforma de inventario ha sido exitoso su clave de acceso es: ${pass}`
+			};
+
+			let info = yield transporter.sendMail(mailOptions);
+		}
+
+
+		let persona = new personaModel(req.body);
+		let datos = yield persona.save();
+		
+		return res.status(200).send({
+			message: 'Persona Registrada con Exito',
+			datos
+		});
 	} catch (e) {
 		return res.status(500).send({
 			message: `ERROR ${e}`
 		});
 	}
-});*/
-
-function crear (req, res) {
-	var pass= "";
-	var ciudad = null;
-	if(req.body.ciudad){
-		ciudadModel.findById(req.body.ciudad._id , (err , ciudadStored)=>{
-			if(err){
-				return res.status(500).send({
-					message : `Error al buscar la ciudad ${err}`
-				});
-			}
-
-			if(!ciudadStored){
-				return res.status(404).send({
-					message : `Error la ciudad indicada no se encuentra en la BD`
-				});
-			}
-
-			ciudad = ciudadStored;
-			if(req.body.administrador|| req.body.super_administrador || req.body.contador || req.body.almacenista){
-				pass = CreatePass();
-				req.body.contrasena = encryptarContrasena(pass);
-			}
-			insertar();
-		});
-	}else {
-		if(req.body.administrador|| req.body.super_administrador || req.body.contador || req.body.almacenista){
-			pass = CreatePass();
-			req.body.contrasena = encryptarContrasena(pass);
-
-		}
-		insertar();
-	}
-	function insertar(){
-		req.body.ciudad = ciudad;
-		
-		var persona = new personaModel(req.body);
-		persona.save((err, personaStored)=>{
-			if(err){
-				return res.status(500).send({
-					message : `Error al guardar la persona en la base de datos: ${err}`
-				});
-			}
-			return res.status(200).send({
-				datos : personaStored,
-				pass
-			});
-		});
-	}
-}
+});
 
 function actualizar (req, res) {
 	let personaId = req.params.id;
@@ -182,25 +156,42 @@ function eliminar (req, res) {
 function encryptarContrasena(pass){
 	return  bcrypt.hashSync(pass)
 }
-function contrasena(req , res){
-	var pass = CreatePass();
-	req.body.contrasena = encryptarContrasena(pass);
-	personaModel.findOneAndUpdate({correo : req.body.correo},req.body,(err, _user)=>{
-		if(err){
-			return res.status(500).send({
-				message: `Error interno del servidor ${err}`
-			});
-		}
-		if(!_user){
+let contrasena = co.wrap(function * (req, res){
+	try {
+		let pass = CreatePass();
+
+		let persona = yield personaModel.findOne({correo: req.body.correo});
+
+		if(!persona){
 			return res.status(404).send({
-				message: `EL correo inicado no esta registrado en la base de datos`
+				message:'El correo indicado no se encuentra registrado en la base de datos por favor intentelo de nuevo'
 			});
 		}
+
+		let mailOptions = {
+			from: 'Produciones Industriales Esperanza S.A.S.',
+			to: persona.correo,
+			subject: 'cambio de contraseña',
+			text: `Cordial Saludo Sr(a) ${persona.nombre} se realizo cambio de contraseña y ha sido exitoso su clave de acceso es: ${pass}`
+		};
+
+		let info = yield transporter.sendMail(mailOptions);
+
+		persona.contrasena = encryptarContrasena(pass);
+
+		yield personaModel.findByIdAndUpdate(persona._id, persona);
+
 		return res.status(200).send({
-			pass
+			message: 'La contraseña nueva a sido enviada al correo indicado'
 		});
-	});
-}
+
+	} catch (e) {
+		return res.status(500).send({
+			message: `ERROR ${e}`
+		});
+	}
+});
+
 function CreatePass(){
 	var pass = '';
 	for(var i = 0; i<6; i++){
