@@ -17,6 +17,7 @@
     "jwt-simple": "^0.5.1",
     "mongoose": "^4.8.5",
     "mongoose-auto-increment": "^5.0.1",
+    "nodemailer": "^4.0.1",
     "phantom-html2pdf": "^4.0.0"
   },
   "devDependencies": {
