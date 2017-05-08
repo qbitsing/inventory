@@ -25,6 +25,7 @@
 								<label>Materias primas *</label>
 							</div>
 							<div class="input-field col s12 m6 l6">
+								<input type="text" ng-change="" ng-model="Orden.Producto.codigo" id="codigo_barras" name="codigo_barras">
 								<select ng-model="Orden.Producto._id" material-select watch>
 	      							<option ng-repeat="producto in productos" value="{{producto._id}},{{producto.nombre}}">{{producto.nombre}}</option>
 								</select>

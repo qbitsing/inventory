@@ -42,21 +42,6 @@ angular.module('frontendApp')
     $scope.Remisiones=[];
     $scope.cancelarentrada={};
     $scope.cancelarsalida={};
-    /*$('.datepicker').pickadate({
-        labelMonthNext: 'Next month',
-        labelMonthPrev: 'Previous month',
-        labelMonthSelect: 'Select a month',
-        labelYearSelect: 'Select a year',
-        monthsFull: [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ],
-        monthsShort: [ 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
-        weekdaysFull: [ 'Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado' ],
-        weekdaysShort: [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab' ],
-        weekdaysLetter: [ 'D', 'L', 'M', 'Mi', 'J', 'V', 'S' ],
-        today: 'Hoy',
-        clear: 'Limpiar',
-        close: 'Cerrar'
-    });*/
-    
 	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Salida+BotonesTabla.Entrada+BotonesTabla.MateriaPrima+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
@@ -110,12 +95,15 @@ angular.module('frontendApp')
     $scope.abrirModalCrear=function(){
         var titulo="";
         var boton="";
+        var mensaje="";
         if ($scope.button_title_form=='Registrar fabricación') {
             titulo="Confirmar Registro";
             boton="Si, Registrar!";
+            mensaje="La fabricación no se registrará";
         }else{
             titulo="Confirmar Cambios";
             boton="Si, Actualizar!";
+            mensaje="La fabricación no se actualizará";
         }
         swal({
             title: titulo,
@@ -132,7 +120,8 @@ angular.module('frontendApp')
             if (isConfirm) {
                 EnviarFabricacion();
             } else {
-                swal("Cancelado", "La fabricación no se registrará", "error");
+
+                swal("Cancelado", mensaje, "error");
             }
         });
     }
@@ -160,7 +149,7 @@ angular.module('frontendApp')
         var controler=true;
         $scope.Fabricaciones.forEach(function(ele, index){
             if (ele._id==id) {
-                if (ele.estado='Incompleta') {
+                if (ele.estado!='En Fabricacion') {
                     controler=false;
                 }
             }
