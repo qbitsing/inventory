@@ -38,7 +38,7 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
-                name:'orden de venta',field: 'orden_venta.consecutivo_orden_venta',
+                name:'orden de venta',field: 'orden_venta.orden_venta_consecutivo',
                 width:'20%',
                 minWidth: 160
             },
@@ -130,7 +130,7 @@ angular.module('frontendApp')
         webServer
         .getResource("salidas",$scope.Salida,"post")
         .then(function(data){
-            $scope.Salida.consecutivo_salida=data.data.datos.consecutivo_salida;
+            $scope.Salida.salida_consecutivo=data.data.datos.salida_consecutivo;
             $scope.Salida._id=data.data.datos._id;
             $scope.Salidas.push($scope.Salida);
             $scope.Ordenes.forEach(function(ele,ind){

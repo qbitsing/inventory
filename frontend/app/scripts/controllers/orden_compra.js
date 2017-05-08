@@ -35,7 +35,7 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
-                name:'Numero de orden interna',field: 'consecutivo_orden_compra',
+                name:'Numero de orden interna',field: 'orden_compra_consecutivo',
                 width:'10%',
                 minWidth: 200
             },
@@ -68,51 +68,6 @@ angular.module('frontendApp')
     $scope.Orden.materia_prima=[];
     $scope.productos=[];
     $scope.materias=[];
-    function listarPersonas(){
-        webServer
-        .getResource('personas',{proveedorproductos:true},'get')
-        .then(function(data){
-            if(data.data){
-                $scope.proveedores = data.data.datos;
-            }else{
-                $scope.proveedores = [];
-            }
-        },function(data){
-            console.log(data);
-        });
-    }
-    function listarMaterias(){
-        webServer
-        .getResource('materiaPrima',{},'get')
-        .then(function(data){
-            if(data.data){
-                $scope.materias=data.data.datos;
-            }else{
-                $scope.materias=[];
-            }
-            listarPersonas();
-        },function(data){
-            $scope.materias=[];
-            console.log(data.data.message);
-            listarPersonas();
-        });
-    }
-    function listarProductos(){
-        webServer
-        .getResource('productos',{},'get')
-        .then(function(data){
-            if(data.data){
-                $scope.productos=data.data.datos;
-            }else{
-                $scope.productos=[];
-            }
-            listarMaterias();
-        },function(data){
-            $scope.materias=[];
-            console.log(data.data.message);
-            listarMaterias();
-        });
-    }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Ordenes.find(function(ele){
             if(ele._id == id){
@@ -127,21 +82,18 @@ angular.module('frontendApp')
         }
         $('#modalDetalles').modal('open');
     }
-    function listarOrdenes(){
-        webServer
-        .getResource('orden_compra',{Salidas:true, Finalizado:true, Activo:true},'get')
-        .then(function(data){
-            $scope.Ordenes=data.data.datos;
-            $scope.gridOptions.data=$scope.Ordenes;
-            listarProductos();
-        },function(data){
-            $scope.Ordenes=[];
-            $scope.gridOptions.data=$scope.Ordenes;
-            console.log(data.data.message);
-            listarProductos();
+    $scope.cargarProducto=function(){
+        var conter=true;
+        $scope.productos.forEach(function(ele , index){
+            if($scope.Orden.Producto.codigo == ele.codigo){
+                $scope.Orden.Producto._id=ele._id+','+ele.nombre;
+                conter=false;
+            }
         });
+        if (conter) {
+            $scope.Orden.Producto._id='';
+        }
     }
-    listarOrdenes();
     $scope.AgregarProducto=function(){
         var controlador=false;
         var _id = $scope.Orden.Producto._id.split(',')[0];
@@ -272,7 +224,7 @@ angular.module('frontendApp')
             if($scope.panel_title_form=="Registro de Compra"){
                 $scope.Orden.fecha=new Date(Date.now());
                 $scope.Orden._id=data.data.datos._id;
-                $scope.Orden.consecutivo_orden_compra=data.data.datos.consecutivo_orden_compra;
+                $scope.Orden.orden_compra_consecutivo=data.data.datos.orden_compra_consecutivo;
                 $scope.Ordenes.push($scope.Orden);
             }else{
                 $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
@@ -318,7 +270,7 @@ angular.module('frontendApp')
                     index: index,
                     _id : ele._id,
                     proveedor : ele.proveedor,
-                    consecutivo_orden_compra : ele.consecutivo_orden_compra,
+                    orden_compra_consecutivo : ele.orden_compra_consecutivo,
                     productos : ele.productos,
                     materia_prima : ele.materia_prima,
                     observaciones : ele.observaciones
@@ -327,4 +279,64 @@ angular.module('frontendApp')
         });
         return obj;
     }
+    function listarPersonas(){
+        webServer
+        .getResource('personas',{proveedorproductos:true},'get')
+        .then(function(data){
+            if(data.data){
+                $scope.proveedores = data.data.datos;
+            }else{
+                $scope.proveedores = [];
+            }
+        },function(data){
+            console.log(data);
+        });
+    }
+    function listarMaterias(){
+        webServer
+        .getResource('materiaPrima',{},'get')
+        .then(function(data){
+            if(data.data){
+                $scope.materias=data.data.datos;
+            }else{
+                $scope.materias=[];
+            }
+            listarPersonas();
+        },function(data){
+            $scope.materias=[];
+            console.log(data.data.message);
+            listarPersonas();
+        });
+    }
+    function listarProductos(){
+        webServer
+        .getResource('productos',{producto:true},'get')
+        .then(function(data){
+            if(data.data){
+                $scope.productos=data.data.datos;
+            }else{
+                $scope.productos=[];
+            }
+            listarMaterias();
+        },function(data){
+            $scope.materias=[];
+            console.log(data.data.message);
+            listarMaterias();
+        });
+    }
+    function listarOrdenes(){
+        webServer
+        .getResource('orden_compra',{Salidas:true, Finalizado:true, Activo:true},'get')
+        .then(function(data){
+            $scope.Ordenes=data.data.datos;
+            $scope.gridOptions.data=$scope.Ordenes;
+            listarProductos();
+        },function(data){
+            $scope.Ordenes=[];
+            $scope.gridOptions.data=$scope.Ordenes;
+            console.log(data.data.message);
+            listarProductos();
+        });
+    }
+    listarOrdenes();
 });

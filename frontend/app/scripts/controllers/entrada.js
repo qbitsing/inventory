@@ -39,7 +39,7 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
-                name:'orden de compra',field: 'orden_compra.consecutivo_orden_compra',
+                name:'orden de compra',field: 'orden_compra.orden_compra_consecutivo',
                 width:'20%',
                 minWidth: 200
             },
@@ -172,6 +172,7 @@ angular.module('frontendApp')
         .getResource('entradas',$scope.Entrada,'post')
         .then(function(data){
             $scope.Entrada._id=data.data.datos._id;
+            $scope.Entrada.entrada_consecutivo=data.data.datos.entrada_consecutivo;
             $scope.Entradas.push($scope.Entrada);
             $scope.Ordenes.forEach(function(ele,ind){
                 if (ele._id==$scope.Entrada.orden_compra._id) {

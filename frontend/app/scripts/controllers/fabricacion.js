@@ -46,7 +46,7 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
-                name:'orden de fabricacion',field: 'consecutivo_fabricacion',
+                name:'orden de fabricacion',field: 'fabricacion_consecutivo',
                 width:'15%',
                 minWidth: 200
             },
@@ -215,7 +215,7 @@ angular.module('frontendApp')
         .getResource(ruta,$scope.fabricacion,metodo)
         .then(function(data){
             if($scope.button_title_form='Registrar fabricación'){
-                $scope.fabricacion.consecutivo_fabricacion=data.data.datos.consecutivo_fabricacion;
+                $scope.fabricacion.fabricacion_consecutivo=data.data.datos.fabricacion_consecutivo;
                 $scope.fabricacion._id=data.data.datos._id;
                 $scope.Fabricaciones.push($scope.fabricacion);
             }else{
@@ -364,7 +364,7 @@ angular.module('frontendApp')
                 }
             });
             $scope.modal_salida._id=data.data.datos._id;
-            $scope.modal_salida.consecutivo_remision=data.data.datos.consecutivo_remision;
+            $scope.modal_salida.remision_consecutivo=data.data.datos.remision_consecutivo;
             $scope.Remisiones.push($scope.modal_salida);
             $scope.modal_salida={};
             sweetAlert("Completado...", data.data.message , "success");
@@ -570,7 +570,7 @@ angular.module('frontendApp')
                 }
             });
             $scope.modal_entrada._id=data.data.datos._id;
-            $scope.modal_entrada.consecutivo_entrada_remision=data.data.datos.consecutivo_entrada_remision;
+            $scope.modal_entrada.entrada_remision_consecutivo=data.data.datos.entrada_remision_consecutivo;
             $scope.EntradasFabricaciones.push($scope.modal_entrada);
             $scope.modal_entrada={};
             sweetAlert("Completado...", data.data.message , "success");

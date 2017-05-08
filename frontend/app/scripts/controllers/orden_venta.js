@@ -37,7 +37,7 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
-                name:'Numero de orden interna',field: 'consecutivo_orden_venta',
+                name:'Numero de orden interna',field: 'orden_venta_consecutivo',
                 width:'10%',
                 minWidth: 200
             },
@@ -87,7 +87,7 @@ angular.module('frontendApp')
     }
     function listarProductos(){
         webServer
-        .getResource('productos',{},'get')
+        .getResource('productos',{producto:true},'get')
         .then(function(data){
             if(data.data){
                 $scope.productos=data.data.datos;
@@ -114,6 +114,18 @@ angular.module('frontendApp')
         });
     }
     listarOrdenes();
+    $scope.cargarProducto=function(){
+        var conter=true;
+        $scope.productos.forEach(function(ele , index){
+            if($scope.Orden.Producto.codigo == ele.codigo){
+                $scope.Orden.Producto._id=ele._id+','+ele.nombre;
+                conter=false;
+            }
+        });
+        if (conter) {
+            $scope.Orden.Producto._id='';
+        }
+    }
     $scope.AgregarProducto=function(){
         var controlador=false;
         var obj = {
@@ -218,7 +230,7 @@ angular.module('frontendApp')
             });
             if($scope.panel_title_form=="Registro de venta"){
                 $scope.Orden._id=data.data.datos._id;
-                $scope.Orden.consecutivo_orden_venta=data.data.datos.consecutivo_orden_venta;
+                $scope.Orden.orden_venta_consecutivo=data.data.datos.orden_venta_consecutivo;
                 $scope.Ordenes.push($scope.Orden);
             }else{
                 $scope.Ordenes[$scope.Orden.index] = $scope.Orden;

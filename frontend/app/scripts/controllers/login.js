@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('LoginCtrl', function ($scope, webServer, SesionUsuario,$state) {
+.controller('LoginCtrl', function ($scope, webServer, SesionUsuario,$state) {
     if(SesionUsuario.ObtenerSesion()!=null){
         $state.go('Home');
     }
@@ -23,4 +23,4 @@ angular.module('frontendApp')
             sweetAlert("Oops...", data.data.message, "error");
   		});
   	}
-  });
+});

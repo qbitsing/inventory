@@ -269,9 +269,9 @@ angular.module('frontendApp')
         .then(function(data){
             if($scope.panel_title_form=="Registro de Productos"){
                 $scope.Producto._id=data.data.datos._id;
-                $scope.Producto.consecutivo_producto=data.data.datos.consecutivo_producto;
+                $scope.Producto.producto_consecutivo=data.data.datos.producto_consecutivo;
                 if($scope.check=='producto'){
-                    $scope.Producto.codigo=$scope.Producto.categoria.codigo+''+$scope.Producto.consecutivo_producto;
+                    $scope.Producto.codigo=data.data.datos.codigo;
                     $scope.ProductosSelect.push($scope.Producto);
                 }
                 $scope.Productos.push($scope.Producto);
