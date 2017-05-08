@@ -201,5 +201,5 @@ mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.dat
   console.log('Conexión con la base de datos establecida');
   app.listen(port, () => {
     console.log(`Api REST corriendo en: http://localhost:${port}`);
-  });
+  });  
 });

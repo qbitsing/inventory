@@ -17,7 +17,9 @@ const ProductoSchema = new Schema({
     precio: Number,
     producto_consecutivo: Number,
     codigo: Number,
-    tipo: {type: String, enum:['producto', 'kit']}
+    tipo: {type: String, enum:['producto', 'kit']},
+    fabricado: Boolean,
+    comprado: Boolean
 });
 
 ProductoSchema.plugin(autoIncrement.plugin, {
