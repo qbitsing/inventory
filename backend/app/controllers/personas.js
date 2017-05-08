@@ -21,7 +21,6 @@ function listarAll (req, res){
 		return res.send({datos: personas});
 	});
 	promise();
-
 }
 
 function listarById (req, res) {
@@ -44,6 +43,17 @@ function listarById (req, res) {
 		});
 	});
 }
+
+/*let crear = co.wrap(function * (req, res){
+	try {
+		let pass = '';
+		req.body.
+	} catch (e) {
+		return res.status(500).send({
+			message: `ERROR ${e}`
+		});
+	}
+});*/
 
 function crear (req, res) {
 	var pass= "";
