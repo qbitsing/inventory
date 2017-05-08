@@ -37,18 +37,29 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
-                name:'Numero de orden interna',field: 'consecutivo',
-                width:'20%',
+                name:'Numero de orden interna',field: 'consecutivo_orden_venta',
+                width:'10%',
                 minWidth: 200
             },
             {
                 name:'cliente',field: 'cliente.nombre',
-                width:'40%',
+                width:'30%',
                 minWidth: 250
             },
             {
+                name:'fecha de solicitud',
+                width:'15%',
+                cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha_recepcion)}}</div>',
+                minWidth: 250
+            },
+            { 
+                field: 'estado',
+                width:'15%',
+                minWidth: 160
+            },
+            {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'40%',
+                width:'30%',
                 minWidth: 230
             }
         ]
@@ -90,26 +101,12 @@ angular.module('frontendApp')
     }
     function listarOrdenes(){
         webServer
-        .getResource('orden_venta',{},'get')
+        .getResource('orden_venta',{Salidas:true, Finalizado:true, Activo:true},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Ordenes=data.data.datos;
-                $scope.gridOptions.data=$scope.Ordenes;
-                $scope.Orden.consecutivo=999;
-                $scope.Ordenes.forEach(function(ele, index){
-                    if(ele.consecutivo>=$scope.Orden.consecutivo){
-                        $scope.Orden.consecutivo=ele.consecutivo;
-                    }
-                });
-                $scope.Orden.consecutivo=$scope.Orden.consecutivo+1; 
-            }else{
-                $scope.Orden.consecutivo=1000;
-                $scope.Ordenes=[];
-                $scope.gridOptions.data=$scope.Ordenes;
-            }
+            $scope.Ordenes=data.data.datos;
+            $scope.gridOptions.data=$scope.Ordenes;
             listarPersonas();
         },function(data){
-            $scope.Orden.consecutivo=1000;
             $scope.Ordenes=[];
             $scope.gridOptions.data=$scope.Ordenes;
             console.log(data.data.message);
@@ -174,18 +171,30 @@ angular.module('frontendApp')
         });
     }
     function Borrar(id){
-        webServer
-        .getResource('orden_venta/'+id,{},'delete')
-        .then(function(data){
-            $scope.Ordenes.forEach(function(ele, index){
-                if(ele._id==id){
-                    $scope.Ordenes.splice(ele.index,1);
+        var conter=false;
+        $scope.Ordenes.forEach(function(ele, index){
+            if(ele._id==id){
+                if (ele.estado=='Activo') {
+                    conter=true;
                 }
-            });
-            swal("Completado...", data.data.message , "success");
-        },function(data){
-            swal("Oops...", data.data.message , "error");
+            }
         });
+        if (conter) {
+            webServer
+            .getResource('orden_venta/'+id,{},'delete')
+            .then(function(data){
+                $scope.Ordenes.forEach(function(ele, index){
+                    if(ele._id==id){
+                        $scope.Ordenes.splice(ele.index,1);
+                    }
+                });
+                swal("Completado...", data.data.message , "success");
+            },function(data){
+                swal("Oops...", data.data.message , "error");
+            });
+        }else{
+            swal("Oops...", "No se puede eliminar la orden porque ya cuenta con salidas" , "error");
+        }
     }
     $scope.EnviarOrden=function(){
         console.log($scope.Orden);
@@ -208,7 +217,8 @@ angular.module('frontendApp')
                 }
             });
             if($scope.panel_title_form=="Registro de venta"){
-                $scope.Orden._id=data.data.id;
+                $scope.Orden._id=data.data.datos._id;
+                $scope.Orden.consecutivo_orden_venta=data.data.datos.consecutivo_orden_venta;
                 $scope.Ordenes.push($scope.Orden);
             }else{
                 $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
@@ -217,13 +227,6 @@ angular.module('frontendApp')
             }
             $scope.Orden={};
             $scope.Orden.productos=[];
-            $scope.Orden.consecutivo=999;
-            $scope.Ordenes.forEach(function(ele, index){
-                if(ele.consecutivo>=$scope.Orden.consecutivo){
-                    $scope.Orden.consecutivo=ele.consecutivo;
-                }
-            });
-            $scope.Orden.consecutivo=$scope.Orden.consecutivo+1;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");
@@ -247,14 +250,7 @@ angular.module('frontendApp')
         $scope.Orden={};
         $scope.Orden.productos=[];
         $scope.panel_title_form = "Registro de venta";
-        $scope.button_title_form = "Registrar venta";
-        $scope.Orden.consecutivo=999;
-        $scope.Ordenes.forEach(function(ele, index){
-            if(ele.consecutivo>=$scope.Orden.consecutivo){
-                $scope.Orden.consecutivo=ele.consecutivo;
-            }
-        });
-        $scope.Orden.consecutivo=$scope.Orden.consecutivo+1; 
+        $scope.button_title_form = "Registrar venta"; 
     }
     $scope.convertirFecha = function(fecha){
         var date = new Date(fecha).getDate();

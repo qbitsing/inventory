@@ -35,18 +35,29 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
-                name:'Numero de orden interna',field: 'consecutivo',
-                width:'20%',
+                name:'Numero de orden interna',field: 'consecutivo_orden_compra',
+                width:'10%',
                 minWidth: 200
             },
             {
                 name:'proveedor',field: 'proveedor.nombre',
-                width:'40%',
+                width:'30%',
                 minWidth: 250
             },
             {
+                name:'fecha',
+                width:'15%',
+                cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha)}}</div>',
+                minWidth: 250
+            },
+            { 
+                field: 'estado',
+                width:'15%',
+                minWidth: 160
+            },
+            {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'40%',
+                width:'30%',
                 minWidth: 230
             }
         ]
@@ -118,28 +129,14 @@ angular.module('frontendApp')
     }
     function listarOrdenes(){
         webServer
-        .getResource('orden_compra',{},'get')
+        .getResource('orden_compra',{Salidas:true, Finalizado:true, Activo:true},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Ordenes=data.data.datos;
-                $scope.gridOptions.data=$scope.Ordenes;
-                $scope.Orden.consecutivo=999;
-                $scope.Ordenes.forEach(function(ele, index){
-                    if(ele.consecutivo>=$scope.Orden.consecutivo){
-                        $scope.Orden.consecutivo=ele.consecutivo;
-                    }
-                });
-                $scope.Orden.consecutivo=$scope.Orden.consecutivo+1;
-            }else{
-                $scope.Ordenes=[];
-                $scope.gridOptions.data=$scope.Ordenes;
-                $scope.Orden.consecutivo=1000;
-            }
+            $scope.Ordenes=data.data.datos;
+            $scope.gridOptions.data=$scope.Ordenes;
             listarProductos();
         },function(data){
             $scope.Ordenes=[];
             $scope.gridOptions.data=$scope.Ordenes;
-            $scope.Orden.consecutivo=1000;
             console.log(data.data.message);
             listarProductos();
         });
@@ -222,18 +219,30 @@ angular.module('frontendApp')
         });
     }
     function Borrar (id){
-        webServer
-        .getResource('orden_compra/'+id,{},'delete')
-        .then(function(data){
-            $scope.Ordenes.forEach(function(ele, index){
-                if(ele._id==id){
-                    $scope.Ordenes.splice(ele.index,1);
+        var conter=false;
+        $scope.Ordenes.forEach(function(ele, index){
+            if(ele._id==id){
+                if (ele.estado=='Activo') {
+                    conter=true;
                 }
-            });
-            swal("Completado...", data.data.message , "success");
-        },function(data){
-            swal("Oops...", data.data.message , "error");
+            }
         });
+        if (conter) {
+            webServer
+            .getResource('orden_compra/'+id,{},'delete')
+            .then(function(data){
+                $scope.Ordenes.forEach(function(ele, index){
+                    if(ele._id==id){
+                        $scope.Ordenes.splice(ele.index,1);
+                    }
+                });
+                swal("Completado...", data.data.message , "success");
+            },function(data){
+                swal("Oops...", data.data.message , "error");
+            });
+        }else{
+            swal("Oops...", "No se puede eliminar la orden porque ya cuenta con salidas" , "error");
+        }
     }
     $scope.EnviarOrden=function(){
         if($scope.Orden.productos.length<1){
@@ -261,11 +270,9 @@ angular.module('frontendApp')
                 }
             });
             if($scope.panel_title_form=="Registro de Compra"){
-                var date = new Date(Date.now()).getDate();
-                date += '/'+(new Date(Date.now()).getMonth()+1);
-                date += '/'+new Date(Date.now()).getFullYear();
-                $scope.fecha=date;
-                $scope.Orden._id=data.data.id;
+                $scope.Orden.fecha=new Date(Date.now());
+                $scope.Orden._id=data.data.datos._id;
+                $scope.Orden.consecutivo_orden_compra=data.data.datos.consecutivo_orden_compra;
                 $scope.Ordenes.push($scope.Orden);
             }else{
                 $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
@@ -273,15 +280,8 @@ angular.module('frontendApp')
             $scope.Orden={};
             $scope.Orden.productos=[];
             $scope.Orden.materia_prima=[];
-            $scope.Orden.consecutivo=999;
-            $scope.Ordenes.forEach(function(ele, index){
-                if(ele.consecutivo>=$scope.Orden.consecutivo){
-                    $scope.Orden.consecutivo=ele.consecutivo;
-                }
-            });
             $scope.panel_title_form = "Registro de Compra";
             $scope.button_title_form = "Registrar compra";
-            $scope.Orden.consecutivo=$scope.Orden.consecutivo+1;
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");
         });
@@ -309,13 +309,6 @@ angular.module('frontendApp')
         $scope.Orden.materia_prima=[];
         $scope.panel_title_form = "Registro de Compra";
         $scope.button_title_form = "Registrar compra";
-        $scope.Orden.consecutivo=999;
-        $scope.Ordenes.forEach(function(ele, index){
-            if(ele.consecutivo>=$scope.Orden.consecutivo){
-                $scope.Orden.consecutivo=ele.consecutivo;
-            }
-        });
-        $scope.Orden.consecutivo=$scope.Orden.consecutivo+1;
     }
     function IdentificarOrden (id , arrObj){
         var obj;
@@ -325,7 +318,7 @@ angular.module('frontendApp')
                     index: index,
                     _id : ele._id,
                     proveedor : ele.proveedor,
-                    consecutivo : ele.consecutivo,
+                    consecutivo_orden_compra : ele.consecutivo_orden_compra,
                     productos : ele.productos,
                     materia_prima : ele.materia_prima,
                     observaciones : ele.observaciones

@@ -55,6 +55,7 @@ angular.module('frontendApp')
         });
     });
     $scope.$state=$state;
+    $scope.categoria={};
     if(SesionUsuario.ObtenerSesion()==null){
         $state.go('Login');
     }else{
@@ -173,6 +174,7 @@ angular.module('frontendApp')
         .getResource(ruta,$scope.Unidad_de_medida,metodo)
         .then(function(data){
             if($scope.TituloPanelCategorias=='Registro de Categorias'){
+                $scope.Unidad_de_medida._id=data.data.datos._id;
                 $scope.Unidades.push($scope.Unidad_de_medida);
             }else{
                 $scope.Unidades[$scope.Unidad_de_medida.index] = $scope.Unidad_de_medida;
@@ -212,6 +214,8 @@ angular.module('frontendApp')
         .getResource(ruta,$scope.categoria,metodo)
         .then(function(data){
             if($scope.TituloPanelCategorias=='Registro de Categorias'){
+                $scope.categoria._id=data.data.datos._id;
+                $scope.categoria.codigo=data.data.datos.codigo;
                 $scope.Categorias.push($scope.categoria);
             }else{
                 $scope.Categorias[$scope.categoria.index] = $scope.categoria;
@@ -268,13 +272,8 @@ angular.module('frontendApp')
         webServer
         .getResource('categorias',{},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Categorias=data.data.datos;
-                $scope.gridOptionsModalCategorias.data = $scope.Categorias;
-            }else{
-                $scope.Categorias=[];
-                $scope.gridOptionsModalCategorias.data = $scope.Categorias;
-            }
+            $scope.Categorias=data.data.datos;
+            $scope.gridOptionsModalCategorias.data = $scope.Categorias;
             listarProcesos();
         },function(data){
             $scope.Categorias=[];
@@ -312,6 +311,7 @@ angular.module('frontendApp')
         .getResource(ruta,$scope.proceso,metodo)
         .then(function(data){
             if($scope.TituloPanelProcesos=='Registro de procesos de fabricación'){
+                $scope.proceso._id=data.data.datos._id;
                 $scope.Procesos.push($scope.proceso);
             }else{
                 $scope.Procesos[$scope.proceso.index] = $scope.proceso;

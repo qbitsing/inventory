@@ -38,7 +38,7 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
-                name:'orden de venta',field: 'orden_venta.consecutivo',
+                name:'orden de venta',field: 'orden_venta.consecutivo_orden_venta',
                 width:'20%',
                 minWidth: 160
             },
@@ -63,8 +63,13 @@ angular.module('frontendApp')
         });
         if(!$scope.Salida.orden_venta.productos){
             $scope.Salida.orden_venta.productos=[];
+        }else{
+            $scope.Salida.orden_venta.productos.forEach(function(ele,index){
+                if (ele.cantidad_faltante==0) {
+                    $scope.Entrada.orden_venta.productos.splice(ele.index,1);
+                }
+            });
         }
-        console.log($scope.Salida.orden_venta);
     }
     $scope.abrirModal=function(_id){
         swal({
@@ -86,12 +91,27 @@ angular.module('frontendApp')
             }
         });
     }
-    $scope.Borrar=function(id){
-         webServer
+    function Borrar(id){
+        webServer
         .getResource('salidas/'+id,{},'delete')
         .then(function(data){
-            $scope.Entradas.forEach(function(ele, index){
+            $scope.Entradas.forEach(function(ele, ind){
                 if(ele._id==id){
+                    if (ele.orden_venta.productos) {
+                        $scope.Ordenes.forEach(function(e,i){
+                            if (e._id==ele.orden_venta._id) {
+                                if (e.productos) {
+                                    e.productos.forEach(function(elemento,index){
+                                        ele.orden_venta.productos.forEach(function(e, i){
+                                            if(e._id==elemento._id){
+                                                elemento.cantidad_faltante=elemento.cantidad_faltante+e.cantidad_saliente;
+                                            }
+                                        });
+                                    });
+                                }
+                            }
+                        });
+                    }
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
@@ -110,24 +130,31 @@ angular.module('frontendApp')
         webServer
         .getResource("salidas",$scope.Salida,"post")
         .then(function(data){
-            $scope.Salida._id=data.data._id;
+            $scope.Salida.consecutivo_salida=data.data.datos.consecutivo_salida;
+            $scope.Salida._id=data.data.datos._id;
             $scope.Salidas.push($scope.Salida);
             $scope.Ordenes.forEach(function(ele,ind){
                 if (ele._id==$scope.Salida.orden_venta._id) {
-                    if (ele.productos) {
-                        ele.productos.forEach(function(elemento,index){
-                            $scope.Salida.orden_venta.productos.forEach(function(e, i){
-                                if(e._id==elemento._id){
-                                    elemento=e;
-                                }
+                    if(data.data.data.datos.orden_venta.estado=='Finalizado'){
+                        $scope.Ordenes.splice(ele.index,1);
+                    }else{
+                        ele.estado=data.data.datos.orden_venta.estado;
+                        if (ele.productos && data.data.datos.orden_venta.productos) {
+                            ele.productos.forEach(function(elemento,index){
+                                data.data.datos.orden_venta.productos.forEach(function(e, i){
+                                    if(e._id==elemento._id){
+                                        elemento=e;
+                                    }
+                                });
                             });
-                        });
+                        }
                     }
                 }
             });
             $scope.Salida={};
             $scope.Salida.orden_venta={};
             $scope.Salida.orden_venta.productos=[];
+            $scope.Orden.venta=null;
             sweetAlert("Completado...", data.data.message , "success"); 
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");
@@ -136,7 +163,7 @@ angular.module('frontendApp')
     }
     function listarOrdenes(){
         webServer
-        .getResource('orden_venta',{},'get')
+        .getResource('orden_venta',{Activo: true, Salidas:true},'get')
         .then(function(data){
             if(data.data){
                 $scope.Ordenes=data.data.datos;
@@ -160,6 +187,12 @@ angular.module('frontendApp')
         }
         $('#modaldeDetalles').modal('open');
     }
+    $scope.convertirFecha = function(fecha){
+        var date = new Date(fecha).getDate();
+        date += '/'+(new Date(fecha).getMonth()+1);
+        date += '/'+new Date(fecha).getFullYear();
+        return date;
+    }
     function listarSalidas(){
         webServer
         .getResource('salidas',{},'get')
@@ -179,19 +212,4 @@ angular.module('frontendApp')
         });
     }
     listarSalidas();
-    function IdentificarSalida(id , arrObj){
-        var obj;
-        arrObj.forEach(function(ele , index){
-            if(ele._id ==  id){
-                obj = {
-                    index: index,
-                    _id : ele._id,
-                    orden_venta : ele.orden_venta,
-                    observaciones : ele.observaciones,
-                    remision : remision
-                };
-            }
-        });
-        return obj;
-    }
   });

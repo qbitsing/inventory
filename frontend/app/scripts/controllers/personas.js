@@ -85,7 +85,7 @@ angular.module('frontendApp')
         .getResource(ruta,$scope.Persona,metodo)
         .then(function(data){
             if($scope.panel_title_form=="Registro de clientes y proveedores"){
-                $scope.Persona._id=data.data.id;
+                $scope.Persona._id=data.data.datos._id;
                 $scope.Personas.push($scope.Persona);
             }else{
                 $scope.Personas[$scope.Persona.index] = $scope.Persona;

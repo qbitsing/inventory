@@ -49,28 +49,34 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
+                field: 'codigo',
+                width:'15%',
+                minWidth: 160
+            },
+            {
                 field: 'nombre',
-                width:'20%',
+                width:'15%',
                 minWidth: 160
             },
             {
                 field: 'marca',
-                width:'20%',
+                width:'15%',
                 minWidth: 160
             },
             {
                 name: 'categoria', field: 'categoria.nombre',
-                width:'20%',
+                width:'15%',
                 minWidth: 160
             },
             {
-                field: 'cantidad',
+                name:'cantidad',
                 width:'20%',
-                minWidth: 160
+                cellTemplate: '<div>{{row.entity.cantidad}} {{row.entity.unidad_medida.nombre}}</div>',
+                minWidth: 250
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'20%',
+                width:'25%',
                 minWidth: 230
             }
         ]
@@ -235,10 +241,21 @@ angular.module('frontendApp')
     $scope.EnviarProducto=function(){
         var ruta="";
         var metodo="";
-        if($scope.check=='producto'){
-            $scope.Producto.productos=null;
+        $scope.Categorias.forEach(function(ele,index){
+            if ($scope.Producto.categoria._id==ele._id) {
+                $scope.Producto.categoria=ele;
+            }
+        });
+        if($scope.check=='kit'){
+            $scope.Producto.Insumos=null;
+            $scope.Producto.tipo='kit';
         }else{
-            $scope.Producto.Insumos=null
+            $scope.Producto.tipo='producto';
+            $scope.Unidades.forEach(function(ele, index){
+                if(ele._id==$scope.Producto.unidad_medida._id){
+                    $scope.Producto.unidad_medida=ele;
+                }
+            });
         }
         if ($scope.panel_title_form=="Registro de Productos") {
             ruta="productos";
@@ -250,24 +267,23 @@ angular.module('frontendApp')
         webServer
         .getResource(ruta,$scope.Producto,metodo)
         .then(function(data){
-            $scope.Categorias.forEach(function(ele, index){
-                if(ele._id==$scope.Producto.categoria._id){
-                    $scope.Producto.categoria=ele;
-                }
-            });
-            if($scope.check=='producto'){
-                $scope.Unidades.forEach(function(ele, index){
-                    if(ele._id==$scope.Producto.unidad_medida._id){
-                        $scope.Producto.unidad_medida=ele;
-                    }
-                });
-                $scope.ProductosSelect.push($scope.Producto);
-            }
             if($scope.panel_title_form=="Registro de Productos"){
-                $scope.Producto._id=data.data._id;
+                $scope.Producto._id=data.data.datos._id;
+                $scope.Producto.consecutivo_producto=data.data.datos.consecutivo_producto;
+                if($scope.check=='producto'){
+                    $scope.Producto.codigo=$scope.Producto.categoria.codigo+''+$scope.Producto.consecutivo_producto;
+                    $scope.ProductosSelect.push($scope.Producto);
+                }
                 $scope.Productos.push($scope.Producto);
             }else{
                 $scope.Productos[$scope.Producto.index] = $scope.Producto;
+                if($scope.check=='producto'){
+                    $scope.ProductosSelect.forEach(function(ele, index){
+                        if(ele._id==$scope.Producto._id){
+                            $scope.ProductosSelect[$scope.Producto.index] = $scope.Producto;
+                        }
+                    });
+                }
                 $scope.panel_title_form = "Registro de Productos";
 	            $scope.button_title_form = "Registrar Producto";
             }
@@ -282,7 +298,7 @@ angular.module('frontendApp')
         });
     }
     function scroll(){
-         $("html, body").animate({
+        $("html, body").animate({
             scrollTop: 0
         }, 1000); 
     }
@@ -355,6 +371,7 @@ angular.module('frontendApp')
                     cantidad : ele.cantidad,
                     marca : ele.marca,
                     categoria : ele.categoria,
+                    tipo : ele.tipo,
                     unidad_medida : ele.unidad_medida,
                     Insumos : ele.Insumos,
                     procesos : ele.procesos,

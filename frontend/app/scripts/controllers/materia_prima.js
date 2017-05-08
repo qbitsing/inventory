@@ -42,19 +42,15 @@ angular.module('frontendApp')
                 minWidth: 160
             },
             { 
-                name: 'unidad de medida',field: 'unidad_medida.nombre',
-                width:'20%',
-                minWidth: 160
-            },
-            { 
                 field: 'min_stock',
                 width:'20%',
                 minWidth: 160
             },
-            { 
-                field: 'cantidad',
+            {
+                name:'cantidad',
                 width:'20%',
-                minWidth: 160
+                cellTemplate: '<div>{{row.entity.cantidad}} {{row.entity.unidad_medida.nombre}}</div>',
+                minWidth: 250
             },
             { 
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
@@ -84,7 +80,7 @@ angular.module('frontendApp')
                 }
             });
             if($scope.panel_title_form=="Registro de Materia Prima"){
-                $scope.Materia._id=data.data.id;
+                $scope.Materia._id=data.data.datos._id;
                 $scope.Materias.push($scope.Materia);
             }else{
                 $scope.Materias[$scope.Materia.index] = $scope.Materia;
