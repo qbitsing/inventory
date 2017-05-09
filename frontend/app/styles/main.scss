@@ -444,5 +444,24 @@ table.bordered > thead > tr{
 .confirm{
   background-color: $azul !important;
 }
+preloader{
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background:transparentize(#212121, 0.3);
+  z-index: 100;
+  .preloader-wrapper{
+    width: 150px !important;
+    height: 150px !important;
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+  }
+}
 
 
