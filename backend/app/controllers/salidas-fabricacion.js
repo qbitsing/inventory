@@ -60,7 +60,8 @@ let crear = co.wrap(function * (req, res){
         let datos = yield salida.save();
 
         return res.status(200).send({
-            message: 'Salida registrada con exito'
+            message: 'Salida registrada con exito',
+            datos
         });
 
     } catch (e) {

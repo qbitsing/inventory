@@ -51,7 +51,7 @@ let crear = co.wrap(function * (req, res){
     proceso = yield proceso.save();
     return res.status(200).send({
       message: 'Proceso registrado con exito',
-      datos: proceso._id
+      datos: proceso
     });
   } catch (e) {
     return res.status(500).send({

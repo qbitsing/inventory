@@ -15,9 +15,8 @@ let listarAll = co.wrap(function * (req, res){
 
         let datos = [];
 
-        //if(query.Activo || query.Finalizado || query.Entradas)        
-        //    datos = yield ordenVentaModel.find({$or: condiciones}, null, {sort: {fecha_recepcion: -1}});
-        datos = yield ordenVentaModel.find({},null, {sort: {fecha_recepcion: -1}});
+        if(query.Activo || query.Finalizado || query.Entradas)        
+            datos = yield ordenVentaModel.find({$or: condiciones}, null, {sort: {fecha_recepcion: -1}});
 
         if(datos.length < 1){
             return res.status(404).send({
@@ -84,8 +83,7 @@ let crear = co.wrap(function * (req, res){
         return res.status(200).send({
             datos,
             noDisponible,
-            message: 'Se ha registrado la orden de venta exitosamente',
-            id: datos._id
+            message: 'Se ha registrado la orden de venta exitosamente'
         });
     } catch (e) {
         return res.status(500).send({

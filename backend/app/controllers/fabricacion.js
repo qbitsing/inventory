@@ -52,7 +52,7 @@ let crear = co.wrap(function * (req, res){
     let newfabricacion1 = yield newfabricacion.save();
     return res.status(200).send({
       message: 'proceso de fabricacion registrado con exito',
-      id: newfabricacion1._id
+      datos: newfabricacion1
     });
   } catch (e) {
     return res.status(500).send({

@@ -73,7 +73,7 @@ let crear = co.wrap(function * (req, res){
 
         return res.status(200).send({
             message: 'Entrada registrada con exito',
-            id : datos._id
+            datos
         });
 
     } catch (e) {

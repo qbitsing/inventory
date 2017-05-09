@@ -17,9 +17,8 @@ let listarAll = co.wrap(function * (req, res){
 
         let datos = [];
 
-        //if(query.Activo || query.Finalizado || query.Entradas)        
-        //    datos = yield ordenCompraModel.find({$or: condiciones}, null, {sort: {fecha: -1}});
-        datos = yield ordenCompraModel.find({}, null, {sort: {fecha: -1}});
+        if(query.Activo || query.Finalizado || query.Entradas)        
+            datos = yield ordenCompraModel.find({$or: condiciones}, null, {sort: {fecha: -1}});
         if(datos.length < 1) {
             return res.status(404).send({
                 message: `ERROR no hay ordenes de compra registradas`
@@ -79,7 +78,7 @@ let crear = co.wrap(function * (req, res){
 
         return res.status(200).send({
             message: 'Orden de Compra registrada con exito',
-            id: datos._id
+            datos
         });
 
 

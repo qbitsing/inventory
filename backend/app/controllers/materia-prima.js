@@ -74,6 +74,7 @@ function crear(req, res){
             }
 
             return res.status(200).send({
+                message: 'Materia prima registrada con exito',
                 datos: materiaPrimaStored
             });
         });
