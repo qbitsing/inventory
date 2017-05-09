@@ -54,7 +54,8 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
-    $scope.preloader = preloader;
+    $scope.preloadertopnav = preloader;
+    $scope.preloadertopnav.estado = false;
     $scope.$state=$state;
     $scope.categoria={};
     if(SesionUsuario.ObtenerSesion()==null){
@@ -162,6 +163,7 @@ angular.module('frontendApp')
     }
     angular.extend($scope.gridOptionsModalProcesos , Tabla);
     $scope.EnviarUnidad=function(){
+        $scope.preloadertopnav.estado = true;
         var ruta='';
         var metodo='';
         if($scope.TituloPanelUnidades=='Registro de Unidades de Medida'){
@@ -181,8 +183,10 @@ angular.module('frontendApp')
                 $scope.Unidades[$scope.Unidad_de_medida.index] = $scope.Unidad_de_medida;
             }
             $scope.Unidad_de_medida={};
+            $scope.preloadertopnav.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
+            $scope.preloadertopnav.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
@@ -202,6 +206,7 @@ angular.module('frontendApp')
     listarunidades();
 
     $scope.EnviarCategoria=function(){
+        $scope.preloadertopnav.estado = true;
         var ruta='';
         var metodo='';
         if($scope.TituloPanelCategorias=='Registro de Categorias'){
@@ -222,8 +227,10 @@ angular.module('frontendApp')
                 $scope.Categorias[$scope.categoria.index] = $scope.categoria;
             }
             $scope.categoria={};
+            $scope.preloadertopnav.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
+            $scope.preloadertopnav.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
@@ -299,6 +306,7 @@ angular.module('frontendApp')
         });
     }
     $scope.EnviarProceso=function(){
+        $scope.preloadertopnav.estado = true;
         var ruta='';
         var metodo='';
         if($scope.TituloPanelProcesos=='Registro de procesos de fabricación'){
@@ -318,8 +326,10 @@ angular.module('frontendApp')
                 $scope.Procesos[$scope.proceso.index] = $scope.proceso;
             }
             $scope.proceso={};
+            $scope.preloadertopnav.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
+            $scope.preloadertopnav.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
