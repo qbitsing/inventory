@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('DashboardCtrl', function ($scope,$state,SesionUsuario, webServer, Tabla,BotonesTabla) {
+  .controller('DashboardCtrl', function ($scope,$state,SesionUsuario, webServer, Tabla,BotonesTabla,preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('#modal1').modal({
@@ -54,6 +54,7 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
+    $scope.preloader = preloader;
     $scope.$state=$state;
     $scope.categoria={};
     if(SesionUsuario.ObtenerSesion()==null){

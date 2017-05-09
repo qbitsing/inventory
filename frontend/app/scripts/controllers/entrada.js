@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('EntradaCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
+  .controller('EntradaCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer,preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -23,6 +23,8 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
+    $scope.preloader = preloader;
+    $scope.preloader.estado= true;
   	$scope.panelAnimate='';
     $scope.pageAnimate='';  
     $timeout(function () {
