@@ -39,18 +39,29 @@ angular.module('frontendApp')
         columnDefs: [
             {
                 name:'orden de venta',field: 'orden_venta.orden_venta_consecutivo',
-                width:'20%',
-                minWidth: 160
+                width:'15%',
+                minWidth: 100
+            },
+            {
+                name:'no. salida',field: 'salida_consecutivo',
+                width:'15%',
+                minWidth: 100
+            },
+            {
+                name:'fecha',
+                width:'15%',
+                cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha)}}</div>',
+                minWidth: 100
             },
             {
                 name:'cliente',field: 'orden_venta.cliente.nombre',
-                width:'30%',
-                minWidth: 200
+                width:'25%',
+                minWidth: 150
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
                 width:'30%',
-                minWidth: 230
+                minWidth: 150
             }
         ]
     }
@@ -90,6 +101,12 @@ angular.module('frontendApp')
                 swal("Cancelado", "La salida no se borrará", "error");
             }
         });
+    }
+    $scope.convertirFecha = function(fecha){
+        var date = new Date(fecha).getDate();
+        date += '/'+(new Date(fecha).getMonth()+1);
+        date += '/'+new Date(fecha).getFullYear();
+        return date;
     }
     function Borrar(id){
         webServer
@@ -203,11 +220,7 @@ angular.module('frontendApp')
         webServer
         .getResource('salidas',{},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Salidas=data.data.datos;
-            }else{
-                $scope.Salidas=[];
-            }
+            $scope.Salidas=data.data.datos;
             $scope.gridOptions.data=$scope.Salidas;
             listarOrdenes();
         },function(data){

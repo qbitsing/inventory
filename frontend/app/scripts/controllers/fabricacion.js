@@ -46,26 +46,26 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
-                name:'orden de fabricacion',field: 'fabricacion_consecutivo',
-                width:'15%',
-                minWidth: 200
+                name:'no. orden',field: 'fabricacion_consecutivo',
+                width:'10%',
+                minWidth: 100
             },
             {
                 name:'fecha de solicitud',
-                width:'20%',
+                width:'15%',
                 cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha_solicitud)}}</div>',
-                minWidth: 250
+                minWidth: 100
             },
             {
                 name:'fecha de entrega',
                 cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha_entrega)}}</div>',
-                width:'20%',
-                minWidth: 250
+                width:'15%',
+                minWidth: 100
             },
             { 
                 field: 'estado',
                 width:'15%',
-                minWidth: 160
+                minWidth: 100
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
@@ -92,6 +92,7 @@ angular.module('frontendApp')
         $scope.fabricacion.procesos=[];
         $scope.proceso={};
         $scope.producto={};
+        $scope.Orden='';
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Fabricaciones.find(function(ele){
@@ -221,6 +222,7 @@ angular.module('frontendApp')
         var metodo='';
         var ruta='';
         if($scope.button_title_form=='Registrar fabricación'){
+            $scope.fabricacion.fecha_solicitud=new Date(Date.now());
             metodo='post';
             ruta='fabricacion';
             $scope.fabricacion.estado='En Fabricacion';
@@ -894,7 +896,7 @@ angular.module('frontendApp')
     }
 	function listarOrdenes(){
         webServer
-        .getResource('orden_venta',{},'get')
+        .getResource('orden_venta',{Salidas:true, Activo:true},'get')
         .then(function(data){
             $scope.Ordenes=data.data.datos;
             listarPersonas();

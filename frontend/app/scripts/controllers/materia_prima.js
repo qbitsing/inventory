@@ -38,7 +38,7 @@ angular.module('frontendApp')
         columnDefs: [
             {
                 field: 'nombre',
-                width:'20%',
+                width:'30%',
                 minWidth: 160
             },
             { 
@@ -54,7 +54,7 @@ angular.module('frontendApp')
             },
             { 
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'25%',
+                width:'30%',
                 minWidth: 230
             }
         ]

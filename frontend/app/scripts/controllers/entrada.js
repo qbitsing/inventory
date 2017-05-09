@@ -40,13 +40,19 @@ angular.module('frontendApp')
         columnDefs: [
             {
                 name:'orden de compra',field: 'orden_compra.orden_compra_consecutivo',
-                width:'20%',
-                minWidth: 200
+                width:'15%',
+                minWidth: 100
             },
             {
-                name:'Factura',field: 'numero_factura',
-                width:'20%',
-                minWidth: 250
+                name:'No. orden',field: 'entrada.entrada_consecutivo',
+                width:'15%',
+                minWidth: 100
+            },
+            {
+                name:'fecha',
+                width:'15%',
+                cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha)}}</div>',
+                minWidth: 100
             },
             {
                 name:'proveedor',field: 'orden_compra.proveedor.nombre',
@@ -55,7 +61,7 @@ angular.module('frontendApp')
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'30%',
+                width:'25%',
                 minWidth: 230
             }
         ]
@@ -230,7 +236,6 @@ angular.module('frontendApp')
             }
         },function(data){
             $scope.Ordenes=[];
-            $scope.gridOptions.data=$scope.Ordenes;
             console.log(data.data.message);
         });
     }
@@ -252,11 +257,7 @@ angular.module('frontendApp')
         webServer
         .getResource('Entradas',{},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Entradas=data.data.datos;
-            }else{
-                $scope.Entradas=[];
-            }
+            $scope.Entradas=data.data.datos;
             $scope.gridOptions.data=$scope.Entradas;
             listarOrdenes();
         },function(data){
@@ -267,4 +268,4 @@ angular.module('frontendApp')
         });
     }
     listarEntradas();
-  });
+});

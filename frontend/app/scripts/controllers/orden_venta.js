@@ -37,30 +37,30 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
-                name:'Numero de orden interna',field: 'orden_venta_consecutivo',
+                name:'No. de orden',field: 'orden_venta_consecutivo',
                 width:'10%',
-                minWidth: 200
+                minWidth: 100
             },
             {
                 name:'cliente',field: 'cliente.nombre',
                 width:'30%',
-                minWidth: 250
+                minWidth: 150
             },
             {
                 name:'fecha de solicitud',
                 width:'15%',
                 cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha_recepcion)}}</div>',
-                minWidth: 250
+                minWidth: 150
             },
             { 
                 field: 'estado',
                 width:'15%',
-                minWidth: 160
+                minWidth: 100
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
                 width:'30%',
-                minWidth: 230
+                minWidth: 150
             }
         ]
     }
@@ -94,8 +94,20 @@ angular.module('frontendApp')
             }else{
                 $scope.productos=[];
             }
+            listarSalidas();
         },function(data){
-            $scope.materias=[];
+            $scope.productos=[];
+            console.log(data.data.message);
+            listarSalidas();
+        });
+    }
+    function listarSalidas(){
+        webServer
+        .getResource('salidas',{},'get')
+        .then(function(data){
+            $scope.Salidas=data.data.datos;
+        },function(data){
+            $scope.Salidas=[];
             console.log(data.data.message);
         });
     }
@@ -284,7 +296,8 @@ angular.module('frontendApp')
                     orden_compra_cliente: ele.orden_compra_cliente,
                     fecha_recepcion : new Date (Date.parse(ele.fecha_recepcion)),
                     fecha_entrega : new Date (Date.parse(ele.fecha_entrega)),
-                    lugar_entrega : ele.lugar_entrega
+                    lugar_entrega : ele.lugar_entrega,
+                    estado : ele.estado
                 };
             }
         });

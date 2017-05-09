@@ -48,7 +48,7 @@ angular.module('frontendApp')
             },
             { 
                 field: 'telefono',
-                width:'20%',
+                width:'15%',
                 minWidth: 160
             },
             { 
