@@ -294,7 +294,10 @@
 				<div id="containerBarCodesToPrint" ng-show="false">
 					<div ng-repeat="item in productBarCode">
 						<h2>{{item.producto.nombre}}</h2>
-						<io-barcode ng-repeat="code in item.producto.barcodes" code="{{code.code}}" type="CODE128B" options="bc" style="margin-top: 10px"></io-barcode>
+						<div ng-repeat="code in item.producto.barcodes" style="width: 220px; display: inline-block;">
+							<div style="width: 220px;   text-align: center;">{{item.producto.nombre}}</div>
+							<io-barcode code="{{code.code}}" type="CODE128B" options="bc" style="margin-top: 10px"></io-barcode>
+						</div>
 					</div>
 				</div>
 			</div>

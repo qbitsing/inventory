@@ -387,6 +387,9 @@ angular.module('frontendApp')
         newWindow.document.open();
         newWindow.document.appendChild(container);
         newWindow.print();
+        newWindow.close();
+        document.getElementById('superContainer').appendChild(container);
+        $scope.productBarCode = [];
         
     }
     function IdentificarProducto (id , arrObj){
