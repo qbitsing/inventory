@@ -10,7 +10,8 @@ const entradaSchema = new Schema({
     persona_entrada: {},
     observaciones: String,
     fecha: {type: Date, default: Date.now()},
-    entrada_consecutivo: Number
+    entrada_consecutivo: Number,
+    numero_factura: String
 });
 
 entradaSchema.plugin(autoIncrement.plugin, {
