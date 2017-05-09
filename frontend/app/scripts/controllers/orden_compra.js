@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('OrdenCompraCtrl', function ($scope, $timeout,webServer, Tabla, BotonesTabla) {
+  .controller('OrdenCompraCtrl', function ($scope, $timeout,webServer, Tabla, BotonesTabla, preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -23,6 +23,8 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
+    $scope.preloader = preloader;
+    $scope.preloader.estado = false;
     $scope.panelAnimate='';
     $scope.pageAnimate='';
     $timeout(function () {
@@ -40,30 +42,30 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
-                name:'Numero de orden interna',field: 'orden_compra_consecutivo',
+                name:'No. de orden',field: 'orden_compra_consecutivo',
                 width:'10%',
-                minWidth: 200
+                minWidth: 100
             },
             {
                 name:'proveedor',field: 'proveedor.nombre',
                 width:'30%',
-                minWidth: 250
+                minWidth: 150
             },
             {
                 name:'fecha',
                 width:'15%',
                 cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha)}}</div>',
-                minWidth: 250
+                minWidth: 150
             },
             { 
                 field: 'estado',
                 width:'15%',
-                minWidth: 160
+                minWidth: 150
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
                 width:'30%',
-                minWidth: 230
+                minWidth: 150
             }
         ]
     }
@@ -180,6 +182,7 @@ angular.module('frontendApp')
             }
         });
         if (conter) {
+            $scope.preloader.estado = true;
             webServer
             .getResource('orden_compra/'+id,{},'delete')
             .then(function(data){
@@ -188,8 +191,10 @@ angular.module('frontendApp')
                         $scope.Ordenes.splice(ele.index,1);
                     }
                 });
+                $scope.preloader.estado = false;
                 swal("Completado...", data.data.message , "success");
             },function(data){
+                $scope.preloader.estado = false;
                 swal("Oops...", data.data.message , "error");
             });
         }else{
@@ -197,6 +202,7 @@ angular.module('frontendApp')
         }
     }
     $scope.EnviarOrden=function(){
+        $scope.preloader.estado = true;
         if($scope.Orden.productos.length<1){
             $scope.Orden.productos=null;
         }
@@ -215,7 +221,6 @@ angular.module('frontendApp')
         webServer
         .getResource(ruta,$scope.Orden,metodo)
         .then(function(data){
-            sweetAlert("Completado...", data.data.message , "success");
             $scope.proveedores.forEach(function(ele, index){
                 if(ele._id==$scope.Orden.proveedor._id){
                     $scope.Orden.proveedor=ele;
@@ -234,7 +239,10 @@ angular.module('frontendApp')
             $scope.Orden.materia_prima=[];
             $scope.panel_title_form = "Registro de Compra";
             $scope.button_title_form = "Registrar compra";
+            $scope.preloader.estado = false;
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
@@ -281,7 +289,8 @@ angular.module('frontendApp')
                     orden_compra_consecutivo : ele.orden_compra_consecutivo,
                     productos : ele.productos,
                     materia_prima : ele.materia_prima,
-                    observaciones : ele.observaciones
+                    observaciones : ele.observaciones,
+                    fecha : ele.fecha
                 };
             }
         });
@@ -296,19 +305,27 @@ angular.module('frontendApp')
             }else{
                 $scope.proveedores = [];
             }
+            listarEntradas();
         },function(data){
             console.log(data);
+            listarEntradas();
+        });
+    }
+    function listarEntradas(){
+        webServer
+        .getResource('entradas',{},'get')
+        .then(function(data){
+            $scope.Entradas=data.data.datos;
+        },function(data){
+            $scope.Entradas=[];
+            console.log(data.data.message);
         });
     }
     function listarMaterias(){
         webServer
         .getResource('materiaPrima',{},'get')
         .then(function(data){
-            if(data.data){
-                $scope.materias=data.data.datos;
-            }else{
-                $scope.materias=[];
-            }
+            $scope.materias=data.data.datos;
             listarPersonas();
         },function(data){
             $scope.materias=[];

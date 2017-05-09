@@ -11,13 +11,13 @@
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<select ng-change="CargarOrden()" id="orden" ng-model="Orden.venta" material-select watch>
-	      							<option ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.consecutivo_orden_venta}}-{{orden.cliente.nombre}}</option>
+	      							<option ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.orden_venta_consecutivo}}-{{orden.cliente.nombre}}</option>
 								</select>
 								<label for="orden">Orden de venta *</label>
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="consecutivo">Numero de orden interna *</label>
-								<input type="text" ng-disabled="true" ng-model="Salida.orden_venta.consecutivo_orden_venta" id="consecutivo" name="consecutivo" required>
+								<input type="text" ng-disabled="true" ng-model="Salida.orden_venta.orden_venta_consecutivo" id="consecutivo" name="consecutivo" required>
 							</div>
 						</div>
 						<div class="row">
@@ -85,7 +85,7 @@
     	<h4 class="modal-title blue accent-4">Orden de salida</h4>
     	<div class="row">
     		<ul>
-				<li> Numero interno de la venta: {{Detalle.orden_venta.consecutivo_orden_venta || 'No registra'}}</li>
+				<li> Numero interno de la venta: {{Detalle.orden_venta.orden_venta_consecutivo || 'No registra'}}</li>
 				<li> Cliente: {{Detalle.orden_venta.cliente.nombre || 'No registra'}}</li>
 				<li> Observaciones de la salida: {{Detalle.observaciones || 'No registra'}}</li>
 				<li ng-hide="Detalle.orden_venta.productos.length<1"> <h5>Productos:</h5></li>

@@ -1,29 +1,29 @@
 <div class="content">
 	<div class="row centro">
-	<div class=" col s12 m10 push-m2 l4 push-l4 card grey lighten-5">
-		<h3 class="center-align blue accent-4 white-text">Inicio sesión</h3>
-		<form name="formLogin" novalidate ng-submit="login()">
-			<div class="row">
-				<div class="input-field">
-					<i class="material-icons prefix">account_circle</i>
-					<input type="email" ng-model="userLogin.user" id="user" required class="validate">
-					<label for="user" data-error="correo invalido">Usuario</label>
+		<div class=" col s12 m10 push-m2 l4 push-l4 card grey lighten-5">
+			<h3 class="center-align blue accent-4 white-text">Inicio sesión</h3>
+			<form name="formLogin" novalidate ng-submit="login()">
+				<div class="row">
+					<div class="input-field">
+						<i class="material-icons prefix">account_circle</i>
+						<input type="email" ng-model="userLogin.user" id="user" required class="validate">
+						<label for="user" data-error="correo invalido">Usuario</label>
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="input-field">
-			    	<i class="material-icons prefix">lock_open</i>
-					<input type="password" ng-model="userLogin.password" id="Password" required>
-					<label for="Password">Password</label>
+				<div class="row">
+					<div class="input-field">
+				    	<i class="material-icons prefix">lock_open</i>
+						<input type="password" ng-model="userLogin.password" id="Password" required>
+						<label for="Password">Password</label>
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<button type="submit" ng-disabled="formLogin.$invalid" class="col s12 waves-effect waves-light btn-large blue accent-4">Iniciar Sesión</button>
-			</div>
-			<div class="row">
-				<a ui-sref="Restaurar" class="right ancla">Restaurar contraseña</a>
-			</div>
-		</form>
+				<div class="row">
+					<button type="submit" ng-disabled="formLogin.$invalid" class="col s12 waves-effect waves-light btn-large blue accent-4">Iniciar Sesión</button>
+				</div>
+				<div class="row">
+					<a ui-sref="Restaurar" class="right ancla">Restaurar contraseña</a>
+				</div>
+			</form>
+		</div>
 	</div>
-</div>
 </div>

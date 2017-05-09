@@ -11,7 +11,7 @@
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<select ng-change="CargarOrden()" id="orden" ng-model="Orden.compra" material-select watch>
-	      							<option ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.consecutivo_orden_compra}}-{{orden.proveedor.nombre}}</option>
+	      							<option ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.orden_compra_consecutivo}}-{{orden.proveedor.nombre}}</option>
 								</select>
 								<label for="orden">Orden de compra *</label>
 							</div>
@@ -108,8 +108,9 @@
     	<h4 class="modal-title blue accent-4">Orden de entrada</h4>
     	<div class="row">
     		<ul>
-				<li> Numero interno de la compra: {{Detalle.orden_compra.consecutivo_orden_compra || 'No registra'}}</li>
+				<li> Numero interno de la compra: {{Detalle.orden_compra.orden_compra_consecutivo || 'No registra'}}</li>
 				<li> Proveedor: {{Detalle.orden_compra.proveedor.nombre || 'No registra'}}</li>
+				<li> Fecha: {{convertirFecha(Detalle.fecha) || 'No registra'}}</li>
 				<li> Numero de factura: {{Detalle.numero_factura || 'No registra'}}</li>
 				<li> Observaciones de la entrada: {{Detalle.observaciones || 'No registra'}}</li>
 				<li ng-hide="Detalle.orden_compra.materia_prima.length<1"> <h5>Materias Primas:</h5></li>

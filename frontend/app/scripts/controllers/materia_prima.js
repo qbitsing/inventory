@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('MateriaPrimaCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
+  .controller('MateriaPrimaCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -23,6 +23,8 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
+    $scope.preloader = preloader;
+    $scope.preloader.estado = false;
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';  
 	$timeout(function () {
@@ -38,7 +40,7 @@ angular.module('frontendApp')
         columnDefs: [
             {
                 field: 'nombre',
-                width:'20%',
+                width:'30%',
                 minWidth: 160
             },
             { 
@@ -54,13 +56,14 @@ angular.module('frontendApp')
             },
             { 
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'25%',
+                width:'30%',
                 minWidth: 230
             }
         ]
     }
     angular.extend($scope.gridOptions , Tabla);
     $scope.EnviarMateria=function(){
+        $scope.preloader.estado = true;
     	var ruta="";
         var metodo="";
         if ($scope.panel_title_form=="Registro de Materia Prima") {
@@ -86,9 +89,11 @@ angular.module('frontendApp')
                 $scope.panel_title_form = "Registro de Materia Prima";
                 $scope.button_title_form = "Registrar Materia Prima";
             }
+            $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
             $scope.Materia={};
         },function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
             console.log(data.data.message);
         });
@@ -138,6 +143,7 @@ angular.module('frontendApp')
         });
     }
     $scope.Borrar=function(id){
+        $scope.preloader.estado = true;
         webServer
         .getResource('fabricacion/'+id,{},'delete')
         .then(function(data){
@@ -146,8 +152,10 @@ angular.module('frontendApp')
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
+            $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
     }

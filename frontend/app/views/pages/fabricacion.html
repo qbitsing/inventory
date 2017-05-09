@@ -9,29 +9,25 @@
 				<div class="panel-body" >
 					<form name="formfabricacion" ng-submit="abrirModalCrear()">
 						<div class="row">
-							<p>
-								<input name="tipo" ng-click="cambiar()" type="radio" ng-model="check" id="venta" value="orden"/>
-								<label for="venta">Orden de venta</label>
-								<input name="tipo" ng-click="cambiar()" type="radio" ng-model="check" id="stock" value="stock"/>
-								<label for="stock">Stock</label>
-						    </p>
-						</div>
-						<div class="row">
+							<div class="input-field col s12 m6 l6">
+								<p>
+									<input name="tipo" ng-click="cambiar()" type="radio" ng-model="check" id="venta" value="orden"/>
+									<label for="venta">Orden de venta</label>
+									<input name="tipo" ng-click="cambiar()" type="radio" ng-model="check" id="stock" value="stock"/>
+									<label for="stock">Stock</label>
+							    </p>
+							</div>
 							<div class="input-field col s12 m6 l6" ng-show="check=='orden'">
 								<label for="ordenn">Orden de venta *</label>
 								<select id="ordenn" ng-change="CargarOrden()" id="orden" ng-model="Orden" material-select watch>
 	      							<option ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.orden_venta_consecutivo}}-{{orden.cliente.nombre}}</option>
 								</select>
 							</div>
+						</div>
+						<div class="row">
 							<div class="input-field col s12 m6 l6" ng-show="check=='orden'">
 								<input type="text" ng-disabled="true" ng-model="fabricacion.orden_venta.cliente.nombre" id="cliente_orden" name="cliente_orden" ng-required="check.orden">
 								<label for="cliente_orden">Cliente *</label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="input-field col s12 m6 l6">
-								<label for="fecha_solicitud" class="active">Fecha de solicitud *</label>
-								<input type="date" id="fecha_solicitud" ng-model="fabricacion.fecha_solicitud" required>
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="fecha_entrega" class="active">Fecha de entrega *</label>
