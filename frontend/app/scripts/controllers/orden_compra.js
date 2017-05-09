@@ -31,6 +31,11 @@ angular.module('frontendApp')
     },100);
     $scope.panel_title_form = "Registro de Compra";
     $scope.button_title_form = "Registrar compra";
+    $scope.Orden={};
+    $scope.Orden.productos=[];
+    $scope.Orden.materia_prima=[];
+    $scope.productos=[];
+    $scope.materias=[];
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
@@ -63,11 +68,6 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptions , Tabla);
-    $scope.Orden={};
-    $scope.Orden.productos=[];
-    $scope.Orden.materia_prima=[];
-    $scope.productos=[];
-    $scope.materias=[];
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Ordenes.find(function(ele){
             if(ele._id == id){
@@ -259,8 +259,16 @@ angular.module('frontendApp')
         $scope.Orden={};
         $scope.Orden.productos=[];
         $scope.Orden.materia_prima=[];
+        $scope.productos=[];
+        $scope.materias=[];
         $scope.panel_title_form = "Registro de Compra";
         $scope.button_title_form = "Registrar compra";
+    }
+    $scope.convertirFecha = function(fecha){
+        var date = new Date(fecha).getDate();
+        date += '/'+(new Date(fecha).getMonth()+1);
+        date += '/'+new Date(fecha).getFullYear();
+        return date;
     }
     function IdentificarOrden (id , arrObj){
         var obj;

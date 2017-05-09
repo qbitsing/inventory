@@ -40,6 +40,8 @@ angular.module('frontendApp')
 	$scope.panel_title_form = "Registro de Productos";
 	$scope.button_title_form = "Registrar Producto";
 	$scope.Producto={};
+    $scope.Producto.unidad_medida={};
+    $scope.Producto.categoria={};
     $scope.Producto.Insumos=[];
     $scope.Producto.productos=[];
     $scope.Producto.procesos=[];
@@ -249,6 +251,16 @@ angular.module('frontendApp')
     $scope.Borrarkit=function(index){
         $scope.Producto.productos.splice(index,1);
     }
+    $scope.cambiar=function(){
+        $scope.Producto={};
+        $scope.Producto.unidad_medida={};
+        $scope.Producto.categoria={};
+        $scope.Producto.Insumos=[];
+        $scope.Producto.productos=[];
+        $scope.Producto.procesos=[];
+        $scope.Kit={};
+        $scope.Kit.producto={};
+    }
     $scope.EnviarProducto=function(){
         var ruta="";
         var metodo="";
@@ -296,7 +308,7 @@ angular.module('frontendApp')
                     });
                 }
                 $scope.panel_title_form = "Registro de Productos";
-	            $scope.button_title_form = "Registrar Producto";
+                $scope.button_title_form = "Registrar Producto";
             }
             $scope.Producto={};
             $scope.Producto.Insumos=[];
@@ -317,11 +329,12 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Edicion de Producto";
         $scope.button_title_form = "Actualizar Producto";
         $scope.Producto = IdentificarProducto(id,$scope.Productos);
-        if($scope.Producto.productos){
+        if($scope.Producto.tipo=='kit'){
             $scope.check='kit';
         }else{
             $scope.check='producto';
         }
+        console.log($scope.Producto);
         scroll();
     }
     $scope.Detalles = function(id){
@@ -334,6 +347,13 @@ angular.module('frontendApp')
     }
     $scope.CancelarEditar=function(){
         $scope.Producto={};
+        $scope.Producto.unidad_medida={};
+        $scope.Producto.categoria={};
+        $scope.Producto.Insumos=[];
+        $scope.Producto.productos=[];
+        $scope.Producto.procesos=[];
+        $scope.Kit={};
+        $scope.Kit.producto={};
         $scope.panel_title_form = "Registro de Productos";
         $scope.button_title_form = "Registrar Producto";
     }
@@ -360,7 +380,6 @@ angular.module('frontendApp')
         }
         $scope.productBarCodeCant = null;
         $scope.productBarCodeId = null;
-
     }
     $scope.printBarCodes = function(){
         var container = document.getElementById('containerBarCodesToPrint');
@@ -387,7 +406,9 @@ angular.module('frontendApp')
                     Insumos : ele.Insumos,
                     procesos : ele.procesos,
                     productos : ele.productos,
-                    precio : ele.precio
+                    precio : ele.precio,
+                    fabricado : ele.fabricado,
+                    comprado : ele.comprado
                 };
             }
         });

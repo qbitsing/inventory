@@ -62,6 +62,11 @@ angular.module('frontendApp')
                 width:'20%',
                 minWidth: 250
             },
+            { 
+                field: 'estado',
+                width:'15%',
+                minWidth: 160
+            },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
                 width:'45%',
@@ -80,6 +85,13 @@ angular.module('frontendApp')
             $scope.fabricacion.orden_venta.productos=[];
         }
         $scope.fabricacion.productos=$scope.fabricacion.orden_venta.productos;
+    }
+    $scope.cambiar=function(){
+        $scope.fabricacion={};
+        $scope.fabricacion.productos=[];
+        $scope.fabricacion.procesos=[];
+        $scope.proceso={};
+        $scope.producto={};
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Fabricaciones.find(function(ele){
@@ -186,7 +198,6 @@ angular.module('frontendApp')
         listarFabricaciones();
         $scope.panel_title_form = "Registro de Fabricaciones";
         $scope.button_title_form = "Registrar fabricación";
-        $scope.fabricacion={};
         $scope.check='orden';
         $scope.fabricacion={};
         $scope.fabricacion.productos=[];

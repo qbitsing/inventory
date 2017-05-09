@@ -61,6 +61,13 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptions , Tabla);
+    $scope.CancelarEditar=function(){
+        $scope.Entrada={};
+        $scope.Entrada.orden_compra={};
+        $scope.Entrada.orden_compra.productos=[];
+        $scope.Entrada.orden_compra.materia_prima=[];
+        $scope.Orden.compra='';
+    }
     $scope.CargarOrden=function(){
         $scope.Ordenes.forEach(function(ele, index){
             if(ele._id==$scope.Orden.compra){
@@ -205,7 +212,7 @@ angular.module('frontendApp')
             $scope.Entrada.orden_compra={};
             $scope.Entrada.orden_compra.productos=[];
             $scope.Entrada.orden_compra.materia_prima=[];
-            $scope.Orden.compra=null;
+            $scope.Orden.compra='';
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");

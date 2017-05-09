@@ -33,7 +33,6 @@ angular.module('frontendApp')
     $scope.button_title_form = "Registrar Persona";
     $scope.Persona={};
     $scope.Persona.proveedor=false;
-    $scope.Persona.rol={};
     var modalInstance=null;
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
@@ -66,7 +65,6 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptions , Tabla);
-
     $scope.EnviarPersona=function(){
         var ruta="";
         var metodo="";
@@ -166,11 +164,11 @@ angular.module('frontendApp')
         if($scope.Persona.ciudad){
             $scope.Persona.departamento = $scope.Persona.ciudad.departamento._id;
         }
-        
     }
     
     $scope.CancelarEditar=function(){
         $scope.Persona={};
+        $scope.Persona.proveedor=false;
         $scope.panel_title_form = "Registro de clientes y proveedores";
         $scope.button_title_form = "Registrar Persona";
     }

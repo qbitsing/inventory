@@ -10,9 +10,9 @@
 					<form name="formfabricacion" ng-submit="abrirModalCrear()">
 						<div class="row">
 							<p>
-								<input name="tipo" type="radio" ng-model="check" id="venta" value="orden"/>
+								<input name="tipo" ng-click="cambiar()" type="radio" ng-model="check" id="venta" value="orden"/>
 								<label for="venta">Orden de venta</label>
-								<input name="tipo" type="radio" ng-model="check" id="stock" value="stock"/>
+								<input name="tipo" ng-click="cambiar()" type="radio" ng-model="check" id="stock" value="stock"/>
 								<label for="stock">Stock</label>
 						    </p>
 						</div>
@@ -20,7 +20,7 @@
 							<div class="input-field col s12 m6 l6" ng-show="check=='orden'">
 								<label for="ordenn">Orden de venta *</label>
 								<select id="ordenn" ng-change="CargarOrden()" id="orden" ng-model="Orden" material-select watch>
-	      							<option ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.consecutivo_orden_venta}}-{{orden.cliente.nombre}}</option>
+	      							<option ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.orden_venta_consecutivo}}-{{orden.cliente.nombre}}</option>
 								</select>
 							</div>
 							<div class="input-field col s12 m6 l6" ng-show="check=='orden'">
@@ -78,7 +78,7 @@
 						<div class="row">
 							<div class="input-field col s12 m4 l4">
 								<select ng-model="proceso._id" material-select watch>
-	      							<option ng-repeat="proceso in Procesos" value="{{proceso._id}},{{proceso.nombre}},{{proceso.tipo}}">{{proceso.nombre}}</option>
+	      							<option ng-repeat="proceso in Procesos" value="{{proceso._id}},{{proceso.nombre}},{{proceso.tipo}}">{{proceso.nombre}} - {{proceso.tipo}}</option>
 								</select>
 								<label>Procesos *</label>
 							</div>
@@ -105,9 +105,11 @@
 							</div>
 						</div>
 						<div class="row" >
-							<div class="col s12">
+							<div class="col">
 								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formfabricacion.$invalid || fabricacion.productos.length<1 || fabricacion.procesos.length<1">{{button_title_form}}</button>
-								<button type="button" ng-click="CancelarEditar()" class="btn btn-large btn-danger" ng-hide="button_title_form=='Registrar fabricación'">Cancelar</button>
+							</div>
+							<div class="col">
+								<button type="button" ng-click="CancelarEditar()" class="btn btn-large btn-danger">Cancelar y limpiar</button>
 							</div>
 						</div>
 					</form>
@@ -137,7 +139,7 @@
     	<h4 class="modal-title blue accent-4">Orden de fabricación</h4>
     	<div class="row">
     		<ul>
-				<li> Numero interno de la fabricación: {{Detalle.consecutivo_fabricacion || 'No registra'}}</li>
+				<li> Numero interno de la fabricación: {{Detalle.fabricacion_consecutivo || 'No registra'}}</li>
 				<li ng-show="Detalle.orden_venta"> Cliente: {{Detalle.orden_venta.cliente.nombre || 'No registra'}}</li>
 				<li> Fecha de solicitud: {{convertirFecha(Detalle.fecha_solicitud) || 'No registra'}}</li>
 				<li> Fecha de entrega: {{convertirFecha(Detalle.fecha_entrega) || 'No registra'}}</li>
@@ -147,13 +149,17 @@
 					<thead>
 						<tr>
 							<th data-field="id">Nombre</th>
-							<th data-field="name">Cantidad</th>
+							<th data-field="cantidad">Cantidad</th>
+							<th data-field="cantidad_saliente">Cantidad en areas externas</th>
+							<th data-field="cantidad_fabricada">Cantidad fabricada</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="producto in Detalle.productos">
 							<td>{{producto.nombre}}</td>
 							<td>{{producto.cantidad}}</td>
+							<td>{{producto.cantidad_saliente}}</td>
+							<td>{{producto.cantidad_fabricada}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -312,7 +318,7 @@
 	    		</thead>
 	    		<tbody>
 	    			<tr ng-if="remision.fabricacion._id==contenido_fabricacion._id" ng-repeat="remision in Remisiones">
-	    				<td>{{remision.consecutivo_remision}}</td>
+	    				<td>{{remision.remision_consecutivo}}</td>
 		    			<td><li ng-repeat="res in remision.productos">{{res.producto.nombre}} - {{res.cantidad}}</li></td>
 		    			<td>{{remision.proceso.nombre}}</td>
 	    				<td><li ng-repeat="res in remision.proceso.array_responsables">{{res.nombre}}</li></td>
@@ -363,7 +369,7 @@
 		<div class="row" ng-show="check_modal_entrada=='remision'">
 			<div class="input-field col s12 m6 l6">
 				<select ng-model="modal_entrada.carga_remision" material-select watch>
-					<option ng-if="remision.fabricacion._id==contenido_fabricacion._id && (remision.estado!='Completada' || remision.estado!='Cancelada')" ng-repeat="remision in Remisiones" value="{{remision}}">{{remision.consecutivo_remision}}-{{remision.proceso.nombre}}</option>
+					<option ng-if="remision.fabricacion._id==contenido_fabricacion._id && (remision.estado!='Completada' || remision.estado!='Cancelada')" ng-repeat="remision in Remisiones" value="{{remision}}">{{remision.remision_consecutivo}}-{{remision.proceso.nombre}}</option>
 				</select>
 				<label>Remision de salida *</label>
 			</div>
@@ -432,7 +438,7 @@
     				<td>Observaciones</td>
     			</tr>
     			<tr ng-if="entrada.fabricacion._id==contenido_fabricacion._id" ng-repeat="entrada in EntradasFabricaciones">
-    				<td>{{entrada.consecutivo_entrada_remision}}</td>
+    				<td>{{entrada.entrada_remision_consecutivo}}</td>
 	    			<td><li ng-repeat="res in entrada.productos">{{res.producto.nombre}} - {{res.cantidad}}</li></td>
 	    			<td>{{entrada.remision.proceso.nombre || 'No registra'}} </td>
     				<td ng-show="entrada.remision.proceso.array_responsables"><li ng-repeat="res in entrada.remision.proceso.array_responsables">{{res.nombre}}</li></td>

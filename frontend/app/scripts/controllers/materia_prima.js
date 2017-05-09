@@ -60,7 +60,6 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptions , Tabla);
-    
     $scope.EnviarMateria=function(){
     	var ruta="";
         var metodo="";

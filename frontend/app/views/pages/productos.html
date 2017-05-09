@@ -10,9 +10,9 @@
 					<form name="formProductos" novalidate ng-submit="EnviarProducto()">
 						<div class="row" ng-disabled="panel_title_form == 'Edicion de Productos'" ng-hide="panel_title_form == 'Edicion de Productos'">
 							<p>
-								<input name="tipo" type="radio" ng-model="check" id="kit" value="kit"/>
+								<input name="tipo" type="radio" ng-click="cambiar()" ng-model="check" id="kit" value="kit"/>
 								<label for="kit">Kit</label>
-								<input name="tipo" type="radio" ng-model="check" id="producto" value="producto" />
+								<input name="tipo" type="radio" ng-click="cambiar()" ng-model="check" id="producto" value="producto" />
 								<label for="producto">Producto</label>
 						    </p>
 						</div>
@@ -29,10 +29,11 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="input-field col s12 m6 l6" ng-show="check=='producto'">			<input type="text" ng-model="Producto.marca" id="marca" name="marca" ng-required="check=='producto'">
+							<div class="input-field col s12 m6 l6" ng-show="check=='producto'">
+								<input type="text" ng-model="Producto.marca" id="marca" name="marca" ng-required="check=='producto'">
 								<label for="marca">Marca *</label>
 							</div>
-							<div class="input-field col s12 m6 l6" ng-show="check=='producto'">								
+							<div class="input-field col s12 m6 l6" ng-show="check=='producto'">
 								<input type="number" ng-model="Producto.min_stock" id="min_stock" name="min_stock" ng-required="check=='producto'">
 								<label for="min_stock">Min stock *</label>
 							</div>
@@ -45,8 +46,8 @@
 								<label>Unidad de medida *</label>
 							</div>
 							<div class="input-field col s12 m6 l6">
-								<input type="number" ng-model="Producto.precio" id="Precio" name="Precio" required >
-								<label for="Precio">Precio *</label>
+								<input type="number" ng-model="Producto.precio" id="Precio" name="Precio">
+								<label for="Precio">Precio</label>
 							</div>
 						</div>
 						<div class="row">
@@ -113,7 +114,7 @@
 							</div>
 							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!(Kit.producto._id) || !(Kit.producto.cantidad)" ng-click="Agregarkit()">Añadir</button>
 						</div>
-						<div class="row">
+						<div class="row" ng-hide="check=='producto' && !Producto.fabricado">
 							<div class="input-field col s12 m12 l12">
 								<table class="bordered striped" ng-hide="Producto.productos.length<1">
 									<thead>
@@ -136,7 +137,7 @@
 						<div class="row" ng-show="check=='producto' && Producto.fabricado">
 							<div class="input-field col s12 m5 l5">
 								<select ng-model="proceso._id" material-select watch>
-	      							<option ng-repeat="proceso in Procesos" value="{{proceso._id}},{{proceso.nombre}},{{proceso.tipo}}">{{proceso.nombre}}-{{proceso.tipo}}</option>
+	      							<option ng-repeat="proceso in Procesos" value="{{proceso._id}},{{proceso.nombre}},{{proceso.tipo}}">{{proceso.nombre}} - {{proceso.tipo}}</option>
 								</select>
 								<label>Procesos *</label>
 							</div>
@@ -161,9 +162,11 @@
 							</div>							
 						</div>
 						<div class="row">
-							<div class="col s12 m12 l12">
-								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formProductos.$invalid || ((check=='producto' && Producto.fabricado && Producto.Insumos.length<1 && Producto.productos.length<1) ||(check=='producto' && Producto.fabricado && Producto.procesos.length<1)) || (check=='kit' && Producto.productos.length<1)">{{button_title_form}}</button>
-								<button type="button" class="btn btn-large btn-danger" ng-show="panel_title_form == 'Edicion de Producto'" ng-click="CancelarEditar()">Cancelar</button>
+							<div class="col">
+								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formProductos.$invalid || ((check=='producto' && Producto.fabricado && Producto.Insumos.length<1 && Producto.productos.length<1) ||(check=='producto' && Producto.fabricado && Producto.procesos.length<1)) || (check=='kit' && Producto.productos.length<1) || (check=='producto' && !Producto.fabricado && !Producto.comprado)">{{button_title_form}}</button>
+							</div>
+							<div class="col">
+								<button type="button" class="btn btn-large btn-danger" ng-click="CancelarEditar()">Cancelar y limpiar</button>
 							</div>
 						</div>
 					</form>

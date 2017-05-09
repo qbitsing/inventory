@@ -60,7 +60,7 @@ let crear = co.wrap(function * (req, res){
     try {
         req.body.categoria = yield categoriaModel.findById(req.body.categoria._id);
 
-        req.body.unidad_medida = yield categoriaModel.findById(req.body.unidad_medida._id);
+        req.body.unidad_medida = yield unidadMedidaModel.findById(req.body.unidad_medida._id);
         
         let newProducto = new ProductoModel(req.body);
 
@@ -88,7 +88,7 @@ let actualizar = co.wrap(function * (req, res){
 
         req.body.categoria = yield categoriaModel.findById(req.body.categoria._id);
 
-        req.body.unidad_medida = yield categoriaModel.findById(req.body.unidad_medida._id);
+        req.body.unidad_medida = yield unidadMedidaModel.findById(req.body.unidad_medida._id);
 
 
         yield ProductoModel.findByIdAndUpdate(id, req.body);

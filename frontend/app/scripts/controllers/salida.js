@@ -120,6 +120,12 @@ angular.module('frontendApp')
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
+    $scope.cancelarEditar=function(){
+        $scope.Salida={};
+        $scope.Salida.orden_venta={};
+        $scope.Salida.orden_venta.productos=[];
+        $scope.Orden.venta='';
+    }
     $scope.EnviarSalida=function(){
         if ($scope.Salida.orden_venta.productos) {
             $scope.Salida.orden_venta.productos.forEach(function(ele, index){
@@ -154,7 +160,7 @@ angular.module('frontendApp')
             $scope.Salida={};
             $scope.Salida.orden_venta={};
             $scope.Salida.orden_venta.productos=[];
-            $scope.Orden.venta=null;
+            $scope.Orden.venta='';
             sweetAlert("Completado...", data.data.message , "success"); 
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");

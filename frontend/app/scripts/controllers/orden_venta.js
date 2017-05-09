@@ -261,6 +261,7 @@ angular.module('frontendApp')
     $scope.CancelarEditar=function(){
         $scope.Orden={};
         $scope.Orden.productos=[];
+        $scope.productos=[];
         $scope.panel_title_form = "Registro de venta";
         $scope.button_title_form = "Registrar venta"; 
     }

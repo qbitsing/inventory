@@ -64,7 +64,6 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptions , Tabla);
-
     $scope.EnviarEmpleado=function(){
         switch($scope.Empleado.rol) {
             case 'super_administrador':
@@ -102,7 +101,6 @@ angular.module('frontendApp')
             sweetAlert("Completado...", data.data.message , "success");
             $scope.panel_title_form = "Registro de Empleados";
             $scope.button_title_form = "Registrar Empleado";
-
         },function(data){
             sweetAlert("Oops...", data.data.message , "error");
         });
