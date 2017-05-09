@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('EntradaCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer,preloader) {
+.controller('EntradaCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -24,7 +24,7 @@ angular.module('frontendApp')
         });
     });
     $scope.preloader = preloader;
-    $scope.preloader.estado= true;
+    $scope.preloader.estado = false;
   	$scope.panelAnimate='';
     $scope.pageAnimate='';  
     $timeout(function () {
@@ -128,6 +128,7 @@ angular.module('frontendApp')
         });
     }
     function Borrar(id){
+        $scope.preloader.estado = true;
         webServer
         .getResource('entradas/'+id,{},'delete')
         .then(function(data){
@@ -166,13 +167,16 @@ angular.module('frontendApp')
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
+            $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
             console.log(data.data.message);
         });
     }
     $scope.EnviarEntrada=function(){
+        $scope.preloader.estado = true;
         if ($scope.Entrada.orden_compra.productos) {
             $scope.Entrada.orden_compra.productos.forEach(function(ele, index){
                 ele.cantidad_entrante=angular.element('#cantidad'+ele._id).val();
@@ -221,8 +225,10 @@ angular.module('frontendApp')
             $scope.Entrada.orden_compra.productos=[];
             $scope.Entrada.orden_compra.materia_prima=[];
             $scope.Orden.compra='';
+            $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
             console.log(data.data.message);
         });

@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('FabricacionCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
+.controller('FabricacionCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';
     $(document).ready(function(){
@@ -29,6 +29,8 @@ angular.module('frontendApp')
 		$scope.pageAnimate='pageAnimate';
 		$scope.panelAnimate='panelAnimate';
 	},100);
+    $scope.preloader = preloader;
+    $scope.preloader.estado = false;
 	$scope.panel_title_form = "Registro de Fabricaciones";
 	$scope.button_title_form = "Registrar fabricación";
 	$scope.check='orden';
@@ -168,6 +170,7 @@ angular.module('frontendApp')
             }
         });
         if(controler){
+            $scope.preloader.estado = true;
             webServer
             .getResource('fabricacion/'+id,{},'delete')
             .then(function(data){
@@ -176,8 +179,10 @@ angular.module('frontendApp')
                         $scope.Fabricaciones.splice(ele.index,1);
                     }
                 });
+                $scope.preloader.estado = false;
                 swal("Completado...", data.data.message , "success");
             },function(data){
+                $scope.preloader.estado = false;
                 swal("Oops...", data.data.message , "error");
             });
         }else{
@@ -219,6 +224,7 @@ angular.module('frontendApp')
         }
     }
     function EnviarFabricacion(){
+        $scope.preloader.estado = true;
         var metodo='';
         var ruta='';
         if($scope.button_title_form=='Registrar fabricación'){
@@ -249,10 +255,12 @@ angular.module('frontendApp')
             $scope.fabricacion.procesos=[];
             $scope.proceso={};
             $scope.producto={};
-            sweetAlert("Completado...", data.data.message , "success");
             $scope.panel_title_form = "Registro de Fabricacion";
             $scope.button_title_form = "Registrar fabricación";
+            $scope.preloader.estado = false;
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         }); 
     }
@@ -376,6 +384,7 @@ angular.module('frontendApp')
         $scope.modal_salida.proceso = JSON.parse($scope.modal_salida.carga_proceso);
     }
     $scope.enviarRemision=function(){
+        $scope.preloader.estado = true;
         $scope.modal_salida.estado='Sin Entrada';
         $scope.modal_salida.fabricacion=$scope.contenido_fabricacion;
         webServer
@@ -390,9 +399,11 @@ angular.module('frontendApp')
             $scope.modal_salida.remision_consecutivo=data.data.datos.remision_consecutivo;
             $scope.Remisiones.push($scope.modal_salida);
             $scope.modal_salida={};
+            $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         }
         ,function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
@@ -422,6 +433,7 @@ angular.module('frontendApp')
         if(remision.estado=='Con Entrada'){
             Materialize.toast( "La remisión no se puede cancelar ya que hay productos que ya ingresaron a inventario" , 4000 );
         }else{
+            $scope.preloader.estado = true;
             remision.productos.forEach(function(elemento , index){
                 $scope.contenido_fabricacion.productos.forEach(function(ele , i){
                     if(elemento.producto._id == ele._id){
@@ -434,19 +446,21 @@ angular.module('frontendApp')
             webServer
             .getResource('remision/'+remision._id,remision,'put')
             .then(function(data){
-               $scope.Remisiones.forEach(function(ele , i){
+                $scope.Remisiones.forEach(function(ele , i){
                     if (ele._id == remision._id) {
                         ele.estado = 'Cancelada';
                     }
-               });
-               $scope.Fabricaciones.forEach(function(ele , i){
+                });
+                $scope.Fabricaciones.forEach(function(ele , i){
                     if($scope.contenido_fabricacion._id == ele._id){
                         ele.productos=$scope.contenido_fabricacion.productos;
                     }
                 });
+                $scope.preloader.estado = false;
                 swal("Completado...", data.data.message , "success");
             }
             ,function(data){
+                $scope.preloader.estado = false;
                 swal("Oops...", data.data.message , "error");
             });
         }
@@ -510,12 +524,14 @@ angular.module('frontendApp')
         });
     }
     $scope.enviarEntrada=function(){
+        var controlador_enviar=true;
         if($scope.check_modal_entrada=='remision'){
             var controler=true;
             $scope.modal_entrada.productos.forEach(function(ele, index){
                 var cantidad_entrante=angular.element('#cantidad'+ele.producto._id).val();
                 if(cantidad_entrante>ele.cantidad_faltante){
                     controler=false;
+                    controlador_enviar=false;
                     Materialize.toast('La cantidad de '+ele.producto.nombre+' a sacar es mayor a la cantidad disponible', 4000);
                 }
             });
@@ -583,26 +599,32 @@ angular.module('frontendApp')
                 $scope.contenido_fabricacion.estado='Incompleta';
             }
         }
-        $scope.modal_entrada.fabricacion=$scope.contenido_fabricacion;
-        webServer
-        .getResource('entrada/remision',$scope.modal_entrada,'post')
-        .then(function(data){
-            $scope.Fabricaciones.forEach(function(ele , i){
-                if($scope.contenido_fabricacion._id == ele._id){
-                    ele=$scope.contenido_fabricacion;
-                }
+        if (controlador_enviar) {
+            $scope.preloader.estado = true;
+            $scope.modal_entrada.fabricacion=$scope.contenido_fabricacion;
+            webServer
+            .getResource('entrada/remision',$scope.modal_entrada,'post')
+            .then(function(data){
+                $scope.Fabricaciones.forEach(function(ele , i){
+                    if($scope.contenido_fabricacion._id == ele._id){
+                        ele=$scope.contenido_fabricacion;
+                    }
+                });
+                $scope.modal_entrada._id=data.data.datos._id;
+                $scope.modal_entrada.entrada_remision_consecutivo=data.data.datos.entrada_remision_consecutivo;
+                $scope.EntradasFabricaciones.push($scope.modal_entrada);
+                $scope.modal_entrada={};
+                $scope.preloader.estado = false;
+                sweetAlert("Completado...", data.data.message , "success");
+            }
+            ,function(data){
+                $scope.preloader.estado = false;
+                sweetAlert("Oops...", data.data.message , "error");
             });
-            $scope.modal_entrada._id=data.data.datos._id;
-            $scope.modal_entrada.entrada_remision_consecutivo=data.data.datos.entrada_remision_consecutivo;
-            $scope.EntradasFabricaciones.push($scope.modal_entrada);
-            $scope.modal_entrada={};
-            sweetAlert("Completado...", data.data.message , "success");
         }
-        ,function(data){
-            sweetAlert("Oops...", data.data.message , "error");
-        });
     }
     $scope.cancelarlaentrada=function(){
+        $scope.preloader.estado = true;
         var entrada=$scope.cancelarentrada;
         var controlerfab=true;
         entrada.estado='Cancelada';
@@ -663,20 +685,22 @@ angular.module('frontendApp')
                     }
                 });
             }
-           $scope.EntradasFabricaciones.forEach(function(ele , i){
+            $scope.EntradasFabricaciones.forEach(function(ele , i){
                 if (ele._id == entrada._id) {
                     ele = entrada;
                 }
-           });
-           $scope.Fabricaciones.forEach(function(ele , i){
+            });
+            $scope.Fabricaciones.forEach(function(ele , i){
                 if($scope.contenido_fabricacion._id == ele._id){
                     ele=$scope.contenido_fabricacion;
                 }
             });
+            $scope.preloader.estado = false;
             swal("Completado...", data.data.message , "success");
             $scope.cancelarentrada={};
         }
         ,function(data){
+            $scope.preloader.estado = false;
             swal("Oops...", data.data.message , "error");
             $scope.cancelarentrada={};
         });
@@ -775,6 +799,7 @@ angular.module('frontendApp')
        $scope.salida_insumos.productos.splice(index,1);
     }
     $scope.enviarSalidaInsumos=function(){
+        $scope.preloader.estado = true;
         $scope.salida_insumos.productos.forEach(function(ele, ind){
             ele.producto.cantidad=ele.producto.cantidad-ele.cantidad;
         });
@@ -802,9 +827,11 @@ angular.module('frontendApp')
             $scope.SalidasInsumos.push($scope.salida_insumos);
             $scope.salida_insumos.productos=[];
             $scope.salida_insumos.materia=[];
+            $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         }
         ,function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
@@ -830,6 +857,7 @@ angular.module('frontendApp')
         });
     }
     $scope.cancelarlasalidainsumos=function(){
+        $scope.preloader.estado = true;
         var salida=$scope.cancelarsalidainsumos;
         if(salida.productos){
             salida.productos.forEach(function(ele, ind){
@@ -868,9 +896,11 @@ angular.module('frontendApp')
                     });
                 });
             }
+            $scope.preloader.estado = false;
             swal("Completado...", data.data.message , "success");
         }
         ,function(data){
+            $scope.preloader.estado = false;
             swal("Oops...", data.data.message , "error");
         });
     }

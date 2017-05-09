@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('OrdenCompraCtrl', function ($scope, $timeout,webServer, Tabla, BotonesTabla) {
+  .controller('OrdenCompraCtrl', function ($scope, $timeout,webServer, Tabla, BotonesTabla, preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -23,6 +23,8 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
+    $scope.preloader = preloader;
+    $scope.preloader.estado = false;
     $scope.panelAnimate='';
     $scope.pageAnimate='';
     $timeout(function () {
@@ -180,6 +182,7 @@ angular.module('frontendApp')
             }
         });
         if (conter) {
+            $scope.preloader.estado = true;
             webServer
             .getResource('orden_compra/'+id,{},'delete')
             .then(function(data){
@@ -188,8 +191,10 @@ angular.module('frontendApp')
                         $scope.Ordenes.splice(ele.index,1);
                     }
                 });
+                $scope.preloader.estado = false;
                 swal("Completado...", data.data.message , "success");
             },function(data){
+                $scope.preloader.estado = false;
                 swal("Oops...", data.data.message , "error");
             });
         }else{
@@ -197,6 +202,7 @@ angular.module('frontendApp')
         }
     }
     $scope.EnviarOrden=function(){
+        $scope.preloader.estado = true;
         if($scope.Orden.productos.length<1){
             $scope.Orden.productos=null;
         }
@@ -233,8 +239,10 @@ angular.module('frontendApp')
             $scope.Orden.materia_prima=[];
             $scope.panel_title_form = "Registro de Compra";
             $scope.button_title_form = "Registrar compra";
+            $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
     }

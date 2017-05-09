@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('SalidaCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
+  .controller('SalidaCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -23,6 +23,8 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
+    $scope.preloader = preloader;
+    $scope.preloader.estado = false;
     $scope.panelAnimate='';
     $scope.pageAnimate='';  
     $timeout(function () {
@@ -109,6 +111,7 @@ angular.module('frontendApp')
         return date;
     }
     function Borrar(id){
+        $scope.preloader.estado = true;
         webServer
         .getResource('salidas/'+id,{},'delete')
         .then(function(data){
@@ -132,8 +135,10 @@ angular.module('frontendApp')
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
+            $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
@@ -144,6 +149,7 @@ angular.module('frontendApp')
         $scope.Orden.venta='';
     }
     $scope.EnviarSalida=function(){
+        $scope.preloader.estado = true;
         if ($scope.Salida.orden_venta.productos) {
             $scope.Salida.orden_venta.productos.forEach(function(ele, index){
                 ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
@@ -178,8 +184,10 @@ angular.module('frontendApp')
             $scope.Salida.orden_venta={};
             $scope.Salida.orden_venta.productos=[];
             $scope.Orden.venta='';
+            $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success"); 
         },function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
         
