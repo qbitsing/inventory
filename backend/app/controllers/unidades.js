@@ -28,7 +28,8 @@ function crear (req, res) {
         if(err) return res.status(500).send({message : `ERROR al guardar la unidad en la DB ${err}`});
 
         return res.status(200).send({
-            datos
+            datos,
+            message: 'Unidad de medida registrada con exito'
         });
     });
 }

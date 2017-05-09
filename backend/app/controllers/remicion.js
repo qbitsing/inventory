@@ -57,7 +57,7 @@ let crear = co.wrap(function * (req, res) {
 
     return res.status(200).send({
       message: 'Remisión registrada con exito',
-      datos: saveRimision._id
+      datos: saveRimision
     });
   } catch(e) {
     return res.status(500).send({
