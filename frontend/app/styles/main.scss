@@ -461,7 +461,30 @@ preloader{
     right: 0;
     bottom: 0;
     margin: auto;
+    .circle-clipper .circle{
+      border-width: 10px;
+    } 
   }
+  h4{
+      position: absolute;
+      width: 96px;
+      height:24px;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+      display: inline-block;
+      color:#fff;
+      font-size: 22px;
+      span{
+        margin-right: -5px;
+        transition: all 0.3s;
+      }
+      .animacion{
+        color: #4285f4;
+      }
+    }
 }
 
 
