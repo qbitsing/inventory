@@ -376,9 +376,9 @@ $success:#00c853;
   }
 }
 .btn-danger{
-  background: $danger;
+  background: $danger !important;
   &:hover{
-    background:darken( $danger, 5% );
+    background:darken( $danger, 5% )!important;
   }
 }
 .cropArea {
@@ -391,7 +391,11 @@ $success:#00c853;
   display:none!important;
 }
 .modal{
-  top:100px !important;
+  top:70px !important;
+  max-height: 80%;
+  &.modal-fixed-footer{
+    height: 80%;
+  }
   .modal-content{
     .modal-title{
       position:fixed;
@@ -485,6 +489,17 @@ preloader{
         color: #4285f4;
       }
     }
+}
+.row{
+  margin-bottom: 0;
+}
+.ui-grid-filter-container input[type=text]{
+  height: 2em;
+  padding: 0 5px;
+  &:focus{
+    border-bottom: 1px solid $azul !important;
+    box-shadow: 0 1px 0 0 $azul !important
+  }
 }
 
 

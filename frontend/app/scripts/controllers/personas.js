@@ -122,14 +122,14 @@ angular.module('frontendApp')
             }
         });
     }
-    $scope.Borrar=function(id){
+    function Borrar(id){
         $scope.preloader.estado = true;
         webServer
         .getResource('orden_venta/'+id,{},'delete')
         .then(function(data){
-            $scope.Entradas.forEach(function(ele, index){
+            $scope.Personas.forEach(function(ele, index){
                 if(ele._id==id){
-                    $scope.Entradas.splice(ele.index,1);
+                    $scope.Personas.splice(ele.index,1);
                 }
             });
             $scope.preloader.estado = false;
