@@ -115,7 +115,7 @@ angular.module('frontendApp')
         webServer
         .getResource('salidas/'+id,{},'delete')
         .then(function(data){
-            $scope.Entradas.forEach(function(ele, ind){
+            $scope.Salidas.forEach(function(ele, ind){
                 if(ele._id==id){
                     if (ele.orden_venta.productos) {
                         $scope.Ordenes.forEach(function(e,i){
@@ -132,7 +132,7 @@ angular.module('frontendApp')
                             }
                         });
                     }
-                    $scope.Entradas.splice(ele.index,1);
+                    $scope.Salidas.splice(ele.index,1);
                 }
             });
             $scope.preloader.estado = false;
@@ -194,7 +194,7 @@ angular.module('frontendApp')
     }
     function listarOrdenes(){
         webServer
-        .getResource('orden_venta',{Activo: true, Salidas:true},'get')
+        .getResource('orden_venta',{Activo: true, Salidas:true, Finalizado:true},'get')
         .then(function(data){
             if(data.data){
                 $scope.Ordenes=data.data.datos;

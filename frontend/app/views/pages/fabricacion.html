@@ -44,29 +44,32 @@
 							</div>
 							<div class="input-field col s2 m1 l1">
 								<input type="text" ng-keyup="cargarProducto($event)" ng-model="producto.codigo" id="codigo_barras" name="codigo_barras">
-								<label for="codigo_barras">Por codigo</label> ng-keyup="detectar($event)" ng-model="producto.cantidad" id="Cantidad" name="Cantidad">
+								<label for="codigo_barras">Por codigo</label> 
+							</div>
+							<div class="input-field col s4 m4 l4">
+									<input type="number" ng-keyup="detectar($event)" ng-model="producto.cantidad" id="Cantidad" name="Cantidad">
 								<label for="Cantidad">Cantidad *</label>
 							</div>
 							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!(producto._id) || !(producto.cantidad)" ng-click="AgregarProducto()">Añadir</button>
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m12 l12">
-							<table class="bordered striped" ng-hide="fabricacion.productos.length<1">
-						        <thead>
-						        	<tr>
-										<th data-field="producto">Producto</th>
-										<th data-field="cantidad">Cantidad</th>
-										<th data-field="opcion" ng-hide="panel_title_form!='Registro de Fabricaciones'">Opción</th>
-						          	</tr>
-						        </thead>
-						        <tbody>
-						          	<tr ng-repeat="producto in fabricacion.productos">
-							            <td>{{producto.nombre}}</td>
-							            <td>{{producto.cantidad}}</td>
-							            <td ng-hide="panel_title_form!='Registro de Fabricaciones'"><a class="btn btn-danger" class="cursor" ng-click="BorrarProducto($index)">Eliminar</a></td>
-						          	</tr>
-						        </tbody>
-						      </table>
+								<table class="bordered striped" ng-hide="fabricacion.productos.length<1">
+							        <thead>
+							        	<tr>
+											<th data-field="producto">Producto</th>
+											<th data-field="cantidad">Cantidad</th>
+											<th data-field="opcion" ng-hide="panel_title_form!='Registro de Fabricaciones'">Opción</th>
+							          	</tr>
+							        </thead>
+							        <tbody>
+							          	<tr ng-repeat="producto in fabricacion.productos">
+								            <td>{{producto.nombre}}</td>
+								            <td>{{producto.cantidad}}</td>
+								            <td ng-hide="panel_title_form!='Registro de Fabricaciones'"><a class="btn btn-danger" class="cursor" ng-click="BorrarProducto($index)">Eliminar</a></td>
+							          	</tr>
+							        </tbody>
+							    </table>
 							</div>
 						</div>
 						<div class="row">
@@ -448,8 +451,6 @@
 	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
     </div>
 </div>
-
-
 <div id="modalMateriaPrima" class="modal modal-fixed-footer">
     <div class="modal-content">
 	    <h4 class="modal-title">Salida de insumos</h4>

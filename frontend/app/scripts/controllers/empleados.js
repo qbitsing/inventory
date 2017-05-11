@@ -147,7 +147,7 @@ angular.module('frontendApp')
             }
         });
     }
-    $scope.Borrar=function(id){
+    function Borrar(id){
         $scope.preloader.estado = true;
         webServer
         .getResource('empleados/'+id,{},'delete')

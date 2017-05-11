@@ -142,14 +142,14 @@ angular.module('frontendApp')
             }
         });
     }
-    $scope.Borrar=function(id){
+    function Borrar(id){
         $scope.preloader.estado = true;
         webServer
         .getResource('fabricacion/'+id,{},'delete')
         .then(function(data){
-            $scope.Entradas.forEach(function(ele, index){
+            $scope.Materias.forEach(function(ele, index){
                 if(ele._id==id){
-                    $scope.Entradas.splice(ele.index,1);
+                    $scope.Materias.splice(ele.index,1);
                 }
             });
             $scope.preloader.estado = false;

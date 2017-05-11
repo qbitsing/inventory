@@ -362,7 +362,7 @@ angular.module('frontendApp')
     }
     function listarOrdenes(){
         webServer
-        .getResource('orden_compra',{Salidas:true, Finalizado:true, Activo:true},'get')
+        .getResource('orden_compra',{Entradas:true, Finalizado:true, Activo:true},'get')
         .then(function(data){
             $scope.Ordenes=data.data.datos;
             $scope.gridOptions.data=$scope.Ordenes;
