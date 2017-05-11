@@ -145,7 +145,7 @@ let eliminar = co.wrap(function *(req, res){
 			for(var ele of productos){
 				if(ele.ingresanMas){
 					ele.cantidad -= ele.ingresanMas;
-					ele.cantidad_faltante += parseInt(ele.cantidad_entrante) - ele.ingresanMas;
+					ele.cantidad_faltante += parseInt(ele.cantidad_entrante) - parseInt(ele.ingresanMas);
 				}else{
 					ele.cantidad_faltante += parseInt(ele.cantidad_entrante);
 				}
@@ -153,6 +153,8 @@ let eliminar = co.wrap(function *(req, res){
 				entrada.orden_compra.productos.push(ele);
 			}
 		}
+
+
 
 		yield ordenModel.findByIdAndUpdate(entrada.orden_compra._id , entrada.orden_compra);
 

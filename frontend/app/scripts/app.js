@@ -126,5 +126,11 @@ angular
         parent: 'Dashboard',
         templateUrl: 'views/pages/materia_prima.html',
         controller: 'MateriaPrimaCtrl'
-    })    
+    })
+    .state('Factura',{
+        url: '/Factura/:_id',
+        parent: 'Dashboard',
+        templateUrl: 'views/pages/factura.html',
+        controller: 'FacturaCtrl'
+    })  
 })
