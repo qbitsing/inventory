@@ -219,7 +219,8 @@ angular.module('frontendApp')
                     if(data.data.datos.orden_compra.estado=='Finalizado'){
                         $scope.Ordenes.splice(ele.index,1);
                     }else{
-                        ele.estado=data.data.datos.orden_compra.estado;
+                        $scope.Ordenes[ind] = data.data.datos.orden_compra;
+                        /*ele.estado=data.data.datos.orden_compra.estado;
                         if (ele.productos && data.data.datos.orden_compra.productos) {
                             ele.productos.forEach(function(elemento,index){
                                 data.data.datos.orden_compra.productos.forEach(function(e, i){
@@ -237,7 +238,7 @@ angular.module('frontendApp')
                                     }
                                 });
                             });
-                        }
+                        }*/
                     }
                 }
             });
