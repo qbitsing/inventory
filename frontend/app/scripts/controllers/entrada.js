@@ -84,21 +84,9 @@ angular.module('frontendApp')
         });
         if(!$scope.Entrada.orden_compra.productos){
             $scope.Entrada.orden_compra.productos=[];
-        }else{
-            $scope.Entrada.orden_compra.productos.forEach(function(ele,index){
-                if (ele.cantidad_faltante==0) {
-                    $scope.Entrada.orden_compra.productos.splice(ele.index,1);
-                }
-            });
         }
         if(!$scope.Entrada.orden_compra.materia_prima){
             $scope.Entrada.orden_compra.materia_prima=[];
-        }else{
-            $scope.Entrada.orden_compra.materia_prima.forEach(function(ele,index){
-                if (ele.cantidad_faltante==0) {
-                    $scope.Entrada.orden_compra.materia_prima.splice(ele.index,1);
-                }
-            });
         }
     }
     $scope.convertirFecha = function(fecha){

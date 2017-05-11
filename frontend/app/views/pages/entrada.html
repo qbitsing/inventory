@@ -32,11 +32,11 @@
 							          	</tr>
 							        </thead>
 							        <tbody>
-							          	<tr ng-repeat="producto in Entrada.orden_compra.productos">
+							          	<tr ng-if="producto.cantidad_faltante>0" ng-repeat="producto in Entrada.orden_compra.productos">
 								            <td>{{producto.nombre}}</td>
 											<td>{{producto.cantidad}}</td>
 								            <td>{{producto.cantidad_faltante}}</td>
-								            <td><input type="number"  value="{{producto.cantidad_faltante}}" id="cantidad{{producto._id}}" name="cantidad" ></td>
+								            <td><input type="number"  value="{{producto.cantidad_faltante}}" id="cantidad{{producto._id}}" name="cantidad" required></td>
 							          	</tr>
 							        </tbody>
 						      	</table>
@@ -52,11 +52,11 @@
 							          	</tr>
 							        </thead>
 							        <tbody>
-							          	<tr ng-repeat="materia in Entrada.orden_compra.materia_prima">
+							          	<tr ng-if="producto.cantidad_faltante>0" ng-repeat="materia in Entrada.orden_compra.materia_prima">
 								            <td>{{materia.nombre}}</td>
 											<td>{{materia.cantidad}}</td>
 								            <td>{{materia.cantidad_faltante}}</td>
-								            <td><input type="number" value="{{materia.cantidad_faltante}}" id="cantidad{{materia._id}}" name="cantidad"></td>
+								            <td><input type="number" value="{{materia.cantidad_faltante}}" id="cantidad{{materia._id}}" name="cantidad" required></td>
 							          	</tr>
 							        </tbody>
 						      	</table>
