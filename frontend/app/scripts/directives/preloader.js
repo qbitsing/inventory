@@ -26,7 +26,7 @@ angular.module('frontendApp')
 				i ++;
 			else 
 				i = 0;
-		}, 500)
+		}, 150)
       },
       controller :'DashboardCtrl',
     };
