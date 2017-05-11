@@ -126,11 +126,11 @@ angular.module('frontendApp')
         });
         if(!controlador){
             $scope.Orden.productos.push(obj);
-            $scope.Orden.Producto={};
         }else{
             Materialize.toast('El producto ya esta añadido', 4000);
-            $scope.Orden.Producto={};
         }
+        $scope.Orden.Producto={};
+        $('#codigo_barras').focus();
     }
     $scope.AgregarMateria=function(){
         var controlador=false;

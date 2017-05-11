@@ -211,16 +211,26 @@ angular.module('frontendApp')
         $scope.proceso={};
         $scope.producto={};
     }
-    $scope.cargarProducto=function(){
+    $scope.cargarProducto=function(keyEvent){
         var conter=true;
         $scope.Productos.forEach(function(ele , index){
             if($scope.producto.codigo == ele.codigo){
                 $scope.producto._id=ele._id+','+ele.nombre;
                 conter=false;
+                if (keyEvent.which === 13){
+                    $('#Cantidad').focus();
+                }
             }
         });
         if (conter) {
             $scope.producto._id='';
+        }
+    }
+    $scope.detectar=function(keyEvent){
+        if ($scope.Orden.Producto.cantidad!='') {
+            if (keyEvent.which === 13){
+                $scope.AgregarProducto();
+            }
         }
     }
     function EnviarFabricacion(){
@@ -287,6 +297,7 @@ angular.module('frontendApp')
             Materialize.toast('La cantidad se ha sumado al producto ya añadido', 4000);
         }
         $scope.producto={};
+        $('#codigo_barras').focus();
     }
     $scope.AgregarProceso=function(){
         var controler=false;

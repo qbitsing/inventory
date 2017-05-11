@@ -128,16 +128,26 @@ angular.module('frontendApp')
         });
     }
     listarOrdenes();
-    $scope.cargarProducto=function(){
+    $scope.cargarProducto=function(keyEvent){
         var conter=true;
         $scope.productos.forEach(function(ele , index){
             if($scope.Orden.Producto.codigo == ele.codigo){
                 $scope.Orden.Producto._id=ele._id+','+ele.nombre;
                 conter=false;
+                if (keyEvent.which === 13){
+                    $('#Cantidad').focus();
+                }
             }
         });
         if (conter) {
             $scope.Orden.Producto._id='';
+        }
+    }
+    $scope.detectar=function(keyEvent){
+        if ($scope.Orden.Producto.cantidad!='') {
+            if (keyEvent.which === 13){
+                $scope.AgregarProducto();
+            }
         }
     }
     $scope.AgregarProducto=function(){
@@ -156,11 +166,11 @@ angular.module('frontendApp')
         });
         if(!controlador){
             $scope.Orden.productos.push(obj);
-            $scope.Orden.Producto={};
         }else{
             Materialize.toast('El producto ya esta añadido', 4000);
-            $scope.Orden.Producto={};
         }
+        $scope.Orden.Producto={};
+        $('#codigo_barras').focus();
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Ordenes.find(function(ele){
