@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('FabricacionCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
+.controller('FabricacionCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';
     $(document).ready(function(){
@@ -29,6 +29,8 @@ angular.module('frontendApp')
 		$scope.pageAnimate='pageAnimate';
 		$scope.panelAnimate='panelAnimate';
 	},100);
+    $scope.preloader = preloader;
+    $scope.preloader.estado = false;
 	$scope.panel_title_form = "Registro de Fabricaciones";
 	$scope.button_title_form = "Registrar fabricación";
 	$scope.check='orden';
@@ -46,26 +48,26 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
-                name:'orden de fabricacion',field: 'fabricacion_consecutivo',
-                width:'15%',
-                minWidth: 200
+                name:'no. orden',field: 'fabricacion_consecutivo',
+                width:'10%',
+                minWidth: 100
             },
             {
                 name:'fecha de solicitud',
-                width:'20%',
+                width:'15%',
                 cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha_solicitud)}}</div>',
-                minWidth: 250
+                minWidth: 100
             },
             {
                 name:'fecha de entrega',
                 cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha_entrega)}}</div>',
-                width:'20%',
-                minWidth: 250
+                width:'15%',
+                minWidth: 100
             },
             { 
                 field: 'estado',
                 width:'15%',
-                minWidth: 160
+                minWidth: 100
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
@@ -92,6 +94,7 @@ angular.module('frontendApp')
         $scope.fabricacion.procesos=[];
         $scope.proceso={};
         $scope.producto={};
+        $scope.Orden='';
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Fabricaciones.find(function(ele){
@@ -167,6 +170,7 @@ angular.module('frontendApp')
             }
         });
         if(controler){
+            $scope.preloader.estado = true;
             webServer
             .getResource('fabricacion/'+id,{},'delete')
             .then(function(data){
@@ -175,8 +179,10 @@ angular.module('frontendApp')
                         $scope.Fabricaciones.splice(ele.index,1);
                     }
                 });
+                $scope.preloader.estado = false;
                 swal("Completado...", data.data.message , "success");
             },function(data){
+                $scope.preloader.estado = false;
                 swal("Oops...", data.data.message , "error");
             });
         }else{
@@ -205,22 +211,34 @@ angular.module('frontendApp')
         $scope.proceso={};
         $scope.producto={};
     }
-    $scope.cargarProducto=function(){
+    $scope.cargarProducto=function(keyEvent){
         var conter=true;
         $scope.Productos.forEach(function(ele , index){
             if($scope.producto.codigo == ele.codigo){
                 $scope.producto._id=ele._id+','+ele.nombre;
                 conter=false;
+                if (keyEvent.which === 13){
+                    $('#Cantidad').focus();
+                }
             }
         });
         if (conter) {
             $scope.producto._id='';
         }
     }
+    $scope.detectar=function(keyEvent){
+        if ($scope.Orden.Producto.cantidad!='') {
+            if (keyEvent.which === 13){
+                $scope.AgregarProducto();
+            }
+        }
+    }
     function EnviarFabricacion(){
+        $scope.preloader.estado = true;
         var metodo='';
         var ruta='';
         if($scope.button_title_form=='Registrar fabricación'){
+            $scope.fabricacion.fecha_solicitud=new Date(Date.now());
             metodo='post';
             ruta='fabricacion';
             $scope.fabricacion.estado='En Fabricacion';
@@ -247,10 +265,12 @@ angular.module('frontendApp')
             $scope.fabricacion.procesos=[];
             $scope.proceso={};
             $scope.producto={};
-            sweetAlert("Completado...", data.data.message , "success");
             $scope.panel_title_form = "Registro de Fabricacion";
             $scope.button_title_form = "Registrar fabricación";
+            $scope.preloader.estado = false;
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         }); 
     }
@@ -277,6 +297,7 @@ angular.module('frontendApp')
             Materialize.toast('La cantidad se ha sumado al producto ya añadido', 4000);
         }
         $scope.producto={};
+        $('#codigo_barras').focus();
     }
     $scope.AgregarProceso=function(){
         var controler=false;
@@ -374,6 +395,7 @@ angular.module('frontendApp')
         $scope.modal_salida.proceso = JSON.parse($scope.modal_salida.carga_proceso);
     }
     $scope.enviarRemision=function(){
+        $scope.preloader.estado = true;
         $scope.modal_salida.estado='Sin Entrada';
         $scope.modal_salida.fabricacion=$scope.contenido_fabricacion;
         webServer
@@ -388,9 +410,11 @@ angular.module('frontendApp')
             $scope.modal_salida.remision_consecutivo=data.data.datos.remision_consecutivo;
             $scope.Remisiones.push($scope.modal_salida);
             $scope.modal_salida={};
+            $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         }
         ,function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
@@ -420,6 +444,7 @@ angular.module('frontendApp')
         if(remision.estado=='Con Entrada'){
             Materialize.toast( "La remisión no se puede cancelar ya que hay productos que ya ingresaron a inventario" , 4000 );
         }else{
+            $scope.preloader.estado = true;
             remision.productos.forEach(function(elemento , index){
                 $scope.contenido_fabricacion.productos.forEach(function(ele , i){
                     if(elemento.producto._id == ele._id){
@@ -432,19 +457,21 @@ angular.module('frontendApp')
             webServer
             .getResource('remision/'+remision._id,remision,'put')
             .then(function(data){
-               $scope.Remisiones.forEach(function(ele , i){
+                $scope.Remisiones.forEach(function(ele , i){
                     if (ele._id == remision._id) {
                         ele.estado = 'Cancelada';
                     }
-               });
-               $scope.Fabricaciones.forEach(function(ele , i){
+                });
+                $scope.Fabricaciones.forEach(function(ele , i){
                     if($scope.contenido_fabricacion._id == ele._id){
                         ele.productos=$scope.contenido_fabricacion.productos;
                     }
                 });
+                $scope.preloader.estado = false;
                 swal("Completado...", data.data.message , "success");
             }
             ,function(data){
+                $scope.preloader.estado = false;
                 swal("Oops...", data.data.message , "error");
             });
         }
@@ -508,12 +535,14 @@ angular.module('frontendApp')
         });
     }
     $scope.enviarEntrada=function(){
+        var controlador_enviar=true;
         if($scope.check_modal_entrada=='remision'){
             var controler=true;
             $scope.modal_entrada.productos.forEach(function(ele, index){
                 var cantidad_entrante=angular.element('#cantidad'+ele.producto._id).val();
                 if(cantidad_entrante>ele.cantidad_faltante){
                     controler=false;
+                    controlador_enviar=false;
                     Materialize.toast('La cantidad de '+ele.producto.nombre+' a sacar es mayor a la cantidad disponible', 4000);
                 }
             });
@@ -581,26 +610,32 @@ angular.module('frontendApp')
                 $scope.contenido_fabricacion.estado='Incompleta';
             }
         }
-        $scope.modal_entrada.fabricacion=$scope.contenido_fabricacion;
-        webServer
-        .getResource('entrada/remision',$scope.modal_entrada,'post')
-        .then(function(data){
-            $scope.Fabricaciones.forEach(function(ele , i){
-                if($scope.contenido_fabricacion._id == ele._id){
-                    ele=$scope.contenido_fabricacion;
-                }
+        if (controlador_enviar) {
+            $scope.preloader.estado = true;
+            $scope.modal_entrada.fabricacion=$scope.contenido_fabricacion;
+            webServer
+            .getResource('entrada/remision',$scope.modal_entrada,'post')
+            .then(function(data){
+                $scope.Fabricaciones.forEach(function(ele , i){
+                    if($scope.contenido_fabricacion._id == ele._id){
+                        ele=$scope.contenido_fabricacion;
+                    }
+                });
+                $scope.modal_entrada._id=data.data.datos._id;
+                $scope.modal_entrada.entrada_remision_consecutivo=data.data.datos.entrada_remision_consecutivo;
+                $scope.EntradasFabricaciones.push($scope.modal_entrada);
+                $scope.modal_entrada={};
+                $scope.preloader.estado = false;
+                sweetAlert("Completado...", data.data.message , "success");
+            }
+            ,function(data){
+                $scope.preloader.estado = false;
+                sweetAlert("Oops...", data.data.message , "error");
             });
-            $scope.modal_entrada._id=data.data.datos._id;
-            $scope.modal_entrada.entrada_remision_consecutivo=data.data.datos.entrada_remision_consecutivo;
-            $scope.EntradasFabricaciones.push($scope.modal_entrada);
-            $scope.modal_entrada={};
-            sweetAlert("Completado...", data.data.message , "success");
         }
-        ,function(data){
-            sweetAlert("Oops...", data.data.message , "error");
-        });
     }
     $scope.cancelarlaentrada=function(){
+        $scope.preloader.estado = true;
         var entrada=$scope.cancelarentrada;
         var controlerfab=true;
         entrada.estado='Cancelada';
@@ -661,20 +696,22 @@ angular.module('frontendApp')
                     }
                 });
             }
-           $scope.EntradasFabricaciones.forEach(function(ele , i){
+            $scope.EntradasFabricaciones.forEach(function(ele , i){
                 if (ele._id == entrada._id) {
                     ele = entrada;
                 }
-           });
-           $scope.Fabricaciones.forEach(function(ele , i){
+            });
+            $scope.Fabricaciones.forEach(function(ele , i){
                 if($scope.contenido_fabricacion._id == ele._id){
                     ele=$scope.contenido_fabricacion;
                 }
             });
+            $scope.preloader.estado = false;
             swal("Completado...", data.data.message , "success");
             $scope.cancelarentrada={};
         }
         ,function(data){
+            $scope.preloader.estado = false;
             swal("Oops...", data.data.message , "error");
             $scope.cancelarentrada={};
         });
@@ -773,6 +810,7 @@ angular.module('frontendApp')
        $scope.salida_insumos.productos.splice(index,1);
     }
     $scope.enviarSalidaInsumos=function(){
+        $scope.preloader.estado = true;
         $scope.salida_insumos.productos.forEach(function(ele, ind){
             ele.producto.cantidad=ele.producto.cantidad-ele.cantidad;
         });
@@ -800,9 +838,11 @@ angular.module('frontendApp')
             $scope.SalidasInsumos.push($scope.salida_insumos);
             $scope.salida_insumos.productos=[];
             $scope.salida_insumos.materia=[];
+            $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         }
         ,function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
@@ -828,6 +868,7 @@ angular.module('frontendApp')
         });
     }
     $scope.cancelarlasalidainsumos=function(){
+        $scope.preloader.estado = true;
         var salida=$scope.cancelarsalidainsumos;
         if(salida.productos){
             salida.productos.forEach(function(ele, ind){
@@ -866,9 +907,11 @@ angular.module('frontendApp')
                     });
                 });
             }
+            $scope.preloader.estado = false;
             swal("Completado...", data.data.message , "success");
         }
         ,function(data){
+            $scope.preloader.estado = false;
             swal("Oops...", data.data.message , "error");
         });
     }
@@ -894,7 +937,7 @@ angular.module('frontendApp')
     }
 	function listarOrdenes(){
         webServer
-        .getResource('orden_venta',{},'get')
+        .getResource('orden_venta',{Salidas:true, Activo:true},'get')
         .then(function(data){
             $scope.Ordenes=data.data.datos;
             listarPersonas();

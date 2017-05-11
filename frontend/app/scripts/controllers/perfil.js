@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('PerfilCtrl', function ($scope, $timeout, SesionUsuario, webServer) {
+  .controller('PerfilCtrl', function ($scope, $timeout, SesionUsuario, webServer, preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -23,6 +23,8 @@ angular.module('frontendApp')
             complete: function() {} // Callback for Modal close
         });
     });
+    $scope.preloader = preloader;
+    $scope.preloader.estado = false;
     $scope.panelAnimate='';
     $scope.pageAnimate='';  
     $timeout(function () {
@@ -71,6 +73,7 @@ angular.module('frontendApp')
     }
     $scope.ImageUpdate=function(){
         if($scope.cambio){
+            $scope.preloader.estado = true;
             $scope.MiUsuario.myImage=$scope.myCroppedImage;
             $scope.MiUsuario.Image=$scope.myImage;
             webServer
@@ -85,16 +88,20 @@ angular.module('frontendApp')
     }
     function EnviarDatos(actualizo){
         if(JSON.stringify($scope.Usuario)!=JSON.stringify(SesionUsuario.ObtenerSesion())){
+            $scope.preloader.estado = true;
             webServer
             .getResource('personas/'+$scope.Usuario._id , $scope.Usuario , 'put')
             .then(function(data){
                 SesionUsuario.ActualizarSesion($scope.Usuario);
+                $scope.preloader.estado = false;
                 sweetAlert("Completado...", data.data.message , "success");
             },function(data){
+                $scope.preloader.estado = false;
                 sweetAlert("Oops...", data.data.message , "error");
             });
         }else{
             if(actualizo==1){
+                $scope.preloader.estado = false;
                 $scope.Detallemodal.mensaje='Operación realizada con exito';
             }else{
                 $scope.Detallemodal.mensaje='No hay ningun dato por actualizar';
@@ -102,4 +109,4 @@ angular.module('frontendApp')
             sweetAlert("Completado...", $scope.Detallemodal.mensaje , "error");
         }
     }
-  });
+});

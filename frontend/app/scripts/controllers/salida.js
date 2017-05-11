@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('SalidaCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
+  .controller('SalidaCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -23,6 +23,8 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
+    $scope.preloader = preloader;
+    $scope.preloader.estado = false;
     $scope.panelAnimate='';
     $scope.pageAnimate='';  
     $timeout(function () {
@@ -39,18 +41,29 @@ angular.module('frontendApp')
         columnDefs: [
             {
                 name:'orden de venta',field: 'orden_venta.orden_venta_consecutivo',
-                width:'20%',
-                minWidth: 160
+                width:'15%',
+                minWidth: 100
+            },
+            {
+                name:'no. salida',field: 'salida_consecutivo',
+                width:'15%',
+                minWidth: 100
+            },
+            {
+                name:'fecha',
+                width:'15%',
+                cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha)}}</div>',
+                minWidth: 100
             },
             {
                 name:'cliente',field: 'orden_venta.cliente.nombre',
-                width:'30%',
-                minWidth: 200
+                width:'25%',
+                minWidth: 150
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
                 width:'30%',
-                minWidth: 230
+                minWidth: 150
             }
         ]
     }
@@ -91,7 +104,14 @@ angular.module('frontendApp')
             }
         });
     }
+    $scope.convertirFecha = function(fecha){
+        var date = new Date(fecha).getDate();
+        date += '/'+(new Date(fecha).getMonth()+1);
+        date += '/'+new Date(fecha).getFullYear();
+        return date;
+    }
     function Borrar(id){
+        $scope.preloader.estado = true;
         webServer
         .getResource('salidas/'+id,{},'delete')
         .then(function(data){
@@ -115,8 +135,10 @@ angular.module('frontendApp')
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
+            $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
@@ -127,6 +149,7 @@ angular.module('frontendApp')
         $scope.Orden.venta='';
     }
     $scope.EnviarSalida=function(){
+        $scope.preloader.estado = true;
         if ($scope.Salida.orden_venta.productos) {
             $scope.Salida.orden_venta.productos.forEach(function(ele, index){
                 ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
@@ -161,8 +184,10 @@ angular.module('frontendApp')
             $scope.Salida.orden_venta={};
             $scope.Salida.orden_venta.productos=[];
             $scope.Orden.venta='';
+            $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success"); 
         },function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
         
@@ -203,11 +228,7 @@ angular.module('frontendApp')
         webServer
         .getResource('salidas',{},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Salidas=data.data.datos;
-            }else{
-                $scope.Salidas=[];
-            }
+            $scope.Salidas=data.data.datos;
             $scope.gridOptions.data=$scope.Salidas;
             listarOrdenes();
         },function(data){

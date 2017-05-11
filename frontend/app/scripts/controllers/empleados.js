@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('EmpleadosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer){
+.controller('EmpleadosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer, preloader){
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -23,6 +23,8 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
+    $scope.preloader = preloader;
+    $scope.preloader.estado = false;
     $scope.panelAnimate='';
     $scope.pageAnimate='';  
     $timeout(function(){
@@ -48,7 +50,7 @@ angular.module('frontendApp')
             },
             { 
                 field: 'telefono',
-                width:'20%',
+                width:'15%',
                 minWidth: 160
             },
             { 
@@ -65,6 +67,7 @@ angular.module('frontendApp')
     }
     angular.extend($scope.gridOptions , Tabla);
     $scope.EnviarEmpleado=function(){
+        $scope.preloader.estado = true;
         switch($scope.Empleado.rol) {
             case 'super_administrador':
                 $scope.Empleado.super_administrador=true;
@@ -98,10 +101,12 @@ angular.module('frontendApp')
                 $scope.Empleados[$scope.Empleado.index] = $scope.Empleado;
             }
             $scope.Empleado ={};
-            sweetAlert("Completado...", data.data.message , "success");
             $scope.panel_title_form = "Registro de Empleados";
             $scope.button_title_form = "Registrar Empleado";
+            $scope.preloader.estado = false;
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
@@ -143,6 +148,7 @@ angular.module('frontendApp')
         });
     }
     $scope.Borrar=function(id){
+        $scope.preloader.estado = true;
         webServer
         .getResource('empleados/'+id,{},'delete')
         .then(function(data){
@@ -151,8 +157,10 @@ angular.module('frontendApp')
                     $scope.Empleados.splice(ele.index,1);
                 }
             });
+            $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
             console.log(data.data.message);
         });

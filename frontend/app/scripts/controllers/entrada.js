@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('EntradaCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
+.controller('EntradaCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -23,6 +23,8 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
+    $scope.preloader = preloader;
+    $scope.preloader.estado = false;
   	$scope.panelAnimate='';
     $scope.pageAnimate='';  
     $timeout(function () {
@@ -40,13 +42,19 @@ angular.module('frontendApp')
         columnDefs: [
             {
                 name:'orden de compra',field: 'orden_compra.orden_compra_consecutivo',
-                width:'20%',
-                minWidth: 200
+                width:'15%',
+                minWidth: 100
             },
             {
-                name:'Factura',field: 'numero_factura',
-                width:'20%',
-                minWidth: 250
+                name:'No. orden',field: 'entrada.entrada_consecutivo',
+                width:'15%',
+                minWidth: 100
+            },
+            {
+                name:'fecha',
+                width:'15%',
+                cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha)}}</div>',
+                minWidth: 100
             },
             {
                 name:'proveedor',field: 'orden_compra.proveedor.nombre',
@@ -55,7 +63,7 @@ angular.module('frontendApp')
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'30%',
+                width:'25%',
                 minWidth: 230
             }
         ]
@@ -120,6 +128,7 @@ angular.module('frontendApp')
         });
     }
     function Borrar(id){
+        $scope.preloader.estado = true;
         webServer
         .getResource('entradas/'+id,{},'delete')
         .then(function(data){
@@ -158,13 +167,16 @@ angular.module('frontendApp')
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
+            $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
             console.log(data.data.message);
         });
     }
     $scope.EnviarEntrada=function(){
+        $scope.preloader.estado = true;
         if ($scope.Entrada.orden_compra.productos) {
             $scope.Entrada.orden_compra.productos.forEach(function(ele, index){
                 ele.cantidad_entrante=angular.element('#cantidad'+ele._id).val();
@@ -213,8 +225,10 @@ angular.module('frontendApp')
             $scope.Entrada.orden_compra.productos=[];
             $scope.Entrada.orden_compra.materia_prima=[];
             $scope.Orden.compra='';
+            $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
             console.log(data.data.message);
         });
@@ -230,7 +244,6 @@ angular.module('frontendApp')
             }
         },function(data){
             $scope.Ordenes=[];
-            $scope.gridOptions.data=$scope.Ordenes;
             console.log(data.data.message);
         });
     }
@@ -252,11 +265,7 @@ angular.module('frontendApp')
         webServer
         .getResource('Entradas',{},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Entradas=data.data.datos;
-            }else{
-                $scope.Entradas=[];
-            }
+            $scope.Entradas=data.data.datos;
             $scope.gridOptions.data=$scope.Entradas;
             listarOrdenes();
         },function(data){
@@ -267,4 +276,4 @@ angular.module('frontendApp')
         });
     }
     listarEntradas();
-  });
+});

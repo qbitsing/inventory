@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('ProductosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer,SesionUsuario) {
+.controller('ProductosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer, SesionUsuario, preloader) {
     $scope.productBarCode = [];
     $scope.bc = {
         lineColor: '#000000',
@@ -16,7 +16,6 @@ angular.module('frontendApp')
         displayValue: true,
         fontSize: 10
     }
-    $scope.Usuario=SesionUsuario.ObtenerSesion();
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -31,6 +30,9 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
+    $scope.preloader = preloader;
+    $scope.preloader.estado = false;
+    $scope.Usuario=SesionUsuario.ObtenerSesion();
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';  
 	$timeout(function () {
@@ -210,7 +212,8 @@ angular.module('frontendApp')
             }
         });
     }
-   function Borrar(id){
+    function Borrar(id){
+        $scope.preloader.estado = true;
         webServer
         .getResource('productos/'+id,{},'delete')
         .then(function(data){
@@ -224,8 +227,10 @@ angular.module('frontendApp')
                     $scope.ProductosSelect.splice(ele.index,1);
                 }
             });
+            $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
@@ -262,6 +267,7 @@ angular.module('frontendApp')
         $scope.Kit.producto={};
     }
     $scope.EnviarProducto=function(){
+        $scope.preloader.estado = true;
         var ruta="";
         var metodo="";
         $scope.Categorias.forEach(function(ele,index){
@@ -315,8 +321,10 @@ angular.module('frontendApp')
             $scope.Producto.productos=[];
             $scope.Producto.procesos=[];
             $scope.check='producto';
+            $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
@@ -390,7 +398,6 @@ angular.module('frontendApp')
         newWindow.close();
         document.getElementById('superContainer').appendChild(container);
         $scope.productBarCode = [];
-        
     }
     function IdentificarProducto (id , arrObj){
         var obj;

@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('OrdenVentaCtrl', function ($scope, $timeout, webServer, Tabla, BotonesTabla) {
+  .controller('OrdenVentaCtrl', function ($scope, $timeout, webServer, Tabla, BotonesTabla, preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -23,6 +23,8 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
+    $scope.preloader = preloader;
+    $scope.preloader.estado = false;
     $scope.panelAnimate='';
     $scope.pageAnimate='';  
     $timeout(function () {
@@ -37,30 +39,30 @@ angular.module('frontendApp')
     $scope.gridOptions = {
         columnDefs: [
             {
-                name:'Numero de orden interna',field: 'orden_venta_consecutivo',
+                name:'No. de orden',field: 'orden_venta_consecutivo',
                 width:'10%',
-                minWidth: 200
+                minWidth: 100
             },
             {
                 name:'cliente',field: 'cliente.nombre',
                 width:'30%',
-                minWidth: 250
+                minWidth: 150
             },
             {
                 name:'fecha de solicitud',
                 width:'15%',
                 cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha_recepcion)}}</div>',
-                minWidth: 250
+                minWidth: 150
             },
             { 
                 field: 'estado',
                 width:'15%',
-                minWidth: 160
+                minWidth: 100
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
                 width:'30%',
-                minWidth: 230
+                minWidth: 150
             }
         ]
     }
@@ -94,8 +96,20 @@ angular.module('frontendApp')
             }else{
                 $scope.productos=[];
             }
+            listarSalidas();
         },function(data){
-            $scope.materias=[];
+            $scope.productos=[];
+            console.log(data.data.message);
+            listarSalidas();
+        });
+    }
+    function listarSalidas(){
+        webServer
+        .getResource('salidas',{},'get')
+        .then(function(data){
+            $scope.Salidas=data.data.datos;
+        },function(data){
+            $scope.Salidas=[];
             console.log(data.data.message);
         });
     }
@@ -114,16 +128,26 @@ angular.module('frontendApp')
         });
     }
     listarOrdenes();
-    $scope.cargarProducto=function(){
+    $scope.cargarProducto=function(keyEvent){
         var conter=true;
         $scope.productos.forEach(function(ele , index){
             if($scope.Orden.Producto.codigo == ele.codigo){
                 $scope.Orden.Producto._id=ele._id+','+ele.nombre;
                 conter=false;
+                if (keyEvent.which === 13){
+                    $('#Cantidad').focus();
+                }
             }
         });
         if (conter) {
             $scope.Orden.Producto._id='';
+        }
+    }
+    $scope.detectar=function(keyEvent){
+        if ($scope.Orden.Producto.cantidad!='') {
+            if (keyEvent.which === 13){
+                $scope.AgregarProducto();
+            }
         }
     }
     $scope.AgregarProducto=function(){
@@ -142,11 +166,11 @@ angular.module('frontendApp')
         });
         if(!controlador){
             $scope.Orden.productos.push(obj);
-            $scope.Orden.Producto={};
         }else{
             Materialize.toast('El producto ya esta añadido', 4000);
-            $scope.Orden.Producto={};
         }
+        $scope.Orden.Producto={};
+        $('#codigo_barras').focus();
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Ordenes.find(function(ele){
@@ -192,6 +216,7 @@ angular.module('frontendApp')
             }
         });
         if (conter) {
+            $scope.preloader.estado = true;
             webServer
             .getResource('orden_venta/'+id,{},'delete')
             .then(function(data){
@@ -200,8 +225,10 @@ angular.module('frontendApp')
                         $scope.Ordenes.splice(ele.index,1);
                     }
                 });
+                $scope.preloader.estado = false;
                 swal("Completado...", data.data.message , "success");
             },function(data){
+                $scope.preloader.estado = false;
                 swal("Oops...", data.data.message , "error");
             });
         }else{
@@ -209,7 +236,7 @@ angular.module('frontendApp')
         }
     }
     $scope.EnviarOrden=function(){
-        console.log($scope.Orden);
+        $scope.preloader.estado = true;
         var ruta="";
         var metodo="";
         if ($scope.panel_title_form=="Registro de venta") {
@@ -222,7 +249,6 @@ angular.module('frontendApp')
         webServer
         .getResource(ruta,$scope.Orden,metodo)
         .then(function(data){
-            console.log(data.data);
             $scope.clientes.forEach(function(ele, index){
                 if(ele._id==$scope.Orden.cliente._id){
                     $scope.Orden.cliente=ele;
@@ -239,8 +265,10 @@ angular.module('frontendApp')
             }
             $scope.Orden={};
             $scope.Orden.productos=[];
+            $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
+            $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
@@ -284,7 +312,8 @@ angular.module('frontendApp')
                     orden_compra_cliente: ele.orden_compra_cliente,
                     fecha_recepcion : new Date (Date.parse(ele.fecha_recepcion)),
                     fecha_entrega : new Date (Date.parse(ele.fecha_entrega)),
-                    lugar_entrega : ele.lugar_entrega
+                    lugar_entrega : ele.lugar_entrega,
+                    estado : ele.estado
                 };
             }
         });

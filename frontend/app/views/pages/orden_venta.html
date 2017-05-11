@@ -44,11 +44,12 @@
 								<label>Productos *</label>
 							</div>
 							<div class="input-field col s2 m1 l1">
-								<input type="text" ng-change="cargarProducto()" ng-model="Orden.Producto.codigo" id="codigo_barras" name="codigo_barras">
+								<input type="text" ng-keyup="cargarProducto($event)" ng-model="Orden.Producto.codigo" id="codigo_barras" name="codigo_barras">
+								<label for="codigo_barras">Por codigo</label>
 							</div>
 							<div class="col s12 m6 l6">
 								<div class="input-field col s8 m8 l8">
-									<input type="number" ng-model="Orden.Producto.cantidad" id="Cantidad" name="Cantidad">
+									<input type="number" ng-keyup="detectar($event)" ng-model="Orden.Producto.cantidad" id="Cantidad" name="Cantidad">
 									<label for="Cantidad">Cantidad *</label>
 								</div>
 								<button type="button" class="btn btn-success col s4 m4 l4" ng-disabled="!(Orden.Producto._id) || !(Orden.Producto.cantidad)" ng-click="AgregarProducto()">Añadir</button>
@@ -83,7 +84,7 @@
 							<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formMateriaPrima.$invalid || Orden.productos.length<1">{{button_title_form}}</button>
 						</div>
 						<div class="col">
-							<button type="button" class="btn btn-large btn-danger" ng-click="CancelarEditar()">Cancelar y limpiar</button>
+							<button type="button" class="btn btn-large btn-danger" ng-click="CancelarEditar()">Cancelar</button>
 						</div>
 						</div>						
 					</form>
@@ -115,6 +116,7 @@
 				<li> Fecha de Recepción: {{convertirFecha(Detalle.fecha_recepcion) || 'No registra'}}</li>
 				<li> Lugar de Entrega: {{Detalle.cliente.nombre || 'No registra'}}</li>
 				<li> Fecha de Entrega: {{convertirFecha(Detalle.fecha_entrega) || 'No registra'}}</li>
+				<li> Estado: {{Detalle.estado || 'No registra'}}</li>
 				<li> Observaciones: {{Detalle.observaciones || 'No registra'}}</li>
 				<li ng-hide="Detalle.productos.length<1"> <h5>Productos:</h5></li>
 				<table class="highlight" ng-hide="Detalle.productos.length<1">
@@ -130,6 +132,26 @@
 				            <td>{{producto.nombre}}</td>
 				            <td>{{producto.cantidad}}</td>
 				            <td>{{producto.cantidad_faltante || '0'}}</td>
+			          	</tr>
+			        </tbody>
+			    </table>
+			    <li><h5>Remisiones:</h5></li>
+			    <table class="highlight">
+			        <thead>
+			        	<tr>
+							<th data-field="nombre">No. remisión</th>
+							<th data-field="cantidad">Fecha</th>
+							<th data-field="pendiente">Cantidad - Producto</th>
+			          	</tr>
+			        </thead>
+			        <tbody>
+			          	<tr ng-if="salida.orden_venta._id==Detalle._id" ng-show="Detalle.estado!='Activo'" ng-repeat="salida in Salidas">
+				            <td rowspan="{{salida.orden_venta.productos.length}}">{{salida.salida_consecutivo}}</td>
+				            <td rowspan="{{salida.orden_venta.productos.length}}">{{convertirFecha(salida.fecha)}}</td>
+			            	<td> <li ng-repeat="producto in salida.orden_venta.productos">{{producto.cantidad_saliente}} - {{producto.nombre}}</li></td>
+			          	</tr>
+			          	<tr ng-hide="Detalle.estado!='Activo'">
+			          		<td colspan="3">Esta orden de venta no posee salidas</td>
 			          	</tr>
 			        </tbody>
 			    </table>
