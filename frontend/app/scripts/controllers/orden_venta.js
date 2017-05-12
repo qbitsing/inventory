@@ -75,11 +75,7 @@ angular.module('frontendApp')
         webServer
         .getResource('personas',{cliente:true},'get')
         .then(function(data){
-            if(data.data){
-                $scope.clientes = data.data.datos;
-            }else{
-                $scope.clientes = [];
-            }
+            $scope.clientes = data.data.datos;
             listarProductos();
         },function(data){
             $scope.clientes = [];
@@ -278,13 +274,20 @@ angular.module('frontendApp')
         }, 1000); 
     }
     $scope.Editar = function(id){
-        $scope.panel_title_form = "Edicion de Venta";
-        $scope.button_title_form = "Actualizar Venta";
         $scope.Orden=IdentificarOrden(id,$scope.Ordenes);
-        if(!$scope.Orden.productos){
+        if ($scope.Orden.estado=="Activo") {
+            $scope.panel_title_form = "Edicion de Venta";
+            $scope.button_title_form = "Actualizar Venta";
+            if(!$scope.Orden.productos){
+                $scope.Orden.productos=[];
+            }
+            scroll();
+        }else{
+            sweetAlert("Oops..." , "La orden de venta no se puede editar porque ya cuenta con salidas" , "error");
+            $scope.Orden={};
             $scope.Orden.productos=[];
+            $scope.productos=[];
         }
-        scroll();
     }
     $scope.CancelarEditar=function(){
         $scope.Orden={};

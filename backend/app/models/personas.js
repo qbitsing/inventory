@@ -29,7 +29,7 @@ const personaSchema = Schema({
     proveedorproductos: Boolean,
     proveedorfabricacion: Boolean,
     cliente:Boolean,
-    administardor:Boolean,
+    super_administardor:Boolean,
     almacenista:Boolean,
     contador:Boolean,
     empleado:Boolean,

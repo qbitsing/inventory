@@ -4,7 +4,7 @@ const personaModel = require('../models/personas');
 const ciudadModel = require('../models/ciudades');
 const bcrypt = require('bcrypt-nodejs');
 const co = require('co');
-const transporter = require('../utils/email').transporter;
+// const transporter = require('../utils/email').transporter;
 
 function listarAll (req, res){
 	let query = req.query;
@@ -15,9 +15,9 @@ function listarAll (req, res){
 		query.proveedorproductos ? condiciones.push({proveedorproductos: true}) : null;
 		query.proveedorfabricacion ? condiciones.push({proveedorfabricacion: true}) : null;
 		query.cliente ? condiciones.push({cliente : true}): null;
-		query.administrador ? condiciones.push({administrador : true}): null;
+		query.super_administrador ? condiciones.push({super_administrador : true}): null;
 		query.empleado ? condiciones.push({empleado : true}): null;
-		if(query.proveedor || query.cliente || query.administrador || query.empleado || query.proveedorfabricacion || query.proveedorproductos)
+		if(query.proveedor || query.cliente || query.super_administrador || query.empleado || query.proveedorfabricacion || query.proveedorproductos)
 			personas = yield personaModel.find({$or: condiciones},null, {short: {nombre: 1}});
 		return res.send({datos: personas});
 	});
@@ -54,13 +54,13 @@ let crear = co.wrap(function * (req, res){
 		if(req.body.administrador|| req.body.super_administrador || req.body.contador || req.body.almacenista){
 			pass = CreatePass();
 			req.body.contrasena = encryptarContrasena(pass);
-			let mailOptions = {
-				from: 'Produciones Industriales Esperanza S.A.S.',
-				to: req.body.correo,
-				subject: 'Registro en la plataforma de inventario',
-				text: `Cordial Saludo Sr(a) ${req.body.nombre} su registro en la plataforma de inventario ha sido exitoso su clave de acceso es: ${pass}`
-			};
-			let info = yield transporter.sendMail(mailOptions);
+			// let mailOptions = {
+			// 	from: 'Produciones Industriales Esperanza S.A.S.',
+			// 	to: req.body.correo,
+			// 	subject: 'Registro en la plataforma de inventario',
+			// 	text: `Cordial Saludo Sr(a) ${req.body.nombre} su registro en la plataforma de inventario ha sido exitoso su clave de acceso es: ${pass}`
+			// };
+			// let info = yield transporter.sendMail(mailOptions);
 		}
 
 
@@ -69,7 +69,8 @@ let crear = co.wrap(function * (req, res){
 		
 		return res.status(200).send({
 			message: 'Persona Registrada con Exito',
-			datos
+			datos,
+			pass
 		});
 	} catch (e) {
 		return res.status(500).send({

@@ -238,6 +238,7 @@ angular.module('frontendApp')
                 }
             });
             if($scope.panel_title_form=="Registro de Compra"){
+                $scope.Orden.estado='Activo';
                 $scope.Orden.fecha=new Date(Date.now());
                 $scope.Orden._id=data.data.datos._id;
                 $scope.Orden.orden_compra_consecutivo=data.data.datos.orden_compra_consecutivo;
@@ -263,16 +264,25 @@ angular.module('frontendApp')
         }, 1000); 
     }
     $scope.Editar = function(id){
-        $scope.panel_title_form = "Edicion de Compra";
-        $scope.button_title_form = "Actualizar compra";
         $scope.Orden=IdentificarOrden(id,$scope.Ordenes);
-        if(!$scope.Orden.productos){
+        if (Orden.estado=='Activo') {
+            $scope.panel_title_form = "Edicion de Compra";
+            $scope.button_title_form = "Actualizar compra";
+            if(!$scope.Orden.productos){
+                $scope.Orden.productos=[];
+            }
+            if(!$scope.Orden.materia_prima){
+                $scope.Orden.materia_prima=[];
+            }
+            scroll();
+        }else{
+            sweetAlert("Oops...", 'No se puede editar la orden de compra porque ya posee entradas' , "error");
+            $scope.Orden={};
             $scope.Orden.productos=[];
-        }
-        if(!$scope.Orden.materia_prima){
             $scope.Orden.materia_prima=[];
+            $scope.productos=[];
+            $scope.materias=[];
         }
-        scroll();
     }
     $scope.CancelarEditar=function(){
         $scope.Orden={};

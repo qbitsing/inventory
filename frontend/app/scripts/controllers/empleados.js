@@ -116,7 +116,8 @@ angular.module('frontendApp')
                 return ele;
             }
         });
-        if($scope.Detalle.super_administrador){
+        console.log($scope.Detalle);
+        /*if($scope.Detalle.super_administrador){
             $scope.Detalle.rol='super_administrador';
         }else if($scope.Detalle.contador){
             $scope.Detalle.rol='contador';
@@ -124,7 +125,7 @@ angular.module('frontendApp')
             $scope.Detalle.rol='almacenista';
         }else if($scope.Detalle.empleadon){
             $scope.Detalle.rol='empleado';
-        }
+        }*/
         $('#modalDetalles').modal('open');
     }
     $scope.abrirModal=function(_id){
