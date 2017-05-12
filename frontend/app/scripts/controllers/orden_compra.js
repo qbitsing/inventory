@@ -321,13 +321,10 @@ angular.module('frontendApp')
         webServer
         .getResource('personas',{proveedorproductos:true},'get')
         .then(function(data){
-            if(data.data){
-                $scope.proveedores = data.data.datos;
-            }else{
-                $scope.proveedores = [];
-            }
+            $scope.proveedores = data.data.datos;
             listarEntradas();
         },function(data){
+            $scope.proveedores = [];
             console.log(data);
             listarEntradas();
         });
@@ -337,9 +334,11 @@ angular.module('frontendApp')
         .getResource('entradas',{},'get')
         .then(function(data){
             $scope.Entradas=data.data.datos;
+            $scope.preloader.estado = false;
         },function(data){
             $scope.Entradas=[];
             console.log(data.data.message);
+            $scope.preloader.estado = false;
         });
     }
     function listarMaterias(){
@@ -358,19 +357,16 @@ angular.module('frontendApp')
         webServer
         .getResource('productos',{producto:true},'get')
         .then(function(data){
-            if(data.data){
-                $scope.productos=data.data.datos;
-            }else{
-                $scope.productos=[];
-            }
+            $scope.productos=data.data.datos;
             listarMaterias();
         },function(data){
-            $scope.materias=[];
+            $scope.productos=[];
             console.log(data.data.message);
             listarMaterias();
         });
     }
     function listarOrdenes(){
+        $scope.preloader.estado = true;
         webServer
         .getResource('orden_compra',{Entradas:true, Finalizado:true, Activo:true},'get')
         .then(function(data){

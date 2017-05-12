@@ -173,15 +173,13 @@ angular.module('frontendApp')
         webServer
         .getResource('orden_venta',{Activo: true, Salidas:true, Finalizado:true},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Ordenes=data.data.datos;
-            }else{
-                $scope.Ordenes=[];
-            }
+            $scope.Ordenes=data.data.datos;
+            $scope.preloader.estado = false;
         },function(data){
             $scope.Ordenes=[];
             $scope.gridOptions.data=$scope.Ordenes;
             console.log(data.data.message);
+            $scope.preloader.estado = false;
         });
     }
     $scope.Detalles = function(id){
@@ -202,6 +200,7 @@ angular.module('frontendApp')
         return date;
     }
     function listarSalidas(){
+        $scope.preloader.estado = true;
         webServer
         .getResource('salidas',{},'get')
         .then(function(data){

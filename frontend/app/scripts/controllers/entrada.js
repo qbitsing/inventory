@@ -24,7 +24,6 @@ angular.module('frontendApp')
         });
     });
     $scope.preloader = preloader;
-    $scope.preloader.estado = false;
   	$scope.panelAnimate='';
     $scope.pageAnimate='';  
     $timeout(function () {
@@ -205,14 +204,12 @@ angular.module('frontendApp')
         webServer
         .getResource('orden_compra',{Activo: true, Entradas:true, Finalizado:true},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Ordenes=data.data.datos;
-            }else{
-                $scope.Ordenes=[];
-            }
+            $scope.Ordenes=data.data.datos;
+            $scope.preloader.estado = false;
         },function(data){
             $scope.Ordenes=[];
             console.log(data.data.message);
+            $scope.preloader.estado = false;
         });
     }
     $scope.Detalles = function(id){
@@ -230,6 +227,7 @@ angular.module('frontendApp')
         $('#modaldeDetalles').modal('open');
     }
     function listarEntradas(){
+        $scope.preloader.estado = true;
         webServer
         .getResource('Entradas',{},'get')
         .then(function(data){

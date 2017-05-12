@@ -30,7 +30,6 @@ angular.module('frontendApp')
 		$scope.panelAnimate='panelAnimate';
 	},100);
     $scope.preloader = preloader;
-    $scope.preloader.estado = false;
 	$scope.panel_title_form = "Registro de Fabricaciones";
 	$scope.button_title_form = "Registrar fabricación";
 	$scope.check='orden';
@@ -201,7 +200,6 @@ angular.module('frontendApp')
         }
     }
     $scope.CancelarEditar=function(){
-        listarFabricaciones();
         $scope.panel_title_form = "Registro de Fabricaciones";
         $scope.button_title_form = "Registrar fabricación";
         $scope.check='orden';
@@ -936,6 +934,7 @@ angular.module('frontendApp')
         });
     }
 	function listarOrdenes(){
+        $scope.preloader.estado = true;
         webServer
         .getResource('orden_venta',{Salidas:true, Activo:true},'get')
         .then(function(data){
@@ -951,11 +950,7 @@ angular.module('frontendApp')
         webServer
         .getResource('productos',{producto:true},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Productos=data.data.datos;
-            }else{
-                $scope.Productos=[];
-            }
+            $scope.Productos=data.data.datos;
             listarRemisiones();
         },function(data){
             $scope.Productos=[];
@@ -967,11 +962,7 @@ angular.module('frontendApp')
         webServer
         .getResource('materiaPrima',{},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Materias=data.data.datos;
-            }else{
-                $scope.Materias=[];
-            }
+            $scope.Materias=data.data.datos;
             listarSalidasInsumos();
         },function(data){
             $scope.Materias=[];
@@ -996,9 +987,11 @@ angular.module('frontendApp')
         .getResource('fabricacion/insumos',{},'get')
         .then(function(data){
             $scope.SalidasInsumos=data.data.datos;
+            $scope.preloader.estado = false;
         },function(data){
             $scope.SalidasInsumos=[];
             console.log(data.data.message);
+            $scope.preloader.estado = false;
         });
     }
     function listarEntradasFabricaciones(){
@@ -1025,7 +1018,6 @@ angular.module('frontendApp')
         });
     }
     listarOrdenes();
-
     function IdentificarFabricacion (id , arrObj){
         var obj;
         arrObj.forEach(function(ele , index){

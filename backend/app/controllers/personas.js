@@ -4,7 +4,7 @@ const personaModel = require('../models/personas');
 const ciudadModel = require('../models/ciudades');
 const bcrypt = require('bcrypt-nodejs');
 const co = require('co');
-// const transporter = require('../utils/email').transporter;
+const transporter = require('../utils/email').transporter;
 
 function listarAll (req, res){
 	let query = req.query;
@@ -51,16 +51,16 @@ let crear = co.wrap(function * (req, res){
 		if(req.body.ciudad){
 			req.body.ciudad = yield ciudadModel.findById(req.body.ciudad._id);
 		}
-		if(req.body.administrador|| req.body.super_administrador || req.body.contador || req.body.almacenista){
+		if( req.body.super_administrador || req.body.contador || req.body.almacenista){
 			pass = CreatePass();
 			req.body.contrasena = encryptarContrasena(pass);
-			// let mailOptions = {
-			// 	from: 'Produciones Industriales Esperanza S.A.S.',
-			// 	to: req.body.correo,
-			// 	subject: 'Registro en la plataforma de inventario',
-			// 	text: `Cordial Saludo Sr(a) ${req.body.nombre} su registro en la plataforma de inventario ha sido exitoso su clave de acceso es: ${pass}`
-			// };
-			// let info = yield transporter.sendMail(mailOptions);
+			let mailOptions = {
+				from: 'Produciones Industriales Esperanza S.A.S.',
+				to: req.body.correo,
+				subject: 'Registro en la plataforma de inventario',
+				text: `Cordial Saludo Sr(a) ${req.body.nombre} su registro en la plataforma de inventario ha sido exitoso su clave de acceso es: ${pass}`
+			};
+			let info = yield transporter.sendMail(mailOptions);
 		}
 
 
@@ -107,7 +107,6 @@ function actualizar (req, res) {
 			});
 		});
 	}
-
 }
 
 function login (req, res){
@@ -135,8 +134,6 @@ function login (req, res){
 				message : `Los datos ingresados no coinciden`
 			});
 		}
-
-
 	})
 }
 function eliminar (req, res) {
@@ -184,7 +181,6 @@ let contrasena = co.wrap(function * (req, res){
 		return res.status(200).send({
 			message: 'La contraseña nueva a sido enviada al correo indicado'
 		});
-
 	} catch (e) {
 		return res.status(500).send({
 			message: `ERROR ${e}`
@@ -198,7 +194,6 @@ function CreatePass(){
 		pass+= Math.floor(Math.random()*10);
 	}
 	return pass;
-
 }
 
 module.exports = {

@@ -160,20 +160,18 @@ angular.module('frontendApp')
         });
     }
     function listarmaterias(){
+        $scope.preloader.estado = true;
         webServer
         .getResource('materiaPrima',{},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Materias=data.data.datos;
-                $scope.gridOptions.data = $scope.Materias;
-            }else{
-                $scope.Materias=[];
-                $scope.gridOptions.data = $scope.Materias;
-            }
+            $scope.Materias=data.data.datos;
+            $scope.gridOptions.data = $scope.Materias;
+            $scope.preloader.estado = false;
         },function(data){
             console.log(data.data.message);
             $scope.Materias=[];
             $scope.gridOptions.data = $scope.Materias;
+            $scope.preloader.estado = false;
         });
     }
     listarmaterias();
