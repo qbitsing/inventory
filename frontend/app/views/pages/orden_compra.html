@@ -159,13 +159,10 @@
 			          	<tr ng-repeat="producto in Detalle.productos">
 				            <td>{{producto.nombre}}</td>
 				            <td>{{producto.cantidad}}</td>
-				            <td>{{materia.cantidad_faltante || '0'}}</td>
+				            <td>{{producto.cantidad_faltante || '0'}}</td>
 			          	</tr>
 			        </tbody>
 			    </table>
-
-
-			    
 			    <li><h5>Entradas:</h5></li>
 			    <table class="highlight">
 			        <thead>
@@ -173,17 +170,17 @@
 							<th data-field="nombre">No. entrada</th>
 							<th data-field="cantidad">Fecha</th>
 							<th data-field="pendiente">Cantidad - Producto</th>
-							<th data-field="pendiente">Cantidad - Materia prima</th>
+							<th data-field="materia">Cantidad - Materia prima</th>
 			          	</tr>
 			        </thead>
 			        <tbody>
 			          	<tr ng-if="entrada.orden_compra._id==Detalle._id" ng-show="Detalle.estado!='Activo'" ng-repeat="entrada in Entradas">
 				            <td>{{entrada.entrada_consecutivo}}</td>
 				            <td>{{convertirFecha(entrada.fecha)}}</td>
-			            	<td ng-hide="entrada.orden_compra.productos.length>0"><li ng-repeat="producto in entrada.orden_compra.productos">{{producto.cantidad_entrante}} - {{producto.nombre}}</li></td>
-			            	<td ng-hide="entrada.orden_compra.productos.length<1">No hay productos</td>
-			            	<td ng-hide="entrada.orden_compra.materia_prima.length>0"><li ng-repeat="materia in entrada.orden_compra.materia_prima">{{materia.cantidad_entrante}} - {{materia.nombre}}</li></td>
-			            	<td ng-hide="entrada.orden_compra.materia_prima.length<1">no hay materia prima</td>
+			            	<td ng-hide="entrada.orden_compra.productos.length<1"><li ng-repeat="producto in entrada.orden_compra.productos">{{producto.cantidad_entrante}} - {{producto.nombre}}</li></td>
+			            	<td ng-hide="entrada.orden_compra.productos.length>0 ">No hay productos</td>
+			            	<td ng-hide="entrada.orden_compra.materia_prima.length<1"><li ng-repeat="materia in entrada.orden_compra.materia_prima">{{materia.cantidad_entrante}} - {{materia.nombre}}</li></td>
+			            	<td ng-hide="entrada.orden_compra.materia_prima.length>0">no hay materia prima</td>
 			          	</tr>
 			          	<tr ng-hide="Detalle.estado!='Activo'">
 			          		<td colspan="3">Esta orden de compra no posee entradas</td>

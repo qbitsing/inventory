@@ -227,7 +227,7 @@ angular.module('frontendApp')
         }
     }
     $scope.detectar=function(keyEvent){
-        if ($scope.Orden.Producto.cantidad!='') {
+        if ($scope.producto.cantidad!='') {
             if (keyEvent.which === 13){
                 $scope.AgregarProducto();
             }

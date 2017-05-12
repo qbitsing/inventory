@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('OrdenVentaCtrl', function ($scope, $timeout, webServer, Tabla, BotonesTabla, preloader) {
+  .controller('OrdenVentaCtrl', function ($scope,$state, $timeout, webServer, Tabla, BotonesTabla, preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -35,7 +35,7 @@ angular.module('frontendApp')
     $scope.button_title_form = "Registrar venta";
     $scope.Orden={};
     $scope.Orden.productos=[];
-    var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
+    var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+BotonesTabla.Factura+'</div>';
     $scope.gridOptions = {
         columnDefs: [
             {
@@ -298,6 +298,10 @@ angular.module('frontendApp')
         date += '/'+(new Date(fecha).getMonth()+1);
         date += '/'+new Date(fecha).getFullYear();
         return date;
+    }
+    $scope.Factura = function(param){
+
+        $state.go('Factura',param);
     }
     function IdentificarOrden (id , arrObj){
         var obj;
