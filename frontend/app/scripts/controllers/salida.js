@@ -115,23 +115,13 @@ angular.module('frontendApp')
         webServer
         .getResource('salidas/'+id,{},'delete')
         .then(function(data){
+            $scope.Ordenes.forEach(function(ele,ind){
+                if (ele._id==$scope.Entrada.orden_venta._id) {
+                    $scope.Ordenes[ind] = data.data.datos.orden_venta;
+                }
+            });
             $scope.Salidas.forEach(function(ele, ind){
                 if(ele._id==id){
-                    if (ele.orden_venta.productos) {
-                        $scope.Ordenes.forEach(function(e,i){
-                            if (e._id==ele.orden_venta._id) {
-                                if (e.productos) {
-                                    e.productos.forEach(function(elemento,index){
-                                        ele.orden_venta.productos.forEach(function(e, i){
-                                            if(e._id==elemento._id){
-                                                elemento.cantidad_faltante=elemento.cantidad_faltante+e.cantidad_saliente;
-                                            }
-                                        });
-                                    });
-                                }
-                            }
-                        });
-                    }
                     $scope.Salidas.splice(ele.index,1);
                 }
             });
@@ -153,7 +143,7 @@ angular.module('frontendApp')
         if ($scope.Salida.orden_venta.productos) {
             $scope.Salida.orden_venta.productos.forEach(function(ele, index){
                 ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
-                ele.cantidad_faltante=ele.cantidad_faltante-ele.cantidad_saliente;
+                ele.cantidad_faltante=parseInt(ele.cantidad_faltante)-parseInt(ele.cantidad_saliente);
             });
         }
         webServer
@@ -163,21 +153,8 @@ angular.module('frontendApp')
             $scope.Salida._id=data.data.datos._id;
             $scope.Salidas.push($scope.Salida);
             $scope.Ordenes.forEach(function(ele,ind){
-                if (ele._id==$scope.Salida.orden_venta._id) {
-                    if(data.data.data.datos.orden_venta.estado=='Finalizado'){
-                        $scope.Ordenes.splice(ele.index,1);
-                    }else{
-                        ele.estado=data.data.datos.orden_venta.estado;
-                        if (ele.productos && data.data.datos.orden_venta.productos) {
-                            ele.productos.forEach(function(elemento,index){
-                                data.data.datos.orden_venta.productos.forEach(function(e, i){
-                                    if(e._id==elemento._id){
-                                        elemento=e;
-                                    }
-                                });
-                            });
-                        }
-                    }
+                if (ele._id==$scope.Entrada.orden_venta._id) {
+                    $scope.Ordenes[ind] = data.data.datos.orden_venta;
                 }
             });
             $scope.Salida={};
@@ -196,15 +173,13 @@ angular.module('frontendApp')
         webServer
         .getResource('orden_venta',{Activo: true, Salidas:true, Finalizado:true},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Ordenes=data.data.datos;
-            }else{
-                $scope.Ordenes=[];
-            }
+            $scope.Ordenes=data.data.datos;
+            $scope.preloader.estado = false;
         },function(data){
             $scope.Ordenes=[];
             $scope.gridOptions.data=$scope.Ordenes;
             console.log(data.data.message);
+            $scope.preloader.estado = false;
         });
     }
     $scope.Detalles = function(id){
@@ -225,6 +200,7 @@ angular.module('frontendApp')
         return date;
     }
     function listarSalidas(){
+        $scope.preloader.estado = true;
         webServer
         .getResource('salidas',{},'get')
         .then(function(data){

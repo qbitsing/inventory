@@ -24,7 +24,6 @@ angular.module('frontendApp')
         });
     });
     $scope.preloader = preloader;
-    $scope.preloader.estado = false;
   	$scope.panelAnimate='';
     $scope.pageAnimate='';  
     $timeout(function () {
@@ -84,21 +83,9 @@ angular.module('frontendApp')
         });
         if(!$scope.Entrada.orden_compra.productos){
             $scope.Entrada.orden_compra.productos=[];
-        }else{
-            $scope.Entrada.orden_compra.productos.forEach(function(ele,index){
-                if (ele.cantidad_faltante==0) {
-                    $scope.Entrada.orden_compra.productos.splice(ele.index,1);
-                }
-            });
         }
         if(!$scope.Entrada.orden_compra.materia_prima){
             $scope.Entrada.orden_compra.materia_prima=[];
-        }else{
-            $scope.Entrada.orden_compra.materia_prima.forEach(function(ele,index){
-                if (ele.cantidad_faltante==0) {
-                    $scope.Entrada.orden_compra.materia_prima.splice(ele.index,1);
-                }
-            });
         }
     }
     $scope.convertirFecha = function(fecha){
@@ -130,59 +117,32 @@ angular.module('frontendApp')
     function Borrar(id){
         var contador=0;
         var entrada={};
+        $scope.Entradas.forEach(function(ele,index){
+            if(ele._id==id){
+                entrada=ele;
+            }
+        });
+        $scope.Entradas.forEach(function(ele,index){
+            if(ele.orden_compra._id==entrada.orden_compra._id && ele._id!=id){
+                contador++;
+            }
+        });
+        if (contador>0) {
+            entrada.orden_compra.estado='Con Entradas';
+        }else{
+            entrada.orden_compra.estado='Activo';
+        }
         $scope.preloader.estado = true;
         webServer
         .getResource('entradas/'+id,{},'delete')
         .then(function(data){
-            $scope.Entradas.forEach(function(ele,index){
-                if(ele._id==id){
-                    entrada=ele;
+            $scope.Ordenes.forEach(function(ele,ind){
+                if (ele._id==$scope.Entrada.orden_compra._id) {
+                    $scope.Ordenes[ind] = data.data.datos.orden_compra;
                 }
             });
-            $scope.Entradas.forEach(function(ele,index){
-                if(ele.orden_compra._id==entrada.orden_compra._id && ele._id!=id){
-                    contador++;
-                }
-            });
-            if (contador>0) {
-                entrada.orden_compra.estado='Con Entradas';
-            }else{
-                entrada.orden_compra.estado='Activo';
-            }
             $scope.Entradas.forEach(function(ele, index){
-                if(ele._id==id){
-                    if (ele.orden_compra.productos) {
-                        $scope.Ordenes.forEach(function(elee,iin){
-                            if (elee._id==ele.orden_compra._id) {
-                                elee.estado=entrada.orden_compra.estado;
-                                if (elee.productos) {
-                                    elee.productos.forEach(function(elemento,index){
-                                        ele.orden_compra.productos.forEach(function(e, i){
-                                            if(e._id==elemento._id){
-                                                elemento.cantidad_faltante=parseInt(elemento.cantidad_faltante)+parseInt(e.cantidad_entrante);
-                                            }
-                                        });
-                                    });
-                                }
-                            }
-                        });
-                    }
-                    if (ele.orden_compra.materia_prima) {
-                        $scope.Ordenes.forEach(function(elee,iin){
-                            if (elee._id==ele.orden_compra._id) {
-                                elee.estado=entrada.orden_compra.estado;
-                                if (elee.materia_prima) {
-                                    elee.materia_prima.forEach(function(elemento,index){
-                                        ele.orden_compra.materia_prima.forEach(function(e, i){
-                                            if(e._id==elemento._id){
-                                                elemento.cantidad_faltante=parseInt(elemento.cantidad_faltante)+parseInt(e.cantidad_entrante);
-                                            }
-                                        });
-                                    });
-                                }
-                            }
-                        });
-                    }
+                if (ele._id==id) {
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
@@ -198,12 +158,20 @@ angular.module('frontendApp')
         $scope.preloader.estado = true;
         if ($scope.Entrada.orden_compra.productos) {
             $scope.Entrada.orden_compra.productos.forEach(function(ele, index){
-                ele.cantidad_entrante=angular.element('#cantidad'+ele._id).val();
+                if (ele.cantidad_faltante>0) {
+                    ele.cantidad_entrante=angular.element('#cantidad'+ele._id).val();
+                }else{
+                    ele.cantidad_entrante=0;
+                }
             });
         }
         if ($scope.Entrada.orden_compra.materia_prima) {
             $scope.Entrada.orden_compra.materia_prima.forEach(function(ele, index){
-                ele.cantidad_entrante=angular.element('#cantidad'+ele._id).val();
+                if (ele.cantidad_faltante>0) {
+                    ele.cantidad_entrante=angular.element('#cantidad'+ele._id).val();
+                }else{
+                    ele.cantidad_entrante=0;
+                }
             });            
         }
         $scope.Entrada.estado='Activo';
@@ -216,30 +184,7 @@ angular.module('frontendApp')
             $scope.Entradas.push($scope.Entrada);
             $scope.Ordenes.forEach(function(ele,ind){
                 if (ele._id==$scope.Entrada.orden_compra._id) {
-                    if(data.data.datos.orden_compra.estado=='Finalizado'){
-                        $scope.Ordenes.splice(ele.index,1);
-                    }else{
-                        $scope.Ordenes[ind] = data.data.datos.orden_compra;                        
-                        /*ele.estado=data.data.datos.orden_compra.estado;
-                        if (ele.productos && data.data.datos.orden_compra.productos) {
-                            ele.productos.forEach(function(elemento,index){
-                                data.data.datos.orden_compra.productos.forEach(function(e, i){
-                                    if(e._id==elemento._id){
-                                        elemento=e;
-                                    }
-                                });
-                            });
-                        }
-                        if (ele.materia_prima && data.data.datos.orden_compra.materia_prima) {
-                            ele.materia_prima.forEach(function(elemento,index){
-                                data.data.datos.orden_compra.materia_prima.forEach(function(e, i){
-                                    if(e._id==elemento._id){
-                                        elemento=e;
-                                    }
-                                });
-                            });
-                        }*/
-                    }
+                    $scope.Ordenes[ind] = data.data.datos.orden_compra;
                 }
             });
             $scope.Entrada={};
@@ -259,14 +204,12 @@ angular.module('frontendApp')
         webServer
         .getResource('orden_compra',{Activo: true, Entradas:true, Finalizado:true},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Ordenes=data.data.datos;
-            }else{
-                $scope.Ordenes=[];
-            }
+            $scope.Ordenes=data.data.datos;
+            $scope.preloader.estado = false;
         },function(data){
             $scope.Ordenes=[];
             console.log(data.data.message);
+            $scope.preloader.estado = false;
         });
     }
     $scope.Detalles = function(id){
@@ -284,6 +227,7 @@ angular.module('frontendApp')
         $('#modaldeDetalles').modal('open');
     }
     function listarEntradas(){
+        $scope.preloader.estado = true;
         webServer
         .getResource('Entradas',{},'get')
         .then(function(data){

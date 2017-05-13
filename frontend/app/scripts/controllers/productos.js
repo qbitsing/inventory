@@ -89,11 +89,7 @@ angular.module('frontendApp')
         webServer
         .getResource('materiaPrima',{},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Insumos=data.data.datos;
-            }else{
-                $scope.Insumos=[];
-            }
+            $scope.Insumos=data.data.datos;
             listarProductosSelect();
         },function(data){
             $scope.Insumos=[];
@@ -102,6 +98,7 @@ angular.module('frontendApp')
         });
     }
     function listarProductos(){
+        $scope.preloader.estado = true;
         webServer
         .getResource('productos',{producto:true,kit:true},'get')
         .then(function(data){
@@ -124,14 +121,12 @@ angular.module('frontendApp')
         webServer
         .getResource('productos',{producto:true},'get')
         .then(function(data){
-            if(data.data){
-                $scope.ProductosSelect=data.data.datos;
-            }else{
-                $scope.ProductosSelect=[];
-            }
+            $scope.ProductosSelect=data.data.datos;
+            $scope.preloader.estado = false;
         },function(data){
             $scope.ProductosSelect=[];
             console.log(data.data.message);
+            $scope.preloader.estado = false;
         });
     }
     listarProductos();
