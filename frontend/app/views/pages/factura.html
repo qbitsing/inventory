@@ -1,1 +1,189 @@
-<p>This is the pages/factura view.</p>
+<button class="btn" ng-click="print()">Imprimir Factura</button>
+<div id="container">
+    <link rel="stylesheet" ng-href="{{server}}/formatos/styles/factura.css">
+    <div class="factura">
+        <div class="header">
+            <div class="first-part">
+                <img src="{{server}}/logo-prines.jpg" class="logo-header">
+                <h2 class="title-header">productos industriales para telecomunicaciones e iliminacion</h2>
+                <h3 class="subtitle-header">producciones industriales esperanza s.a.s.</h3>
+                <p class="nit">nit. 900.462.957-1 régimen común</p>
+                <p class="description-head">
+                    calle 7 sur no. 80j - 52 bogota - colombia - PBX: 777 77 04 <br><br>
+                    pagina web: <span>www.prines.com.co</span>
+                </p>
+            </div>        
+            <div class="second-part">
+                <ul>
+                    <li>Frabricación y distribución de herrajería para redes de CATV y HFC</li>
+                    <li>Implementacion y montaje de redes de comunicación, seguridad y televisión</li>
+                    <li>Asesorias y mantenimiento en mecánica hidráulica y neumática</li>
+                    <li>Asesorias, montajes y diseño de redes HFC</li>
+                    <li>Díseño y montajes de sistemas de iliminación</li>
+                </ul>
+            </div>
+            <div class="last-part">
+                <h2 class="title-last-part">factura de venta</h2>
+                <div class="no-factura">
+                    <p>N° 8765</p>                    
+                </div>
+                <p>actividad económica 2410</p>
+                <p>Resolucion <span>DIAN</span> no. 320001276762</p>
+                <p>Fecha: 2015 / 06 / 03</p>
+                <p>Autoriza del No. 1001 al 2000</p>
+            </div>       
+        </div>
+        <div class="table-header">
+            <table>
+                <tr>
+                    <td colspan="3">cliente:  fscr ingenieria sas</td>
+                    <td colspan="2">nit 900.160.091-1</td>
+                    <td>fecha: 12-may-17</td>
+                </tr>
+                <tr>
+                    <td colspan="2">direccion: cl 64 50 22 of 101</td>
+                    <td colspan="2">ciudad: barranquilla</td>
+                    <td>tel: 3444601</td>
+                    <td>vencimiento: <input type="date"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="table-body">
+            <table>
+                <tr class="black">
+                    <td>codigo</td>
+                    <td class="colspan6">descrpcion</td>
+                    <td>cantidad</td>
+                    <td>valor unitario </td>
+                    <td>valor total</td>
+                </tr>
+                <tr class="productos">
+                    <td>41004</td>
+                    <td>Cajon</td>
+                    <td>700</td>
+                    <td><input type="number" ng-model="Orden.Productos[0].precio"></td>
+                    <td>{{Orden.Productos[0].precio * 10 | currency : $ : 0}}</td>
+                </tr>
+                <tr class="productos">
+                    <td>41005</td>
+                    <td>Estante</td>
+                    <td>700</td>
+                    <td><input type="number" ng-model="Orden.Productos[1].precio"></td>
+                    <td>{{Orden.Productos[1].precio * 10 | currency : $ : 0}}</td>
+                </tr>
+                <tr class="productos">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="productos">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="productos">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="productos">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="productos">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="productos">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="productos">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="productos">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="productos">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="productos">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="productos">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td rowspan="3" colspan="3">
+                        valor en letras: <br> {{covert(1756800)}}
+                    </td>
+                    <td>subtotal</td>
+                    <td>{{100000 | currency : $ : 0}}</td>
+                </tr> 
+                <tr>
+                    <td>iva <input type="number" ng-model="iva" style="width: 40px; ">%</td>
+                    <td>valor iva</td>
+                </tr>
+                <tr>
+                    <td>total</td>
+                    <td>valor total</td>
+                </tr>              
+            </table>
+        </div>
+        <p class="footter">Esta <b>factura de Venta</b> se asimila para todos sus efectos a la <b>Letra de Cambio</b> de acuerdo a lo previsto en los articulos 671 y S.S. 772 -774 y demás normas del Código de Comercio</p>
+        <div class="table-footer">
+            <table>
+                <tr>
+                    <td>recibí a satisfacion</td>
+                    <td></td>
+                    <td rowspan="2" style="border-left:  solid 1px; padding-left: 10px">entragdo por</td>
+                </tr>
+                <tr>
+                    <td>Firma</td>
+                    <td style="text-align: center;">C.C</td>
+                </tr>
+                <tr>
+                    <td style="border-top: solid 1px;">Recibe Conforme</td>
+                    <td style="border-top: solid 1px; font-size: 6px;">Declaramos haber recibido real y materialmente en totalidad las mercancias descritas en el presente, obligandonos pago en la forma aqui pactada.</td>
+                    <td style="border-left:  solid 1px; padding-left: 10px">Firma <br> C.C</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+

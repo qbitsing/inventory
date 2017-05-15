@@ -1,6 +1,8 @@
 'use strict';
 
 const ciudadModel = require('../models/ciudades');
+const co = require('co');
+const cuidadesMocks = require('../utils/mocks/departamentos.mocks');
 
 function listarAll (req, res){
 	ciudadModel.find({}, null, {sort: {nombre: 1}}  , (err , datos , count)=>{
@@ -43,8 +45,13 @@ function crear (req, res) {
     });
 }
 
+let restaurar = co.wrap(function * (req, res){
+    
+});
+
 module.exports = {
 	listarAll,
 	listarById,
-    crear
+    crear,
+    restaurar
 };

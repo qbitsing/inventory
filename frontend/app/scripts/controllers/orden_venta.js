@@ -24,7 +24,6 @@ angular.module('frontendApp')
         });
     });
     $scope.preloader = preloader;
-    $scope.preloader.estado = false;
     $scope.panelAnimate='';
     $scope.pageAnimate='';  
     $timeout(function () {
@@ -75,11 +74,7 @@ angular.module('frontendApp')
         webServer
         .getResource('personas',{cliente:true},'get')
         .then(function(data){
-            if(data.data){
-                $scope.clientes = data.data.datos;
-            }else{
-                $scope.clientes = [];
-            }
+            $scope.clientes = data.data.datos;
             listarProductos();
         },function(data){
             $scope.clientes = [];
@@ -108,12 +103,15 @@ angular.module('frontendApp')
         .getResource('salidas',{},'get')
         .then(function(data){
             $scope.Salidas=data.data.datos;
+            $scope.preloader.estado=false;
         },function(data){
             $scope.Salidas=[];
             console.log(data.data.message);
+            $scope.preloader.estado=false;
         });
     }
     function listarOrdenes(){
+        $scope.preloader.estado=true;
         webServer
         .getResource('orden_venta',{Salidas:true, Finalizado:true, Activo:true},'get')
         .then(function(data){
@@ -132,7 +130,7 @@ angular.module('frontendApp')
         var conter=true;
         $scope.productos.forEach(function(ele , index){
             if($scope.Orden.Producto.codigo == ele.codigo){
-                $scope.Orden.Producto._id=ele._id+','+ele.nombre;
+                $scope.Orden.Producto._id=ele._id+','+ele.nombre+','+ele.precio;
                 conter=false;
                 if (keyEvent.which === 13){
                     $('#Cantidad').focus();
@@ -155,6 +153,7 @@ angular.module('frontendApp')
         var obj = {
             _id : $scope.Orden.Producto._id.split(',')[0],
             nombre : $scope.Orden.Producto._id.split(',')[1],
+            precio : $scope.Orden.Producto._id.split(',')[2],
             cantidad : $scope.Orden.Producto.cantidad,
             cantidad_faltante : $scope.Orden.Producto.cantidad,
             cantidad_saliente : 0
@@ -278,13 +277,20 @@ angular.module('frontendApp')
         }, 1000); 
     }
     $scope.Editar = function(id){
-        $scope.panel_title_form = "Edicion de Venta";
-        $scope.button_title_form = "Actualizar Venta";
         $scope.Orden=IdentificarOrden(id,$scope.Ordenes);
-        if(!$scope.Orden.productos){
+        if ($scope.Orden.estado=="Activo") {
+            $scope.panel_title_form = "Edicion de Venta";
+            $scope.button_title_form = "Actualizar Venta";
+            if(!$scope.Orden.productos){
+                $scope.Orden.productos=[];
+            }
+            scroll();
+        }else{
+            sweetAlert("Oops..." , "La orden de venta no se puede editar porque ya cuenta con salidas" , "error");
+            $scope.Orden={};
             $scope.Orden.productos=[];
+            $scope.productos=[];
         }
-        scroll();
     }
     $scope.CancelarEditar=function(){
         $scope.Orden={};

@@ -15,9 +15,9 @@ function listarAll (req, res){
 		query.proveedorproductos ? condiciones.push({proveedorproductos: true}) : null;
 		query.proveedorfabricacion ? condiciones.push({proveedorfabricacion: true}) : null;
 		query.cliente ? condiciones.push({cliente : true}): null;
-		query.administrador ? condiciones.push({administrador : true}): null;
+		query.super_administrador ? condiciones.push({super_administrador : true}): null;
 		query.empleado ? condiciones.push({empleado : true}): null;
-		if(query.proveedor || query.cliente || query.administrador || query.empleado || query.proveedorfabricacion || query.proveedorproductos)
+		if(query.proveedor || query.cliente || query.super_administrador || query.empleado || query.proveedorfabricacion || query.proveedorproductos)
 			personas = yield personaModel.find({$or: condiciones},null, {short: {nombre: 1}});
 		return res.send({datos: personas});
 	});
@@ -51,7 +51,7 @@ let crear = co.wrap(function * (req, res){
 		if(req.body.ciudad){
 			req.body.ciudad = yield ciudadModel.findById(req.body.ciudad._id);
 		}
-		if(req.body.administrador|| req.body.super_administrador || req.body.contador || req.body.almacenista){
+		if( req.body.super_administrador || req.body.contador || req.body.almacenista){
 			pass = CreatePass();
 			req.body.contrasena = encryptarContrasena(pass);
 			let mailOptions = {
@@ -69,7 +69,8 @@ let crear = co.wrap(function * (req, res){
 		
 		return res.status(200).send({
 			message: 'Persona Registrada con Exito',
-			datos
+			datos,
+			pass
 		});
 	} catch (e) {
 		return res.status(500).send({
@@ -106,7 +107,6 @@ function actualizar (req, res) {
 			});
 		});
 	}
-
 }
 
 function login (req, res){
@@ -134,8 +134,6 @@ function login (req, res){
 				message : `Los datos ingresados no coinciden`
 			});
 		}
-
-
 	})
 }
 function eliminar (req, res) {
@@ -183,7 +181,6 @@ let contrasena = co.wrap(function * (req, res){
 		return res.status(200).send({
 			message: 'La contraseña nueva a sido enviada al correo indicado'
 		});
-
 	} catch (e) {
 		return res.status(500).send({
 			message: `ERROR ${e}`
@@ -197,7 +194,6 @@ function CreatePass(){
 		pass+= Math.floor(Math.random()*10);
 	}
 	return pass;
-
 }
 
 module.exports = {

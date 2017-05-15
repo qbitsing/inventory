@@ -24,7 +24,6 @@ angular.module('frontendApp')
         });
     });
     $scope.preloader = preloader;
-    $scope.preloader.estado = false;
     $scope.panelAnimate='';
     $scope.pageAnimate='';  
     $timeout(function () {
@@ -182,17 +181,15 @@ angular.module('frontendApp')
     }
 
     function listarPersonas(){
+        $scope.preloader.estado=true;
         webServer
         .getResource('personas',{proveedor:true,cliente:true},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Personas = data.data.datos;
-                $scope.gridOptions.data = data.data.datos;
-            }else{
-                $scope.gridOptions.data = [];
-            }
+            $scope.Personas = data.data.datos;
+            $scope.gridOptions.data = data.data.datos;
             listarDepartamentos();
         },function(data){
+            $scope.Personas = [];
             console.log(data);
             listarDepartamentos();
         });
@@ -201,13 +198,12 @@ angular.module('frontendApp')
         webServer
         .getResource('ciudades',{},'get')
         .then(function(data){
-            if(data.data.datos){
-                $scope.Ciudades=data.data.datos;
-            }else{
-                $scope.Ciudades=[];
-            }
+            $scope.Ciudades=data.data.datos;
+            $scope.preloader.estado=false;
         },function(data){
+            $scope.Ciudades=[];
             console.log(data.data);
+            $scope.preloader.estado=false;
         });
     }
     function listarDepartamentos(){
@@ -222,6 +218,7 @@ angular.module('frontendApp')
             }
             listarCiudades();
         },function(data){
+            $scope.Departamentos=[];
             console.log(data.data);
             listarCiudades();
         });
@@ -241,6 +238,8 @@ angular.module('frontendApp')
                     telefono : ele.telefono,
                     correo : ele.correo,
                     proveedor : ele.proveedor,
+                    proveedorfabricacion : ele.proveedorfabricacion,
+                    proveedorproductos : ele.proveedorproductos,
                     cliente : ele.cliente,
                     ciudad : ele.ciudad,
                     contacto : ele.contacto,

@@ -24,7 +24,6 @@ angular.module('frontendApp')
         });
     });
     $scope.preloader = preloader;
-    $scope.preloader.estado = false;
     $scope.panelAnimate='';
     $scope.pageAnimate='';  
     $timeout(function(){
@@ -112,7 +111,7 @@ angular.module('frontendApp')
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Empleados.find(function(ele){
-            if(ele.documento == id){
+            if(ele._id == id){
                 return ele;
             }
         });
@@ -191,17 +190,17 @@ angular.module('frontendApp')
         $scope.button_title_form = "Registrar Empleado";
     }
     function listarpersonas(){
+        $scope.preloader.estado=true;
         webServer
-        .getResource('personas',{empleado:true},'get')
+        .getResource('personas',{empleado:true,contador:true,almacenista:true,super_administrador:true  },'get')
         .then(function(data){
-            if(data.data){
-                $scope.Empleados=data.data.datos;
-                $scope.gridOptions.data = data.data.datos;
-            }else{
-                $scope.gridOptions.data =[];
-            }
+            $scope.Empleados=data.data.datos;
+            $scope.gridOptions.data = data.data.datos;
+            $scope.preloader.estado=false;
         },function(data){
-            alert(data.data.message);
+            $scope.Empleados=[];
+            console.log(data.data.message);
+            $scope.preloader.estado=false;
         });
     }
     listarpersonas();
@@ -218,6 +217,7 @@ angular.module('frontendApp')
                     direccion : ele.direccion,
                     telefono : ele.telefono,
                     correo : ele.correo,
+                    super_administrador : ele.super_administrador,
                     almacenista : ele.almacenista,
                     contador : ele.contador,
                     empleado : ele.empleado,
