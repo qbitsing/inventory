@@ -8,6 +8,11 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
+<<<<<<< HEAD
+.controller('FacturaCtrl', function ($scope, $state, preloader) {
+    console.log($state);
+})
+=======
 .controller('FacturaCtrl', function ($scope, $state, preloader, server, webServer) {
     $scope.server = server;
     $scope.fecha = fechaHoy();
@@ -193,3 +198,4 @@ angular.module('frontendApp')
 
 
 });
+>>>>>>> 21a405aa90fc52d24ddda800a24256e38e6649a9

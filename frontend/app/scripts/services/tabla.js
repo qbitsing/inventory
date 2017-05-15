@@ -14,5 +14,5 @@ angular.module('frontendApp')
 		enableFiltering: true,
 		paginationPageSizes: [10, 20, 30, 40, 50, 100],
 		paginationPageSize: 10,
-		enableColumnResizing: true,
-	});
+		enableColumnResizing: true
+	})

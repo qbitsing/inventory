@@ -381,4 +381,4 @@ angular.module('frontendApp')
         });
     }
     listarOrdenes();
-});
+})
