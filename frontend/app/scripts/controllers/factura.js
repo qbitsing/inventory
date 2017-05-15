@@ -10,6 +10,7 @@
 angular.module('frontendApp')
 .controller('FacturaCtrl', function ($scope, $state, preloader, server, webServer) {
     $scope.server = server;
+    $scope.fecha = fechaHoy();
     $scope.print = function(){
         var w = window.open();
         var d = w.document.open();
@@ -23,6 +24,13 @@ angular.module('frontendApp')
     }, function(data){
         sweetAlert('Oops...', data.data.message, 'error');
     });
+
+    function fechaHoy(){
+        var date = new Date().getDate();
+        date += ' / '+(new Date().getMonth()+1);
+        date += ' / '+new Date().getFullYear();
+        return date;
+    }
 
     function Unidades(num){
 

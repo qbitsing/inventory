@@ -36,14 +36,14 @@
         <div class="table-header">
             <table>
                 <tr>
-                    <td colspan="3">cliente:  fscr ingenieria sas</td>
-                    <td colspan="2">nit 900.160.091-1</td>
-                    <td>fecha: 12-may-17</td>
+                    <td colspan="3">cliente:  {{Orden.cliente.nombre}} {{Orden.cliente.apellidos}}</td>
+                    <td colspan="2">nit {{Orden.cliente.documento}}</td>
+                    <td>fecha: {{fecha}}</td>
                 </tr>
                 <tr>
-                    <td colspan="2">direccion: cl 64 50 22 of 101</td>
-                    <td colspan="2">ciudad: barranquilla</td>
-                    <td>tel: 3444601</td>
+                    <td colspan="2">direccion: {{Orden.cliente.direccion}}</td>
+                    <td colspan="2">ciudad: {{Orden.cliente.ciudad.nombre}}</td>
+                    <td>tel: {{Orden.cliente.telefono}}</td>
                     <td>vencimiento: <input type="date"></td>
                 </tr>
             </table>
@@ -58,10 +58,10 @@
                     <td>valor total</td>
                 </tr>
                 <tr class="productos">
-                    <td>41004</td>
-                    <td>Cajon</td>
+                    <td>{{Orden.productos[0].codigo}}</td>
+                    <td>{{Orden.productos[0].nombre}}</td>
                     <td>700</td>
-                    <td><input type="number" ng-model="Orden.Productos[0].precio"></td>
+                    <td><input type="number" ng-model="Orden.productos[0].precio"></td>
                     <td>{{Orden.Productos[0].precio * 10 | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">

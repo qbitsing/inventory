@@ -153,7 +153,8 @@ angular.module('frontendApp')
         var obj = {
             _id : $scope.Orden.Producto._id.split(',')[0],
             nombre : $scope.Orden.Producto._id.split(',')[1],
-            precio : $scope.Orden.Producto._id.split(',')[2],
+            precio : parseInt($scope.Orden.Producto._id.split(',')[2]),
+            codigo : $scope.Orden.Producto._id.split(',')[3],
             cantidad : $scope.Orden.Producto.cantidad,
             cantidad_faltante : $scope.Orden.Producto.cantidad,
             cantidad_saliente : 0

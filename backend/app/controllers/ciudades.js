@@ -2,7 +2,8 @@
 
 const ciudadModel = require('../models/ciudades');
 const co = require('co');
-const cuidadesMocks = require('../utils/mocks/departamentos.mocks');
+const cuidadesMocks = require('../utils/mocks/ciudades.mocks');
+const departamentoModel = require('../models/departamentos.js');
 
 function listarAll (req, res){
 	ciudadModel.find({}, null, {sort: {nombre: 1}}  , (err , datos , count)=>{
@@ -46,7 +47,23 @@ function crear (req, res) {
 }
 
 let restaurar = co.wrap(function * (req, res){
-    
+    try {
+        for(let ciu of cuidadesMocks){
+            ciu.departamento = yield departamentoModel.findOne({id: ciu.id_departamento});
+
+            let x = new ciudadModel(ciu);
+
+            yield x.save();
+        }
+
+        return res.status(200).send({
+            message: 'Ciudades restauradas con exito'
+        });
+    } catch (error) {
+        return res.status(500).send({
+            message: `ERROR ${error}`
+        });
+    }
 });
 
 module.exports = {
