@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('FabricacionCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
+.controller('FabricacionCtrl', function ($state, $scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';
     $(document).ready(function(){
@@ -26,16 +26,19 @@ angular.module('frontendApp')
         });
     });
 	$timeout(function () {
-		$scope.pageAnimate='pageAnimate';
-		$scope.panelAnimate='panelAnimate';
-	},100);
+        $scope.pageAnimate='pageAnimate';
+        $scope.panelAnimate='panelAnimate';
+    },100);
+    if ($scope.Usuario.rol=='Contador') {
+        $state.go('Home');
+    }
     $scope.preloader = preloader;
-	$scope.panel_title_form = "Registro de Fabricaciones";
-	$scope.button_title_form = "Registrar fabricación";
-	$scope.check='orden';
-	$scope.fabricacion={};
+    $scope.panel_title_form = "Registro de Fabricaciones";
+    $scope.button_title_form = "Registrar fabricación";
+    $scope.check='orden';
+    $scope.fabricacion={};
     $scope.modal={};
-	$scope.fabricacion.productos=[];
+    $scope.fabricacion.productos=[];
     $scope.fabricacion.procesos=[];
     $scope.contenido_fabricacion={};
     $scope.modal_salida={};
@@ -43,7 +46,15 @@ angular.module('frontendApp')
     $scope.Remisiones=[];
     $scope.cancelarentrada={};
     $scope.cancelarsalida={};
-	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Salida+BotonesTabla.Entrada+BotonesTabla.MateriaPrima+BotonesTabla.Borrar+'</div>';
+    var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
+    if ($scope.Usuario.rol=='Super Administrador') {
+        casillaDeBotones+=BotonesTabla.Editar;
+    }
+    casillaDeBotones+=BotonesTabla.Salida+BotonesTabla.Entrada+BotonesTabla.MateriaPrima;
+    if ($scope.Usuario.rol=='Super Administrador') {
+        casillaDeBotones+=BotonesTabla.Borrar;
+    }
+    casillaDeBotones+='</div>';
     $scope.gridOptions = {
         columnDefs: [
             {

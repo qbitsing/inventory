@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('MateriaPrimaCtrl', function ($scope, SesionUsuario, $timeout, Tabla, BotonesTabla, webServer, preloader) {
+  .controller('MateriaPrimaCtrl', function ($state, $scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -24,10 +24,11 @@ angular.module('frontendApp')
         });
     });
     $scope.preloader = preloader;
-    $scope.preloader.estado = false;
-    $scope.Usuario=SesionUsuario.ObtenerSesion();
 	$scope.panelAnimate='';
-	$scope.pageAnimate='';  
+	$scope.pageAnimate='';
+    if ($scope.Usuario.rol=='Contador') {
+        $state.go('Home');
+    }
 	$timeout(function () {
 		$scope.pageAnimate='pageAnimate';
 		$scope.panelAnimate='panelAnimate';

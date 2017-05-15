@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('ProductosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer, SesionUsuario, preloader) {
+.controller('ProductosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
     $scope.productBarCode = [];
     $scope.bc = {
         lineColor: '#000000',
@@ -32,7 +32,6 @@ angular.module('frontendApp')
     });
     $scope.preloader = preloader;
     $scope.preloader.estado = false;
-    $scope.Usuario=SesionUsuario.ObtenerSesion();
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';  
 	$timeout(function () {
