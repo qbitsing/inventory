@@ -242,4 +242,4 @@ angular.module('frontendApp')
         });
     }
     listarEntradas();
-});
+})

@@ -62,8 +62,9 @@ gulp.task('html', ['styles'], function() {
   //var assets = $.useref({searchPath: '{.tmp,app}'});
   return gulp.src('app/**/*.html')
     .pipe($.useref({searchPath: '{.tmp,app}'}))
-    .pipe($.if('*.js', $.ngAnnotate()))
-    .pipe($.if('*.js', $.uglify()))
+    .pipe($.if('*.js', $.ngAnnotate({add:true})))
+    .pipe($.if('*.js', $.babel()))
+    .pipe($.if('*.js', $.uglify({mangle:false})))
     .pipe($.if('*.css', cssChannel()))
     .pipe($.if('*.html', $.minifyHtml({conditionals: true, loose: true})))
     .pipe(gulp.dest('board'));

@@ -26,7 +26,7 @@ let crear = co.wrap(function * (req, res){
     try {
         let categoria = new categoriaModel(req.body);
 
-        let datos = categoria.save();
+        let datos = yield categoria.save();
 
         return res.status(200).send({
             datos,

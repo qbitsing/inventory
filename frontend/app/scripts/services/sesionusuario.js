@@ -23,14 +23,14 @@ angular.module('frontendApp')
     		localStorageService.set('Usuario' , user);
     		return true;
     	},
-        ObtenerSesion(){
+        ObtenerSesion : function(){
             return localStorageService.get('Usuario');
         },
-    	CerrarSesion(){
+    	CerrarSesion : function(){
     		return localStorageService.remove('Usuario');
     	},
-        ActualizarSesion(user){
+        ActualizarSesion: function(user){
             localStorageService.set('Usuario',user);
         }
     }
-  });
+  })
