@@ -8,7 +8,7 @@
 					</div>
 				    <div class="col s8 m8 l8">
 					    <a class='btn-flat col s12 dropdown-button waves-effect waves-light white-text profile-btn' href='javascript:void(0);' dropdown  data-activates='dropdown-perfil'>{{NombreDeUsuario}}<i class="material-icons right">arrow_drop_down</i></a>
-						<p class="blue-text accent-4">Administrador</p>
+						<p class="blue-text accent-4">{{Usuario.rol}}</p>
 						<ul id="dropdown-perfil" class="dropdown-content">
 							<li><a ui-sref="Perfil"><i class="material-icons left">face</i>Perfil</a></li>
 							<li><a ng-click="cerrarSesion()"><i class="material-icons left">exit_to_app</i>Cerrar sesión</a></li>
@@ -19,19 +19,19 @@
 		</div>
 		<div class="side-nav">
 			<ul>
-				<li ng-class="{activate: $state.includes('Personas')}">
+				<li ng-hide="{{Usuario.rol!='Super Administrador'}}" ng-class="{activate: $state.includes('Personas')}">
 					<a ui-sref="Personas">
 						<i class="tooltipped material-icons" tooltipped data-position="right" data-delay="50" data-tooltip="Clientes y proveedores">store_mall_directory</i>
 					Clientes y proveedores
 					</a>
 				</li>
-				<li ng-class="{activate: $state.includes('Empleados')}">
+				<li ng-hide="{{Usuario.rol!='Super Administrador'}}" ng-class="{activate: $state.includes('Empleados')}">
 					<a ui-sref="Empleados">
 						<i class="tooltipped material-icons" tooltipped data-position="right" data-delay="50" data-tooltip="Empleados">person_add</i>
 					Empleados
 					</a>
 				</li>
-				<li ng-class="{activate: $state.includes('MateriaPrima')}">
+				<li ng-show="{{Usuario.rol!='Contador'}}" ng-class="{activate: $state.includes('MateriaPrima')}">
 					<a ui-sref="MateriaPrima">
 						<i class="tooltipped material-icons" tooltipped data-position="right" data-delay="50" data-tooltip="Materia prima">input</i>
 					Materia prima
@@ -43,7 +43,7 @@
 					Productos
 					</a>
 				</li>				
-				<li ng-class="{activate: $state.includes('OrdenCompra')}">
+				<li ng-hide="{{Usuario.rol!='Super Administrador'}}" ng-class="{activate: $state.includes('OrdenCompra')}">
 					<a ui-sref="OrdenCompra">
 						<i class="tooltipped material-icons" tooltipped data-position="right" data-delay="50" data-tooltip="Orden de compra">add_shopping_cart</i>
 					Orden de compra

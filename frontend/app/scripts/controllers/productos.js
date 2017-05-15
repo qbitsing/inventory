@@ -48,7 +48,11 @@ angular.module('frontendApp')
     $scope.Producto.productos=[];
     $scope.Producto.procesos=[];
     $scope.check='producto';
-    var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
+    var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
+    if ($scope.Usuario.rol=='Super Administrador') {
+        casillaDeBotones+=BotonesTabla.Editar+BotonesTabla.Borrar;
+    }
+    casillaDeBotones+='</div>';
     $scope.gridOptions = {
         columnDefs: [
             {

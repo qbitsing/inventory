@@ -121,7 +121,7 @@ angular.module('frontendApp')
             $scope.Detalle.rol='contador';
         }else if($scope.Detalle.almacenista){
             $scope.Detalle.rol='almacenista';
-        }else if($scope.Detalle.empleadon){
+        }else if($scope.Detalle.empleado){
             $scope.Detalle.rol='empleado';
         }
         $('#modalDetalles').modal('open');
