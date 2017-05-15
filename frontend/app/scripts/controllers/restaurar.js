@@ -25,4 +25,4 @@ angular.module('frontendApp')
             sweetAlert("Oops...", data.data.message , "error");
         });
   	}
-  });
+  })

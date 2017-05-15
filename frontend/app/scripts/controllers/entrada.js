@@ -286,4 +286,4 @@ angular.module('frontendApp')
         });
     }
     listarEntradas();
-});
+})

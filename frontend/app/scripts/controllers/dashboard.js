@@ -361,4 +361,4 @@ angular.module('frontendApp')
     angular.element(".side-nav>ul>li").click(function(){
        scroll();
     });
-});
+})

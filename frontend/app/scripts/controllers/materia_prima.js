@@ -194,4 +194,4 @@ angular.module('frontendApp')
         });
         return obj;
     }
-});
+})

@@ -109,4 +109,4 @@ angular.module('frontendApp')
             sweetAlert("Completado...", $scope.Detallemodal.mensaje , "error");
         }
     }
-});
+})

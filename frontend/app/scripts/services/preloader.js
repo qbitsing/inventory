@@ -11,4 +11,4 @@ angular.module('frontendApp')
   .factory('preloader', function (){
   	var preloader = { estado: false }
   	return preloader;
-  });
+  })

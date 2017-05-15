@@ -10,4 +10,4 @@
 angular.module('frontendApp')
 .controller('FacturaCtrl', function ($scope, $state, preloader) {
     console.log($state);
-});
+})

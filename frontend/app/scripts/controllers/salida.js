@@ -239,4 +239,4 @@ angular.module('frontendApp')
         });
     }
     listarSalidas();
-  });
+  })

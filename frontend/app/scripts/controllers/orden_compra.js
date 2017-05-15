@@ -375,4 +375,4 @@ angular.module('frontendApp')
         });
     }
     listarOrdenes();
-});
+})
