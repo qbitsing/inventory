@@ -240,5 +240,4 @@ angular.module('frontendApp')
         return NumeroALetras(argument);
     }
 
-
 });

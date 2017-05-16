@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('ProductosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer, SesionUsuario, preloader) {
+.controller('ProductosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
     $scope.productBarCode = [];
     $scope.bc = {
         lineColor: '#000000',
@@ -32,7 +32,6 @@ angular.module('frontendApp')
     });
     $scope.preloader = preloader;
     $scope.preloader.estado = false;
-    $scope.Usuario=SesionUsuario.ObtenerSesion();
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';  
 	$timeout(function () {
@@ -48,7 +47,11 @@ angular.module('frontendApp')
     $scope.Producto.productos=[];
     $scope.Producto.procesos=[];
     $scope.check='producto';
-    var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
+    var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
+    if ($scope.Usuario.rol=='Super Administrador') {
+        casillaDeBotones+=BotonesTabla.Editar+BotonesTabla.Borrar;
+    }
+    casillaDeBotones+='</div>';
     $scope.gridOptions = {
         columnDefs: [
             {
