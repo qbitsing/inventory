@@ -15,9 +15,11 @@ function listarAll (req, res){
 		query.proveedorproductos ? condiciones.push({proveedorproductos: true}) : null;
 		query.proveedorfabricacion ? condiciones.push({proveedorfabricacion: true}) : null;
 		query.cliente ? condiciones.push({cliente : true}): null;
+		query.contador ? condiciones.push({contador : true}): null;
+		query.almacenista ? condiciones.push({almacenista : true}): null;
 		query.super_administrador ? condiciones.push({super_administrador : true}): null;
 		query.empleado ? condiciones.push({empleado : true}): null;
-		if(query.proveedor || query.cliente || query.super_administrador || query.empleado || query.proveedorfabricacion || query.proveedorproductos)
+		if(query.proveedor || query.contador || query.almacenista || query.cliente || query.super_administrador || query.empleado || query.proveedorfabricacion || query.proveedorproductos)
 			personas = yield personaModel.find({$or: condiciones},null, {short: {nombre: 1}});
 		return res.send({datos: personas});
 	});
