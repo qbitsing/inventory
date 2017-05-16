@@ -61,7 +61,7 @@ app.post('/departamentos/restaurar', controllers.departamentos.restuarar);
 // Bloque de rutas de unidades
 app.get('/unidades', controllers.unidades.listarAll);
 
-app.delete('/unidades/:id' , controllers.unidades.eliminar);
+app.put('/unidades/:id' , controllers.unidades.eliminar);
 
 app.post('/unidades' , controllers.unidades.crear);
 // Fin Bloque de rutas de unidades
@@ -81,7 +81,7 @@ app.post('/materiaPrima' , controllers.materiaPrima.crear);
 // Bloque de rutas de categorias
 app.get('/categorias', controllers.categoria.listarAll);
 
-app.delete('/categorias/:id' , controllers.categoria.eliminar);
+app.put('/categorias/:id' , controllers.categoria.eliminar);
 
 app.post('/categorias' , controllers.categoria.crear);
 // Fin Bloque de rutas de categorias
