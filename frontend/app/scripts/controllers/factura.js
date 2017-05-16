@@ -11,19 +11,68 @@ angular.module('frontendApp')
 .controller('FacturaCtrl', function ($scope, $state, preloader, server, webServer) {
     $scope.server = server;
     $scope.fecha = fechaHoy();
+    $scope.iva = 19;
+    $scope.valorIva = 0;
+    $scope.subtotal = 0;
+    $scope.total = 0;
     $scope.print = function(){
-        var w = window.open();
-        var d = w.document.open();
-        var eleToPrint = $('#container')[0];
-        d.append(eleToPrint);        
+        preloader.estado = true;
+        var factura = {
+            productos: $scope.Orden.productos,
+            cliente: $scope.Orden.cliente,
+            iva: $scope.iva,
+            valorIva: $scope.valorIva,
+            subtotal: $scope.subtotal,
+            total: $scope.total,
+            fecha: Date.now(),
+            vencimiento: $scope.vencimiento,
+            remision: $scope.remision,
+            ordenCompra: $scope.ordenCompra,
+            orden: 'orden '+$scope.Orden._id,
+            consecutivo: $scope.Orden.orden_venta_consecutivo
+        };
+        if(!$scope.remision){
+            $('#remision').html('');
+        }
+        if(!$scope.ordenCompra){
+            $('#ordenCompra').html('');
+        }
+
+        webServer.getResource('facturas', factura, "post")
+        .then(function (data) {
+            preloader.estado = false;
+            sweetAlert('ok', data.data.message, 'success');
+            var w = window.open();
+            var d = w.document.open();
+            var eleToPrint = $('#container')[0];
+            d.append(eleToPrint); 
+        }, function (data) {
+            preloader.estado = false;
+            sweetAlert('Oops...', data.data.message, 'error');
+        });
+               
     }
 
     webServer.getResource('orden_venta/'+$state.params._id, {} , 'get')
     .then(function(data){
         $scope.Orden = data.data.datos;
+        $scope.calcularTotal();
     }, function(data){
         sweetAlert('Oops...', data.data.message, 'error');
     });
+
+    $scope.calcularTotal= function(){
+        $scope.subtotal = 0;
+        $scope.Orden.productos.forEach(function(pro){
+            $scope.subtotal += pro.cantidad * pro.precio;
+        });
+        $scope.calcularIva();
+    }
+
+    $scope.calcularIva = function (){
+        $scope.valorIva = $scope.subtotal * ($scope.iva / 100);
+        $scope.total = $scope.subtotal + $scope.valorIva;
+    }
 
     function fechaHoy(){
         var date = new Date().getDate();
@@ -172,8 +221,8 @@ angular.module('frontendApp')
             enteros: Math.floor(num),
             centavos: (((Math.round(num * 100)) - (Math.floor(num) * 100))),
             letrasCentavos: "",
-            letrasMonedaPlural: "PESOS",
-            letrasMonedaSingular: "PESOS"
+            letrasMonedaPlural: "PESOS M/CTE.",
+            letrasMonedaSingular: "PESOS M/CTE."
         };
 
         if (data.centavos > 0)
@@ -190,6 +239,5 @@ angular.module('frontendApp')
     $scope.covert = function (argument) {
         return NumeroALetras(argument);
     }
-
 
 });
