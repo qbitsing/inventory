@@ -198,6 +198,16 @@ app.get('/entrada/remision/:id' , controllers.entradaRemision.listarById);
 app.put('/entrada/remision/:id' , controllers.entradaRemision.eliminar);
 //Fin BLoque de Rutas Entradas de Remicion
 
+//Bloque de rutas de facturas
+
+app.get('/facturas' , controllers.facturas.listarAll);
+
+app.post('/facturas' , controllers.facturas.crear);
+
+app.put('/facturas/:id' , controllers.facturas.anular);
+
+//Fin Bloque de rutas de facturas
+
 
 
 mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
