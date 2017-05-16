@@ -119,13 +119,13 @@ angular.module('frontendApp')
             }
         });
         if($scope.Detalle.super_administrador){
-            $scope.Detalle.rol='super_administrador';
+            $scope.Detalle.rol='Super Administrador';
         }else if($scope.Detalle.contador){
-            $scope.Detalle.rol='contador';
+            $scope.Detalle.rol='Contador';
         }else if($scope.Detalle.almacenista){
-            $scope.Detalle.rol='almacenista';
+            $scope.Detalle.rol='Almacenista';
         }else if($scope.Detalle.empleado){
-            $scope.Detalle.rol='empleado';
+            $scope.Detalle.rol='<E></E>mpleado';
         }
         $('#modalDetalles').modal('open');
     }
@@ -168,7 +168,7 @@ angular.module('frontendApp')
         });
     }
     function scroll(){
-         $("html, body").animate({
+        $("html, body").animate({
             scrollTop: 0
         }, 1000); 
     }
