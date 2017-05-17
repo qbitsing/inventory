@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('MateriaPrimaCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
+  .controller('MateriaPrimaCtrl', function ($state, $scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -24,9 +24,11 @@ angular.module('frontendApp')
         });
     });
     $scope.preloader = preloader;
-    $scope.preloader.estado = false;
 	$scope.panelAnimate='';
-	$scope.pageAnimate='';  
+	$scope.pageAnimate='';
+    if ($scope.Usuario.rol=='Contador') {
+        $state.go('Home');
+    }
 	$timeout(function () {
 		$scope.pageAnimate='pageAnimate';
 		$scope.panelAnimate='panelAnimate';
@@ -35,7 +37,11 @@ angular.module('frontendApp')
 	$scope.button_title_form = "Registrar Materia Prima";
 	$scope.Materia={};
     $scope.Materia.unidad_medida={};
-	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
+	var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
+    if ($scope.Usuario.rol=='Super Administrador') {
+        casillaDeBotones+=BotonesTabla.Editar+BotonesTabla.Borrar;
+    }
+    casillaDeBotones+='</div>';
     $scope.gridOptions = {
         columnDefs: [
             {

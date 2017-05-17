@@ -1,6 +1,6 @@
 <h2 class="titulo-pagina blue accent-4 right-align {{pageAnimate}}">Gestion de ventas</h2>
 <div class="contenido">
-	<div class="row">
+	<div class="row" ng-hide="Usuario.rol!='Super Administrador'">
 		<div class="col s12">
 			<div class="card-panel panel-default {{panelAnimate}}">
 				<div class="panel-heading blue accent-4">
@@ -39,7 +39,7 @@
 						<div class="row">
 							<div class="input-field col s10 m5 l5">
 								<select ng-model="Orden.Producto._id" material-select watch>
-	      							<option ng-repeat="producto in productos" value="{{producto._id}},{{producto.nombre}},{{producto.precio}}">{{producto.nombre}}</option>
+	      							<option ng-repeat="producto in productos" value="{{producto._id}},{{producto.nombre}},{{producto.precio}},{{producto.codigo}}">{{producto.nombre}}</option>
 								</select>
 								<label>Productos *</label>
 							</div>

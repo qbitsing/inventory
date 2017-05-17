@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('EntradaCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
+.controller('EntradaCtrl', function ($state, $scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -25,7 +25,10 @@ angular.module('frontendApp')
     });
     $scope.preloader = preloader;
   	$scope.panelAnimate='';
-    $scope.pageAnimate='';  
+    $scope.pageAnimate='';
+    if ($scope.Usuario.rol=='Contador') {
+        $state.go('Home');
+    }
     $timeout(function () {
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
@@ -36,7 +39,11 @@ angular.module('frontendApp')
     $scope.Entrada.orden_compra=[];
     $scope.Entrada.orden_compra.productos=[];
     $scope.Entrada.orden_compra.materia_prima=[];
-    var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Borrar+'</div>';
+    var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
+    if ($scope.Usuario.rol=='Super Administrador') {
+        casillaDeBotones+=BotonesTabla.Borrar;
+    }
+    casillaDeBotones+='</div>';
     $scope.gridOptions = {
         columnDefs: [
             {

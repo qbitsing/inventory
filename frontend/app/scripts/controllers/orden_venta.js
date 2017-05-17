@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('OrdenVentaCtrl', function ($scope,$state, $timeout, webServer, Tabla, BotonesTabla, preloader) {
+  .controller('OrdenVentaCtrl', function ($scope, $state, $timeout, webServer, Tabla, BotonesTabla, preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -25,7 +25,10 @@ angular.module('frontendApp')
     });
     $scope.preloader = preloader;
     $scope.panelAnimate='';
-    $scope.pageAnimate='';  
+    $scope.pageAnimate='';
+    if ($scope.Usuario.rol=='Almacenista') {
+        $state.go('Home');
+    }
     $timeout(function () {
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
@@ -34,7 +37,11 @@ angular.module('frontendApp')
     $scope.button_title_form = "Registrar venta";
     $scope.Orden={};
     $scope.Orden.productos=[];
-    var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+BotonesTabla.Factura+'</div>';
+    var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
+    if ($scope.Usuario.rol=='Super Administrador') {
+        casillaDeBotones+=BotonesTabla.Editar+BotonesTabla.Borrar;
+    }
+    casillaDeBotones+=BotonesTabla.Factura+'</div>';
     $scope.gridOptions = {
         columnDefs: [
             {
@@ -153,7 +160,8 @@ angular.module('frontendApp')
         var obj = {
             _id : $scope.Orden.Producto._id.split(',')[0],
             nombre : $scope.Orden.Producto._id.split(',')[1],
-            precio : $scope.Orden.Producto._id.split(',')[2],
+            precio : parseInt($scope.Orden.Producto._id.split(',')[2]),
+            codigo : $scope.Orden.Producto._id.split(',')[3],
             cantidad : $scope.Orden.Producto.cantidad,
             cantidad_faltante : $scope.Orden.Producto.cantidad,
             cantidad_saliente : 0

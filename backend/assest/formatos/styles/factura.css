@@ -170,3 +170,7 @@ td input {
 .table-footer table tr td:first-child{
     width: 20%;
 }
+
+input[disabled]{
+    display: none;
+}

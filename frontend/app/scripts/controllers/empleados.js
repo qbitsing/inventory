@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('EmpleadosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer, preloader){
+.controller('EmpleadosCtrl', function ($state, $scope, $timeout, Tabla, BotonesTabla, webServer, preloader){
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -25,7 +25,10 @@ angular.module('frontendApp')
     });
     $scope.preloader = preloader;
     $scope.panelAnimate='';
-    $scope.pageAnimate='';  
+    $scope.pageAnimate='';
+    if ($scope.Usuario.rol=='Contador' || $scope.Usuario.rol=='Almacenista') {
+        $state.go('Home');
+    } 
     $timeout(function(){
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
@@ -116,13 +119,13 @@ angular.module('frontendApp')
             }
         });
         if($scope.Detalle.super_administrador){
-            $scope.Detalle.rol='super_administrador';
+            $scope.Detalle.rol='Super Administrador';
         }else if($scope.Detalle.contador){
-            $scope.Detalle.rol='contador';
+            $scope.Detalle.rol='Contador';
         }else if($scope.Detalle.almacenista){
-            $scope.Detalle.rol='almacenista';
-        }else if($scope.Detalle.empleadon){
-            $scope.Detalle.rol='empleado';
+            $scope.Detalle.rol='Almacenista';
+        }else if($scope.Detalle.empleado){
+            $scope.Detalle.rol='<E></E>mpleado';
         }
         $('#modalDetalles').modal('open');
     }
@@ -165,7 +168,7 @@ angular.module('frontendApp')
         });
     }
     function scroll(){
-         $("html, body").animate({
+        $("html, body").animate({
             scrollTop: 0
         }, 1000); 
     }

@@ -1,4 +1,5 @@
 <button class="btn" ng-click="print()">Imprimir Factura</button>
+<div id="superconatiner">
 <div id="container">
     <link rel="stylesheet" ng-href="{{server}}/formatos/styles/factura.css">
     <div class="factura">
@@ -25,7 +26,7 @@
             <div class="last-part">
                 <h2 class="title-last-part">factura de venta</h2>
                 <div class="no-factura">
-                    <p>N° 8765</p>                    
+                    <p>N° {{Orden.orden_venta_consecutivo}}</p>                    
                 </div>
                 <p>actividad económica 2410</p>
                 <p>Resolucion <span>DIAN</span> no. 320001276762</p>
@@ -36,15 +37,15 @@
         <div class="table-header">
             <table>
                 <tr>
-                    <td colspan="3">cliente:  fscr ingenieria sas</td>
-                    <td colspan="2">nit 900.160.091-1</td>
-                    <td>fecha: 12-may-17</td>
+                    <td colspan="3">cliente:  {{Orden.cliente.nombre}} {{Orden.cliente.apellidos}}</td>
+                    <td colspan="2">nit {{Orden.cliente.documento}}</td>
+                    <td>fecha: {{fecha}}</td>
                 </tr>
                 <tr>
-                    <td colspan="2">direccion: cl 64 50 22 of 101</td>
-                    <td colspan="2">ciudad: barranquilla</td>
-                    <td>tel: 3444601</td>
-                    <td>vencimiento: <input type="date"></td>
+                    <td colspan="2">direccion: {{Orden.cliente.direccion}}</td>
+                    <td colspan="2">ciudad: {{Orden.cliente.ciudad.nombre}}</td>
+                    <td>tel: {{Orden.cliente.telefono}}</td>
+                    <td>vencimiento: <input type="date" ng-model="vencimiento"></td>
                 </tr>
             </table>
         </div>
@@ -58,110 +59,110 @@
                     <td>valor total</td>
                 </tr>
                 <tr class="productos">
-                    <td>41004</td>
-                    <td>Cajon</td>
-                    <td>700</td>
-                    <td><input type="number" ng-model="Orden.Productos[0].precio"></td>
-                    <td>{{Orden.Productos[0].precio * 10 | currency : $ : 0}}</td>
+                    <td>{{Orden.productos[0].codigo}}</td>
+                    <td>{{Orden.productos[0].nombre}}</td>
+                    <td>{{Orden.productos[0].cantidad}}</td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[0].precio"></td>
+                    <td>{{Orden.productos[0].precio * Orden.productos[0].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
-                    <td>41005</td>
-                    <td>Estante</td>
-                    <td>700</td>
-                    <td><input type="number" ng-model="Orden.Productos[1].precio"></td>
-                    <td>{{Orden.Productos[1].precio * 10 | currency : $ : 0}}</td>
+                    <td>{{Orden.productos[1].codigo}}</td>
+                    <td>{{Orden.productos[1].nombre}}</td>
+                    <td>{{Orden.productos[1].cantidad}}</td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[1].precio" ng-disabled="!Orden.productos[1]" ng-hide="!Orden.productos[1]"></td>
+                    <td>{{Orden.productos[1].precio * Orden.productos[1].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{Orden.productos[2].codigo}}</td>
+                    <td>{{Orden.productos[2].nombre}}</td>
+                    <td>{{Orden.productos[2].cantidad}}</td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[2].precio" ng-disabled="!Orden.productos[2]" ng-hide="!Orden.productos[2]"></td>
+                    <td>{{Orden.productos[2].precio * Orden.productos[2].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{Orden.productos[3].codigo}}</td>
+                    <td>{{Orden.productos[3].nombre}}</td>
+                    <td>{{Orden.productos[3].cantidad}}</td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[3].precio" ng-disabled="!Orden.productos[3]" ng-hide="!Orden.productos[3]"></td>
+                    <td>{{Orden.productos[3].precio * Orden.productos[3].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{Orden.productos[4].codigo}}</td>
+                    <td>{{Orden.productos[4].nombre}}</td>
+                    <td>{{Orden.productos[4].cantidad}}</td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[4].precio" ng-disabled="!Orden.productos[4]" ng-hide="!Orden.productos[4]"></td>
+                    <td>{{Orden.productos[4].precio * Orden.productos[4].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{Orden.productos[5].codigo}}</td>
+                    <td>{{Orden.productos[5].nombre}}</td>
+                    <td>{{Orden.productos[5].cantidad}}</td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[5].precio" ng-disabled="!Orden.productos[5]" ng-hide="!Orden.productos[5]"></td>
+                    <td>{{Orden.productos[5].precio * Orden.productos[5].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{Orden.productos[6].codigo}}</td>
+                    <td>{{Orden.productos[6].nombre}}</td>
+                    <td>{{Orden.productos[6].cantidad}}</td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[6].precio" ng-disabled="!Orden.productos[6]" ng-hide="!Orden.productos[6]"></td>
+                    <td>{{Orden.productos[6].precio * Orden.productos[6].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{Orden.productos[7].codigo}}</td>
+                    <td>{{Orden.productos[7].nombre}}</td>
+                    <td>{{Orden.productos[7].cantidad}}</td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[7].precio" ng-disabled="!Orden.productos[7]" ng-hide="!Orden.productos[7]"></td>
+                    <td>{{Orden.productos[7].precio * Orden.productos[7].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{Orden.productos[8].codigo}}</td>
+                    <td>{{Orden.productos[8].nombre}}</td>
+                    <td>{{Orden.productos[8].cantidad}}</td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[8].precio" ng-disabled="!Orden.productos[8]" ng-hide="!Orden.productos[8]"></td>
+                    <td>{{Orden.productos[8].precio * Orden.productos[8].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{Orden.productos[9].codigo}}</td>
+                    <td>{{Orden.productos[9].nombre}}</td>
+                    <td>{{Orden.productos[9].cantidad}}</td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[9].precio" ng-disabled="!Orden.productos[9]" ng-hide="!Orden.productos[9]"></td>
+                    <td>{{Orden.productos[9].precio * Orden.productos[9].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr class="productos">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{Orden.productos[10].codigo}}</td>
+                    <td>{{Orden.productos[10].nombre}}</td>
+                    <td>{{Orden.productos[10].cantidad}}</td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[10].precio" ng-disabled="!Orden.productos[10]" ng-hide="!Orden.productos[10]"></td>
+                    <td>{{Orden.productos[10].precio * Orden.productos[10].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
                     <td></td>
+                    <td id="remision">remision: <input type="text" ng-model="remision"> </td>
                     <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="productos">
+                    <td></td>
+                    <td id="ordenCompra">orden de compra: <input type="text" ng-model="ordenCompra"> </td>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td rowspan="3" colspan="3">
-                        valor en letras: <br> {{covert(1756800)}}
+                        valor en letras: <br> {{covert(total)}}
                     </td>
                     <td>subtotal</td>
-                    <td>{{100000 | currency : $ : 0}}</td>
+                    <td>{{subtotal | currency : $ : 0}}</td>
                 </tr> 
                 <tr>
-                    <td>iva <input type="number" ng-model="iva" style="width: 40px; ">%</td>
-                    <td>valor iva</td>
+                    <td>iva <input type="number" ng-change="calcularIva()" ng-model="iva" style="width: 40px; ">%</td>
+                    <td>{{valorIva | currency: $ : 0}}</td>
                 </tr>
                 <tr>
                     <td>total</td>
-                    <td>valor total</td>
+                    <td>{{total | currency: $ : 0}}</td>
                 </tr>              
             </table>
         </div>
@@ -185,5 +186,6 @@
             </table>
         </div>
     </div>
+</div>
 </div>
 

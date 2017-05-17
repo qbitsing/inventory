@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('OrdenCompraCtrl', function ($scope, $timeout,webServer, Tabla, BotonesTabla, preloader) {
+  .controller('OrdenCompraCtrl', function ($state, $scope, $timeout, webServer, Tabla, BotonesTabla, preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -27,6 +27,9 @@ angular.module('frontendApp')
     $scope.preloader.estado = false;
     $scope.panelAnimate='';
     $scope.pageAnimate='';
+    if ($scope.Usuario.rol=='Contador' || $scope.Usuario.rol=='Almacenista') {
+        $state.go('Home');
+    }
     $timeout(function () {
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';

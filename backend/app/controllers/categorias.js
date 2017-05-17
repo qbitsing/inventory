@@ -26,7 +26,7 @@ let crear = co.wrap(function * (req, res){
     try {
         let categoria = new categoriaModel(req.body);
 
-        let datos = categoria.save();
+        let datos = yield categoria.save();
 
         return res.status(200).send({
             datos,
@@ -44,10 +44,10 @@ let eliminar = co.wrap(function * (req, res){
     try {
         let categoriaId = req.params.id;
 
-        yield categoriaModel.findByIdAndRemove(categoriaId);
+        yield categoriaModel.findByIdAndUpdate(categoriaId, req.body);
 
         return res.status(200).send({
-            message: `categoria eliminada exitosamente`
+            message: `categoria editada exitosamente`
         });
     } catch (e) {
         return res.status(500).send({

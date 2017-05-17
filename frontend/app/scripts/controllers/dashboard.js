@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('DashboardCtrl', function ($scope,$state,SesionUsuario, webServer, Tabla,BotonesTabla,preloader) {
+  .controller('DashboardCtrl', function ($scope, $state, SesionUsuario, webServer, Tabla, BotonesTabla, preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('#modal1').modal({
@@ -175,7 +175,7 @@ angular.module('frontendApp')
         webServer
         .getResource(ruta,$scope.Unidad_de_medida,metodo)
         .then(function(data){
-            if($scope.TituloPanelCategorias=='Registro de Categorias'){
+            if($scope.TituloPanelUnidades=='Registro de Unidades de Medida'){
                 $scope.Unidad_de_medida._id=data.data.datos._id;
                 $scope.Unidades.push($scope.Unidad_de_medida);
             }else{
