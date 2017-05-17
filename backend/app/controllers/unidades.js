@@ -36,14 +36,14 @@ function crear (req, res) {
 
 function eliminar(req , res){
     let unidadId = req.params.id;
-	unidadModel.findByIdAndRemove(unidadId , (err)=>{
+	unidadModel.findByIdAndUpdate(unidadId ,req.body, (err)=>{
 		if(err){
 			return res.status(500).send({
-				message : `ERROR al intentar eliminar la unidad ${err}`
+				message : `ERROR al intentar editar la unidad ${err}`
 			});
 		}
 		return res.status(200).send({
-			message : `Unidad eliminada con exito`
+			message : `Unidad editada con exito`
 		});
 	});
 }

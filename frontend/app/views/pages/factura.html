@@ -1,4 +1,5 @@
-<button class="btn" ng-click="print()">Imprimir Factura</button>
+<button class="btn" ng-click="print()" ng-show="newFactura">Imprimir Factura</button>
+<div id="superconatiner" ng-show="newFactura">
 <div id="container">
     <link rel="stylesheet" ng-href="{{server}}/formatos/styles/factura.css">
     <div class="factura">
@@ -34,7 +35,7 @@
             </div>       
         </div>
         <div class="table-header">
-            <table>
+            <table class="table-factura">
                 <tr>
                     <td colspan="3">cliente:  {{Orden.cliente.nombre}} {{Orden.cliente.apellidos}}</td>
                     <td colspan="2">nit {{Orden.cliente.documento}}</td>
@@ -49,7 +50,7 @@
             </table>
         </div>
         <div class="table-body">
-            <table>
+            <table class="table-factura">
                 <tr class="black">
                     <td>codigo</td>
                     <td class="colspan6">descrpcion</td>
@@ -68,70 +69,70 @@
                     <td>{{Orden.productos[1].codigo}}</td>
                     <td>{{Orden.productos[1].nombre}}</td>
                     <td>{{Orden.productos[1].cantidad}}</td>
-                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[1].precio" ng-disabled="!Orden.productos[1]" ng-hide="!Orden.productos[1]"></td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[1].precio" ng-hide="!Orden.productos[1]"></td>
                     <td>{{Orden.productos[1].precio * Orden.productos[1].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
                     <td>{{Orden.productos[2].codigo}}</td>
                     <td>{{Orden.productos[2].nombre}}</td>
                     <td>{{Orden.productos[2].cantidad}}</td>
-                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[2].precio" ng-disabled="!Orden.productos[2]" ng-hide="!Orden.productos[2]"></td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[2].precio" ng-hide="!Orden.productos[2]"></td>
                     <td>{{Orden.productos[2].precio * Orden.productos[2].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
                     <td>{{Orden.productos[3].codigo}}</td>
                     <td>{{Orden.productos[3].nombre}}</td>
                     <td>{{Orden.productos[3].cantidad}}</td>
-                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[3].precio" ng-disabled="!Orden.productos[3]" ng-hide="!Orden.productos[3]"></td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[3].precio" ng-hide="!Orden.productos[3]"></td>
                     <td>{{Orden.productos[3].precio * Orden.productos[3].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
                     <td>{{Orden.productos[4].codigo}}</td>
                     <td>{{Orden.productos[4].nombre}}</td>
                     <td>{{Orden.productos[4].cantidad}}</td>
-                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[4].precio" ng-disabled="!Orden.productos[4]" ng-hide="!Orden.productos[4]"></td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[4].precio" ng-hide="!Orden.productos[4]"></td>
                     <td>{{Orden.productos[4].precio * Orden.productos[4].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
                     <td>{{Orden.productos[5].codigo}}</td>
                     <td>{{Orden.productos[5].nombre}}</td>
                     <td>{{Orden.productos[5].cantidad}}</td>
-                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[5].precio" ng-disabled="!Orden.productos[5]" ng-hide="!Orden.productos[5]"></td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[5].precio" ng-hide="!Orden.productos[5]"></td>
                     <td>{{Orden.productos[5].precio * Orden.productos[5].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
                     <td>{{Orden.productos[6].codigo}}</td>
                     <td>{{Orden.productos[6].nombre}}</td>
                     <td>{{Orden.productos[6].cantidad}}</td>
-                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[6].precio" ng-disabled="!Orden.productos[6]" ng-hide="!Orden.productos[6]"></td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[6].precio" ng-hide="!Orden.productos[6]"></td>
                     <td>{{Orden.productos[6].precio * Orden.productos[6].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
                     <td>{{Orden.productos[7].codigo}}</td>
                     <td>{{Orden.productos[7].nombre}}</td>
                     <td>{{Orden.productos[7].cantidad}}</td>
-                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[7].precio" ng-disabled="!Orden.productos[7]" ng-hide="!Orden.productos[7]"></td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[7].precio" ng-hide="!Orden.productos[7]"></td>
                     <td>{{Orden.productos[7].precio * Orden.productos[7].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
                     <td>{{Orden.productos[8].codigo}}</td>
                     <td>{{Orden.productos[8].nombre}}</td>
                     <td>{{Orden.productos[8].cantidad}}</td>
-                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[8].precio" ng-disabled="!Orden.productos[8]" ng-hide="!Orden.productos[8]"></td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[8].precio" ng-hide="!Orden.productos[8]"></td>
                     <td>{{Orden.productos[8].precio * Orden.productos[8].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
                     <td>{{Orden.productos[9].codigo}}</td>
                     <td>{{Orden.productos[9].nombre}}</td>
                     <td>{{Orden.productos[9].cantidad}}</td>
-                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[9].precio" ng-disabled="!Orden.productos[9]" ng-hide="!Orden.productos[9]"></td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[9].precio" ng-hide="!Orden.productos[9]"></td>
                     <td>{{Orden.productos[9].precio * Orden.productos[9].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
                     <td>{{Orden.productos[10].codigo}}</td>
                     <td>{{Orden.productos[10].nombre}}</td>
                     <td>{{Orden.productos[10].cantidad}}</td>
-                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[10].precio" ng-disabled="!Orden.productos[10]" ng-hide="!Orden.productos[10]"></td>
+                    <td><input type="number" ng-change="calcularTotal()" ng-model="Orden.productos[10].precio" ng-hide="!Orden.productos[10]"></td>
                     <td>{{Orden.productos[10].precio * Orden.productos[10].cantidad | currency : $ : 0}}</td>
                 </tr>
                 <tr class="productos">
@@ -167,7 +168,7 @@
         </div>
         <p class="footter">Esta <b>factura de Venta</b> se asimila para todos sus efectos a la <b>Letra de Cambio</b> de acuerdo a lo previsto en los articulos 671 y S.S. 772 -774 y demás normas del Código de Comercio</p>
         <div class="table-footer">
-            <table>
+            <table class="table-factura">
                 <tr>
                     <td>recibí a satisfacion</td>
                     <td></td>
@@ -186,4 +187,59 @@
         </div>
     </div>
 </div>
+</div>
 
+<h2 class="titulo-pagina blue accent-4 right-align {{pageAnimate}}" ng-hide="newFactura">Gestion de facturas</h2>
+<div class="contenido" ng-hide="newFactura">
+	<div class="row">
+		<div class="col s12">
+			<div class="card-panel {{panelAnimate}}">
+				<div class="panel-heading blue accent-4">
+					<h3 class="panel-title">Lista de facturas</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col s12">
+							<div class="gridStyle grid" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="modalFacturas" class="modal modal-fixed-footer">
+    <div class="modal-content">
+    	<h4 class="modal-title blue accent-4">Detalles de Factura</h4>
+    	<div class="row">
+    		<ul>
+				<li> Numero de factura: {{Detalle.cosecutivo || 'No registra'}}</li>
+				<li> Cliente: {{Detalle.cliente.nombre || 'No registra'}}</li>
+				<li> Fecha : {{convertirFecha(Detalle.fecha) || 'No registra'}}</li>
+				<li> Subtotal : {{Detalle.subtotal}}</li>
+				<li> Iva : {{Detalle.valorIva}}</li>
+                <li> Total: {{Detalle.total}}</li>
+                <li><h4>Productos:</h4></li>
+			</ul>
+            <table class="highlight">
+                <tr>
+                    <td>Codigo</td>
+                    <td>Descripcion</td>
+                    <td>Cantidad</td>
+                    <td>Valor Unitario</td>
+                    <td>Valor Total</td>
+                </tr>
+                <tr ng-repeat="pro in Detalle.productos">
+                    <td>{{pro.codigo}}</td>
+                    <td>{{pro.nombre}}</td>
+                    <td>{{pro.cantidad}}</td>
+                    <td>{{pro.precio}}</td>
+                    <td>{{pro.precio * pro.cantidad}}</td>
+                </tr>
+            </table>
+    	</div>
+	</div>
+    <div class="modal-footer">
+      	<a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
+    </div>
+</div>

@@ -8,13 +8,74 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('FacturaCtrl', function ($scope, $state, preloader, server, webServer) {
+.controller('FacturaCtrl', function ($scope, $state, preloader,BotonesTabla, server, webServer, numeroaletras, $timeout) {
+    $scope.panelAnimate='';
+	$scope.pageAnimate='';
+    $(document).ready(function(){
+        $('.modal').modal();
+        $('.modal').modal({
+            dismissible: true, // Modal can be dismissed by clicking outside of the modal
+            opacity: 0, // Opacity of modal background
+            inDuration: 300, // Transition in duration
+            outDuration: 200, // Transition out duration
+            startingTop: '10%', // Starting top style attribute
+            endingTop: '15%', // Ending top style attribute,
+            ready: function(modal, trigger) {
+            },
+            complete: function() {  } // Callback for Modal close
+        });
+    });
+	$timeout(function () {
+        $scope.pageAnimate='pageAnimate';
+        $scope.panelAnimate='panelAnimate';
+    },100);
+    $scope.newFactura = true;
     $scope.server = server;
     $scope.fecha = fechaHoy();
     $scope.iva = 19;
     $scope.valorIva = 0;
     $scope.subtotal = 0;
     $scope.total = 0;
+    $scope.Facturas = [];
+    $scope.Detalle = {};
+    var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Borrar+BotonesTabla.Imprimir+'</div>';
+    $scope.gridOptions = {
+        columnDefs: [
+            {
+                name:'no. orden',field: 'consecutivo',
+                width:'10%',
+                minWidth: 100
+            },
+            {
+                name:'fecha',
+                width:'15%',
+                cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha)}}</div>',
+                minWidth: 100
+            },
+            {
+                field:  'subtotal',
+                width:'15%',
+                minWidth: 100
+            },
+            { 
+                name: 'Iva',
+                field: 'valorIva',
+                width:'15%',
+                minWidth: 100
+            },
+            { 
+                field: 'total',
+                width:'15%',
+                minWidth: 100
+            },
+            {
+                name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
+                width:'30%',
+                minWidth: 230
+            }
+        ]
+    }
+
     $scope.print = function(){
         preloader.estado = true;
         var factura = {
@@ -28,7 +89,7 @@ angular.module('frontendApp')
             vencimiento: $scope.vencimiento,
             remision: $scope.remision,
             ordenCompra: $scope.ordenCompra,
-            orden: 'orden '+$scope.Orden._id,
+            orden: $scope.Orden._id,
             consecutivo: $scope.Orden.orden_venta_consecutivo
         };
         if(!$scope.remision){
@@ -37,30 +98,46 @@ angular.module('frontendApp')
         if(!$scope.ordenCompra){
             $('#ordenCompra').html('');
         }
-
+        var w = window.open();
+        var d = w.document.open();
+        var eleToPrint = $('#container')[0];
+        d.append(eleToPrint);
         webServer.getResource('facturas', factura, "post")
         .then(function (data) {
             preloader.estado = false;
             sweetAlert('ok', data.data.message, 'success');
-            var w = window.open();
-            var d = w.document.open();
-            var eleToPrint = $('#container')[0];
-            d.append(eleToPrint); 
+            w.print();
+            w.close();
+            $state.go('OrdenVenta');
         }, function (data) {
             preloader.estado = false;
             sweetAlert('Oops...', data.data.message, 'error');
+            w.close();
+            $state.go('OrdenVenta');
+            
         });
                
     }
-
     webServer.getResource('orden_venta/'+$state.params._id, {} , 'get')
     .then(function(data){
         $scope.Orden = data.data.datos;
         $scope.calcularTotal();
     }, function(data){
-        sweetAlert('Oops...', data.data.message, 'error');
+        $scope.newFactura = false;
+        $scope.listarFacturas();
+        
     });
 
+    $scope.listarFacturas = function(){
+        webServer.getResource('facturas', {} , 'get')
+        .then(function(data){
+            $scope.Facturas = data.data.datos;
+            $scope.gridOptions.data = $scope.Facturas;
+        }, function(data){
+            $scope.gridOptions.data = $scope.Facturas;
+            $state.go('OrdenVenta');
+        });
+    }
     $scope.calcularTotal= function(){
         $scope.subtotal = 0;
         $scope.Orden.productos.forEach(function(pro){
@@ -68,176 +145,114 @@ angular.module('frontendApp')
         });
         $scope.calcularIva();
     }
-
     $scope.calcularIva = function (){
         $scope.valorIva = $scope.subtotal * ($scope.iva / 100);
         $scope.total = $scope.subtotal + $scope.valorIva;
     }
-
     function fechaHoy(){
         var date = new Date().getDate();
         date += ' / '+(new Date().getMonth()+1);
         date += ' / '+new Date().getFullYear();
         return date;
     }
-
-    function Unidades(num){
-
-        switch(num)
-        {
-            case 1: return "UN";
-            case 2: return "DOS";
-            case 3: return "TRES";
-            case 4: return "CUATRO";
-            case 5: return "CINCO";
-            case 6: return "SEIS";
-            case 7: return "SIETE";
-            case 8: return "OCHO";
-            case 9: return "NUEVE";
-        }
-
-        return "";
-    }
-
-    function Decenas(num){
-
-        var decena = Math.floor(num/10);
-        var unidad = num - (decena * 10);
-
-        switch(decena)
-        {
-            case 1:   
-                switch(unidad)
-                {
-                    case 0: return "DIEZ";
-                    case 1: return "ONCE";
-                    case 2: return "DOCE";
-                    case 3: return "TRECE";
-                    case 4: return "CATORCE";
-                    case 5: return "QUINCE";
-                    default: return "DIECI" + Unidades(unidad);
-                }
-            case 2:
-                switch(unidad)
-                {
-                    case 0: return "VEINTE";
-                    default: return "VEINTI" + Unidades(unidad);
-                }
-            case 3: return DecenasY("TREINTA", unidad);
-            case 4: return DecenasY("CUARENTA", unidad);
-            case 5: return DecenasY("CINCUENTA", unidad);
-            case 6: return DecenasY("SESENTA", unidad);
-            case 7: return DecenasY("SETENTA", unidad);
-            case 8: return DecenasY("OCHENTA", unidad);
-            case 9: return DecenasY("NOVENTA", unidad);
-            case 0: return Unidades(unidad);
-        }
-    }
-
-    function DecenasY(strSin, numUnidades){
-        if (numUnidades > 0)
-        return strSin + " Y " + Unidades(numUnidades)
-
-        return strSin;
-    }
-
-    function Centenas(num){
-
-        var centenas = Math.floor(num / 100);
-        var decenas = num - (centenas * 100);
-
-        switch(centenas)
-        {
-            case 1:
-                if (decenas > 0)
-                    return "CIENTO " + Decenas(decenas);
-                return "CIEN";
-            case 2: return "DOSCIENTOS " + Decenas(decenas);
-            case 3: return "TRESCIENTOS " + Decenas(decenas);
-            case 4: return "CUATROCIENTOS " + Decenas(decenas);
-            case 5: return "QUINIENTOS " + Decenas(decenas);
-            case 6: return "SEISCIENTOS " + Decenas(decenas);
-            case 7: return "SETECIENTOS " + Decenas(decenas);
-            case 8: return "OCHOCIENTOS " + Decenas(decenas);
-            case 9: return "NOVECIENTOS " + Decenas(decenas);
-        }
-
-        return Decenas(decenas);
-    }
-
-    function Seccion(num, divisor, strSingular, strPlural){
-        var cientos = Math.floor(num / divisor)
-        var resto = num - (cientos * divisor)
-
-        var letras = "";
-
-        if (cientos > 0)
-        if (cientos > 1)
-            letras = Centenas(cientos) + " " + strPlural;
-        else
-            letras = strSingular;
-
-        if (resto > 0)
-            letras += "";
-
-        return letras;
-    }
-
-    function Miles(num){
-        var divisor = 1000;
-        var cientos = Math.floor(num / divisor);
-        var resto = num - (cientos * divisor);
-
-        var strMiles = Seccion(num, divisor, "UN MIL", "MIL");
-        var strCentenas = Centenas(resto);
-
-        if(strMiles == "")
-        return strCentenas;
-
-        return strMiles + " " + strCentenas;
-
-        //return Seccion(num, divisor, "UN MIL", "MIL") + " " + Centenas(resto);
-    }
-
-    function Millones(num){
-        var divisor = 1000000;
-        var cientos = Math.floor(num / divisor);
-        var resto = num - (cientos * divisor);
-
-        var strMillones = Seccion(num, divisor, "UN MILLON", "MILLONES");
-        var strMiles = Miles(resto);
-
-        if(strMillones == "")
-        return strMiles;
-
-        return strMillones + " " + strMiles;
-
-        //return Seccion(num, divisor, "UN MILLON", "MILLONES") + " " + Miles(resto);
-    }
-
-    function NumeroALetras (num){
-        var data = {
-            numero: num,
-            enteros: Math.floor(num),
-            centavos: (((Math.round(num * 100)) - (Math.floor(num) * 100))),
-            letrasCentavos: "",
-            letrasMonedaPlural: "PESOS M/CTE.",
-            letrasMonedaSingular: "PESOS M/CTE."
-        };
-
-        if (data.centavos > 0)
-            data.letrasCentavos = "CON " + data.centavos + "/100";
-
-        if(data.enteros == 0)
-            return "CERO " + data.letrasMonedaPlural + " " + data.letrasCentavos;
-        if (data.enteros == 1)
-            return Millones(data.enteros) + " " + data.letrasMonedaSingular + " " + data.letrasCentavos;
-        else
-            return Millones(data.enteros) + " " + data.letrasMonedaPlural + " " + data.letrasCentavos;
-    }
-
     $scope.covert = function (argument) {
-        return NumeroALetras(argument);
+        return numeroaletras.doit(argument);
     }
+
+    $scope.convertirFecha = function(fecha){
+        var date = new Date(fecha).getDate();
+        date += '/'+(new Date(fecha).getMonth()+1);
+        date += '/'+new Date(fecha).getFullYear();
+        return date;
+    }
+
+    $scope.Detalles = function(id){
+        $scope.Detalle = identificar(id, $scope.Facturas);
+
+        if($scope.Detalle != null){
+            $('#modalFacturas').modal('open');
+        }
+    }
+
+    $scope.abrirModal = function(id){
+        var obj = identificar(id, $scope.Facturas);
+        swal({
+            title: "Confirmar Eliminación",
+            text: "¿Esta seguro de borrar la factura?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Borrar!",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm){
+            if (isConfirm) {
+                Borrar(obj);
+            } else {
+                swal("Cancelado", "La factura no se borrará", "error");
+            }
+        });
+    }
+
+    $scope.Imprimir = function(ele){
+        $scope.Orden = {
+            orden_venta_consecutivo: ele.consecutivo,
+            cliente: ele.cliente,
+            productos: ele.productos
+        }
+        $scope.remision = ele.remision;
+        $scope.ordenCompra = ele.ordenCompra;
+        $scope.subtotal = ele.subtotal;
+        $scope.iva = ele.iva;
+        $scope.valorIva = ele.valorIva;
+        $scope.total = ele.total;
+        if(!$scope.remision){
+            $('#remision').html('');
+        }
+        if(!$scope.ordenCompra){
+            $('#ordenCompra').html('');
+        }
+
+        var w = window.open();
+        var d = w.document.open();
+        var eleToPrint = $('#container')[0];
+        d.append(eleToPrint);
+
+        webServer.getResource('facturas', {} , 'get')
+        .then(function(data){
+            w.print();
+            w.close();
+        }, function(data){
+            w.print();
+            w.close();
+        });
+    }
+
+    function Borrar(ele){
+        preloader.estado = true;
+        webServer.getResource('facturas/'+ele._id, {}, 'put')
+        .then(function(data){
+            swal('Ok', data.data.message, 'success');
+            preloader.estado = false;
+            $scope.Facturas.splice(ele.index, 1);
+        }, function(data){
+            swal('Error', data.data.message, 'error');
+            preloader.estado = false;
+        })
+    }
+
+    function identificar(id, arreglo){
+        var obj = null;
+        arreglo.forEach(function(ele, index){
+            if(ele._id == id){
+                obj = ele;
+                obj.index = index;
+            }
+        });
+        return obj;
+    }
+
 
 });

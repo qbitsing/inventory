@@ -45,13 +45,10 @@ let crear = co.wrap(function * (req, res) {
 let anular = co.wrap(function * (req, res) {
     try {
         let facturaId = req.params.id;
-        yield facturaModel.findByIdAndUpdate(facturaId, {
-            estado: 'cancelada', 
-            observacion: req.body.observacion
-        });
+        yield facturaModel.findByIdAndRemove(facturaId);
 
         return res.status(200).send({
-            message: 'Factura anulada con exito'
+            message: 'Factura eliminada con exito'
         });
     } catch(e) {
         return res.status(500).send({

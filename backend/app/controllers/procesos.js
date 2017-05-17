@@ -63,7 +63,7 @@ let crear = co.wrap(function * (req, res){
 let actualizar = co.wrap(function * (req, res){
   try {
     let procesoId = req.params.id;
-
+    delete req.body._id;
     let proceso = yield procesosModel.findOneAndUpdate(procesoId, req.body);
 
     return res.status(200).send({
