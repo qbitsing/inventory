@@ -19,5 +19,8 @@ angular.module('frontendApp')
 	Salida : '<a type="button" class="btn btn-tabla btn-info" ng-click="grid.appScope.AbrirModalSalida(row.entity._id)">Remisión</a>',
 	Entrada : '<a type="button" class="btn btn-tabla btn-success" ng-click="grid.appScope.AbrirModalEntrada(row.entity._id)">Entrada</a>',
 	MateriaPrima : '<a type="button" class="btn btn-tabla btn-warning" ng-click="grid.appScope.AbrirModalMateriaPrima(row.entity._id)">Materia Prima</a>',
-    Factura: '<a type="button" class="btn btn-tabla btn-info" ng-click="grid.appScope.Factura(row.entity)">Generar Factura</a>'
+    Factura: '<a type="button" class="btn btn-tabla btn-info" ng-click="grid.appScope.Factura(row.entity)">Generar Factura</a>',
+
+    Borrarorden : '<a type="button" class="btn btn-tabla btn-danger" ng-show="row.entity.estado!=grid.appScope.estadoactivoorden" ng-click="grid.appScope.abrirModal(row.entity._id)">Borrar</a>',
+    Borrarfabricacion : '<a type="button" class="btn btn-tabla btn-danger" ng-show="row.entity.estado!=grid.appScope.estadoactivofab" ng-click="grid.appScope.abrirModal(row.entity._id)">Borrar</a>'
 })

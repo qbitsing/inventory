@@ -23,8 +23,8 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
+    var estadoactivoorden='Activo';
     $scope.preloader = preloader;
-    $scope.preloader.estado = false;
     $scope.panelAnimate='';
     $scope.pageAnimate='';
     if ($scope.Usuario.rol=='Contador' || $scope.Usuario.rol=='Almacenista') {
@@ -41,7 +41,7 @@ angular.module('frontendApp')
     $scope.Orden.materia_prima=[];
     $scope.productos=[];
     $scope.materias=[];
-    var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
+    var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrarorden+'</div>';
     $scope.gridOptions = {
         columnDefs: [
             {
