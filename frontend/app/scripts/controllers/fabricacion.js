@@ -262,7 +262,7 @@ angular.module('frontendApp')
         webServer
         .getResource(ruta,$scope.fabricacion,metodo)
         .then(function(data){
-            if($scope.button_title_form='Registrar fabricación'){
+            if($scope.button_title_form=='Registrar fabricación'){
                 $scope.fabricacion.fabricacion_consecutivo=data.data.datos.fabricacion_consecutivo;
                 $scope.fabricacion._id=data.data.datos._id;
                 $scope.Fabricaciones.push($scope.fabricacion);
@@ -288,10 +288,12 @@ angular.module('frontendApp')
         var obj = {
             _id : $scope.producto._id.split(',')[0],
             nombre : $scope.producto._id.split(',')[1],
+            fabricado : $scope.producto._id.split(',')[2],
             cantidad : $scope.producto.cantidad,
             cantidad_saliente : 0,
             cantidad_fabricada :0,
             cantidad_disponible : $scope.producto.cantidad
+
         };
         $scope.fabricacion.productos.forEach(function(ele, index){
             if(ele._id==obj._id){
@@ -340,15 +342,19 @@ angular.module('frontendApp')
     }
     
     $scope.addresponsable = function(){
-        var res = JSON.parse($scope.from_modal.persona);
-        var index = null;
-        $scope.modal.proceso.array_responsables.push(res);
-        $scope.personas.forEach(function(ele , i){
-            if(res._id == ele._id){
-                index = i;
-            }
-        });
-        $scope.personas.splice(index , 1);
+        if ($scope.modal.proceso.array_responsables.lenght<1) {
+            var res = JSON.parse($scope.from_modal.persona);
+            var index = null;
+            $scope.modal.proceso.array_responsables.push(res);
+            $scope.personas.forEach(function(ele , i){
+                if(res._id == ele._id){
+                    index = i;
+                }
+            });
+            $scope.personas.splice(index , 1);
+        }else{
+            Materialize.toast('No se puede añadir mas de un responsable al proceso', 4000);
+        }
     }
     $scope.removeresponsable = function(index){
         var res = $scope.modal.proceso.array_responsables[index];
