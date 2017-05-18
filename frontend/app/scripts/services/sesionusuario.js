@@ -10,7 +10,7 @@
 angular.module('frontendApp')
   .service('SesionUsuario', function (localStorageService) {
     return{
-    	CrearSesion:function (user){
+    	CrearSesion: function (user){
             if(user.super_administrador){
                 user.rol='Super Administrador';
             }else if(user.contador){
