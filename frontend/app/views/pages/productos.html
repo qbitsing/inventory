@@ -1,6 +1,6 @@
 <h2 class="titulo-pagina blue accent-4 right-align {{pageAnimate}}">Gestion de productos</h2>
 <div class="contenido">
-	<div class="row" ng-show="{{Usuario.rol!='Contador'}}">
+	<div class="row" ng-show="Usuario.rol!='Contador'">
 		<div class="col s12">
 			<div class="card-panel panel-default {{panelAnimate}}">
 				<div class="panel-heading blue accent-4">
@@ -45,7 +45,7 @@
 								</select>
 								<label>Unidad de medida *</label>
 							</div>
-							<div class="input-field col s12 m6 l6" ng-show="{{Usuario.rol=='Super Administrador'}}">
+							<div class="input-field col s12 m6 l6" ng-show="Usuario.rol=='Super Administrador'">
 								<input type="number" ng-model="Producto.precio" id="Precio" name="Precio">
 								<label for="Precio">Precio</label>
 							</div>

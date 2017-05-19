@@ -23,6 +23,7 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
+    var estadoactivoorden='Activo';
     $scope.preloader = preloader;
     $scope.panelAnimate='';
     $scope.pageAnimate='';
@@ -39,7 +40,7 @@ angular.module('frontendApp')
     $scope.Orden.productos=[];
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
     if ($scope.Usuario.rol=='Super Administrador') {
-        casillaDeBotones+=BotonesTabla.Editar+BotonesTabla.Borrar;
+        casillaDeBotones+=BotonesTabla.Editar+BotonesTabla.Borrarorden;
     }
     casillaDeBotones+=BotonesTabla.Factura+'</div>';
     $scope.gridOptions = {
