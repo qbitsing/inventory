@@ -19,7 +19,7 @@ angular.module('frontendApp')
             $scope.Usuario={};
             $scope.preloader.estado = false;
             sweetAlert("Completado...", "Su contraseña ha sido enviado a su correo" , "success");
-            $state.go('Login');
+            $state.go('InicioSesion');
         },function(data){
             $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
