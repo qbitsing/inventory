@@ -38,7 +38,7 @@ angular
     .setNotify(true, true)
 })
 .config(function ($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/Login');
+  $urlRouterProvider.otherwise('/Login/InicioSesion');
   $stateProvider
     .state('plain', {
         abstract: true,
@@ -47,13 +47,21 @@ angular
     })
     .state('Login',{
         url: '/Login',
-        templateUrl: 'views/pages/login.html',
-        controller: 'LoginCtrl'
+        parent:'plain',
+        templateUrl: 'views/layouts/login.html',
+        controller:'LoginCtrl'
     })
     .state('Restaurar',{
         url: '/Restaurar',
+        parent:'Login',
         templateUrl: 'views/pages/restaurar.html',
         controller: 'RestaurarCtrl'
+    })
+    .state('InicioSesion',{
+        url: '/InicioSesion',
+        parent:'Login',
+        templateUrl: 'views/pages/inicio_sesion.html',
+        controller: 'IniciosesionCtrl'
     })
     .state('Home',{
         url: '/Home',

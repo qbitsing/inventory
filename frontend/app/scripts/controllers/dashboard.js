@@ -58,7 +58,7 @@ angular.module('frontendApp')
     $scope.$state=$state;
     $scope.categoria={};
     if(SesionUsuario.ObtenerSesion()==null){
-        $state.go('Login');
+        $state.go('InicioSesion');
     }else{
         $scope.Usuario=SesionUsuario.ObtenerSesion();
         $scope.NombreDeUsuario='';
@@ -347,7 +347,7 @@ angular.module('frontendApp')
     $scope.active=true;
     $scope.cerrarSesion=function(){
         SesionUsuario.CerrarSesion();
-    	$state.go('Login');
+    	$state.go('InicioSesion');
     }
     function scroll(){
          $("html, body").animate({

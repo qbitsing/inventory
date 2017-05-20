@@ -32,6 +32,7 @@ angular.module('frontendApp')
     if ($scope.Usuario.rol=='Contador') {
         $state.go('Home');
     }
+    var estadoactivofab='Incompleta';
     $scope.preloader = preloader;
     $scope.panel_title_form = "Registro de Fabricaciones";
     $scope.button_title_form = "Registrar fabricación";
@@ -46,13 +47,14 @@ angular.module('frontendApp')
     $scope.Remisiones=[];
     $scope.cancelarentrada={};
     $scope.cancelarsalida={};
-    var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
+    var casillaDeBotones;
+    casillaDeBotones = '<div>'+BotonesTabla.Detalles;
     if ($scope.Usuario.rol=='Super Administrador') {
         casillaDeBotones+=BotonesTabla.Editar;
     }
     casillaDeBotones+=BotonesTabla.Salida+BotonesTabla.Entrada+BotonesTabla.MateriaPrima;
     if ($scope.Usuario.rol=='Super Administrador') {
-        casillaDeBotones+=BotonesTabla.Borrar;
+        casillaDeBotones+=BotonesTabla.Borrarfabricacion;
     }
     casillaDeBotones+='</div>';
     $scope.gridOptions = {
