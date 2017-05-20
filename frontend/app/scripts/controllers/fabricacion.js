@@ -414,6 +414,7 @@ angular.module('frontendApp')
         $scope.preloader.estado = true;
         $scope.modal_salida.estado='Sin Entrada';
         $scope.modal_salida.fabricacion=$scope.contenido_fabricacion;
+        $scope.modal_salida.generado=$scope.Usuario;
         webServer
         .getResource('remision',$scope.modal_salida,'post')
         .then(function(data){
