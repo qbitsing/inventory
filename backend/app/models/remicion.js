@@ -14,7 +14,8 @@ const remicionSchema = new Schema({
   fecha_solicitud: Date,
   estado: {type: String, enum:['Con Entrada', 'Sin Entrada', 'Cancelada'], default: 'Sin Entrada'},
   remision_consecutivo: Number,
-  generado: {}
+  generado: {},
+  transportador: String
 });
 
 remicionSchema.plugin(autoIncrement.plugin, {
