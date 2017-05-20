@@ -296,7 +296,6 @@ angular.module('frontendApp')
             cantidad_saliente : 0,
             cantidad_fabricada :0,
             cantidad_disponible : $scope.producto.cantidad
-
         };
         $scope.fabricacion.productos.forEach(function(ele, index){
             if(ele._id==obj._id){

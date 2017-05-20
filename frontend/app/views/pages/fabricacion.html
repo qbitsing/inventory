@@ -277,13 +277,13 @@
 	    		<div class="row">
 	    			<div class="input-field col s12 m6 l6">
 						<select ng-model="modal_salida.carga_proceso" ng-change="cargarProceso()" material-select watch required>
-							<option ng-repeat="proceso in contenido_fabricacion.procesos" value="{{proceso}}">{{proceso.nombre}}</option>
+							<option ng-if="proceso.tipo=='Externo'" ng-repeat="proceso in contenido_fabricacion.procesos" value="{{proceso}}">{{proceso.nombre}}</option>
 						</select>
 						<label>Proceso *</label>
 					</div>
 					<div class="input-field col s12 m6 l6">
 						<label for="">Responsable</label>
-						<li ng-repeat="res in modal_salida.proceso.array_responsables">{{res.nombre}}</li>
+						<li ng-repeat="res in modal_salida.proceso.array_responsables">{{res.nombre}}{{res.apellidos}}</li>
 					</div>
 	    		</div>
 	    		<div class="row">
