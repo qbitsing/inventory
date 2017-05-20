@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('FabricacionCtrl', function ($state, $scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
+.controller('FabricacionCtrl', function ($state, $scope, server, $timeout, Tabla, BotonesTabla, webServer, preloader) {
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';
     $(document).ready(function(){
@@ -47,6 +47,7 @@ angular.module('frontendApp')
     $scope.Remisiones=[];
     $scope.cancelarentrada={};
     $scope.cancelarsalida={};
+    $scope.server = server;
     var casillaDeBotones;
     casillaDeBotones = '<div>'+BotonesTabla.Detalles;
     if ($scope.Usuario.rol=='Super Administrador') {
