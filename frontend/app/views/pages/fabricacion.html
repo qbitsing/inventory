@@ -296,9 +296,15 @@
 						<input type="date" ng-model="modal_salida.fecha_entrega" required>
 					</div>
 				</div>
-	    		<div class="row">
-	    			<button type="submit" class="btn btn-success col" ng-disabled="formSalida.$invalid || modal_salida.productos.length<1">Registrar remisión</button>
-	    		</div>
+				<div class="row">
+					<div class="input-field col s12 m6 l6">
+						<label class="active">Transportador *</label>
+						<input type="text" ng-model="modal_salida.transportador" required>
+					</div>
+					<div class="input-field col s12 m6 l6">
+						<button type="submit" class="btn btn-success col" ng-disabled="formSalida.$invalid || modal_salida.productos.length<1">Registrar remisión</button>
+					</div>
+				</div>
     		</form>
     	</div>
     	<div class="row">
@@ -310,6 +316,7 @@
 	    				<th>Productos - Cantidades</th>
 	    				<th>Proceso</th>
 	    				<th>Responsable</th>
+	    				<th>Transportador</th>
 	    				<th>Opción</th>
 	    			</tr>
 	    		</thead>
@@ -318,7 +325,9 @@
 	    				<td>{{remision.remision_consecutivo}}</td>
 		    			<td><li ng-repeat="res in remision.productos">{{res.producto.nombre}} - {{res.cantidad}}</li></td>
 		    			<td>{{remision.proceso.nombre}}</td>
-	    				<td><li ng-repeat="res in remision.proceso.array_responsables">{{res.nombre}}</li></td>
+	    				<td ng-hide="remision.proceso.array_responsables.length<1"><li ng-repeat="res in remision.proceso.array_responsables">{{res.nombre}}</li></td>
+	    				<td ng-hide="remision.proceso.array_responsables>0">No registra</td>
+	    				<td>{{remision.transportador || 'No registra'}}</td>
 	    				<td ng-if="remision.estado=='Sin Entrada'"><button type="button" class="btn btn-tabla btn-danger" ng-click="abrircancelarremision(remision)">Cancelar</button></td>
 	    				<td ng-if="remision.estado=='Con Entrada'" class="warning-text">La remisión no se puede cancelar</td>
 	    				<td ng-if="remision.estado=='Cancelada'" class="danger-text">Remisión cancelada</td>
