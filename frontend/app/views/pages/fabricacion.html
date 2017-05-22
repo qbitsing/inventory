@@ -94,7 +94,7 @@
 						        <tbody>
 						          	<tr ng-repeat="proceso in fabricacion.procesos">
 							            <td>{{proceso.nombre}}</td>
-						            	<td><li ng-repeat="res in proceso.array_responsables">{{res.nombre}}</li></td>
+						            	<td><li ng-repeat="res in proceso.array_responsables">{{res.nombre}} {{res.apellidos}}</li></td>
 							            <td><a class="btn btn-success" class="cursor" ng-click="AbrirModal(proceso)">Añadir responsable</a><a class="btn btn-danger" class="cursor" ng-click="BorrarProceso($index)">Eliminar</a></td>
 						          	</tr>
 						        </tbody>
@@ -171,7 +171,7 @@
 					<tbody>
 						<tr ng-repeat="proceso in Detalle.procesos">
 							<td>{{proceso.nombre}}</td>
-							<td><li ng-repeat="res in proceso.array_responsables">{{res.nombre}}</li></td>
+							<td><li ng-repeat="res in proceso.array_responsables">{{res.nombre}} {{res.apellidos}}</li></td>
 						</tr>
 					</tbody>
 				</table>
@@ -282,8 +282,8 @@
 						<label>Proceso *</label>
 					</div>
 					<div class="input-field col s12 m6 l6">
-						<label for="">Responsable</label>
-						<li ng-repeat="res in modal_salida.proceso.array_responsables">{{res.nombre}}{{res.apellidos}}</li>
+						<label for="lista_responsable">Responsable</label>
+						<li id="lista_responsable" ng-repeat="res in modal_salida.proceso.array_responsables">{{res.nombre}} {{res.apellidos}}</li>
 					</div>
 	    		</div>
 	    		<div class="row">
@@ -296,9 +296,15 @@
 						<input type="date" ng-model="modal_salida.fecha_entrega" required>
 					</div>
 				</div>
-	    		<div class="row">
-	    			<button type="submit" class="btn btn-success col" ng-disabled="formSalida.$invalid || modal_salida.productos.length<1">Registrar remisión</button>
-	    		</div>
+				<div class="row">
+					<div class="input-field col s12 m6 l6">
+						<label class="active">Transportador *</label>
+						<input type="text" ng-model="modal_salida.transportador" required>
+					</div>
+					<div class="input-field col s12 m6 l6">
+						<button type="submit" class="btn btn-success col" ng-disabled="formSalida.$invalid || modal_salida.productos.length<1">Registrar remisión</button>
+					</div>
+				</div>
     		</form>
     	</div>
     	<div class="row">
@@ -310,6 +316,7 @@
 	    				<th>Productos - Cantidades</th>
 	    				<th>Proceso</th>
 	    				<th>Responsable</th>
+	    				<th>Transportador</th>
 	    				<th>Opción</th>
 	    			</tr>
 	    		</thead>
@@ -318,7 +325,9 @@
 	    				<td>{{remision.remision_consecutivo}}</td>
 		    			<td><li ng-repeat="res in remision.productos">{{res.producto.nombre}} - {{res.cantidad}}</li></td>
 		    			<td>{{remision.proceso.nombre}}</td>
-	    				<td><li ng-repeat="res in remision.proceso.array_responsables">{{res.nombre}}</li></td>
+	    				<td ng-hide="remision.proceso.array_responsables.length<1"><li ng-repeat="res in remision.proceso.array_responsables">{{res.nombre}} {{res.apellidos}}</li></td>
+	    				<td ng-hide="remision.proceso.array_responsables>0">No registra</td>
+	    				<td>{{remision.transportador || 'No registra'}}</td>
 	    				<td ng-if="remision.estado=='Sin Entrada'"><button type="button" class="btn btn-tabla btn-danger" ng-click="abrircancelarremision(remision)">Cancelar</button></td>
 	    				<td ng-if="remision.estado=='Con Entrada'" class="warning-text">La remisión no se puede cancelar</td>
 	    				<td ng-if="remision.estado=='Cancelada'" class="danger-text">Remisión cancelada</td>
@@ -478,7 +487,7 @@
 					</div>
 					<div class="input-field col s12 m6 l6">
 						<label class="active">Responsable</label>
-						<li ng-repeat="res in modal_entrada.remision.proceso.array_responsables">{{res.nombre}}</li>
+						<li ng-repeat="res in modal_entrada.remision.proceso.array_responsables">{{res.nombre}} {{res.apellidos}}</li>
 					</div>
 	    		</div>
 	    		<div class="row">
@@ -501,7 +510,7 @@
     				<td>{{entrada.entrada_remision_consecutivo}}</td>
 	    			<td><li ng-repeat="res in entrada.productos">{{res.producto.nombre}} - {{res.cantidad}}</li></td>
 	    			<td>{{entrada.remision.proceso.nombre || 'No registra'}} </td>
-    				<td ng-show="entrada.remision.proceso.array_responsables"><li ng-repeat="res in entrada.remision.proceso.array_responsables">{{res.nombre}}</li></td>
+    				<td ng-show="entrada.remision.proceso.array_responsables"><li ng-repeat="res in entrada.remision.proceso.array_responsables">{{res.nombre}} {{res.apellidos}}</li></td>
     				<td ng-hide="entrada.remision.proceso.array_responsables">No registra</td>
     				<td ng-if="entrada.estado!='Cancelada'"><button type="button" class="btn btn-danger" ng-click="abrircancelarentrada(entrada)">Cancelar</button></td>
     				<td ng-if="entrada.estado=='Cancelada'" class="danger-text">Entrada cancelada</td>
