@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('FabricacionCtrl', function ($state, $scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
+.controller('FabricacionCtrl', function ($state, $scope, server, $timeout, Tabla, BotonesTabla, webServer, preloader) {
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';
     $(document).ready(function(){
@@ -47,6 +47,7 @@ angular.module('frontendApp')
     $scope.Remisiones=[];
     $scope.cancelarentrada={};
     $scope.cancelarsalida={};
+    $scope.server = server;
     var casillaDeBotones;
     casillaDeBotones = '<div>'+BotonesTabla.Detalles;
     if ($scope.Usuario.rol=='Super Administrador') {
@@ -295,7 +296,6 @@ angular.module('frontendApp')
             cantidad_saliente : 0,
             cantidad_fabricada :0,
             cantidad_disponible : $scope.producto.cantidad
-
         };
         $scope.fabricacion.productos.forEach(function(ele, index){
             if(ele._id==obj._id){
@@ -415,6 +415,7 @@ angular.module('frontendApp')
         $scope.preloader.estado = true;
         $scope.modal_salida.estado='Sin Entrada';
         $scope.modal_salida.fabricacion=$scope.contenido_fabricacion;
+        $scope.modal_salida.generado=$scope.Usuario;
         webServer
         .getResource('remision',$scope.modal_salida,'post')
         .then(function(data){

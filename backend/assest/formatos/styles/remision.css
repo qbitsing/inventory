@@ -1,0 +1,128 @@
+.factura{
+    background: #fff;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.header {
+    height: 144px;
+    position: relative;
+}
+.factura .first-part{
+    width: 33%;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.factura .first-part .logo-header{
+    width: 100%;
+    height: auto;
+}
+
+.factura .first-part .title-header{
+    text-align: center;
+    font-size: 10px;
+    text-transform: uppercase;
+    margin: 0 !important;
+}
+
+.factura .first-part .subtitle-header{
+    text-align: center;
+    font-size: 7px;
+    text-transform: uppercase;
+    margin: 0 !important;
+}
+.factura .first-part .nit{
+    text-align: center;
+    font-size: 7px;
+    text-transform: capitalize;
+    margin-top: 4px;
+}
+.factura .first-part .description-head{
+    text-align: center;
+    font-size: 7px;
+    text-transform: capitalize;
+}
+
+.factura .first-part .description-head span{
+    text-transform: lowercase;
+}
+
+.factura .second-part{
+    width: 40%;
+    overflow: hidden;
+    display: inline-block;
+    padding-left: 20px;
+    margin-bottom: 30px;
+}
+
+.factura .second-part ul li{
+    font-size: 7px;
+}
+
+.factura .last-part{
+    width: 22%;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 10px;
+}
+
+.factura .last-part .title-last-part{
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 0 !important;
+}
+
+.factura .last-part .no-factura{
+    width: 100%;
+    height: 30px;
+    border: solid 1px;
+    border-radius: 7px;
+    font-size: 12px;
+    text-align: center; 
+}
+
+.factura .last-part>p{
+    text-align: center;
+    width: 100%;
+    font-size: 7px;
+    text-transform: capitalize;
+    font-weight: bold;
+    margin: 0;
+    margin-top: 5px;
+}
+
+.formato-table{
+    border-collapse: collapse;
+    border-spacing: 0;
+
+}
+
+
+
+.table-header{
+    border: solid 1px;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+.table-header .formato-table tr td{
+    border: solid 1px;
+}
+
+.table-header .formato-table tr:first-child td{
+    border-top: none;
+}
+
+.table-header .formato-table tr:last-child td{
+    border-bottom: none;
+}
+
+.table-header .formato-table tr td:first-child{
+    border-left: none;
+}
+
+.table-header .formato-table tr td:last-child{
+    border-right: none;
+}
+
