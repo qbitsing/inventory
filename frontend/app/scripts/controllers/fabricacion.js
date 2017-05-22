@@ -170,14 +170,10 @@ angular.module('frontendApp')
             confirmButtonText: "Si, Borrar!",
             cancelButtonText: "No, Cancelar!",
             closeOnConfirm: false,
-            closeOnCancel: false
+            showLoaderOnConfirm: true,
         },
-        function(isConfirm){
-            if (isConfirm) {
-                Borrar(_id);
-            } else {
-                swal("Cancelado", "La fabricación no se borrará", "error");
-            }
+        function(){
+            Borrar(_id);
         });
     }
     function Borrar(id){
@@ -190,7 +186,6 @@ angular.module('frontendApp')
             }
         });
         if(controler){
-            $scope.preloader.estado = true;
             webServer
             .getResource('fabricacion/'+id,{},'delete')
             .then(function(data){
@@ -199,10 +194,8 @@ angular.module('frontendApp')
                         $scope.Fabricaciones.splice(ele.index,1);
                     }
                 });
-                $scope.preloader.estado = false;
                 swal("Completado...", data.data.message , "success");
             },function(data){
-                $scope.preloader.estado = false;
                 swal("Oops...", data.data.message , "error");
             });
         }else{
