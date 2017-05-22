@@ -40,7 +40,7 @@
 							          	</tr>
 							        </thead>
 							        <tbody>
-							          	<tr ng-repeat="producto in Salida.orden_venta.productos">
+							          	<tr ng-if="producto.cantidad_faltante>0" ng-repeat="producto in Salida.orden_venta.productos">
 								            <td>{{producto.nombre}}</td>
 											<td>{{producto.cantidad}}</td>
 								            <td>{{producto.cantidad_faltante}}</td>

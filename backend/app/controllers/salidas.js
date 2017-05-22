@@ -116,7 +116,7 @@ let eliminar = co.wrap(function *(req, res){
 			let productos = salida.orden_venta.productos;
 			salida.orden_venta.productos = [];
 			for(let ele of productos){
-				ele.cantidad_faltante += ele.cantidad_saliente;
+				ele.cantidad_faltante += parseInt(ele.cantidad_saliente);
         let pro = yield productoModel.findById(ele._id);
         pro.apartados += ele.cantidad;
         pro.cantidad += ele.cantidad;
@@ -132,7 +132,8 @@ let eliminar = co.wrap(function *(req, res){
 		yield salidaModel.findByIdAndRemove(salida._id);
 
 		return res.status(200).send({
-			message: 'Salida anulada con exito, los cambios han sido revertidos en la base de datos'
+			message : 'Salida anulada con exito, los cambios han sido revertidos en la base de datos',
+      datos : salida
 		});
 
 });

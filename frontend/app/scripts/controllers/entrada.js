@@ -111,20 +111,14 @@ angular.module('frontendApp')
             confirmButtonText: "Si, Borrar!",
             cancelButtonText: "No, Cancelar!",
             closeOnConfirm: false,
-            closeOnCancel: false
+            showLoaderOnConfirm: true,
         },
-        function(isConfirm){
-            if (isConfirm) {
-                Borrar(_id);
-            } else {
-                swal("Cancelado", "La entrada no se borrará", "error");
-            }
+        function(){
+            Borrar(_id);
         });
     }
     function Borrar(id){
-        var contador=0;
-        var entrada={};
-        $scope.Entradas.forEach(function(ele,index){
+        /*$scope.Entradas.forEach(function(ele,index){
             if(ele._id==id){
                 entrada=ele;
             }
@@ -138,13 +132,12 @@ angular.module('frontendApp')
             entrada.orden_compra.estado='Con Entradas';
         }else{
             entrada.orden_compra.estado='Activo';
-        }
-        $scope.preloader.estado = true;
+        }*/
         webServer
         .getResource('entradas/'+id,{},'delete')
         .then(function(data){
             $scope.Ordenes.forEach(function(ele,ind){
-                if (ele._id==$scope.Entrada.orden_compra._id) {
+                if (ele._id==data.data.datos.orden_compra._id) {
                     $scope.Ordenes[ind] = data.data.datos.orden_compra;
                 }
             });
@@ -153,12 +146,9 @@ angular.module('frontendApp')
                     $scope.Entradas.splice(ele.index,1);
                 }
             });
-            $scope.preloader.estado = false;
-            sweetAlert("Completado...", data.data.message , "success");
+            swal("Completado...", data.data.message , "success");
         },function(data){
-            $scope.preloader.estado = false;
-            sweetAlert("Oops...", data.data.message , "error");
-            console.log(data.data.message);
+            swal("Oops...", data.data.message , "error");
         });
     }
     $scope.EnviarEntrada=function(){

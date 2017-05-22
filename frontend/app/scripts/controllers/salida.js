@@ -83,12 +83,6 @@ angular.module('frontendApp')
         });
         if(!$scope.Salida.orden_venta.productos){
             $scope.Salida.orden_venta.productos=[];
-        }else{
-            $scope.Salida.orden_venta.productos.forEach(function(ele,index){
-                if (ele.cantidad_faltante==0) {
-                    $scope.Entrada.orden_venta.productos.splice(ele.index,1);
-                }
-            });
         }
     }
     $scope.abrirModal=function(_id){
@@ -101,14 +95,10 @@ angular.module('frontendApp')
             confirmButtonText: "Si, Borrar!",
             cancelButtonText: "No, Cancelar!",
             closeOnConfirm: false,
-            closeOnCancel: false
+            showLoaderOnConfirm: true,
         },
-        function(isConfirm){
-            if (isConfirm) {
-                Borrar(_id);
-            } else {
-                swal("Cancelado", "La salida no se borrará", "error");
-            }
+        function(){
+            Borrar(_id);
         });
     }
     $scope.convertirFecha = function(fecha){
@@ -118,12 +108,11 @@ angular.module('frontendApp')
         return date;
     }
     function Borrar(id){
-        $scope.preloader.estado = true;
         webServer
         .getResource('salidas/'+id,{},'delete')
         .then(function(data){
             $scope.Ordenes.forEach(function(ele,ind){
-                if (ele._id==$scope.Entrada.orden_venta._id) {
+                if (ele._id==data.data.datos.orden_venta._id) {
                     $scope.Ordenes[ind] = data.data.datos.orden_venta;
                 }
             });
@@ -132,11 +121,9 @@ angular.module('frontendApp')
                     $scope.Salidas.splice(ele.index,1);
                 }
             });
-            $scope.preloader.estado = false;
-            sweetAlert("Completado...", data.data.message , "success");
+            swal("Completado...", data.data.message , "success");
         },function(data){
-            $scope.preloader.estado = false;
-            sweetAlert("Oops...", data.data.message , "error");
+            swal("Oops...", data.data.message , "error");
         });
     }
     $scope.cancelarEditar=function(){
@@ -156,11 +143,12 @@ angular.module('frontendApp')
         webServer
         .getResource("salidas",$scope.Salida,"post")
         .then(function(data){
+            $scope.Salida.fecha=new Date(Date.now());
             $scope.Salida.salida_consecutivo=data.data.datos.salida_consecutivo;
             $scope.Salida._id=data.data.datos._id;
             $scope.Salidas.push($scope.Salida);
             $scope.Ordenes.forEach(function(ele,ind){
-                if (ele._id==$scope.Entrada.orden_venta._id) {
+                if (ele._id==$scope.Salida.orden_venta._id) {
                     $scope.Ordenes[ind] = data.data.datos.orden_venta;
                 }
             });
