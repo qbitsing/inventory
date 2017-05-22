@@ -40,7 +40,7 @@ angular.module('frontendApp')
     $scope.Orden.productos=[];
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
     if ($scope.Usuario.rol=='Super Administrador') {
-        casillaDeBotones+=BotonesTabla.Editar+BotonesTabla.Borrarorden;
+        casillaDeBotones+=BotonesTabla.Editarorden+BotonesTabla.Borrarorden;
     }
     casillaDeBotones+=BotonesTabla.Factura+'</div>';
     $scope.gridOptions = {
