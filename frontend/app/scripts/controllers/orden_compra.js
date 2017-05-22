@@ -41,7 +41,7 @@ angular.module('frontendApp')
     $scope.Orden.materia_prima=[];
     $scope.productos=[];
     $scope.materias=[];
-    var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrarorden+'</div>';
+    var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editarorden+BotonesTabla.Borrarorden+'</div>';
     $scope.gridOptions = {
         columnDefs: [
             {
