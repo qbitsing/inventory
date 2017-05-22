@@ -95,6 +95,7 @@
 .formato-table{
     border-collapse: collapse;
     border-spacing: 0;
+    text-transform:  uppercase;
 
 }
 
@@ -106,23 +107,41 @@
     overflow: hidden;
 }
 
-.table-header .formato-table tr td{
+.formato-table tr td{
     border: solid 1px;
 }
 
-.table-header .formato-table tr:first-child td{
+.formato-table tr:first-child td{
     border-top: none;
 }
 
-.table-header .formato-table tr:last-child td{
+.formato-table tr:last-child td{
     border-bottom: none;
 }
 
-.table-header .formato-table tr td:first-child{
+.formato-table tr td:first-child{
     border-left: none;
 }
 
-.table-header .formato-table tr td:last-child{
+.formato-table tr td:last-child{
     border-right: none;
 }
 
+.black {
+    background-color: #000;
+    color: #fff;
+}
+
+.table-body{
+    overflow: hidden;
+    border: solid 1px;
+    border-radius: 7px;
+}
+
+.detalles{
+    height: 80px;   
+}
+
+.detalles td {
+    padding-top: 0;
+}

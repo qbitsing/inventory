@@ -49,6 +49,8 @@ let crear = co.wrap(function * (req, res) {
   let remicion = req.body;
   remicion.fabricacion.estado_remision = 'Con Remision';
   try {
+    delete req.body.generado.contrasena;
+
     yield fabricacionModel.findByIdAndUpdate(remicion.fabricacion._id, remicion.fabricacion);
 
     let newRemision = new remicionModel(remicion);

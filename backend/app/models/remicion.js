@@ -7,9 +7,9 @@ const autoIncrement = require('../utils/auto-increment.js');
 
 const remicionSchema = new Schema({
   fabricacion: {},
-  proveedor : {},
+  proveedor: {},
   productos: [],
-  proceso : {},
+  proceso: {},
   fecha_entrega: Date,
   fecha_solicitud: Date,
   estado: {type: String, enum:['Con Entrada', 'Sin Entrada', 'Cancelada'], default: 'Sin Entrada'},
