@@ -39,6 +39,7 @@ angular.module('frontendApp')
     $scope.check='orden';
     $scope.fabricacion={};
     $scope.modal={};
+    $scope.modal.proceso={};
     $scope.fabricacion.productos=[];
     $scope.fabricacion.procesos=[];
     $scope.contenido_fabricacion={};
@@ -47,6 +48,7 @@ angular.module('frontendApp')
     $scope.Remisiones=[];
     $scope.cancelarentrada={};
     $scope.cancelarsalida={};
+    $scope.modal.proceso.array_responsables=[];
     $scope.server = server;
     var casillaDeBotones;
     casillaDeBotones = '<div>'+BotonesTabla.Detalles;
@@ -102,6 +104,11 @@ angular.module('frontendApp')
         $scope.fabricacion.productos=$scope.fabricacion.orden_venta.productos;
     }
     $scope.cambiar=function(){
+        $scope.fabricacion.procesos.forEach(function (ele){
+            ele.array_responsables.forEach(function(e){
+                $scope.personas.push(e);
+            });
+        });
         $scope.fabricacion={};
         $scope.fabricacion.productos=[];
         $scope.fabricacion.procesos=[];
@@ -277,6 +284,9 @@ angular.module('frontendApp')
             $scope.fabricacion.procesos=[];
             $scope.proceso={};
             $scope.producto={};
+            $scope.modal={};
+            $scope.modal.proceso={};    
+            $scope.modal.proceso.array_responsables=[];
             $scope.panel_title_form = "Registro de Fabricacion";
             $scope.button_title_form = "Registrar fabricación";
             $scope.preloader.estado = false;
@@ -344,7 +354,7 @@ angular.module('frontendApp')
     }
     
     $scope.addresponsable = function(){
-        if ($scope.modal.proceso.array_responsables.lenght<1) {
+        if ($scope.modal.proceso.array_responsables.length<1) {
             var res = JSON.parse($scope.from_modal.persona);
             var index = null;
             $scope.modal.proceso.array_responsables.push(res);
@@ -416,6 +426,7 @@ angular.module('frontendApp')
         $scope.modal_salida.estado='Sin Entrada';
         $scope.modal_salida.fabricacion=$scope.contenido_fabricacion;
         $scope.modal_salida.generado=$scope.Usuario;
+
         webServer
         .getResource('remision',$scope.modal_salida,'post')
         .then(function(data){
@@ -430,6 +441,7 @@ angular.module('frontendApp')
             $scope.modal_salida={};
             $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
+            
         }
         ,function(data){
             $scope.preloader.estado = false;
@@ -939,6 +951,25 @@ angular.module('frontendApp')
         date += '/'+new Date(fecha).getFullYear();
         return date;
     }
+    $scope.imprimirRemision = function(formato){
+        $scope.formato = formato;
+        var formatoPrint = document.getElementById('container');
+        var w = window.open();
+        var d = w.document.open();
+        d.appendChild(formatoPrint);
+
+        webServer
+        .getResource('fabricacion',{},'get')
+        .then(function(data){
+            w.print();
+            w.close();
+            document.getElementById('superContainer').appendChild(formatoPrint);
+        },function(data){
+            w.print();
+            w.close();
+            document.getElementById('superContainer').appendChild(formatoPrint);
+        });
+    }
     function listarFabricaciones(){
         webServer
         .getResource('fabricacion',{},'get')
@@ -998,7 +1029,7 @@ angular.module('frontendApp')
             listarEntradasFabricaciones();
         },function(data){
             $scope.Remisiones=[];
-            console.log(data.data.message);
+            console.log(data.data);
             listarEntradasFabricaciones();
         });
     }

@@ -329,6 +329,7 @@
 	    				<td ng-hide="remision.proceso.array_responsables>0">No registra</td>
 	    				<td>{{remision.transportador || 'No registra'}}</td>
 	    				<td ng-if="remision.estado=='Sin Entrada'"><button type="button" class="btn btn-tabla btn-danger" ng-click="abrircancelarremision(remision)">Cancelar</button></td>
+	    				<td><button type="button" class="btn btn-tabla btn-primary" ng-click="imprimirRemision(remision)">Imprimir</button></td>
 	    				<td ng-if="remision.estado=='Con Entrada'" class="warning-text">La remisión no se puede cancelar</td>
 	    				<td ng-if="remision.estado=='Cancelada'" class="danger-text">Remisión cancelada</td>
 	    			</tr>
@@ -336,7 +337,7 @@
     		</table>
     	</div>
 
-		<div id="superContainer">
+		<div id="superContainer" ng-show="false">
 			<div id="container">
 				<link rel="stylesheet" ng-href="{{server}}/formatos/styles/remision.css">
 				<div class="factura">
@@ -370,12 +371,12 @@
 					<div class="table-header">
 						<table class="formato-table">
 							<tr>
-								<td colspan="5">empresa: {{formato.responsable.nombre}}</td>
-								<td>Fecha: {{formato.fecha_solicitud}}</td>
+								<td colspan="5">empresa: {{formato.proceso.array_responsables[0].nombre}}</td>
+								<td>Fecha: {{convertirFecha(formato.fecha_solicitud)}}</td>
 							</tr>
 							<tr>
 								<td colspan="5">proceso: {{formato.proceso.nombre}}</td>
-								<td>Tel: {{formato.responsable.telefono}}</td>
+								<td>Tel: {{formato.proceso.array_responsables[0].telefono}}</td>
 							</tr>
 						</table>
 					</div>
@@ -388,12 +389,12 @@
 
 							<tr ng-repeat="producto in formato.productos">
 								<td>{{producto.cantidad}}</td>
-								<td colspan="5">{{producto.nombre}}</td>
+								<td colspan="5">{{producto.producto.nombre}}</td>
 							</tr>
 							<tr class="detalles">
-								<td>despachado por: {{formato.generado.nombre}} {{formato.generado.apellido}}</td>
-								<td>transportado por: {{formato.transportador}}</td>
-								<td>recibido por:</td>
+								<td>despachado por: <br> {{formato.generado.nombre}} {{formato.generado.apellido}}</td>
+								<td>transportado por: <br> {{formato.transportador}}</td>
+								<td>recibido por: <br> </td>
 							</tr>
 						</table>
 					</div>
