@@ -155,7 +155,6 @@ angular.module('frontendApp')
             if (isConfirm) {
                 EnviarFabricacion();
             } else {
-
                 swal("Cancelado", mensaje, "error");
             }
         });
@@ -283,10 +282,10 @@ angular.module('frontendApp')
             $scope.panel_title_form = "Registro de Fabricacion";
             $scope.button_title_form = "Registrar fabricación";
             $scope.preloader.estado = false;
-            sweetAlert("Completado...", data.data.message , "success");
+            swal("Completado...", data.data.message , "success");
         },function(data){
             $scope.preloader.estado = false;
-            sweetAlert("Oops...", data.data.message , "error");
+            swal("Oops...", data.data.message , "error");
         }); 
     }
     $scope.AgregarProducto=function(){
