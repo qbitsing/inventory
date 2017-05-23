@@ -133,6 +133,7 @@ angular.module('frontendApp')
         $scope.Orden.venta='';
     }
     $scope.EnviarSalida=function(){
+        $scope.Salida.generado=$scope.Usuario;
         $scope.preloader.estado = true;
         if ($scope.Salida.orden_venta.productos) {
             $scope.Salida.orden_venta.productos.forEach(function(ele, index){
@@ -162,7 +163,6 @@ angular.module('frontendApp')
             $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
-        
     }
     function listarOrdenes(){
         webServer

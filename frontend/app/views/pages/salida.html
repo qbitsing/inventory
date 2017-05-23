@@ -11,7 +11,7 @@
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<select ng-change="CargarOrden()" id="orden" ng-model="Orden.venta" material-select watch>
-	      							<option ng-if="orden.estado!='Finalizado'" ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.orden_venta_consecutivo}}-{{orden.cliente.nombre}}</option>
+	      							<option ng-if="orden.estado!='Finalizado'" ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.orden_venta_consecutivo}}-{{orden.cliente.nombre}} {{orden.cliente.apellidos}}</option>
 								</select>
 								<label for="orden">Orden de venta *</label>
 							</div>
@@ -26,9 +26,11 @@
 								<input type="text" ng-disabled="true" ng-model="Salida.orden_venta.cliente.nombre" id="Cliente" name="Cliente" required>
 							</div>
 							<div class="input-field col s12 m6 l6">
-					            <textarea id="observaciones" ng-model="Salida.observaciones" class="materialize-textarea" data-length="120"></textarea>
-					            <label for="observaciones">Observaciones</label>
-				          	</div>
+								<label for="Contenido">Contenido</label>
+								<input type="text" ng-model="Salida.contenido" id="Contenido" name="Contenido">
+							</div>
+				        </div>
+				        <div class="row">
 							<div class="input-field col s12 m6 l6" ng-hide="Salida.orden_venta.productos.length<1">
 								<table class="bordered striped">
 							        <thead>
@@ -49,6 +51,10 @@
 							        </tbody>
 						      	</table>
 							</div>
+							<div class="input-field col s12 m6 l6">
+					            <textarea id="observaciones" ng-model="Salida.observaciones" class="materialize-textarea" data-length="120"></textarea>
+					            <label for="observaciones">Observaciones</label>
+				          	</div>
 						</div>
 						<div class="row">
 							<div class="col">
@@ -86,7 +92,9 @@
     	<div class="row">
     		<ul>
 				<li> Numero interno de la venta: {{Detalle.orden_venta.orden_venta_consecutivo || 'No registra'}}</li>
-				<li> Cliente: {{Detalle.orden_venta.cliente.nombre || 'No registra'}}</li>
+				<li> Cliente: {{Detalle.orden_venta.cliente.nombre}} {{Detalle.orden_venta.cliente.apellidos}}</li>
+				<li> Generado por: {{Detalle.generado.nombre}} {{Detalle.generado.apellidos}}</li>
+				<li> Contenido: {{Detalle.contenido || 'No registra'}}</li>
 				<li> Observaciones de la salida: {{Detalle.observaciones || 'No registra'}}</li>
 				<li ng-hide="Detalle.orden_venta.productos.length<1"> <h5>Productos:</h5></li>
 				<table class="highlight" ng-hide="Detalle.orden_venta.productos.length<1">

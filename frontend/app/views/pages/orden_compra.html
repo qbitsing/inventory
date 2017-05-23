@@ -11,7 +11,7 @@
 						<div class="row">
 							<div class="input-field col s12 m12 l12">
 								<select ng-model="Orden.proveedor._id" material-select watch required>
-	      							<option ng-repeat="proveedor in proveedores" value="{{proveedor._id}}">{{proveedor.nombre}}</option>
+	      							<option ng-repeat="proveedor in proveedores" value="{{proveedor._id}}">{{proveedor.nombre}} {{proveedor.apellidos}}</option>
 								</select>
 								<label>Proveedor*</label>
 							</div>
