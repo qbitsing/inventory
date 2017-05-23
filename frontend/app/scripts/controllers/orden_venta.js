@@ -204,14 +204,10 @@ angular.module('frontendApp')
             confirmButtonText: "Si, Borrar!",
             cancelButtonText: "No, Cancelar!",
             closeOnConfirm: false,
-            closeOnCancel: false
+            showLoaderOnConfirm: true,
         },
-        function(isConfirm){
-            if (isConfirm) {
-                Borrar(_id);
-            } else {
-                swal("Cancelado", "La orden de venta no se borrará", "error");
-            }
+        function(){
+            Borrar(_id);
         });
     }
     function Borrar(id){
@@ -224,7 +220,6 @@ angular.module('frontendApp')
             }
         });
         if (conter) {
-            $scope.preloader.estado = true;
             webServer
             .getResource('orden_venta/'+id,{},'delete')
             .then(function(data){
@@ -233,10 +228,8 @@ angular.module('frontendApp')
                         $scope.Ordenes.splice(ele.index,1);
                     }
                 });
-                $scope.preloader.estado = false;
                 swal("Completado...", data.data.message , "success");
             },function(data){
-                $scope.preloader.estado = false;
                 swal("Oops...", data.data.message , "error");
             });
         }else{

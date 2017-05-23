@@ -11,7 +11,7 @@
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<select ng-change="CargarOrden()" id="orden" ng-model="Orden.compra" material-select watch>
-	      							<option ng-if="orden.estado!='Finalizado'" ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.orden_compra_consecutivo}}-{{orden.proveedor.nombre}}</option>
+	      							<option ng-if="orden.estado!='Finalizado'" ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.orden_compra_consecutivo}}-{{orden.proveedor.nombre}} {{orden.proveedor.apellidos}}</option>
 								</select>
 								<label for="orden">Orden de compra *</label>
 							</div>
