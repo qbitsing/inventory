@@ -10,7 +10,9 @@ const salidaSchema = new Schema({
     persona_entrada: {},
     observaciones: String,
     fecha: {type:Date, default: Date.now()},
-    salida_consecutivo: Number
+    salida_consecutivo: Number,
+    contenido: String,
+    generado: {}
 });
 
 salidaSchema.plugin(autoIncrement.plugin, {

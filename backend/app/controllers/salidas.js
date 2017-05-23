@@ -49,6 +49,9 @@ let listarById = co.wrap(function * (req, res){
 
 let crear = co.wrap(function * (req, res){
   try {
+      if(req.body.generado){
+        delete req.body.generado.contrasena;
+      }
       if(req.body.orden_venta){
         if(req.body.orden_venta.productos.length > 0){
           let productos = req.body.orden_venta.productos;
