@@ -168,6 +168,10 @@ angular.module('frontendApp')
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
+
+    $scope.Imprimir = function(formato , tipo){
+        $scope.formato = formato;
+    }
     function listarOrdenes(){
         webServer
         .getResource('orden_venta',{Activo: true, Salidas:true, Finalizado:true},'get')
@@ -204,8 +208,6 @@ angular.module('frontendApp')
         .getResource('salidas',{},'get')
         .then(function(data){
             $scope.Salidas=data.data.datos;
-            console.log($scope.Salidas);
-            $scope.formato = $scope.Salidas[0];
             $scope.gridOptions.data=$scope.Salidas;
             listarOrdenes();
         },function(data){

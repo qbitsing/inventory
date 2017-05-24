@@ -126,7 +126,7 @@
 <br>
 <br>
 
-<div id="superContainer">
+<div id="superContainer" ng-show="false">
 	<div id="container">
 		<link rel="stylesheet" ng-href="{{server}}/formatos/styles/salidas.css">
 		<div class="factura">
@@ -194,4 +194,66 @@
 			</div>
 		</div>
 	</div>
+
+	<div id="container2">
+		<link rel="stylesheet" ng-href="{{server}}/formatos/styles/salidas.css">
+		<div class="factura">
+			<div class="header">
+				<div class="first-part">
+					<img src="{{server}}/logo-prines.jpg" class="logo-header">
+					<h2 class="title-header">productos industriales para telecomunicaciones e iliminacion</h2>
+					<h3 class="subtitle-header">producciones industriales esperanza s.a.s.</h3>
+					<p class="nit">nit. 900.462.957-1 régimen común</p>
+					<p class="description-head">
+						calle 73 sur no. 80j - 52 bogota - colombia - PBX: 777 77 04 <br><br>
+						pagina web: <span>www.prines.com.co</span>
+					</p>
+				</div>        
+				<div class="second-part">
+					<ul>
+						<li>Frabricación y distribución de herrajería para redes de CATV y HFC</li>
+						<li>Implementacion y montaje de redes de comunicación, seguridad y televisión</li>
+						<li>Asesorias y mantenimiento en mecánica hidráulica y neumática</li>
+						<li>Asesorias, montajes y diseño de redes HFC</li>
+						<li>Díseño y montajes de sistemas de iliminación</li>
+					</ul>
+				</div>
+				<div class="last-part">
+					<h2 class="title-last-part">Remisión</h2>
+					<div class="no-factura">
+						<p>N° {{formato.salida_consecutivo}}</p>                    
+					</div>
+				</div>       
+			</div>
+			<div class="table-header">
+				<table class="formato-table">
+					<tr>
+						<td colspan="5">Cliente: {{formato.orden_venta.cliente.nombre}}</td>
+						<td>Fecha: {{convertirFecha(formato.fecha)}}</td>
+					</tr>
+				</table>
+			</div>
+			<div class="table-body">
+				<table class="formato-table">
+					<tr class="black">
+						<td>cantidad</td>
+						<td colspan="5">descripcion</td>												
+					</tr>
+					<tr ng-repeat="producto in formato.orden_venta.productos">
+						<td>{{producto.cantidad}}</td>	
+						<td colspan="5">{{producto.codigo}}</td>
+					</tr>
+					<tr>
+						<td>Entrgado por: <br>{{formato.generado.nombre}} {{formato.generado.apellidos}}</td>
+						<td>Revisado por: <br></td>
+						<td>Visto Bueno: <br></td>
+					</tr>
+				</table>
+				<p class="formato-contenido">
+					{{formato.contenido}}
+				</p>
+			</div>
+		</div>
+	</div>
 </div>
+
