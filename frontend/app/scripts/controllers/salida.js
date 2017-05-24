@@ -41,9 +41,12 @@ angular.module('frontendApp')
     $scope.Salida.orden_venta={};
     $scope.Salida.orden_venta.productos=[];
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
+    casillaDeBotones+= BotonesTabla.ImprimirRemision;
+    casillaDeBotones+= BotonesTabla.ImprimirOrdenSalida;
     if ($scope.Usuario.rol=='Super Administrador') {
         casillaDeBotones+=BotonesTabla.Borrar;
     }
+
     casillaDeBotones+='</div>';
     $scope.gridOptions = {
         columnDefs: [
@@ -65,13 +68,13 @@ angular.module('frontendApp')
             },
             {
                 name:'cliente',field: 'orden_venta.cliente.nombre',
-                width:'25%',
+                width:'20%',
                 minWidth: 150
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'30%',
-                minWidth: 150
+                width:'35%',
+                minWidth: 200
             }
         ]
     }
