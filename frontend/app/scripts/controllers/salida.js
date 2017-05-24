@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('SalidaCtrl', function ($state, $scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
+  .controller('SalidaCtrl', function ($state, $scope, server, $timeout, Tabla, BotonesTabla, webServer, preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -27,6 +27,7 @@ angular.module('frontendApp')
     $scope.preloader.estado = false;
     $scope.panelAnimate='';
     $scope.pageAnimate='';
+    $scope.server = server;
     if ($scope.Usuario.rol=='Contador') {
         $state.go('Home');
     }
