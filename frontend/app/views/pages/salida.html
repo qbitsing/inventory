@@ -46,7 +46,7 @@
 								            <td>{{producto.nombre}}</td>
 											<td>{{producto.cantidad}}</td>
 								            <td>{{producto.cantidad_faltante}}</td>
-								            <td><input type="number"  value="{{producto.cantidad_faltante}}" id="cantidad{{producto._id}}" name="cantidad" placeholder="cantidad a enviar" required></td>
+								            <td><input type="number" ng-change="validarNumero({{producto._id}})" value="{{producto.cantidad_faltante}}" id="cantidad{{producto._id}}" name="cantidad" placeholder="cantidad a enviar" required></td>
 							          	</tr>
 							        </tbody>
 						      	</table>
