@@ -136,6 +136,11 @@ angular.module('frontendApp')
         $scope.Salida.orden_venta.productos=[];
         $scope.Orden.venta='';
     }
+    $scope.validarNumero=function(id){
+        if (parseInt(angular.element('#cantidad'+id).val())<0) {
+            angular.element('#cantidad'+id).val('0');
+        }
+    }
     $scope.EnviarSalida=function(){
         $scope.Salida.generado=$scope.Usuario;
         $scope.preloader.estado = true;
