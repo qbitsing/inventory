@@ -153,22 +153,45 @@
 				<div class="last-part">
 					<h2 class="title-last-part">Remisión</h2>
 					<div class="no-factura">
-						<p>N° {{formato.remision_consecutivo}}</p>                    
+						<p>N° {{formato.salida_consecutivo}}</p>                    
 					</div>
 				</div>       
 			</div>
 			<div class="table-header">
-						<table class="formato-table">
-							<tr>
-								<td colspan="5">empresa: {{formato.proceso.array_responsables[0].nombre}}</td>
-								<td>Fecha: {{convertirFecha(formato.fecha_solicitud)}}</td>
-							</tr>
-							<tr>
-								<td colspan="5">proceso: {{formato.proceso.nombre}}</td>
-								<td>Tel: {{formato.proceso.array_responsables[0].telefono}}</td>
-							</tr>
-						</table>
-					</div>
+				<table class="formato-table">
+					<tr>
+						<td colspan="5">Cliente: {{formato.orden_venta.cliente.nombre}}</td>
+						<td colspan="5">Nit: {{formato.orden_venta.cliente.documento}}</td>
+						<td>Fecha: {{convertirFecha(formato.fecha)}}</td>
+					</tr>
+					<tr>
+						<td colspan="5">Direccion: {{formato.orden_venta.cliente.direccion}}</td>
+						<td colspan="5">Ciudad: {{formato.orden_venta.cliente.ciudad.nombre}}</td>
+						<td>Tel: {{formato.orden_venta.cliente.telefono}}</td>
+					</tr>
+				</table>
+			</div>
+			<div class="table-body">
+				<table class="formato-table">
+					<tr class="black">
+						<td>codigo</td>
+						<td colspan="5">descripcion</td>
+						<td>cantidad</td>						
+					</tr>
+					<tr ng-repeat="producto in formato.orden_venta.productos">
+						<td>{{producto.codigo}}</td>
+						<td colspan="5">{{producto.codigo}}</td>
+						<td>{{producto.cantidad}}</td>	
+					</tr>
+				</table>
+				<p class="formato-contenido">
+					{{formato.contenido}}
+				</p>
+			</div>
+			<div class="firmas">
+				<p>asesor comercial</p>
+				<p>firma del cliente</p>
+			</div>
 		</div>
 	</div>
 </div>

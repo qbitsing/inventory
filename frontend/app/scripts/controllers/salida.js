@@ -201,6 +201,8 @@ angular.module('frontendApp')
         .getResource('salidas',{},'get')
         .then(function(data){
             $scope.Salidas=data.data.datos;
+            console.log($scope.Salidas);
+            $scope.formato = $scope.Salidas[0];
             $scope.gridOptions.data=$scope.Salidas;
             listarOrdenes();
         },function(data){
