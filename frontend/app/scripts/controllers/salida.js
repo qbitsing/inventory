@@ -176,6 +176,30 @@ angular.module('frontendApp')
 
     $scope.Imprimir = function(formato , tipo){
         $scope.formato = formato;
+        var formatoPrint = null;
+        if(tipo == 1){
+            formatoPrint = document.getElementById('container');
+        }
+
+        if(tipo == 2){
+            formatoPrint = document.getElementById('container2');
+        }
+
+        var w = window.open();
+        var d = w.document.open();
+        d.appendChild(formatoPrint);
+
+        webServer
+        .getResource('orden_venta',{Activo: true, Salidas:true, Finalizado:true},'get')
+        .then(function(data){
+            w.print();
+            w.close();
+            document.getElementById('superContainer').appendChild(formatoPrint);
+        },function(data){
+            w.print();
+            w.close();
+            document.getElementById('superContainer').appendChild(formatoPrint);            
+        });
     }
     function listarOrdenes(){
         webServer
