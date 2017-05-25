@@ -92,7 +92,41 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptions , Tabla);
-	$scope.CargarOrden=function(){
+    
+    /*Validaciones de numeros*/
+    $scope.validarNumeroProducto=function(){
+        if ($scope.producto.cantidad<1) {
+            $scope.producto.cantidad=1;
+        }
+    }
+    $scope.validarNumeroRemision=function(){
+        if ($scope.modal_salida.cantidad<1) {
+            $scope.modal_salida.cantidad=1;
+        }
+    }
+    $scope.validarNumeroEntrada=function(){
+        if ($scope.modal_entrada.cantidad<1) {
+            $scope.modal_entrada.cantidad=1;
+        }
+    }
+    $scope.validarNumeroProductoEntrada=function(id){
+        if (parseInt(angular.element('#cantidad'+id).val())<1) {
+            angular.element('#cantidad'+id).val(1);
+        }
+    }
+    $scope.validarNumeroSalidaMateria=function(){
+        if ($scope.salida_insumos.cantidadMateria<1) {
+            $scope.salida_insumos.cantidadMateria=1;
+        }
+    }
+    $scope.validarNumeroSalidaProducto=function(){
+        if ($scope.salida_productos.cantidad<1) {
+            $scope.salida_productos.cantidad=1;
+        }
+    }
+    /*Fin de las validaciones*/
+
+    $scope.CargarOrden=function(){
         $scope.Ordenes.forEach(function(ele, index){
             if(ele._id==$scope.Orden){
                 $scope.fabricacion.orden_venta=ele;

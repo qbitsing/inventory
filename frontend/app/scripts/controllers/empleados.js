@@ -187,7 +187,7 @@ angular.module('frontendApp')
     }
     $scope.validarNumero=function(){
         if ($scope.Empleado.telefono<0) {
-            $scope.Empleado.telefono=0;
+            $scope.Empleado.telefono=1;
         }
     }
     function listarpersonas(){
