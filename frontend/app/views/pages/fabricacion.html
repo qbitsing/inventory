@@ -217,7 +217,6 @@
 	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
     </div>
 </div>
-
 <div id="modalSalidas" class="modal modal-fixed-footer">
     <div class="modal-content">
 	    <h4 class="modal-title">Generar remisión de salida</h4>
@@ -621,4 +620,81 @@
     <div class="modal-footer">
 	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
     </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div id="superContainerFabricacion">
+	<div id="containerFabricacion">
+		<link rel="stylesheet" ng-href="{{server}}/formatos/styles/remision.css">		
+		<div class="factura">
+			<div class="header">
+				<div class="first-part">
+					<img src="{{server}}/logo-prines.jpg" class="logo-header">
+					<h2 class="title-header">productos industriales para telecomunicaciones e iliminacion</h2>
+					<h3 class="subtitle-header">producciones industriales esperanza s.a.s.</h3>
+					<p class="nit">nit. 900.462.957-1 régimen común</p>
+					<p class="description-head">
+						calle 73 sur no. 80j - 52 bogota - colombia - PBX: 777 77 04 <br><br>
+						pagina web: <span>www.prines.com.co</span>
+					</p>
+				</div>        
+				<div class="second-part">
+					<ul>
+						<li>Frabricación y distribución de herrajería para redes de CATV y HFC</li>
+						<li>Implementacion y montaje de redes de comunicación, seguridad y televisión</li>
+						<li>Asesorias y mantenimiento en mecánica hidráulica y neumática</li>
+						<li>Asesorias, montajes y diseño de redes HFC</li>
+						<li>Díseño y montajes de sistemas de iliminación</li>
+					</ul>
+				</div>
+				<div class="last-part">
+					<h2 class="title-last-part">Orden de Trabajo</h2>
+					<div class="no-factura">
+						<p>N° {{formatoFabricacion.fabricacion_consecutivo}}</p>                    
+					</div>
+				</div>       
+			</div>
+			<div class="table-header">
+				<table class="formato-table">
+					<tr>
+						<td colspan="5">cliente: {{formatoFabricacion.orden_venta.cliente.nombre}}</td>
+						<td>Fecha: {{convertirFecha(formatoFabricacion.fecha_solicitud)}}</td>
+					</tr>
+					<tr>
+						<td colspan="5">oc no: {{formatoFabricacion.orden_venta.orden_venta_consecutivo}}</td>
+						<td>entrega: {{convertirFecha(formatoFabricacion.fecha_entrega)}}</td>
+					</tr>
+				</table>
+			</div>
+			<div class="table-body">
+				<table class="formato-table">
+					<tr class="black">
+						<td>codigo</td>
+						<td>cantidad</td>
+						<td>descripcion</td>
+						<td colspan="{{formatoFabricacion.procesos.length}}">procesos</td>
+					</tr>
+
+					<tr ng-repeat="producto in formatoFabricacion.productos">
+						<td>{{producto.codigo}}</td>
+						<td>{{producto.cantidad}}</td>
+						<td>{{producto.nombre}}</td>
+						<td ng-repeat="proceso in formatoFabricacion.procesos">
+							{{proceso.nombre}}
+						</td>
+					</tr>
+					<tr class="detalles">
+						<td>despachado por: <br> {{formato.generado.nombre}} {{formato.generado.apellido}}</td>
+						<td>transportado por: <br> {{formato.transportador}}</td>
+						<td>recibido por: <br> </td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>

@@ -1003,6 +1003,8 @@ angular.module('frontendApp')
             $scope.Fabricaciones=data.data.datos;
             $scope.gridOptions.data=$scope.Fabricaciones;
             listarMaterias();
+            $scope.formatoFabricacion = $scope.Fabricaciones[0];
+            console.log($scope.formatoFabricacion);
         },function(data){
             $scope.Fabricaciones=[];
             $scope.gridOptions.data=$scope.Fabricaciones;
