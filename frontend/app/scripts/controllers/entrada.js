@@ -154,11 +154,11 @@ angular.module('frontendApp')
 
     /*Validaciones de numeros*/
     $scope.validarNumero=function(id){
-        if (parseInt(angular.element('#cantidad'+id).val())<1) {
-            angular.element('#cantidad'+id).val(1);
+        if (parseInt(angular.element('#cantidad'+id).val())<0) {
+            angular.element('#cantidad'+id).val(0);
         }
     }
-     /*Fin de las validaciones*/
+    /*Fin de las validaciones*/
     
     $scope.EnviarEntrada=function(){
         $scope.preloader.estado = true;

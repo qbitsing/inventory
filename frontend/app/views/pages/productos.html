@@ -34,7 +34,7 @@
 								<label for="marca">Marca *</label>
 							</div>
 							<div class="input-field col s12 m6 l6" ng-show="check=='producto'">
-								<input type="number" ng-model="Producto.min_stock" id="min_stock" name="min_stock" ng-required="check=='producto'">
+								<input type="number" ng-change="validarNumeroMinStock()" ng-model="Producto.min_stock" id="min_stock" name="min_stock" ng-required="check=='producto'">
 								<label for="min_stock">Min stock *</label>
 							</div>
 						</div>
@@ -46,13 +46,13 @@
 								<label>Unidad de medida *</label>
 							</div>
 							<div class="input-field col s12 m6 l6" ng-show="Usuario.rol=='Super Administrador'">
-								<input type="number" ng-model="Producto.precio" id="Precio" name="Precio">
+								<input type="number" ng-change="validarNumeroPrecio()" ng-model="Producto.precio" id="Precio" name="Precio">
 								<label for="Precio">Precio</label>
 							</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6" ng-show="check=='producto'">
-								<input type="number" ng-model="Producto.cantidad" id="Cantidad-producto" name="Cantidad-producto" ng-required="check=='producto'">
+								<input type="number" ng-change="validarNumeroCantidad()" ng-model="Producto.cantidad" id="Cantidad-producto" name="Cantidad-producto" ng-required="check=='producto'">
 								<label for="Cantidad-producto">Cantidad *</label>
 							</div>
 							<p class="col s6 m2 l2" ng-show="check=='producto'">
@@ -73,7 +73,7 @@
 								<label>Insumos *</label>
 							</div>
 							<div class="input-field col s8 m4 l4">
-								<input type="number" ng-model="producto.Insumo.cantidad" id="Cantidad-insumo" name="Cantidad-insumo">
+								<input type="number" ng-change="validarNumeroInsumo()" ng-model="producto.Insumo.cantidad" id="Cantidad-insumo" name="Cantidad-insumo">
 								<label for="Cantidad-insumo">Cantidad *</label>
 							</div>
 							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!(producto.Insumo._id) || !(producto.Insumo.cantidad)" ng-click="AgregarInsumo()">Añadir</button>
@@ -106,10 +106,10 @@
 								<label>Productos *</label>
 							</div>
 							<div class="input-field col s2 m1 l1">
-								<input type="text" ng-change="cargarProducto()" ng-model="Kit.codigo" id="codigo_barras" name="codigo_barras">
+								<input type="text" ng-keyup="cargarProducto($event)" ng-model="Kit.codigo" id="codigo_barras" name="codigo_barras">
 							</div>
 							<div class="input-field col s8 m4 l4">
-								<input type="number" ng-model="Kit.producto.cantidad" id="Cantidad" name="Cantidad">
+								<input type="number" ng-keyup="detectar($event)" ng-change="validarNumeroKit()" ng-model="Kit.producto.cantidad" id="Cantidad" name="Cantidad">
 								<label for="Cantidad">Cantidad *</label>
 							</div>
 							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!(Kit.producto._id) || !(Kit.producto.cantidad)" ng-click="Agregarkit()">Añadir</button>

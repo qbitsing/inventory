@@ -175,7 +175,18 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Registro de clientes y proveedores";
         $scope.button_title_form = "Registrar Persona";
     }
-
+    /*Validaciones de numeros*/
+    $scope.validarNumeroTelefono=function(id){
+        if ($scope.Persona.telefono<0) {
+            $scope.Persona.telefono=0;
+        }
+    }
+    $scope.validarNumeroFax=function(id){
+        if ($scope.Persona.fax<0) {
+            $scope.Persona.fax=0;
+        }
+    }
+    /*Fin de las validaciones*/
     function listarPersonas(){
         $scope.preloader.estado=true;
         webServer

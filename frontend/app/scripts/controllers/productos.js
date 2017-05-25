@@ -140,10 +140,20 @@ angular.module('frontendApp')
                 $scope.Kit.producto._id=ele._id+','+ele.nombre;
                 conter=false;
             }
+            if (keyEvent.which === 13){
+                $('#Cantidad').focus();
+            }
         });
         if (conter) {
             $scope.Kit.producto={};
             $scope.Kit.producto._id='';
+        }
+    }
+    $scope.detectar=function(keyEvent){
+        if ($scope.Kit.producto.cantidad!='') {
+            if (keyEvent.which === 13){
+                $scope.Agregarkit();
+            }
         }
     }
     $scope.AgregarInsumo=function(){
@@ -239,6 +249,7 @@ angular.module('frontendApp')
         });
         if(!controlador){
             $scope.Producto.productos.push(obj);
+            $('#codigo_barras').focus();
         }else{
             Materialize.toast('El producto ya esta añadido', 4000);
         }
@@ -356,6 +367,35 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Registro de Productos";
         $scope.button_title_form = "Registrar Producto";
     }
+
+    /*Validaciones de numeros*/
+    $scope.validarNumeroMinStock=function(){
+        if ($scope.Producto.min_stock<0) {
+            $scope.Producto.min_stock=0;
+        }
+    }
+    $scope.validarNumeroPrecio=function(){
+        if ($scope.Producto.precio<0) {
+            $scope.Producto.precio=0;
+        }
+    }
+    $scope.validarNumeroCantidad=function(){
+        if ($scope.Producto.cantidad<0) {
+            $scope.Producto.cantidad=0;
+        }
+    }
+    $scope.validarNumeroInsumo=function(){
+        if ($scope.Producto.Insumo.cantidad<1) {
+            $scope.Producto.Insumo.cantidad=1;
+        }
+    }
+    $scope.validarNumeroKit=function(){
+        if ($scope.Kit.producto.cantidad<1) {
+            $scope.Kit.producto.cantidad=1;
+        }
+    }
+    /*Fin de las validaciones*/
+
     $scope.openModalBarCode = function(){
         $('#modalBarCode').modal('open');
     }

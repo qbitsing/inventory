@@ -289,6 +289,18 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Registro de Compra";
         $scope.button_title_form = "Registrar compra";
     }
+    /*Validaciones de numeros*/
+    $scope.validarNumeroProducto=function(id){
+        if ($scope.Orden.Producto.cantidad<1) {
+            $scope.Orden.Producto.cantidad=1;
+        }
+    }
+    $scope.validarNumeroMateria=function(id){
+        if ($scope.Orden.Materia.cantidad<1) {
+            $scope.Orden.Materia.cantidad=1;
+        }
+    }
+    /*Fin de las validaciones*/
     $scope.convertirFecha = function(fecha){
         var date = new Date(fecha).getDate();
         date += '/'+(new Date(fecha).getMonth()+1);
