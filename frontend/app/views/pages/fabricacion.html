@@ -47,7 +47,7 @@
 								<label for="codigo_barras">Por codigo</label> 
 							</div>
 							<div class="input-field col s4 m4 l4">
-									<input type="number" ng-keyup="detectar($event)" ng-model="producto.cantidad" id="Cantidad" name="Cantidad">
+									<input type="number" ng-change="validarNumeroProducto()" ng-keyup="detectar($event)" ng-model="producto.cantidad" id="Cantidad" name="Cantidad">
 								<label for="Cantidad">Cantidad *</label>
 							</div>
 							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!(producto._id) || !(producto.cantidad)" ng-click="AgregarProducto()">Añadir</button>
@@ -251,7 +251,7 @@
 						<label>Producto *</label>
 					</div>
 					<div class="input-field col s8 m4 l4">
-						<input type="number" ng-model="modal_salida.cantidad" id="CantidadRemision" name="CantidadRemision">
+						<input type="number" ng-change="validarNumeroRemision()" ng-model="modal_salida.cantidad" id="CantidadRemision" name="CantidadRemision">
 						<label for="CantidadRemision">Cantidad *</label>
 					</div>
 					<button type="button" ng-click="addproducto()" class="btn btn-success col s4 m2 l2" ng-disabled="!modal_salida.producto || !modal_salida.cantidad">Añadir</button>
@@ -456,7 +456,7 @@
 						<label>Producto *</label>
 					</div>
 					<div class="input-field col s8 m4 l4">
-						<input type="number" ng-model="modal_entrada.cantidad" id="CantidadEntrada" name="CantidadEntrada">
+						<input type="number" ng-change="validarNumeroEntrada()" ng-model="modal_entrada.cantidad" id="CantidadEntrada" name="CantidadEntrada">
 						<label for="CantidadEntrada">Cantidad *</label>
 					</div>
 					<button type="button" ng-click="addproductoentrada()" class="btn btn-success col s4 m2 l2" ng-disabled="!modal_entrada.producto || !modal_entrada.cantidad">Añadir</button>
@@ -475,12 +475,11 @@
 	    				<tr ng-if="(check_modal_entrada=='remision' && producto.cantidad_faltante>0) || (check_modal_entrada=='entrada')" ng-repeat="producto in modal_entrada.productos">
 		    				<td>{{producto.producto.nombre}}</td>
 			    			<td ng-show="check_modal_entrada=='remision'">{{producto.cantidad_faltante}}</td>
-			    			<td ng-show="check_modal_entrada=='remision'"><input type="number"  value="{{producto.cantidad_faltante}}" id="cantidad{{producto.producto._id}}" name="cantidad"></td>
+			    			<td ng-show="check_modal_entrada=='remision'"><input type="number" ng-change="validarNumeroProductoEntrada({{producto.producto._id}})" value="{{producto.cantidad_faltante}}" id="cantidad{{producto.producto._id}}" name="cantidad"></td>
 			    			<td ng-show="check_modal_entrada!='remision'">{{producto.cantidad}}</td>
 		    				<td><button type="button" class="btn btn-danger" ng-click="removerproductoentrada(producto)">Eliminar</button></td>
 		    			</tr>
 	    			</tbody>
-	    			
 	    		</table>
 	    		<div class="row" ng-show="check_modal_entrada=='remision'">
 	    			<div class="input-field col s12 m6 l6">
@@ -539,7 +538,7 @@
 						<label>Materia prima *</label>
 					</div>
 					<div class="input-field col s8 m4 l4">
-						<input type="number" ng-model="salida_materia.cantidadMateria" id="Cantidadinsumo" name="Cantidadinsumo">
+						<input type="number" ng-change="validarNumeroSalidaMateria()" ng-model="salida_materia.cantidadMateria" id="Cantidadinsumo" name="Cantidadinsumo">
 						<label for="Cantidadinsumo">Cantidad *</label>
 					</div>
 					<button type="button" ng-click="addmateriainsumo()" class="btn btn-success col s4 m2 l2" ng-disabled="!salida_materia.Materia || !salida_materia.cantidadMateria">Añadir</button>
@@ -569,7 +568,7 @@
 						<label>Producto *</label>
 					</div>
 					<div class="input-field col s8 m4 l4">
-						<input type="number" ng-model="salida_productos.cantidad" id="Cantidadproductoinsumo" name="Cantidadproductoinsumo">
+						<input type="number" ng-change="validarNumeroSalidaProducto()" ng-model="salida_productos.cantidad" id="Cantidadproductoinsumo" name="Cantidadproductoinsumo">
 						<label for="Cantidadproductoinsumo">Cantidad *</label>
 					</div>
 					<button type="button" ng-click="addproductoinsumo()" class="btn btn-success col s4 m2 l2" ng-disabled="!salida_productos.producto || !salida_productos.cantidad">Añadir</button>
