@@ -352,8 +352,9 @@ angular.module('frontendApp')
         var controler=false;
         var proceso = {
             _id : $scope.proceso._id.split(',')[0],
-            nombre : $scope.proceso._id.split(',')[1],
-            tipo : $scope.proceso._id.split(',')[2],
+            proceso_consecutivo : $scope.proceso._id.split(',')[1],
+            nombre : $scope.proceso._id.split(',')[2],
+            tipo : $scope.proceso._id.split(',')[3],
             array_responsables : []
         };
         $scope.fabricacion.procesos.forEach(function(ele, index){

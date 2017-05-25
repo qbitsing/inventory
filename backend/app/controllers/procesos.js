@@ -48,10 +48,10 @@ let listarById = co.wrap(function * (req, res){
 let crear = co.wrap(function * (req, res){
   try {
     let proceso = new procesosModel(req.body);
-    proceso = yield proceso.save();
+    let datos = yield proceso.save();
     return res.status(200).send({
       message: 'Proceso registrado con exito',
-      datos: proceso
+      datos
     });
   } catch (e) {
     return res.status(500).send({
