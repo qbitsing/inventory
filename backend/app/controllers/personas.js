@@ -95,7 +95,7 @@ function actualizar (req, res) {
 				Update();
 			}else{
 				return res.status(500).send({
-					message : `Contraseña Incorreca`
+					message : `Contraseña Incorrecta`
 				});
 			}
 			
