@@ -131,20 +131,14 @@ angular.module('frontendApp')
     }
     listarProductos();
     $scope.cargarProducto=function(){
-        var conter=true;
         $scope.Productos.forEach(function(ele , index){
             if($scope.Kit.codigo == ele.codigo){
                 $scope.Kit.producto._id=ele._id+','+ele.nombre;
-                conter=false;
             }
             if (keyEvent.which === 13){
                 $('#Cantidad').focus();
             }
         });
-        if (conter) {
-            $scope.Kit.producto={};
-            $scope.Kit.producto._id='';
-        }
     }
     $scope.detectar=function(keyEvent){
         if ($scope.Kit.producto.cantidad!='') {
@@ -235,24 +229,26 @@ angular.module('frontendApp')
         });
     }
     $scope.Agregarkit=function(){
-        var controlador=false;
-        var obj = {
-            _id : $scope.Kit.producto._id.split(',')[0],
-            nombre : $scope.Kit.producto._id.split(',')[1],
-            cantidad : $scope.Kit.producto.cantidad
-        };
-        $scope.Producto.productos.forEach(function(ele, index){
-            if(ele._id==obj._id){
-                controlador=true;
+        if ($scope.Kit.producto._id!='' && $scope.Kit.producto.cantidad!='') {
+            var controlador=false;
+            var obj = {
+                _id : $scope.Kit.producto._id.split(',')[0],
+                nombre : $scope.Kit.producto._id.split(',')[1],
+                cantidad : $scope.Kit.producto.cantidad
+            };
+            $scope.Producto.productos.forEach(function(ele, index){
+                if(ele._id==obj._id){
+                    controlador=true;
+                }
+            });
+            if(!controlador){
+                $scope.Producto.productos.push(obj);
+                $('#codigo_barras').focus();
+            }else{
+                Materialize.toast('El producto ya esta añadido', 4000);
             }
-        });
-        if(!controlador){
-            $scope.Producto.productos.push(obj);
-            $('#codigo_barras').focus();
-        }else{
-            Materialize.toast('El producto ya esta añadido', 4000);
+            $scope.Kit={};
         }
-        $scope.Kit={};
     }
     $scope.Borrarkit=function(index){
         $scope.Producto.productos.splice(index,1);

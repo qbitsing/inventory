@@ -18,10 +18,10 @@
 							    </p>
 							</div>
 							<div class="input-field col s12 m6 l6" ng-show="check=='orden'">
-								<label for="ordenn">Orden de venta *</label>
-								<select id="ordenn" ng-change="CargarOrden()" id="orden" ng-model="Orden" material-select watch>
+								<select id="ordenn" ng-change="CargarOrden()" ng-model="Orden" material-select watch>
 	      							<option ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.orden_venta_consecutivo}}-{{orden.cliente.nombre}}</option>
 								</select>
+								<label for="ordenn">Orden de venta *</label>
 							</div>
 						</div>
 						<div class="row">
@@ -38,7 +38,7 @@
 							<div class="input-field col s10 m5 l5">
 								<select ng-model="producto._id" material-select watch>
 	      							<option ng-if="panel_title_form=='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in Productos" value="{{producto._id}},{{producto.nombre}},{{producto.fabricado}}">{{producto.nombre}}</option>
-	      							<option ng-if="panel_title_form!='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in fabricacion.productos" value="{{producto._id}},{{producto.nombre}}">{{producto.nombre}}</option>
+	      							<option ng-if="panel_title_form!='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in fabricacion.productos" value="{{producto._id}},{{producto.nombre}},{{producto.fabricado}}">{{producto.nombre}}</option>
 								</select>
 								<label>Productos *</label>
 							</div>

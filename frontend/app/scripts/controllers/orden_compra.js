@@ -89,19 +89,14 @@ angular.module('frontendApp')
         $('#modalDetalles').modal('open');
     }
     $scope.cargarProducto=function(keyEvent){
-        var conter=true;
         $scope.productos.forEach(function(ele , index){
             if($scope.Orden.Producto.codigo == ele.codigo){
                 $scope.Orden.Producto._id=ele._id+','+ele.nombre;
-                conter=false;
-            }
-            if (keyEvent.which === 13){
-                $('#Cantidad-producto').focus();
+                if (keyEvent.which === 13){
+                    $('#Cantidad-producto').focus();
+                }
             }
         });
-        if (conter) {
-            $scope.Orden.Producto._id='';
-        }
     }
     $scope.detectar=function(keyEvent){
         if ($scope.Orden.Producto.cantidad!='') {
@@ -113,29 +108,31 @@ angular.module('frontendApp')
         }
     }
     $scope.AgregarProducto=function(){
-        var controlador=false;
-        var _id = $scope.Orden.Producto._id.split(',')[0];
-        var obj = {};
-        $scope.productos.forEach(function(ele , index){
-            if(_id == ele._id){
-                obj = ele;
+        if ($scope.Orden.Producto._id!='' && $scope.Orden.Producto.cantidad!='') {
+            var controlador=false;
+            var _id = $scope.Orden.Producto._id.split(',')[0];
+            var obj = {};
+            $scope.productos.forEach(function(ele , index){
+                if(_id == ele._id){
+                    obj = ele;
+                }
+            });
+            obj.cantidad = $scope.Orden.Producto.cantidad;
+            obj.cantidad_faltante = $scope.Orden.Producto.cantidad;
+            obj.cantidad_entrante = 0;
+            $scope.Orden.productos.forEach(function(ele, index){
+                if(ele._id==obj._id){
+                    controlador=true;
+                }
+            });
+            if(!controlador){
+                $scope.Orden.productos.push(obj);
+            }else{
+                Materialize.toast('El producto ya esta añadido', 4000);
             }
-        });
-        obj.cantidad = $scope.Orden.Producto.cantidad;
-        obj.cantidad_faltante = $scope.Orden.Producto.cantidad;
-        obj.cantidad_entrante = 0;
-        $scope.Orden.productos.forEach(function(ele, index){
-            if(ele._id==obj._id){
-                controlador=true;
-            }
-        });
-        if(!controlador){
-            $scope.Orden.productos.push(obj);
-        }else{
-            Materialize.toast('El producto ya esta añadido', 4000);
+            $scope.Orden.Producto={};
+            $('#codigo_barras').focus();
         }
-        $scope.Orden.Producto={};
-        $('#codigo_barras').focus();
     }
     $scope.AgregarMateria=function(){
         var controlador=false;
@@ -242,13 +239,14 @@ angular.module('frontendApp')
                 $scope.Orden.orden_compra_consecutivo=data.data.datos.orden_compra_consecutivo;
                 $scope.Ordenes.push($scope.Orden);
             }else{
+                $scope.Orden.estado=data.data.datos.estado;
                 $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
+                $scope.panel_title_form = "Registro de Compra";
+                $scope.button_title_form = "Registrar compra";
             }
             $scope.Orden={};
             $scope.Orden.productos=[];
             $scope.Orden.materia_prima=[];
-            $scope.panel_title_form = "Registro de Compra";
-            $scope.button_title_form = "Registrar compra";
             $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){

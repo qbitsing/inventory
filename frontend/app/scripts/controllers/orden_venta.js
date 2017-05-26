@@ -131,19 +131,14 @@ angular.module('frontendApp')
     }
     listarOrdenes();
     $scope.cargarProducto=function(keyEvent){
-        var conter=true;
         $scope.productos.forEach(function(ele , index){
             if($scope.Orden.Producto.codigo == ele.codigo){
-                $scope.Orden.Producto._id=ele._id+','+ele.nombre+','+ele.precio;
-                conter=false;
+                $scope.Orden.Producto._id=ele._id+','+ele.nombre+','+ele.precio+','+ele.fabricado+','+ele.codigo;
                 if (keyEvent.which === 13){
                     $('#Cantidad').focus();
                 }
             }
         });
-        if (conter) {
-            $scope.Orden.Producto._id='';
-        }
     }
     $scope.detectar=function(keyEvent){
         if ($scope.Orden.Producto.cantidad!='') {
@@ -155,28 +150,31 @@ angular.module('frontendApp')
         }
     }
     $scope.AgregarProducto=function(){
-        var controlador=false;
-        var obj = {
-            _id : $scope.Orden.Producto._id.split(',')[0],
-            nombre : $scope.Orden.Producto._id.split(',')[1],
-            precio : parseInt($scope.Orden.Producto._id.split(',')[2]),
-            codigo : $scope.Orden.Producto._id.split(',')[3],
-            cantidad : $scope.Orden.Producto.cantidad,
-            cantidad_faltante : $scope.Orden.Producto.cantidad,
-            cantidad_saliente : 0
-        };
-        $scope.Orden.productos.forEach(function(ele, index){
-            if(ele._id==obj._id){
-                controlador=true;
+        if ($scope.Orden.Producto._id!='' && $scope.Orden.Producto.cantidad!='') {
+            var controlador=false;
+            var obj = {
+                _id : $scope.Orden.Producto._id.split(',')[0],
+                nombre : $scope.Orden.Producto._id.split(',')[1],
+                precio : parseInt($scope.Orden.Producto._id.split(',')[2]),
+                fabricado : $scope.Orden.Producto._id.split(',')[3],
+                codigo : $scope.Orden.Producto._id.split(',')[4],
+                cantidad : $scope.Orden.Producto.cantidad,
+                cantidad_faltante : $scope.Orden.Producto.cantidad,
+                cantidad_saliente : 0
+            };
+            $scope.Orden.productos.forEach(function(ele, index){
+                if(ele._id==obj._id){
+                    controlador=true;
+                }
+            });
+            if(!controlador){
+                $scope.Orden.productos.push(obj);
+            }else{
+                Materialize.toast('El producto ya esta añadido', 4000);
             }
-        });
-        if(!controlador){
-            $scope.Orden.productos.push(obj);
-        }else{
-            Materialize.toast('El producto ya esta añadido', 4000);
+            $scope.Orden.Producto={};
+            $('#codigo_barras').focus();
         }
-        $scope.Orden.Producto={};
-        $('#codigo_barras').focus();
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Ordenes.find(function(ele){
@@ -235,41 +233,46 @@ angular.module('frontendApp')
         }
     }
     $scope.EnviarOrden=function(){
-        $scope.preloader.estado = true;
-        var ruta="";
-        var metodo="";
-        if ($scope.panel_title_form=="Registro de venta") {
-            ruta="orden_venta";
-            metodo="post";
+        if ($('#Cantidad').focus() || $('#codigo_barras').focus()) {
         }else{
-            ruta="orden_venta/"+$scope.Orden._id;
-            metodo="put";
-        }
-        webServer
-        .getResource(ruta,$scope.Orden,metodo)
-        .then(function(data){
-            $scope.clientes.forEach(function(ele, index){
-                if(ele._id==$scope.Orden.cliente._id){
-                    $scope.Orden.cliente=ele;
-                }
-            });
-            if($scope.panel_title_form=="Registro de venta"){
-                $scope.Orden._id=data.data.datos._id;
-                $scope.Orden.orden_venta_consecutivo=data.data.datos.orden_venta_consecutivo;
-                $scope.Ordenes.push($scope.Orden);
+            $scope.preloader.estado = true;
+            var ruta="";
+            var metodo="";
+            if ($scope.panel_title_form=="Registro de venta") {
+                ruta="orden_venta";
+                metodo="post";
             }else{
-                $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
-                $scope.panel_title_form = "Registro de venta";
-                $scope.button_title_form = "Registrar venta";
+                ruta="orden_venta/"+$scope.Orden._id;
+                metodo="put";
             }
-            $scope.Orden={};
-            $scope.Orden.productos=[];
-            $scope.preloader.estado = false;
-            sweetAlert("Completado...", data.data.message , "success");
-        },function(data){
-            $scope.preloader.estado = false;
-            sweetAlert("Oops...", data.data.message , "error");
-        });
+            webServer
+            .getResource(ruta,$scope.Orden,metodo)
+            .then(function(data){
+                $scope.clientes.forEach(function(ele, index){
+                    if(ele._id==$scope.Orden.cliente._id){
+                        $scope.Orden.cliente=ele;
+                    }
+                });
+                if($scope.panel_title_form=="Registro de venta"){
+                    $scope.Orden._id=data.data.datos._id;
+                    $scope.Orden.orden_venta_consecutivo=data.data.datos.orden_venta_consecutivo;
+                    $scope.Orden.estado='Activo';
+                    $scope.Ordenes.push($scope.Orden);
+                }else{
+                    $scope.Orden.estado=data.data.datos.estado;
+                    $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
+                    $scope.panel_title_form = "Registro de venta";
+                    $scope.button_title_form = "Registrar venta";
+                }
+                $scope.Orden={};
+                $scope.Orden.productos=[];
+                $scope.preloader.estado = false;
+                sweetAlert("Completado...", data.data.message , "success");
+            },function(data){
+                $scope.preloader.estado = false;
+                sweetAlert("Oops...", data.data.message , "error");
+            });
+        }
     }
     function scroll(){
          $("html, body").animate({
