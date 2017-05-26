@@ -28,12 +28,12 @@
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-								<label for="fecha_recepcion" ng-change="validarFechaRecepcion()" class="active">Fecha de recepción *</label>
-								<input type="date" ide="fecha_recepcion" ng-model="Orden.fecha_recepcion" required>
+								<label for="fecha_recepcion" class="active">Fecha de recepción *</label>
+								<input type="date" id="fecha_recepcion" ng-change="validarFechaRecepcion()" ng-model="Orden.fecha_recepcion" required>
 							</div>
 							<div class="input-field col s12 m6 l6">
-								<label for="fecha_entrega" ng-change="validarFechaEntrega()" class="active">Fecha de entrega *</label>
-								<input type="date" id="fecha_entrega" ng-model="Orden.fecha_entrega" required>
+								<label for="fecha_entrega" class="active">Fecha de entrega *</label>
+								<input type="date" id="fecha_entrega" ng-change="validarFechaEntrega()" ng-model="Orden.fecha_entrega" required>
 							</div>
 						</div>
 						<div class="row">
