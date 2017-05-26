@@ -149,3 +149,11 @@
 .detalles td {
     padding-top: 0;
 }
+.sinBordesTopBottom{
+    border-top: none;
+    border-bottom: none;
+}
+
+.center{
+    text-align: center;
+}

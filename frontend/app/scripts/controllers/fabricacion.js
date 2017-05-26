@@ -57,6 +57,7 @@ angular.module('frontendApp')
     if ($scope.Usuario.rol=='Super Administrador') {
         casillaDeBotones+=BotonesTabla.Editar;
     }
+    casillaDeBotones += BotonesTabla.ImprimirOrdenTrabajo;
     casillaDeBotones+=BotonesTabla.Salida+BotonesTabla.Entrada+BotonesTabla.MateriaPrima;
     if ($scope.Usuario.rol=='Super Administrador') {
         casillaDeBotones+=BotonesTabla.Borrarfabricacion;
@@ -241,6 +242,27 @@ angular.module('frontendApp')
                 swal("Cancelado", mensaje, "error");
             }
         });
+    }
+    $scope.ImprimirTrabajo = function(row){
+        $scope.formatoFabricacion = row;
+        $scope.calcularContenidoTableProcess();
+        var w = window.open();
+        var d = w.document.open();
+        var ele = document.getElementById('containerFabricacion');
+        d.appendChild(ele);
+
+         webServer
+        .getResource('fabricacion',{},'get')
+        .then(function(data){
+            w.print();
+            w.close();
+            document.getElementById('superContainerFabricacion').appendChild(ele);
+        },function(data){
+            w.print();
+            w.close();
+            document.getElementById('superContainerFabricacion').appendChild(ele);
+        });
+
     }
     $scope.abrirModal=function(_id){
         swal({
@@ -1060,9 +1082,6 @@ angular.module('frontendApp')
             $scope.Fabricaciones=data.data.datos;
             $scope.gridOptions.data=$scope.Fabricaciones;
             listarMaterias();
-            $scope.formatoFabricacion = $scope.Fabricaciones[0];
-            console.log($scope.formatoFabricacion);
-            $scope.calcularContenidoTableProcess();
         },function(data){
             $scope.Fabricaciones=[];
             $scope.gridOptions.data=$scope.Fabricaciones;
@@ -1076,19 +1095,22 @@ angular.module('frontendApp')
             cade += '<tr><td rowspan="'+$scope.formatoFabricacion.procesos[i].array_responsables.length+'">';
             cade += $scope.formatoFabricacion.procesos[i].proceso_consecutivo || '' + ' - ';
             cade += $scope.formatoFabricacion.procesos[i].nombre;
-            cade += '</td><td>';
+            cade += '</td><td class="sinBordesTopBottom">';
             if($scope.formatoFabricacion.procesos[i].array_responsables[0]){
                 cade += $scope.formatoFabricacion.procesos[i].array_responsables[0].nombre || '';
                 cade += $scope.formatoFabricacion.procesos[i].array_responsables[0].apellidos || '';
             }
             cade += '</td></tr>';
             for(var x = 1; x < $scope.formatoFabricacion.procesos[i].array_responsables.length; x++){
-                cade += '<tr><td>';
+                cade += '<tr><td class="sinBordesTopBottom">';
                 cade += $scope.formatoFabricacion.procesos[i].array_responsables[x].nombre+ ' ';
                 cade += $scope.formatoFabricacion.procesos[i].array_responsables[x].apellidos|| '' + ' ';
                 cade += '</td></tr>';
             }
         }
+
+        //cade += '<tr><td> Autoriza: '+ $scope.formatoFabricacion.generado.nombre+' '+$scope.formatoFabricacion.generado.apellidos || '' +'</td></tr>';
+        cade += '<tr><td> Autoriza:Nelson Sopo </td></tr>';
 
         $('#contenidoTableProcess').html(cade);
     }

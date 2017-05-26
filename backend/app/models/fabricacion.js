@@ -13,7 +13,8 @@ const fabricacionSchema = new Schema({
   procesos: [],
   orden_venta: {},
   estado: {type: String , enum:['Completa', 'Incompleta', 'En Fabricacion'], default: 'En Fabricacion'},
-  estado_remision: {type: String, enum:['Sin Remision' , 'Con Remision'], default: 'Sin Remision'}
+  estado_remision: {type: String, enum:['Sin Remision' , 'Con Remision'], default: 'Sin Remision'},
+  generado: {}
 });
 fabricacionSchema.plugin(autoIncrement.plugin, {
     model: 'fabricacion',
