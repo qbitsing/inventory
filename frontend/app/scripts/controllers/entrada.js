@@ -203,7 +203,6 @@ angular.module('frontendApp')
         },function(data){
             $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
-            console.log(data.data.message);
         });
     }
     function listarOrdenes(){
@@ -214,7 +213,6 @@ angular.module('frontendApp')
             $scope.preloader.estado = false;
         },function(data){
             $scope.Ordenes=[];
-            console.log(data.data.message);
             $scope.preloader.estado = false;
         });
     }
@@ -243,7 +241,6 @@ angular.module('frontendApp')
         },function(data){
             $scope.Entradas=[];
             $scope.gridOptions.data=$scope.Entradas;
-            console.log(data.data.message);
             listarOrdenes();
         });
     }

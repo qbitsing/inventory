@@ -101,7 +101,6 @@ angular.module('frontendApp')
         },function(data){
             $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
-            console.log(data.data.message);
         });
     }
     $scope.Detalles = function(id){
@@ -179,7 +178,6 @@ angular.module('frontendApp')
             $scope.gridOptions.data = $scope.Materias;
             $scope.preloader.estado = false;
         },function(data){
-            console.log(data.data.message);
             $scope.Materias=[];
             $scope.gridOptions.data = $scope.Materias;
             $scope.preloader.estado = false;

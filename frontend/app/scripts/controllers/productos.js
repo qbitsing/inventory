@@ -96,7 +96,6 @@ angular.module('frontendApp')
             listarProductosSelect();
         },function(data){
             $scope.Insumos=[];
-            console.log(data.data.message);
             listarProductosSelect();
         });
     }
@@ -116,7 +115,6 @@ angular.module('frontendApp')
         },function(data){
             $scope.Productos=[];
             $scope.gridOptions.data=$scope.Productos;
-            console.log(data.data.message);
             listarInsumos();
         });
     }
@@ -128,7 +126,6 @@ angular.module('frontendApp')
             $scope.preloader.estado = false;
         },function(data){
             $scope.ProductosSelect=[];
-            console.log(data.data.message);
             $scope.preloader.estado = false;
         });
     }
@@ -152,7 +149,9 @@ angular.module('frontendApp')
     $scope.detectar=function(keyEvent){
         if ($scope.Kit.producto.cantidad!='') {
             if (keyEvent.which === 13){
-                $scope.Agregarkit();
+                if ($scope.Kit.producto._id!='') {
+                    $scope.Agregarkit();
+                }
             }
         }
     }
@@ -344,7 +343,6 @@ angular.module('frontendApp')
         }else{
             $scope.check='producto';
         }
-        console.log($scope.Producto);
         scroll();
     }
     $scope.Detalles = function(id){

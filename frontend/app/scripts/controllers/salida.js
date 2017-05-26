@@ -212,7 +212,6 @@ angular.module('frontendApp')
         },function(data){
             $scope.Ordenes=[];
             $scope.gridOptions.data=$scope.Ordenes;
-            console.log(data.data.message);
             $scope.preloader.estado = false;
         });
     }
@@ -244,7 +243,6 @@ angular.module('frontendApp')
         },function(data){
             $scope.Salidas=[];
             $scope.gridOptions.data=$scope.Salidas;
-            console.log(data.data.message);
             listarOrdenes();
         });
     }

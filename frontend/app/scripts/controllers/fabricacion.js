@@ -311,7 +311,9 @@ angular.module('frontendApp')
     $scope.detectar=function(keyEvent){
         if ($scope.producto.cantidad!='') {
             if (keyEvent.which === 13){
-                $scope.AgregarProducto();
+                if ($scope.producto._id!='') {
+                    $scope.AgregarProducto();
+                }
             }
         }
     }
@@ -505,7 +507,6 @@ angular.module('frontendApp')
             $scope.modal_salida={};
             $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
-            
         }
         ,function(data){
             $scope.preloader.estado = false;
@@ -1046,7 +1047,6 @@ angular.module('frontendApp')
         },function(data){
             $scope.Fabricaciones=[];
             $scope.gridOptions.data=$scope.Fabricaciones;
-            console.log(data.data.message);
             listarMaterias();
         });
     }
@@ -1059,7 +1059,6 @@ angular.module('frontendApp')
             listarPersonas();
         },function(data){
             $scope.Ordenes=[];
-            console.log(data.data.message);
             listarPersonas();
         });
     }
@@ -1071,7 +1070,6 @@ angular.module('frontendApp')
             listarRemisiones();
         },function(data){
             $scope.Productos=[];
-            console.log(data.data.message);
             listarRemisiones();
         });
     }
@@ -1083,7 +1081,6 @@ angular.module('frontendApp')
             listarSalidasInsumos();
         },function(data){
             $scope.Materias=[];
-            console.log(data.data.message);
             listarSalidasInsumos();
         });
     }
@@ -1095,7 +1092,6 @@ angular.module('frontendApp')
             listarEntradasFabricaciones();
         },function(data){
             $scope.Remisiones=[];
-            console.log(data.data);
             listarEntradasFabricaciones();
         });
     }
@@ -1107,7 +1103,6 @@ angular.module('frontendApp')
             $scope.preloader.estado = false;
         },function(data){
             $scope.SalidasInsumos=[];
-            console.log(data.data.message);
             $scope.preloader.estado = false;
         });
     }
@@ -1119,7 +1114,6 @@ angular.module('frontendApp')
             listarFabricaciones();
         },function(data){
             $scope.EntradasFabricaciones=[];
-            console.log(data.data.message);
             listarFabricaciones();
         });
     }

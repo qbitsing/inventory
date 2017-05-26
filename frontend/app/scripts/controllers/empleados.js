@@ -157,7 +157,6 @@ angular.module('frontendApp')
             swal("Completado...", data.data.message , "success");
         },function(data){
             swal("Oops...", data.data.message , "error");
-            console.log(data.data.message);
         });
     }
     function scroll(){
@@ -202,7 +201,6 @@ angular.module('frontendApp')
             $scope.preloader.estado=false;
         },function(data){
             $scope.Empleados=[];
-            console.log(data.data.message);
             $scope.preloader.estado=false;
         });
     }

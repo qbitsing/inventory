@@ -86,7 +86,6 @@ angular.module('frontendApp')
             listarProductos();
         },function(data){
             $scope.clientes = [];
-            console.log(data);
             listarProductos();
         });
     }
@@ -102,7 +101,6 @@ angular.module('frontendApp')
             listarSalidas();
         },function(data){
             $scope.productos=[];
-            console.log(data.data.message);
             listarSalidas();
         });
     }
@@ -114,7 +112,6 @@ angular.module('frontendApp')
             $scope.preloader.estado=false;
         },function(data){
             $scope.Salidas=[];
-            console.log(data.data.message);
             $scope.preloader.estado=false;
         });
     }
@@ -129,7 +126,6 @@ angular.module('frontendApp')
         },function(data){
             $scope.Ordenes=[];
             $scope.gridOptions.data=$scope.Ordenes;
-            console.log(data.data.message);
             listarPersonas();
         });
     }
@@ -152,7 +148,9 @@ angular.module('frontendApp')
     $scope.detectar=function(keyEvent){
         if ($scope.Orden.Producto.cantidad!='') {
             if (keyEvent.which === 13){
-                $scope.AgregarProducto();
+                if ($scope.Orden.Producto._id!='') {
+                    $scope.AgregarProducto();
+                }
             }
         }
     }

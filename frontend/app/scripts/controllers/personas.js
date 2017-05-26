@@ -101,7 +101,6 @@ angular.module('frontendApp')
         },function(data){
             $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
-            console.log(data);
         });
     }
     $scope.abrirModal=function(_id){
@@ -162,8 +161,7 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Edicion de clientes y proveedores";
         $scope.button_title_form = "Actualizar Persona";
         $scope.Persona = IdentificarPersona(id,$scope.Personas);
-        scroll();
-        console.log($scope.Persona);  
+        scroll();  
         if($scope.Persona.ciudad){
             $scope.Persona.departamento = $scope.Persona.ciudad.departamento._id;
         }
@@ -197,7 +195,6 @@ angular.module('frontendApp')
             listarDepartamentos();
         },function(data){
             $scope.Personas = [];
-            console.log(data);
             listarDepartamentos();
         });
     }
@@ -209,7 +206,6 @@ angular.module('frontendApp')
             $scope.preloader.estado=false;
         },function(data){
             $scope.Ciudades=[];
-            console.log(data.data);
             $scope.preloader.estado=false;
         });
     }
@@ -226,7 +222,6 @@ angular.module('frontendApp')
             listarCiudades();
         },function(data){
             $scope.Departamentos=[];
-            console.log(data.data);
             listarCiudades();
         });
     }
