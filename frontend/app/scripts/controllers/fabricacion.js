@@ -50,6 +50,7 @@ angular.module('frontendApp')
     $scope.cancelarsalida={};
     $scope.modal.proceso.array_responsables=[];
     $scope.server = server;
+    $scope.fecha_hoy=new Date(Date.now());
     var casillaDeBotones;
     casillaDeBotones = '<div>'+BotonesTabla.Detalles;
     if ($scope.Usuario.rol=='Super Administrador') {
@@ -122,6 +123,41 @@ angular.module('frontendApp')
     $scope.validarNumeroSalidaProducto=function(){
         if ($scope.salida_productos.cantidad<1) {
             $scope.salida_productos.cantidad=1;
+        }
+    }
+    /*Validaciones de fechas*/
+    $scope.validarFechaEntrega=function(){
+        if ($scope.modal_salida.fecha_entrega) {
+            if($scope.modal_salida.fecha_solicitud){
+                if ($scope.modal_salida.fecha_entrega<$scope.modal_salida.fecha_solicitud) {
+                    Materialize.toast('La fecha de entrega debe ser igual o posterior a la fecha de solicitud', 4000);
+                    $scope.modal_salida.fecha_entrega='';
+                }
+            }else{
+                Materialize.toast('Ingrese por favor una fecha de solicitud primero', 4000);
+                $scope.modal_salida.fecha_entrega='';
+                $('#fecha_solicitud').focus();
+            }
+        }
+    }
+    $scope.validarFechaSolicitud=function(){
+        if ($scope.modal_salida.fecha_solicitud) {
+            if($scope.modal_salida.fecha_entrega){
+                if ($scope.modal_salida.fecha_entrega<$scope.modal_salida.fecha_solicitud) {
+                    Materialize.toast('La fecha de entrega debe ser igual o posterior a la fecha de solicitud', 4000);
+                    $scope.modal_salida.fecha_entrega='';
+                }
+            }
+        }else{
+            $scope.modal_salida.fecha_entrega='';
+        }
+    }
+    $scope.validarFechaHoy=function(){
+        if ($scope.fabricacion.fecha_entrega) {
+            if ($scope.fabricacion.fecha_entrega<$scope.fecha_hoy) {
+                Materialize.toast('La fecha de entrega debe ser hoy o posterior', 4000);
+                $scope.fabricacion.fecha_entrega=$scope.fecha_hoy;
+            }
         }
     }
     /*Fin de las validaciones*/
@@ -245,6 +281,7 @@ angular.module('frontendApp')
         }else{
             $scope.check='stock';
         }
+        $scope.validarFechaHoy();
     }
     $scope.CancelarEditar=function(){
         $scope.panel_title_form = "Registro de Fabricaciones";
