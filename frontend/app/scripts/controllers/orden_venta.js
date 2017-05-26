@@ -309,10 +309,30 @@ angular.module('frontendApp')
     }
     /*Validaciones de fechas*/
     $scope.validarFechaEntrega=function(){
-
+        if ($scope.Orden.fecha_entrega) {
+            if($scope.Orden.fecha_recepcion){
+                if ($scope.Orden.fecha_entrega<$scope.Orden.fecha_recepcion) {
+                    Materialize.toast('La fecha de entrega debe ser igual o posterior a la fecha de recepción', 4000);
+                    $scope.Orden.fecha_entrega='';
+                }
+            }else{
+                Materialize.toast('Ingrese por favor una fecha de recepción primero', 4000);
+                $scope.Orden.fecha_entrega='';
+                $('#fecha_recepcion').focus();
+            }
+        }
     }
     $scope.validarFechaRecepcion=function(){
-        
+        if ($scope.Orden.fecha_recepcion) {
+            if($scope.Orden.fecha_entrega){
+                if ($scope.Orden.fecha_entrega<$scope.Orden.fecha_recepcion) {
+                    Materialize.toast('La fecha de entrega debe ser igual o posterior a la fecha de recepción', 4000);
+                    $scope.Orden.fecha_entrega='';
+                }
+            }
+        }else{
+            $scope.Orden.fecha_entrega='';
+        }
     }
     /*Fin de las validaciones*/
     $scope.convertirFecha = function(fecha){
