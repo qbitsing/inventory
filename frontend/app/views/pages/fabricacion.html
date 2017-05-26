@@ -685,14 +685,28 @@
 						<td>{{producto.cantidad}}</td>
 						<td>{{producto.nombre}}</td>
 						<td ng-repeat="proceso in formatoFabricacion.procesos">
-							{{proceso.nombre}}
+							{{proceso.proceso_consecutivo}}
 						</td>
 					</tr>
-					<tr class="detalles">
-						<td>despachado por: <br> {{formato.generado.nombre}} {{formato.generado.apellido}}</td>
-						<td>transportado por: <br> {{formato.transportador}}</td>
-						<td>recibido por: <br> </td>
-					</tr>
+				</table>
+			</div>
+
+			<div class="table-body">
+				<table class="formato-table">
+					<thead>
+						<tr>
+							<td colspan="2">Lista de Procesos</td>
+						</tr>
+						<tr class="black">
+							<td>Proceso</td>
+							<td>Responsables</td>
+						</tr>
+					</thead>
+					<tbody>
+						
+					</tbody>
+
+					
 				</table>
 			</div>
 		</div>
