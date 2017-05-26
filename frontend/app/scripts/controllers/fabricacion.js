@@ -50,6 +50,7 @@ angular.module('frontendApp')
     $scope.cancelarsalida={};
     $scope.modal.proceso.array_responsables=[];
     $scope.server = server;
+    $scope.contenidoTableProcess = '';
     $scope.fecha_hoy=new Date(Date.now());
     var casillaDeBotones;
     casillaDeBotones = '<div>'+BotonesTabla.Detalles;
@@ -1043,12 +1044,36 @@ angular.module('frontendApp')
             listarMaterias();
             $scope.formatoFabricacion = $scope.Fabricaciones[0];
             console.log($scope.formatoFabricacion);
+            $scope.calcularContenidoTableProcess();
         },function(data){
             $scope.Fabricaciones=[];
             $scope.gridOptions.data=$scope.Fabricaciones;
             console.log(data.data.message);
             listarMaterias();
         });
+    }
+
+    $scope.calcularContenidoTableProcess = function(){
+        var cade = '';
+        for(var i = 0; i < $scope.formatoFabricacion.procesos.length; i++){
+            cade += '<tr><td rowspan="'+$scope.formatoFabricacion.procesos[i].array_responsables.length+'">';
+            cade += $scope.formatoFabricacion.procesos[i].proceso_consecutivo || '' + ' - ';
+            cade += $scope.formatoFabricacion.procesos[i].nombre;
+            cade += '</td><td>';
+            if($scope.formatoFabricacion.procesos[i].array_responsables[0]){
+                cade += $scope.formatoFabricacion.procesos[i].array_responsables[0].nombre || '';
+                cade += $scope.formatoFabricacion.procesos[i].array_responsables[0].apellidos || '';
+            }
+            cade += '</td></tr>';
+            for(var x = 1; x < $scope.formatoFabricacion.procesos[i].array_responsables.length; x++){
+                cade += '<tr><td>';
+                cade += $scope.formatoFabricacion.procesos[i].array_responsables[x].nombre+ ' ';
+                cade += $scope.formatoFabricacion.procesos[i].array_responsables[x].apellidos|| '' + ' ';
+                cade += '</td></tr>';
+            }
+        }
+
+        $('#contenidoTableProcess').html(cade);
     }
 	function listarOrdenes(){
         $scope.preloader.estado = true;
