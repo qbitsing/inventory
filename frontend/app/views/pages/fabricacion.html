@@ -18,10 +18,10 @@
 							    </p>
 							</div>
 							<div class="input-field col s12 m6 l6" ng-show="check=='orden'">
-								<label for="ordenn">Orden de venta *</label>
-								<select id="ordenn" ng-change="CargarOrden()" id="orden" ng-model="Orden" material-select watch>
+								<select id="ordenn" ng-change="CargarOrden()" ng-model="Orden" material-select watch>
 	      							<option ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.orden_venta_consecutivo}}-{{orden.cliente.nombre}}</option>
 								</select>
+								<label for="ordenn">Orden de venta *</label>
 							</div>
 						</div>
 						<div class="row">
@@ -31,14 +31,14 @@
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="fecha_entrega" class="active">Fecha de entrega *</label>
-								<input type="date" id="fecha_entrega" ng-model="fabricacion.fecha_entrega"  required>
+								<input type="date" ng-change="validarFechaHoy()" id="fecha_entrega" ng-model="fabricacion.fecha_entrega" required>
 							</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s10 m5 l5">
 								<select ng-model="producto._id" material-select watch>
 	      							<option ng-if="panel_title_form=='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in Productos" value="{{producto._id}},{{producto.nombre}},{{producto.fabricado}}">{{producto.nombre}}</option>
-	      							<option ng-if="panel_title_form!='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in fabricacion.productos" value="{{producto._id}},{{producto.nombre}}">{{producto.nombre}}</option>
+	      							<option ng-if="panel_title_form!='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in fabricacion.productos" value="{{producto._id}},{{producto.nombre}},{{producto.fabricado}}">{{producto.nombre}}</option>
 								</select>
 								<label>Productos *</label>
 							</div>
@@ -47,7 +47,7 @@
 								<label for="codigo_barras">Por codigo</label> 
 							</div>
 							<div class="input-field col s4 m4 l4">
-									<input type="number" ng-keyup="detectar($event)" ng-model="producto.cantidad" id="Cantidad" name="Cantidad">
+									<input type="number" ng-change="validarNumeroProducto()" ng-keyup="detectar($event)" ng-model="producto.cantidad" id="Cantidad" name="Cantidad">
 								<label for="Cantidad">Cantidad *</label>
 							</div>
 							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!(producto._id) || !(producto.cantidad)" ng-click="AgregarProducto()">Añadir</button>
@@ -75,7 +75,7 @@
 						<div class="row">
 							<div class="input-field col s12 m4 l4">
 								<select ng-model="proceso._id" material-select watch>
-	      							<option ng-repeat="proceso in Procesos" value="{{proceso._id}},{{proceso.nombre}},{{proceso.tipo}}">{{proceso.nombre}} - {{proceso.tipo}}</option>
+	      							<option ng-repeat="proceso in Procesos" value="{{proceso._id}},{{proceso.proceso_consecutivo}},{{proceso.nombre}},{{proceso.tipo}}">{{proceso.nombre}} - {{proceso.tipo}}</option>
 								</select>
 								<label>Procesos *</label>
 							</div>
@@ -217,12 +217,11 @@
 	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
     </div>
 </div>
-
 <div id="modalSalidas" class="modal modal-fixed-footer">
     <div class="modal-content">
 	    <h4 class="modal-title">Generar remisión de salida</h4>
 	    <div class="row">
-	    <h5>Productos disponibles:</h5>
+	    	<h5>Productos disponibles:</h5>
 	    	<table  class="bordered striped">
 	    		<thead>
 	    			<tr>
@@ -252,7 +251,7 @@
 						<label>Producto *</label>
 					</div>
 					<div class="input-field col s8 m4 l4">
-						<input type="number" ng-model="modal_salida.cantidad" id="CantidadRemision" name="CantidadRemision">
+						<input type="number" ng-change="validarNumeroRemision()" ng-model="modal_salida.cantidad" id="CantidadRemision" name="CantidadRemision">
 						<label for="CantidadRemision">Cantidad *</label>
 					</div>
 					<button type="button" ng-click="addproducto()" class="btn btn-success col s4 m2 l2" ng-disabled="!modal_salida.producto || !modal_salida.cantidad">Añadir</button>
@@ -289,11 +288,11 @@
 	    		<div class="row">
 					<div class="input-field col s12 m6 l6">
 						<label class="active">Fecha de solicitud *</label>
-						<input type="date" ng-model="modal_salida.fecha_solicitud" required>
+						<input type="date" id="fecha_solicitud" ng-change="validarFechaSolicitud()" ng-model="modal_salida.fecha_solicitud" required>
 					</div>
 					<div class="input-field col s12 m6 l6">
 						<label class="active">Fecha de entrega *</label>
-						<input type="date" ng-model="modal_salida.fecha_entrega" required>
+						<input type="date" id="fecha_entrega"  ng-change="validarFechaEntrega()" ng-model="modal_salida.fecha_entrega" required>
 					</div>
 				</div>
 				<div class="row">
@@ -329,6 +328,7 @@
 	    				<td ng-hide="remision.proceso.array_responsables>0">No registra</td>
 	    				<td>{{remision.transportador || 'No registra'}}</td>
 	    				<td ng-if="remision.estado=='Sin Entrada'"><button type="button" class="btn btn-tabla btn-danger" ng-click="abrircancelarremision(remision)">Cancelar</button></td>
+	    				<td><button type="button" class="btn btn-tabla btn-primary" ng-click="imprimirRemision(remision)">Imprimir</button></td>
 	    				<td ng-if="remision.estado=='Con Entrada'" class="warning-text">La remisión no se puede cancelar</td>
 	    				<td ng-if="remision.estado=='Cancelada'" class="danger-text">Remisión cancelada</td>
 	    			</tr>
@@ -336,7 +336,7 @@
     		</table>
     	</div>
 
-		<div id="superContainer">
+		<div id="superContainer" ng-show="false">
 			<div id="container">
 				<link rel="stylesheet" ng-href="{{server}}/formatos/styles/remision.css">
 				<div class="factura">
@@ -370,12 +370,12 @@
 					<div class="table-header">
 						<table class="formato-table">
 							<tr>
-								<td colspan="5">empresa: {{formato.responsable.nombre}}</td>
-								<td>Fecha: {{formato.fecha_solicitud}}</td>
+								<td colspan="5">empresa: {{formato.proceso.array_responsables[0].nombre}}</td>
+								<td>Fecha: {{convertirFecha(formato.fecha_solicitud)}}</td>
 							</tr>
 							<tr>
 								<td colspan="5">proceso: {{formato.proceso.nombre}}</td>
-								<td>Tel: {{formato.responsable.telefono}}</td>
+								<td>Tel: {{formato.proceso.array_responsables[0].telefono}}</td>
 							</tr>
 						</table>
 					</div>
@@ -388,12 +388,12 @@
 
 							<tr ng-repeat="producto in formato.productos">
 								<td>{{producto.cantidad}}</td>
-								<td colspan="5">{{producto.nombre}}</td>
+								<td colspan="5">{{producto.producto.nombre}}</td>
 							</tr>
 							<tr class="detalles">
-								<td>despachado por: {{formato.generado.nombre}} {{formato.generado.apellido}}</td>
-								<td>transportado por: {{formato.transportador}}</td>
-								<td>recibido por:</td>
+								<td>despachado por: <br> {{formato.generado.nombre}} {{formato.generado.apellido}}</td>
+								<td>transportado por: <br> {{formato.transportador}}</td>
+								<td>recibido por: <br> </td>
 							</tr>
 						</table>
 					</div>
@@ -456,7 +456,7 @@
 						<label>Producto *</label>
 					</div>
 					<div class="input-field col s8 m4 l4">
-						<input type="number" ng-model="modal_entrada.cantidad" id="CantidadEntrada" name="CantidadEntrada">
+						<input type="number" ng-change="validarNumeroEntrada()" ng-model="modal_entrada.cantidad" id="CantidadEntrada" name="CantidadEntrada">
 						<label for="CantidadEntrada">Cantidad *</label>
 					</div>
 					<button type="button" ng-click="addproductoentrada()" class="btn btn-success col s4 m2 l2" ng-disabled="!modal_entrada.producto || !modal_entrada.cantidad">Añadir</button>
@@ -475,12 +475,11 @@
 	    				<tr ng-if="(check_modal_entrada=='remision' && producto.cantidad_faltante>0) || (check_modal_entrada=='entrada')" ng-repeat="producto in modal_entrada.productos">
 		    				<td>{{producto.producto.nombre}}</td>
 			    			<td ng-show="check_modal_entrada=='remision'">{{producto.cantidad_faltante}}</td>
-			    			<td ng-show="check_modal_entrada=='remision'"><input type="number"  value="{{producto.cantidad_faltante}}" id="cantidad{{producto.producto._id}}" name="cantidad"></td>
+			    			<td ng-show="check_modal_entrada=='remision'"><input type="number" ng-change="validarNumeroProductoEntrada({{producto.producto._id}})" value="{{producto.cantidad_faltante}}" id="cantidad{{producto.producto._id}}" name="cantidad"></td>
 			    			<td ng-show="check_modal_entrada!='remision'">{{producto.cantidad}}</td>
 		    				<td><button type="button" class="btn btn-danger" ng-click="removerproductoentrada(producto)">Eliminar</button></td>
 		    			</tr>
 	    			</tbody>
-	    			
 	    		</table>
 	    		<div class="row" ng-show="check_modal_entrada=='remision'">
 	    			<div class="input-field col s12 m6 l6">
@@ -539,7 +538,7 @@
 						<label>Materia prima *</label>
 					</div>
 					<div class="input-field col s8 m4 l4">
-						<input type="number" ng-model="salida_materia.cantidadMateria" id="Cantidadinsumo" name="Cantidadinsumo">
+						<input type="number" ng-change="validarNumeroSalidaMateria()" ng-model="salida_materia.cantidadMateria" id="Cantidadinsumo" name="Cantidadinsumo">
 						<label for="Cantidadinsumo">Cantidad *</label>
 					</div>
 					<button type="button" ng-click="addmateriainsumo()" class="btn btn-success col s4 m2 l2" ng-disabled="!salida_materia.Materia || !salida_materia.cantidadMateria">Añadir</button>
@@ -569,7 +568,7 @@
 						<label>Producto *</label>
 					</div>
 					<div class="input-field col s8 m4 l4">
-						<input type="number" ng-model="salida_productos.cantidad" id="Cantidadproductoinsumo" name="Cantidadproductoinsumo">
+						<input type="number" ng-change="validarNumeroSalidaProducto()" ng-model="salida_productos.cantidad" id="Cantidadproductoinsumo" name="Cantidadproductoinsumo">
 						<label for="Cantidadproductoinsumo">Cantidad *</label>
 					</div>
 					<button type="button" ng-click="addproductoinsumo()" class="btn btn-success col s4 m2 l2" ng-disabled="!salida_productos.producto || !salida_productos.cantidad">Añadir</button>
@@ -621,4 +620,92 @@
     <div class="modal-footer">
 	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
     </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div id="superContainerFabricacion">
+	<div id="containerFabricacion">
+		<link rel="stylesheet" ng-href="{{server}}/formatos/styles/remision.css">		
+		<div class="factura">
+			<div class="header">
+				<div class="first-part">
+					<img src="{{server}}/logo-prines.jpg" class="logo-header">
+					<h2 class="title-header">productos industriales para telecomunicaciones e iliminacion</h2>
+					<h3 class="subtitle-header">producciones industriales esperanza s.a.s.</h3>
+					<p class="nit">nit. 900.462.957-1 régimen común</p>
+					<p class="description-head">
+						calle 73 sur no. 80j - 52 bogota - colombia - PBX: 777 77 04 <br><br>
+						pagina web: <span>www.prines.com.co</span>
+					</p>
+				</div>        
+				<div class="second-part">
+					<ul>
+						<li>Frabricación y distribución de herrajería para redes de CATV y HFC</li>
+						<li>Implementacion y montaje de redes de comunicación, seguridad y televisión</li>
+						<li>Asesorias y mantenimiento en mecánica hidráulica y neumática</li>
+						<li>Asesorias, montajes y diseño de redes HFC</li>
+						<li>Díseño y montajes de sistemas de iliminación</li>
+					</ul>
+				</div>
+				<div class="last-part">
+					<h2 class="title-last-part">Orden de Trabajo</h2>
+					<div class="no-factura">
+						<p>N° {{formatoFabricacion.fabricacion_consecutivo}}</p>                    
+					</div>
+				</div>       
+			</div>
+			<div class="table-header">
+				<table class="formato-table">
+					<tr>
+						<td colspan="5">cliente: {{formatoFabricacion.orden_venta.cliente.nombre}}</td>
+						<td>Fecha: {{convertirFecha(formatoFabricacion.fecha_solicitud)}}</td>
+					</tr>
+					<tr>
+						<td colspan="5">oc no: {{formatoFabricacion.orden_venta.orden_venta_consecutivo}}</td>
+						<td>entrega: {{convertirFecha(formatoFabricacion.fecha_entrega)}}</td>
+					</tr>
+				</table>
+			</div>
+			<div class="table-body">
+				<table class="formato-table">
+					<tr class="black">
+						<td>codigo</td>
+						<td>cantidad</td>
+						<td>descripcion</td>
+						<td colspan="{{formatoFabricacion.procesos.length}}">procesos</td>
+					</tr>
+
+					<tr ng-repeat="producto in formatoFabricacion.productos">
+						<td>{{producto.codigo}}</td>
+						<td>{{producto.cantidad}}</td>
+						<td>{{producto.nombre}}</td>
+						<td ng-repeat="proceso in formatoFabricacion.procesos" class="center">
+							{{proceso.proceso_consecutivo}}
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="table-body">
+				<table class="formato-table">
+					<thead>
+						<tr>
+							<td colspan="2" class="center">Lista de Procesos</td>
+						</tr>
+						<tr class="black">
+							<td>Proceso</td>
+							<td>Responsables</td>
+						</tr>
+					</thead>
+					<tbody id="contenidoTableProcess">
+					</tbody>					
+				</table>
+			</div>
+		</div>
+	</div>
 </div>

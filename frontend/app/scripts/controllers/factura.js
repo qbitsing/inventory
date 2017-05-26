@@ -105,7 +105,7 @@ angular.module('frontendApp')
         webServer.getResource('facturas', factura, "post")
         .then(function (data) {
             preloader.estado = false;
-            sweetAlert('ok', data.data.message, 'success');
+            sweetAlert('Completado...', data.data.message, 'success');
             w.print();
             w.close();
             $state.go('OrdenVenta');

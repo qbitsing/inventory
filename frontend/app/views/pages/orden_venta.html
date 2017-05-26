@@ -29,17 +29,17 @@
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<label for="fecha_recepcion" class="active">Fecha de recepción *</label>
-								<input type="date" ide="fecha_recepcion" ng-model="Orden.fecha_recepcion" required>
+								<input type="date" id="fecha_recepcion" ng-change="validarFechaRecepcion()" ng-model="Orden.fecha_recepcion" required>
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="fecha_entrega" class="active">Fecha de entrega *</label>
-								<input type="date" id="fecha_entrega" ng-model="Orden.fecha_entrega" required>
+								<input type="date" id="fecha_entrega" ng-change="validarFechaEntrega()" ng-model="Orden.fecha_entrega" required>
 							</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s10 m5 l5">
 								<select ng-model="Orden.Producto._id" material-select watch>
-	      							<option ng-repeat="producto in productos" value="{{producto._id}},{{producto.nombre}},{{producto.precio}},{{producto.codigo}}">{{producto.nombre}}</option>
+	      							<option ng-repeat="producto in productos" value="{{producto._id}},{{producto.nombre}},{{producto.precio}},{{producto.fabricado}},{{producto.codigo}}">{{producto.nombre}}</option>
 								</select>
 								<label>Productos *</label>
 							</div>
@@ -49,7 +49,7 @@
 							</div>
 							<div class="col s12 m6 l6">
 								<div class="input-field col s8 m8 l8">
-									<input type="number" ng-keyup="detectar($event)" ng-model="Orden.Producto.cantidad" id="Cantidad" name="Cantidad">
+									<input type="number" ng-change="validarNumero()" ng-keyup="detectar($event)" ng-model="Orden.Producto.cantidad" id="Cantidad" name="Cantidad">
 									<label for="Cantidad">Cantidad *</label>
 								</div>
 								<button type="button" class="btn btn-success col s4 m4 l4" ng-disabled="!(Orden.Producto._id) || !(Orden.Producto.cantidad)" ng-click="AgregarProducto()">Añadir</button>

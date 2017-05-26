@@ -67,8 +67,10 @@ angular.module('frontendApp')
         .getResource('personas/'+$scope.Usuario._id , $scope.Pss , 'put')
         .then(function(data){
             $('#modalPss').modal('close');
+            $scope.Pss={};
+            sweetAlert("Completado...", 'La contraseña se ha actualizado satisfactoriamente' , "success");
         },function(data){
-            console.log(data);
+            sweetAlert("Oops...", data.data.message , "error");
         });
     }
     $scope.ImageUpdate=function(){

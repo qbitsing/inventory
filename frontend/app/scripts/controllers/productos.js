@@ -96,7 +96,6 @@ angular.module('frontendApp')
             listarProductosSelect();
         },function(data){
             $scope.Insumos=[];
-            console.log(data.data.message);
             listarProductosSelect();
         });
     }
@@ -116,7 +115,6 @@ angular.module('frontendApp')
         },function(data){
             $scope.Productos=[];
             $scope.gridOptions.data=$scope.Productos;
-            console.log(data.data.message);
             listarInsumos();
         });
     }
@@ -128,22 +126,27 @@ angular.module('frontendApp')
             $scope.preloader.estado = false;
         },function(data){
             $scope.ProductosSelect=[];
-            console.log(data.data.message);
             $scope.preloader.estado = false;
         });
     }
     listarProductos();
     $scope.cargarProducto=function(){
-        var conter=true;
         $scope.Productos.forEach(function(ele , index){
             if($scope.Kit.codigo == ele.codigo){
                 $scope.Kit.producto._id=ele._id+','+ele.nombre;
-                conter=false;
+            }
+            if (keyEvent.which === 13){
+                $('#Cantidad').focus();
             }
         });
-        if (conter) {
-            $scope.Kit.producto={};
-            $scope.Kit.producto._id='';
+    }
+    $scope.detectar=function(keyEvent){
+        if ($scope.Kit.producto.cantidad!='') {
+            if (keyEvent.which === 13){
+                if ($scope.Kit.producto._id!='') {
+                    $scope.Agregarkit();
+                }
+            }
         }
     }
     $scope.AgregarInsumo=function(){
@@ -200,18 +203,13 @@ angular.module('frontendApp')
             confirmButtonText: "Si, Borrar!",
             cancelButtonText: "No, Cancelar!",
             closeOnConfirm: false,
-            closeOnCancel: false
+            showLoaderOnConfirm: true,
         },
-        function(isConfirm){
-            if (isConfirm) {
-                Borrar(_id);
-            } else {
-                swal("Cancelado", "El producto no se borrará", "error");
-            }
+        function(){
+            Borrar(_id);
         });
     }
     function Borrar(id){
-        $scope.preloader.estado = true;
         webServer
         .getResource('productos/'+id,{},'delete')
         .then(function(data){
@@ -225,31 +223,32 @@ angular.module('frontendApp')
                     $scope.ProductosSelect.splice(ele.index,1);
                 }
             });
-            $scope.preloader.estado = false;
-            sweetAlert("Completado...", data.data.message , "success");
+            swal("Completado...", data.data.message , "success");
         },function(data){
-            $scope.preloader.estado = false;
-            sweetAlert("Oops...", data.data.message , "error");
+            swal("Oops...", data.data.message , "error");
         });
     }
     $scope.Agregarkit=function(){
-        var controlador=false;
-        var obj = {
-            _id : $scope.Kit.producto._id.split(',')[0],
-            nombre : $scope.Kit.producto._id.split(',')[1],
-            cantidad : $scope.Kit.producto.cantidad
-        };
-        $scope.Producto.productos.forEach(function(ele, index){
-            if(ele._id==obj._id){
-                controlador=true;
+        if ($scope.Kit.producto._id!='' && $scope.Kit.producto.cantidad!='') {
+            var controlador=false;
+            var obj = {
+                _id : $scope.Kit.producto._id.split(',')[0],
+                nombre : $scope.Kit.producto._id.split(',')[1],
+                cantidad : $scope.Kit.producto.cantidad
+            };
+            $scope.Producto.productos.forEach(function(ele, index){
+                if(ele._id==obj._id){
+                    controlador=true;
+                }
+            });
+            if(!controlador){
+                $scope.Producto.productos.push(obj);
+                $('#codigo_barras').focus();
+            }else{
+                Materialize.toast('El producto ya esta añadido', 4000);
             }
-        });
-        if(!controlador){
-            $scope.Producto.productos.push(obj);
-        }else{
-            Materialize.toast('El producto ya esta añadido', 4000);
+            $scope.Kit={};
         }
-        $scope.Kit={};
     }
     $scope.Borrarkit=function(index){
         $scope.Producto.productos.splice(index,1);
@@ -340,7 +339,6 @@ angular.module('frontendApp')
         }else{
             $scope.check='producto';
         }
-        console.log($scope.Producto);
         scroll();
     }
     $scope.Detalles = function(id){
@@ -363,6 +361,35 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Registro de Productos";
         $scope.button_title_form = "Registrar Producto";
     }
+
+    /*Validaciones de numeros*/
+    $scope.validarNumeroMinStock=function(){
+        if ($scope.Producto.min_stock<0) {
+            $scope.Producto.min_stock=0;
+        }
+    }
+    $scope.validarNumeroPrecio=function(){
+        if ($scope.Producto.precio<0) {
+            $scope.Producto.precio=0;
+        }
+    }
+    $scope.validarNumeroCantidad=function(){
+        if ($scope.Producto.cantidad<0) {
+            $scope.Producto.cantidad=0;
+        }
+    }
+    $scope.validarNumeroInsumo=function(){
+        if ($scope.Producto.Insumo.cantidad<1) {
+            $scope.Producto.Insumo.cantidad=1;
+        }
+    }
+    $scope.validarNumeroKit=function(){
+        if ($scope.Kit.producto.cantidad<1) {
+            $scope.Kit.producto.cantidad=1;
+        }
+    }
+    /*Fin de las validaciones*/
+
     $scope.openModalBarCode = function(){
         $('#modalBarCode').modal('open');
     }

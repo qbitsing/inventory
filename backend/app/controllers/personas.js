@@ -92,8 +92,13 @@ function actualizar (req, res) {
 			}
 			if(bcrypt.compareSync(req.body.pssactual, _user.contrasena)){
 				req.body.contrasena = encryptarContrasena(req.body.nueva);
+				Update();
+			}else{
+				return res.status(500).send({
+					message : `Contraseña Incorrecta`
+				});
 			}
-			Update();
+			
 		});
 	}else Update();
 	function Update(){

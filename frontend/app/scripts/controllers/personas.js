@@ -101,31 +101,25 @@ angular.module('frontendApp')
         },function(data){
             $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
-            console.log(data);
         });
     }
     $scope.abrirModal=function(_id){
         swal({
             title: "Confirmar Eliminación",
-            text: "¿Esta seguro de borrar esta persona?",
+            text: "¿Esta seguro de borrar esta persona de la base de datos?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
             confirmButtonText: "Si, Borrar!",
             cancelButtonText: "No, Cancelar!",
             closeOnConfirm: false,
-            closeOnCancel: false
+            showLoaderOnConfirm: true,
         },
-        function(isConfirm){
-            if (isConfirm) {
-                Borrar(_id);
-            } else {
-                swal("Cancelado", "La persona no se borrará", "error");
-            }
+        function(){
+            Borrar(_id);
         });
     }
     function Borrar(id){
-        $scope.preloader.estado = true;
         webServer
         .getResource('orden_venta/'+id,{},'delete')
         .then(function(data){
@@ -134,11 +128,9 @@ angular.module('frontendApp')
                     $scope.Personas.splice(ele.index,1);
                 }
             });
-            $scope.preloader.estado = false;
-            sweetAlert("Completado...", data.data.message , "success");
+            swal("Completado...", data.data.message , "success");
         },function(data){
-            $scope.preloader.estado = false;
-            sweetAlert("Oops...", data.data.message , "error");
+            swal("Oops...", data.data.message , "error");
         });
     }
     $scope.Detalles = function(id){
@@ -169,8 +161,7 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Edicion de clientes y proveedores";
         $scope.button_title_form = "Actualizar Persona";
         $scope.Persona = IdentificarPersona(id,$scope.Personas);
-        scroll();
-        console.log($scope.Persona);  
+        scroll();  
         if($scope.Persona.ciudad){
             $scope.Persona.departamento = $scope.Persona.ciudad.departamento._id;
         }
@@ -182,7 +173,18 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Registro de clientes y proveedores";
         $scope.button_title_form = "Registrar Persona";
     }
-
+    /*Validaciones de numeros*/
+    $scope.validarNumeroTelefono=function(id){
+        if ($scope.Persona.telefono<0) {
+            $scope.Persona.telefono=0;
+        }
+    }
+    $scope.validarNumeroFax=function(id){
+        if ($scope.Persona.fax<0) {
+            $scope.Persona.fax=0;
+        }
+    }
+    /*Fin de las validaciones*/
     function listarPersonas(){
         $scope.preloader.estado=true;
         webServer
@@ -193,7 +195,6 @@ angular.module('frontendApp')
             listarDepartamentos();
         },function(data){
             $scope.Personas = [];
-            console.log(data);
             listarDepartamentos();
         });
     }
@@ -205,7 +206,6 @@ angular.module('frontendApp')
             $scope.preloader.estado=false;
         },function(data){
             $scope.Ciudades=[];
-            console.log(data.data);
             $scope.preloader.estado=false;
         });
     }
@@ -222,7 +222,6 @@ angular.module('frontendApp')
             listarCiudades();
         },function(data){
             $scope.Departamentos=[];
-            console.log(data.data);
             listarCiudades();
         });
     }

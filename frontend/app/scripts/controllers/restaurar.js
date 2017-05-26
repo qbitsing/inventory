@@ -18,7 +18,7 @@ angular.module('frontendApp')
         .then(function(data){
             $scope.Usuario={};
             $scope.preloader.estado = false;
-            sweetAlert("Completado...", "Su contraseña ha sido enviado a su correo" , "success");
+            sweetAlert("Completado...", "Su contraseña ha sido enviada a su correo" , "success");
             $state.go('InicioSesion');
         },function(data){
             $scope.preloader.estado = false;

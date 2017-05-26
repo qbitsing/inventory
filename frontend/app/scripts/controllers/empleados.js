@@ -139,18 +139,13 @@ angular.module('frontendApp')
             confirmButtonText: "Si, Borrar!",
             cancelButtonText: "No, Cancelar!",
             closeOnConfirm: false,
-            closeOnCancel: false
+            showLoaderOnConfirm: true,
         },
-        function(isConfirm){
-            if (isConfirm) {
-                Borrar(_id);
-            } else {
-                swal("Cancelado", "El empleado no se borrará", "error");
-            }
+        function(){
+            Borrar(_id);
         });
     }
     function Borrar(id){
-        $scope.preloader.estado = true;
         webServer
         .getResource('empleados/'+id,{},'delete')
         .then(function(data){
@@ -159,12 +154,9 @@ angular.module('frontendApp')
                     $scope.Empleados.splice(ele.index,1);
                 }
             });
-            $scope.preloader.estado = false;
-            sweetAlert("Completado...", data.data.message , "success");
+            swal("Completado...", data.data.message , "success");
         },function(data){
-            $scope.preloader.estado = false;
-            sweetAlert("Oops...", data.data.message , "error");
-            console.log(data.data.message);
+            swal("Oops...", data.data.message , "error");
         });
     }
     function scroll(){
@@ -192,6 +184,13 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Registro de Empleados";
         $scope.button_title_form = "Registrar Empleado";
     }
+    /*Validaciones de numeros*/
+    $scope.validarNumero=function(id){
+        if ($scope.Empleado.telefono<0) {
+            $scope.Empleado.telefono=0;
+        }
+    }
+    /*Fin de las validaciones*/
     function listarpersonas(){
         $scope.preloader.estado=true;
         webServer
@@ -202,7 +201,6 @@ angular.module('frontendApp')
             $scope.preloader.estado=false;
         },function(data){
             $scope.Empleados=[];
-            console.log(data.data.message);
             $scope.preloader.estado=false;
         });
     }

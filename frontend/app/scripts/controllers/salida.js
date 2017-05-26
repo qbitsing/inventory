@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('SalidaCtrl', function ($state, $scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
+  .controller('SalidaCtrl', function ($state, $scope, server, $timeout, Tabla, BotonesTabla, webServer, preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -27,6 +27,7 @@ angular.module('frontendApp')
     $scope.preloader.estado = false;
     $scope.panelAnimate='';
     $scope.pageAnimate='';
+    $scope.server = server;
     if ($scope.Usuario.rol=='Contador') {
         $state.go('Home');
     }
@@ -40,9 +41,12 @@ angular.module('frontendApp')
     $scope.Salida.orden_venta={};
     $scope.Salida.orden_venta.productos=[];
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
+    casillaDeBotones+= BotonesTabla.ImprimirRemision;
+    casillaDeBotones+= BotonesTabla.ImprimirOrdenSalida;
     if ($scope.Usuario.rol=='Super Administrador') {
         casillaDeBotones+=BotonesTabla.Borrar;
     }
+
     casillaDeBotones+='</div>';
     $scope.gridOptions = {
         columnDefs: [
@@ -64,13 +68,13 @@ angular.module('frontendApp')
             },
             {
                 name:'cliente',field: 'orden_venta.cliente.nombre',
-                width:'25%',
+                width:'20%',
                 minWidth: 150
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'30%',
-                minWidth: 150
+                width:'35%',
+                minWidth: 200
             }
         ]
     }
@@ -83,12 +87,6 @@ angular.module('frontendApp')
         });
         if(!$scope.Salida.orden_venta.productos){
             $scope.Salida.orden_venta.productos=[];
-        }else{
-            $scope.Salida.orden_venta.productos.forEach(function(ele,index){
-                if (ele.cantidad_faltante==0) {
-                    $scope.Entrada.orden_venta.productos.splice(ele.index,1);
-                }
-            });
         }
     }
     $scope.abrirModal=function(_id){
@@ -101,14 +99,10 @@ angular.module('frontendApp')
             confirmButtonText: "Si, Borrar!",
             cancelButtonText: "No, Cancelar!",
             closeOnConfirm: false,
-            closeOnCancel: false
+            showLoaderOnConfirm: true,
         },
-        function(isConfirm){
-            if (isConfirm) {
-                Borrar(_id);
-            } else {
-                swal("Cancelado", "La salida no se borrará", "error");
-            }
+        function(){
+            Borrar(_id);
         });
     }
     $scope.convertirFecha = function(fecha){
@@ -118,12 +112,11 @@ angular.module('frontendApp')
         return date;
     }
     function Borrar(id){
-        $scope.preloader.estado = true;
         webServer
         .getResource('salidas/'+id,{},'delete')
         .then(function(data){
             $scope.Ordenes.forEach(function(ele,ind){
-                if (ele._id==$scope.Entrada.orden_venta._id) {
+                if (ele._id==data.data.datos.orden_venta._id) {
                     $scope.Ordenes[ind] = data.data.datos.orden_venta;
                 }
             });
@@ -132,11 +125,9 @@ angular.module('frontendApp')
                     $scope.Salidas.splice(ele.index,1);
                 }
             });
-            $scope.preloader.estado = false;
-            sweetAlert("Completado...", data.data.message , "success");
+            swal("Completado...", data.data.message , "success");
         },function(data){
-            $scope.preloader.estado = false;
-            sweetAlert("Oops...", data.data.message , "error");
+            swal("Oops...", data.data.message , "error");
         });
     }
     $scope.cancelarEditar=function(){
@@ -145,7 +136,15 @@ angular.module('frontendApp')
         $scope.Salida.orden_venta.productos=[];
         $scope.Orden.venta='';
     }
+    /*Validaciones de numeros*/
+    $scope.validarNumero=function(id){
+        if (parseInt(angular.element('#cantidad'+id).val())<0) {
+            angular.element('#cantidad'+id).val(0);
+        }
+    }
+     /*Fin de las validaciones*/
     $scope.EnviarSalida=function(){
+        $scope.Salida.generado=$scope.Usuario;
         $scope.preloader.estado = true;
         if ($scope.Salida.orden_venta.productos) {
             $scope.Salida.orden_venta.productos.forEach(function(ele, index){
@@ -156,11 +155,12 @@ angular.module('frontendApp')
         webServer
         .getResource("salidas",$scope.Salida,"post")
         .then(function(data){
+            $scope.Salida.fecha=new Date(Date.now());
             $scope.Salida.salida_consecutivo=data.data.datos.salida_consecutivo;
             $scope.Salida._id=data.data.datos._id;
             $scope.Salidas.push($scope.Salida);
             $scope.Ordenes.forEach(function(ele,ind){
-                if (ele._id==$scope.Entrada.orden_venta._id) {
+                if (ele._id==$scope.Salida.orden_venta._id) {
                     $scope.Ordenes[ind] = data.data.datos.orden_venta;
                 }
             });
@@ -174,7 +174,34 @@ angular.module('frontendApp')
             $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
         });
-        
+    }
+
+    $scope.Imprimir = function(formato , tipo){
+        $scope.formato = formato;
+        var formatoPrint = null;
+        if(tipo == 1){
+            formatoPrint = document.getElementById('container');
+        }
+
+        if(tipo == 2){
+            formatoPrint = document.getElementById('container2');
+        }
+
+        var w = window.open();
+        var d = w.document.open();
+        d.appendChild(formatoPrint);
+
+        webServer
+        .getResource('orden_venta',{Activo: true, Salidas:true, Finalizado:true},'get')
+        .then(function(data){
+            w.print();
+            w.close();
+            document.getElementById('superContainer').appendChild(formatoPrint);
+        },function(data){
+            w.print();
+            w.close();
+            document.getElementById('superContainer').appendChild(formatoPrint);            
+        });
     }
     function listarOrdenes(){
         webServer
@@ -185,7 +212,6 @@ angular.module('frontendApp')
         },function(data){
             $scope.Ordenes=[];
             $scope.gridOptions.data=$scope.Ordenes;
-            console.log(data.data.message);
             $scope.preloader.estado = false;
         });
     }
@@ -217,7 +243,6 @@ angular.module('frontendApp')
         },function(data){
             $scope.Salidas=[];
             $scope.gridOptions.data=$scope.Salidas;
-            console.log(data.data.message);
             listarOrdenes();
         });
     }

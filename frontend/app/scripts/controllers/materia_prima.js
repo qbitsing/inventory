@@ -101,7 +101,6 @@ angular.module('frontendApp')
         },function(data){
             $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
-            console.log(data.data.message);
         });
     }
     $scope.Detalles = function(id){
@@ -128,6 +127,18 @@ angular.module('frontendApp')
         $scope.button_title_form = "Registrar Materia Prima";
         $scope.Materia={};
     }
+    /*Validaciones de numeros*/
+    $scope.validarNumeroMinStock=function(id){
+        if ($scope.Materia.min_stock<1) {
+            $scope.Materia.min_stock=1;
+        }
+    }
+    $scope.validarNumero=function(id){
+        if ($scope.Materia.cantidad<1) {
+            $scope.Materia.cantidad=1;
+        }
+    }
+    /*Fin de las validaciones*/
     $scope.abrirModal=function(_id){
         swal({
             title: "Confirmar Eliminación",
@@ -138,18 +149,13 @@ angular.module('frontendApp')
             confirmButtonText: "Si, Borrar!",
             cancelButtonText: "No, Cancelar!",
             closeOnConfirm: false,
-            closeOnCancel: false
+            showLoaderOnConfirm: true,
         },
-        function(isConfirm){
-            if (isConfirm) {
-                Borrar(_id);
-            } else {
-                swal("Cancelado", "La materia prima no se borrará", "error");
-            }
+        function(){
+            Borrar(_id);
         });
     }
     function Borrar(id){
-        $scope.preloader.estado = true;
         webServer
         .getResource('fabricacion/'+id,{},'delete')
         .then(function(data){
@@ -158,11 +164,9 @@ angular.module('frontendApp')
                     $scope.Materias.splice(ele.index,1);
                 }
             });
-            $scope.preloader.estado = false;
-            sweetAlert("Completado...", data.data.message , "success");
+            swal("Completado...", data.data.message , "success");
         },function(data){
-            $scope.preloader.estado = false;
-            sweetAlert("Oops...", data.data.message , "error");
+            swal("Oops...", data.data.message , "error");
         });
     }
     function listarmaterias(){
@@ -174,7 +178,6 @@ angular.module('frontendApp')
             $scope.gridOptions.data = $scope.Materias;
             $scope.preloader.estado = false;
         },function(data){
-            console.log(data.data.message);
             $scope.Materias=[];
             $scope.gridOptions.data = $scope.Materias;
             $scope.preloader.estado = false;

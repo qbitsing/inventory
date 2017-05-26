@@ -39,6 +39,7 @@ angular.module('frontendApp')
     $scope.check='orden';
     $scope.fabricacion={};
     $scope.modal={};
+    $scope.modal.proceso={};
     $scope.fabricacion.productos=[];
     $scope.fabricacion.procesos=[];
     $scope.contenido_fabricacion={};
@@ -47,12 +48,16 @@ angular.module('frontendApp')
     $scope.Remisiones=[];
     $scope.cancelarentrada={};
     $scope.cancelarsalida={};
+    $scope.modal.proceso.array_responsables=[];
     $scope.server = server;
+    $scope.contenidoTableProcess = '';
+    $scope.fecha_hoy=new Date(Date.now());
     var casillaDeBotones;
     casillaDeBotones = '<div>'+BotonesTabla.Detalles;
     if ($scope.Usuario.rol=='Super Administrador') {
         casillaDeBotones+=BotonesTabla.Editar;
     }
+    casillaDeBotones += BotonesTabla.ImprimirOrdenTrabajo;
     casillaDeBotones+=BotonesTabla.Salida+BotonesTabla.Entrada+BotonesTabla.MateriaPrima;
     if ($scope.Usuario.rol=='Super Administrador') {
         casillaDeBotones+=BotonesTabla.Borrarfabricacion;
@@ -90,7 +95,80 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptions , Tabla);
-	$scope.CargarOrden=function(){
+    
+    /*Validaciones de numeros*/
+    $scope.validarNumeroProducto=function(){
+        if ($scope.producto.cantidad<1) {
+            $scope.producto.cantidad=1;
+        }
+    }
+    $scope.validarNumeroRemision=function(){
+        if ($scope.modal_salida.cantidad<1) {
+            $scope.modal_salida.cantidad=1;
+        }
+    }
+    $scope.validarNumeroEntrada=function(){
+        if ($scope.modal_entrada.cantidad<1) {
+            $scope.modal_entrada.cantidad=1;
+        }
+    }
+    $scope.validarNumeroProductoEntrada=function(id){
+        if (parseInt(angular.element('#cantidad'+id).val())<1) {
+            angular.element('#cantidad'+id).val(1);
+        }
+    }
+    $scope.validarNumeroSalidaMateria=function(){
+        if ($scope.salida_insumos.cantidadMateria<1) {
+            $scope.salida_insumos.cantidadMateria=1;
+        }
+    }
+    $scope.validarNumeroSalidaProducto=function(){
+        if ($scope.salida_productos.cantidad<1) {
+            $scope.salida_productos.cantidad=1;
+        }
+    }
+    /*Validaciones de fechas*/
+    $scope.validarFechaEntrega=function(){
+        if ($scope.modal_salida.fecha_entrega) {
+            if($scope.modal_salida.fecha_solicitud){
+                if ($scope.modal_salida.fecha_entrega<$scope.modal_salida.fecha_solicitud) {
+                    Materialize.toast('La fecha de entrega debe ser igual o posterior a la fecha de solicitud', 4000);
+                    $scope.modal_salida.fecha_entrega='';
+                }
+            }else{
+                Materialize.toast('Ingrese por favor una fecha de solicitud primero', 4000);
+                $scope.modal_salida.fecha_entrega='';
+                $('#fecha_solicitud').focus();
+            }
+        }
+    }
+    $scope.validarFechaSolicitud=function(){
+        if ($scope.modal_salida.fecha_solicitud) {
+            if($scope.modal_salida.fecha_entrega){
+                if ($scope.modal_salida.fecha_entrega<$scope.modal_salida.fecha_solicitud) {
+                    Materialize.toast('La fecha de entrega debe ser igual o posterior a la fecha de solicitud', 4000);
+                    $scope.modal_salida.fecha_entrega='';
+                }
+            }
+        }else{
+            $scope.modal_salida.fecha_entrega='';
+        }
+    }
+    $scope.validarFechaHoy=function(){
+        if ($scope.fabricacion.fecha_entrega) {
+            $scope.fabricacion.fecha_entrega.setHours($scope.fecha_hoy.getHours());
+            $scope.fabricacion.fecha_entrega.setMinutes($scope.fecha_hoy.getMinutes());
+            $scope.fabricacion.fecha_entrega.setSeconds($scope.fecha_hoy.getSeconds());
+            $scope.fabricacion.fecha_entrega.setMilliseconds($scope.fecha_hoy.getMilliseconds());
+            if ($scope.fabricacion.fecha_entrega<$scope.fecha_hoy) {
+                Materialize.toast('La fecha de entrega debe ser hoy o posterior', 4000);
+                $scope.fabricacion.fecha_entrega=$scope.fecha_hoy;
+            }
+        }
+    }
+    /*Fin de las validaciones*/
+
+    $scope.CargarOrden=function(){
         $scope.Ordenes.forEach(function(ele, index){
             if(ele._id==$scope.Orden){
                 $scope.fabricacion.orden_venta=ele;
@@ -98,10 +176,23 @@ angular.module('frontendApp')
         });
         if(!$scope.fabricacion.orden_venta.productos){
             $scope.fabricacion.orden_venta.productos=[];
+        }else{
+            console.log($scope.fabricacion.orden_venta.productos);
         }
         $scope.fabricacion.productos=$scope.fabricacion.orden_venta.productos;
+        $scope.fabricacion.productos.forEach(function(ele,index){
+            if (!ele.fabricado) {
+                $scope.fabricacion.productos.splice(index,1);
+            }
+        });
+        console.log($scope.fabricacion.productos);
     }
     $scope.cambiar=function(){
+        $scope.fabricacion.procesos.forEach(function (ele){
+            ele.array_responsables.forEach(function(e){
+                $scope.personas.push(e);
+            });
+        });
         $scope.fabricacion={};
         $scope.fabricacion.productos=[];
         $scope.fabricacion.procesos=[];
@@ -148,10 +239,30 @@ angular.module('frontendApp')
             if (isConfirm) {
                 EnviarFabricacion();
             } else {
-
                 swal("Cancelado", mensaje, "error");
             }
         });
+    }
+    $scope.ImprimirTrabajo = function(row){
+        $scope.formatoFabricacion = row;
+        $scope.calcularContenidoTableProcess();
+        var w = window.open();
+        var d = w.document.open();
+        var ele = document.getElementById('containerFabricacion');
+        d.appendChild(ele);
+
+         webServer
+        .getResource('fabricacion',{},'get')
+        .then(function(data){
+            w.print();
+            w.close();
+            document.getElementById('superContainerFabricacion').appendChild(ele);
+        },function(data){
+            w.print();
+            w.close();
+            document.getElementById('superContainerFabricacion').appendChild(ele);
+        });
+
     }
     $scope.abrirModal=function(_id){
         swal({
@@ -163,14 +274,10 @@ angular.module('frontendApp')
             confirmButtonText: "Si, Borrar!",
             cancelButtonText: "No, Cancelar!",
             closeOnConfirm: false,
-            closeOnCancel: false
+            showLoaderOnConfirm: true,
         },
-        function(isConfirm){
-            if (isConfirm) {
-                Borrar(_id);
-            } else {
-                swal("Cancelado", "La fabricación no se borrará", "error");
-            }
+        function(){
+            Borrar(_id);
         });
     }
     function Borrar(id){
@@ -183,7 +290,6 @@ angular.module('frontendApp')
             }
         });
         if(controler){
-            $scope.preloader.estado = true;
             webServer
             .getResource('fabricacion/'+id,{},'delete')
             .then(function(data){
@@ -192,10 +298,8 @@ angular.module('frontendApp')
                         $scope.Fabricaciones.splice(ele.index,1);
                     }
                 });
-                $scope.preloader.estado = false;
                 swal("Completado...", data.data.message , "success");
             },function(data){
-                $scope.preloader.estado = false;
                 swal("Oops...", data.data.message , "error");
             });
         }else{
@@ -212,6 +316,7 @@ angular.module('frontendApp')
         }else{
             $scope.check='stock';
         }
+        $scope.validarFechaHoy();
     }
     $scope.CancelarEditar=function(){
         $scope.panel_title_form = "Registro de Fabricaciones";
@@ -224,24 +329,21 @@ angular.module('frontendApp')
         $scope.producto={};
     }
     $scope.cargarProducto=function(keyEvent){
-        var conter=true;
         $scope.Productos.forEach(function(ele , index){
             if($scope.producto.codigo == ele.codigo){
-                $scope.producto._id=ele._id+','+ele.nombre;
-                conter=false;
+                $scope.producto._id=ele._id+','+ele.nombre+','+ele.fabricado;
                 if (keyEvent.which === 13){
                     $('#Cantidad').focus();
                 }
             }
         });
-        if (conter) {
-            $scope.producto._id='';
-        }
     }
     $scope.detectar=function(keyEvent){
         if ($scope.producto.cantidad!='') {
             if (keyEvent.which === 13){
-                $scope.AgregarProducto();
+                if ($scope.producto._id!='') {
+                    $scope.AgregarProducto();
+                }
             }
         }
     }
@@ -277,47 +379,53 @@ angular.module('frontendApp')
             $scope.fabricacion.procesos=[];
             $scope.proceso={};
             $scope.producto={};
+            $scope.modal={};
+            $scope.modal.proceso={};    
+            $scope.modal.proceso.array_responsables=[];
             $scope.panel_title_form = "Registro de Fabricacion";
             $scope.button_title_form = "Registrar fabricación";
             $scope.preloader.estado = false;
-            sweetAlert("Completado...", data.data.message , "success");
+            swal("Completado...", data.data.message , "success");
         },function(data){
             $scope.preloader.estado = false;
-            sweetAlert("Oops...", data.data.message , "error");
+            swal("Oops...", data.data.message , "error");
         }); 
     }
     $scope.AgregarProducto=function(){
-        var controlador=false;
-        var obj = {
-            _id : $scope.producto._id.split(',')[0],
-            nombre : $scope.producto._id.split(',')[1],
-            fabricado : $scope.producto._id.split(',')[2],
-            cantidad : $scope.producto.cantidad,
-            cantidad_saliente : 0,
-            cantidad_fabricada :0,
-            cantidad_disponible : $scope.producto.cantidad
-        };
-        $scope.fabricacion.productos.forEach(function(ele, index){
-            if(ele._id==obj._id){
-                ele.cantidad=ele.cantidad+$scope.producto.cantidad;
-                ele.cantidad_disponible=ele.cantidad_disponible+$scope.producto.cantidad
-                controlador=true;
+        if ($scope.producto._id!='' && $scope.producto.cantidad!='') {
+            var controlador=false;
+            var obj = {
+                _id : $scope.producto._id.split(',')[0],
+                nombre : $scope.producto._id.split(',')[1],
+                fabricado : $scope.producto._id.split(',')[2],
+                cantidad : $scope.producto.cantidad,
+                cantidad_saliente : 0,
+                cantidad_fabricada :0,
+                cantidad_disponible : $scope.producto.cantidad
+            };
+            $scope.fabricacion.productos.forEach(function(ele, index){
+                if(ele._id==obj._id){
+                    ele.cantidad=ele.cantidad+$scope.producto.cantidad;
+                    ele.cantidad_disponible=ele.cantidad_disponible+$scope.producto.cantidad
+                    controlador=true;
+                }
+            });
+            if(!controlador){
+                $scope.fabricacion.productos.push(obj);
+            }else{
+                Materialize.toast('La cantidad se ha sumado al producto ya añadido', 4000);
             }
-        });
-        if(!controlador){
-            $scope.fabricacion.productos.push(obj);
-        }else{
-            Materialize.toast('La cantidad se ha sumado al producto ya añadido', 4000);
+            $scope.producto={};
+            $('#codigo_barras').focus();
         }
-        $scope.producto={};
-        $('#codigo_barras').focus();
     }
     $scope.AgregarProceso=function(){
         var controler=false;
         var proceso = {
             _id : $scope.proceso._id.split(',')[0],
-            nombre : $scope.proceso._id.split(',')[1],
-            tipo : $scope.proceso._id.split(',')[2],
+            proceso_consecutivo : $scope.proceso._id.split(',')[1],
+            nombre : $scope.proceso._id.split(',')[2],
+            tipo : $scope.proceso._id.split(',')[3],
             array_responsables : []
         };
         $scope.fabricacion.procesos.forEach(function(ele, index){
@@ -344,7 +452,17 @@ angular.module('frontendApp')
     }
     
     $scope.addresponsable = function(){
-        if ($scope.modal.proceso.array_responsables.lenght<1) {
+        var contadorresponsables=false;
+        if ($scope.modal.proceso.tipo=='Interno') {
+            contadorresponsables=true;
+        }else{
+            if ($scope.modal.proceso.array_responsables.length<1) {
+                contadorresponsables=true;
+            }else{
+                Materialize.toast('No se puede añadir mas de un responsable al proceso', 4000);
+            }
+        }
+        if (contadorresponsables) {
             var res = JSON.parse($scope.from_modal.persona);
             var index = null;
             $scope.modal.proceso.array_responsables.push(res);
@@ -354,8 +472,6 @@ angular.module('frontendApp')
                 }
             });
             $scope.personas.splice(index , 1);
-        }else{
-            Materialize.toast('No se puede añadir mas de un responsable al proceso', 4000);
         }
     }
     $scope.removeresponsable = function(index){
@@ -416,6 +532,7 @@ angular.module('frontendApp')
         $scope.modal_salida.estado='Sin Entrada';
         $scope.modal_salida.fabricacion=$scope.contenido_fabricacion;
         $scope.modal_salida.generado=$scope.Usuario;
+
         webServer
         .getResource('remision',$scope.modal_salida,'post')
         .then(function(data){
@@ -939,6 +1056,25 @@ angular.module('frontendApp')
         date += '/'+new Date(fecha).getFullYear();
         return date;
     }
+    $scope.imprimirRemision = function(formato){
+        $scope.formato = formato;
+        var formatoPrint = document.getElementById('container');
+        var w = window.open();
+        var d = w.document.open();
+        d.appendChild(formatoPrint);
+
+        webServer
+        .getResource('fabricacion',{},'get')
+        .then(function(data){
+            w.print();
+            w.close();
+            document.getElementById('superContainer').appendChild(formatoPrint);
+        },function(data){
+            w.print();
+            w.close();
+            document.getElementById('superContainer').appendChild(formatoPrint);
+        });
+    }
     function listarFabricaciones(){
         webServer
         .getResource('fabricacion',{},'get')
@@ -949,9 +1085,34 @@ angular.module('frontendApp')
         },function(data){
             $scope.Fabricaciones=[];
             $scope.gridOptions.data=$scope.Fabricaciones;
-            console.log(data.data.message);
             listarMaterias();
         });
+    }
+
+    $scope.calcularContenidoTableProcess = function(){
+        var cade = '';
+        for(var i = 0; i < $scope.formatoFabricacion.procesos.length; i++){
+            cade += '<tr><td rowspan="'+$scope.formatoFabricacion.procesos[i].array_responsables.length+'">';
+            cade += $scope.formatoFabricacion.procesos[i].proceso_consecutivo || '' + ' - ';
+            cade += $scope.formatoFabricacion.procesos[i].nombre;
+            cade += '</td><td class="sinBordesTopBottom">';
+            if($scope.formatoFabricacion.procesos[i].array_responsables[0]){
+                cade += $scope.formatoFabricacion.procesos[i].array_responsables[0].nombre || '';
+                cade += $scope.formatoFabricacion.procesos[i].array_responsables[0].apellidos || '';
+            }
+            cade += '</td></tr>';
+            for(var x = 1; x < $scope.formatoFabricacion.procesos[i].array_responsables.length; x++){
+                cade += '<tr><td class="sinBordesTopBottom">';
+                cade += $scope.formatoFabricacion.procesos[i].array_responsables[x].nombre+ ' ';
+                cade += $scope.formatoFabricacion.procesos[i].array_responsables[x].apellidos|| '' + ' ';
+                cade += '</td></tr>';
+            }
+        }
+
+        //cade += '<tr><td> Autoriza: '+ $scope.formatoFabricacion.generado.nombre+' '+$scope.formatoFabricacion.generado.apellidos || '' +'</td></tr>';
+        cade += '<tr><td> Autoriza:Nelson Sopo </td></tr>';
+
+        $('#contenidoTableProcess').html(cade);
     }
 	function listarOrdenes(){
         $scope.preloader.estado = true;
@@ -962,7 +1123,6 @@ angular.module('frontendApp')
             listarPersonas();
         },function(data){
             $scope.Ordenes=[];
-            console.log(data.data.message);
             listarPersonas();
         });
     }
@@ -974,7 +1134,6 @@ angular.module('frontendApp')
             listarRemisiones();
         },function(data){
             $scope.Productos=[];
-            console.log(data.data.message);
             listarRemisiones();
         });
     }
@@ -986,7 +1145,6 @@ angular.module('frontendApp')
             listarSalidasInsumos();
         },function(data){
             $scope.Materias=[];
-            console.log(data.data.message);
             listarSalidasInsumos();
         });
     }
@@ -998,7 +1156,6 @@ angular.module('frontendApp')
             listarEntradasFabricaciones();
         },function(data){
             $scope.Remisiones=[];
-            console.log(data.data.message);
             listarEntradasFabricaciones();
         });
     }
@@ -1010,7 +1167,6 @@ angular.module('frontendApp')
             $scope.preloader.estado = false;
         },function(data){
             $scope.SalidasInsumos=[];
-            console.log(data.data.message);
             $scope.preloader.estado = false;
         });
     }
@@ -1022,7 +1178,6 @@ angular.module('frontendApp')
             listarFabricaciones();
         },function(data){
             $scope.EntradasFabricaciones=[];
-            console.log(data.data.message);
             listarFabricaciones();
         });
     }

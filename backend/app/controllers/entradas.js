@@ -161,7 +161,8 @@ let eliminar = co.wrap(function *(req, res){
 		yield entradaModel.findByIdAndRemove(entrada._id);
 
 		return res.status(200).send({
-			message: 'Entrada anulada con exito, los cambios han sido revertidos en la base de datos'
+			message : 'Entrada anulada con exito, los cambios han sido revertidos en la base de datos',
+			datos : entrada
 		});
 	} catch (e) {
 		return res.status(500).send({

@@ -89,51 +89,50 @@ angular.module('frontendApp')
         $('#modalDetalles').modal('open');
     }
     $scope.cargarProducto=function(keyEvent){
-        var conter=true;
         $scope.productos.forEach(function(ele , index){
             if($scope.Orden.Producto.codigo == ele.codigo){
                 $scope.Orden.Producto._id=ele._id+','+ele.nombre;
-                conter=false;
-            }
-            if (keyEvent.which === 13){
-                $('#Cantidad-producto').focus();
+                if (keyEvent.which === 13){
+                    $('#Cantidad-producto').focus();
+                }
             }
         });
-        if (conter) {
-            $scope.Orden.Producto._id='';
-        }
     }
     $scope.detectar=function(keyEvent){
         if ($scope.Orden.Producto.cantidad!='') {
             if (keyEvent.which === 13){
-                $scope.AgregarProducto();
+                if ($scope.Orden.Producto._id!='') {
+                    $scope.AgregarProducto();
+                }
             }
         }
     }
     $scope.AgregarProducto=function(){
-        var controlador=false;
-        var _id = $scope.Orden.Producto._id.split(',')[0];
-        var obj = {};
-        $scope.productos.forEach(function(ele , index){
-            if(_id == ele._id){
-                obj = ele;
+        if ($scope.Orden.Producto._id!='' && $scope.Orden.Producto.cantidad!='') {
+            var controlador=false;
+            var _id = $scope.Orden.Producto._id.split(',')[0];
+            var obj = {};
+            $scope.productos.forEach(function(ele , index){
+                if(_id == ele._id){
+                    obj = ele;
+                }
+            });
+            obj.cantidad = $scope.Orden.Producto.cantidad;
+            obj.cantidad_faltante = $scope.Orden.Producto.cantidad;
+            obj.cantidad_entrante = 0;
+            $scope.Orden.productos.forEach(function(ele, index){
+                if(ele._id==obj._id){
+                    controlador=true;
+                }
+            });
+            if(!controlador){
+                $scope.Orden.productos.push(obj);
+            }else{
+                Materialize.toast('El producto ya esta añadido', 4000);
             }
-        });
-        obj.cantidad = $scope.Orden.Producto.cantidad;
-        obj.cantidad_faltante = $scope.Orden.Producto.cantidad;
-        obj.cantidad_entrante = 0;
-        $scope.Orden.productos.forEach(function(ele, index){
-            if(ele._id==obj._id){
-                controlador=true;
-            }
-        });
-        if(!controlador){
-            $scope.Orden.productos.push(obj);
-        }else{
-            Materialize.toast('El producto ya esta añadido', 4000);
+            $scope.Orden.Producto={};
+            $('#codigo_barras').focus();
         }
-        $scope.Orden.Producto={};
-        $('#codigo_barras').focus();
     }
     $scope.AgregarMateria=function(){
         var controlador=false;
@@ -176,14 +175,10 @@ angular.module('frontendApp')
             confirmButtonText: "Si, Borrar!",
             cancelButtonText: "No, Cancelar!",
             closeOnConfirm: false,
-            closeOnCancel: false
+            showLoaderOnConfirm: true,
         },
-        function(isConfirm){
-            if (isConfirm) {
-                Borrar(_id);
-            } else {
-                swal("Cancelado", "La orden de compra no se borrará", "error");
-            }
+        function(){
+            Borrar(_id);
         });
     }
     function Borrar (id){
@@ -196,7 +191,6 @@ angular.module('frontendApp')
             }
         });
         if (conter) {
-            $scope.preloader.estado = true;
             webServer
             .getResource('orden_compra/'+id,{},'delete')
             .then(function(data){
@@ -205,10 +199,8 @@ angular.module('frontendApp')
                         $scope.Ordenes.splice(ele.index,1);
                     }
                 });
-                $scope.preloader.estado = false;
                 swal("Completado...", data.data.message , "success");
             },function(data){
-                $scope.preloader.estado = false;
                 swal("Oops...", data.data.message , "error");
             });
         }else{
@@ -247,13 +239,14 @@ angular.module('frontendApp')
                 $scope.Orden.orden_compra_consecutivo=data.data.datos.orden_compra_consecutivo;
                 $scope.Ordenes.push($scope.Orden);
             }else{
+                $scope.Orden.estado=data.data.datos.estado;
                 $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
+                $scope.panel_title_form = "Registro de Compra";
+                $scope.button_title_form = "Registrar compra";
             }
             $scope.Orden={};
             $scope.Orden.productos=[];
             $scope.Orden.materia_prima=[];
-            $scope.panel_title_form = "Registro de Compra";
-            $scope.button_title_form = "Registrar compra";
             $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
@@ -296,6 +289,18 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Registro de Compra";
         $scope.button_title_form = "Registrar compra";
     }
+    /*Validaciones de numeros*/
+    $scope.validarNumeroProducto=function(id){
+        if ($scope.Orden.Producto.cantidad<1) {
+            $scope.Orden.Producto.cantidad=1;
+        }
+    }
+    $scope.validarNumeroMateria=function(id){
+        if ($scope.Orden.Materia.cantidad<1) {
+            $scope.Orden.Materia.cantidad=1;
+        }
+    }
+    /*Fin de las validaciones*/
     $scope.convertirFecha = function(fecha){
         var date = new Date(fecha).getDate();
         date += '/'+(new Date(fecha).getMonth()+1);
@@ -328,7 +333,6 @@ angular.module('frontendApp')
             listarEntradas();
         },function(data){
             $scope.proveedores = [];
-            console.log(data);
             listarEntradas();
         });
     }
@@ -340,7 +344,6 @@ angular.module('frontendApp')
             $scope.preloader.estado = false;
         },function(data){
             $scope.Entradas=[];
-            console.log(data.data.message);
             $scope.preloader.estado = false;
         });
     }
@@ -352,7 +355,6 @@ angular.module('frontendApp')
             listarPersonas();
         },function(data){
             $scope.materias=[];
-            console.log(data.data.message);
             listarPersonas();
         });
     }
@@ -364,7 +366,6 @@ angular.module('frontendApp')
             listarMaterias();
         },function(data){
             $scope.productos=[];
-            console.log(data.data.message);
             listarMaterias();
         });
     }
@@ -379,7 +380,6 @@ angular.module('frontendApp')
         },function(data){
             $scope.Ordenes=[];
             $scope.gridOptions.data=$scope.Ordenes;
-            console.log(data.data.message);
             listarProductos();
         });
     }

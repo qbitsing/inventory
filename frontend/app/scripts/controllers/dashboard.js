@@ -317,6 +317,7 @@ angular.module('frontendApp')
         .then(function(data){
             if($scope.TituloPanelProcesos=='Registro de procesos de fabricación'){
                 $scope.proceso._id=data.data.datos._id;
+                $scope.proceso.proceso_consecutivo=data.data.datos.proceso_consecutivo;
                 $scope.Procesos.push($scope.proceso);
             }else{
                 $scope.Procesos[$scope.proceso.index] = $scope.proceso;
