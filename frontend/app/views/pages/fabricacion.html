@@ -31,7 +31,7 @@
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="fecha_entrega" class="active">Fecha de entrega *</label>
-								<input type="date" id="fecha_entrega" ng-model="fabricacion.fecha_entrega"  required>
+								<input type="date" ng-change="validarFechaHoy()" id="fecha_entrega" ng-model="fabricacion.fecha_entrega" required>
 							</div>
 						</div>
 						<div class="row">
@@ -288,11 +288,11 @@
 	    		<div class="row">
 					<div class="input-field col s12 m6 l6">
 						<label class="active">Fecha de solicitud *</label>
-						<input type="date" ng-model="modal_salida.fecha_solicitud" required>
+						<input type="date" id="fecha_solicitud" ng-change="validarFechaSolicitud()" ng-model="modal_salida.fecha_solicitud" required>
 					</div>
 					<div class="input-field col s12 m6 l6">
 						<label class="active">Fecha de entrega *</label>
-						<input type="date" ng-model="modal_salida.fecha_entrega" required>
+						<input type="date" id="fecha_entrega"  ng-change="validarFechaEntrega()" ng-model="modal_salida.fecha_entrega" required>
 					</div>
 				</div>
 				<div class="row">
