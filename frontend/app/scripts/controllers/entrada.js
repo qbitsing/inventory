@@ -118,21 +118,6 @@ angular.module('frontendApp')
         });
     }
     function Borrar(id){
-        /*$scope.Entradas.forEach(function(ele,index){
-            if(ele._id==id){
-                entrada=ele;
-            }
-        });
-        $scope.Entradas.forEach(function(ele,index){
-            if(ele.orden_compra._id==entrada.orden_compra._id && ele._id!=id){
-                contador++;
-            }
-        });
-        if (contador>0) {
-            entrada.orden_compra.estado='Con Entradas';
-        }else{
-            entrada.orden_compra.estado='Activo';
-        }*/
         webServer
         .getResource('entradas/'+id,{},'delete')
         .then(function(data){
