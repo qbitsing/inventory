@@ -141,7 +141,7 @@ angular.module('frontendApp')
         });
     }
     $scope.detectar=function(keyEvent){
-        if ($scope.Kit.producto.cantidad!='') {
+        if ($scope.Kit.producto.cantidad>0) {
             if (keyEvent.which === 13){
                 if ($scope.Kit.producto._id!='') {
                     $scope.Agregarkit();
@@ -229,7 +229,7 @@ angular.module('frontendApp')
         });
     }
     $scope.Agregarkit=function(){
-        if ($scope.Kit.producto._id!='' && $scope.Kit.producto.cantidad!='') {
+        if ($scope.Kit.producto._id!='' && $scope.Kit.producto.cantidad>0) {
             var controlador=false;
             var obj = {
                 _id : $scope.Kit.producto._id.split(',')[0],
@@ -247,7 +247,9 @@ angular.module('frontendApp')
             }else{
                 Materialize.toast('El producto ya esta añadido', 4000);
             }
-            $scope.Kit={};
+            $scope.Kit.producto={};
+            $scope.Kit.producto._id='';
+            $scope.Kit.producto.cantidad=0;
         }
     }
     $scope.Borrarkit=function(index){
@@ -262,6 +264,8 @@ angular.module('frontendApp')
         $scope.Producto.procesos=[];
         $scope.Kit={};
         $scope.Kit.producto={};
+        $scope.Kit.producto._id='';
+        $scope.Kit.producto.cantidad=0;
     }
     $scope.EnviarProducto=function(){
         $scope.preloader.estado = true;
@@ -358,6 +362,8 @@ angular.module('frontendApp')
         $scope.Producto.procesos=[];
         $scope.Kit={};
         $scope.Kit.producto={};
+        $scope.Kit.producto._id='';
+        $scope.Kit.producto.cantidad=0;
         $scope.panel_title_form = "Registro de Productos";
         $scope.button_title_form = "Registrar Producto";
     }
@@ -379,13 +385,8 @@ angular.module('frontendApp')
         }
     }
     $scope.validarNumeroInsumo=function(){
-        if ($scope.Producto.Insumo.cantidad<1) {
-            $scope.Producto.Insumo.cantidad=1;
-        }
-    }
-    $scope.validarNumeroKit=function(){
-        if ($scope.Kit.producto.cantidad<1) {
-            $scope.Kit.producto.cantidad=1;
+        if ($scope.Producto.Insumo.cantidad<0) {
+            $scope.Producto.Insumo.cantidad=0;
         }
     }
     /*Fin de las validaciones*/

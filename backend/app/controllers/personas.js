@@ -62,6 +62,7 @@ let crear = co.wrap(function * (req, res){
 				subject: 'Registro en la plataforma de inventario',
 				text: `Cordial Saludo Sr(a) ${req.body.nombre} su registro en la plataforma de inventario ha sido exitoso su clave de acceso es: ${pass}`
 			};
+			console.log(mailOptions);
 			let info = yield transporter.sendMail(mailOptions);
 		}
 

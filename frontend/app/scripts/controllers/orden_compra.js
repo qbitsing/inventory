@@ -41,6 +41,8 @@ angular.module('frontendApp')
     $scope.Orden.materia_prima=[];
     $scope.productos=[];
     $scope.materias=[];
+    $scope.Orden.Producto={};
+    $scope.Orden.Producto._id='';
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editarorden+BotonesTabla.Borrarorden+'</div>';
     $scope.gridOptions = {
         columnDefs: [
@@ -99,7 +101,7 @@ angular.module('frontendApp')
         });
     }
     $scope.detectar=function(keyEvent){
-        if ($scope.Orden.Producto.cantidad!='') {
+        if ($scope.Orden.Producto.cantidad>0) {
             if (keyEvent.which === 13){
                 if ($scope.Orden.Producto._id!='') {
                     $scope.AgregarProducto();
@@ -108,7 +110,7 @@ angular.module('frontendApp')
         }
     }
     $scope.AgregarProducto=function(){
-        if ($scope.Orden.Producto._id!='' && $scope.Orden.Producto.cantidad!='') {
+        if ($scope.Orden.Producto._id!='' && $scope.Orden.Producto.cantidad>0) {
             var controlador=false;
             var _id = $scope.Orden.Producto._id.split(',')[0];
             var obj = {};
@@ -131,6 +133,8 @@ angular.module('frontendApp')
                 Materialize.toast('El producto ya esta añadido', 4000);
             }
             $scope.Orden.Producto={};
+            $scope.Orden.Producto._id='';
+            $scope.Orden.Producto.cantidad=0;
             $('#codigo_barras').focus();
         }
     }
@@ -290,14 +294,9 @@ angular.module('frontendApp')
         $scope.button_title_form = "Registrar compra";
     }
     /*Validaciones de numeros*/
-    $scope.validarNumeroProducto=function(id){
-        if ($scope.Orden.Producto.cantidad<1) {
-            $scope.Orden.Producto.cantidad=1;
-        }
-    }
     $scope.validarNumeroMateria=function(id){
-        if ($scope.Orden.Materia.cantidad<1) {
-            $scope.Orden.Materia.cantidad=1;
+        if ($scope.Orden.Materia.cantidad<0) {
+            $scope.Orden.Materia.cantidad=0;
         }
     }
     /*Fin de las validaciones*/

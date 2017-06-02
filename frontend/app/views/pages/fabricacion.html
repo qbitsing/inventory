@@ -50,7 +50,7 @@
 									<input type="number" ng-change="validarNumeroProducto()" ng-keyup="detectar($event)" ng-model="producto.cantidad" id="Cantidad" name="Cantidad">
 								<label for="Cantidad">Cantidad *</label>
 							</div>
-							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!(producto._id) || !(producto.cantidad)" ng-click="AgregarProducto()">Añadir</button>
+							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!producto._id || !producto.cantidad" ng-click="AgregarProducto()">Añadir</button>
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m12 l12">
@@ -336,7 +336,7 @@
     		</table>
     	</div>
 
-		<div id="superContainer" ng-show="false">
+		<div id="superContainer" ng-show="true">
 			<div id="container">
 				<link rel="stylesheet" ng-href="{{server}}/formatos/styles/remision.css">
 				<div class="factura">
@@ -346,10 +346,6 @@
 							<h2 class="title-header">productos industriales para telecomunicaciones e iliminacion</h2>
 							<h3 class="subtitle-header">producciones industriales esperanza s.a.s.</h3>
 							<p class="nit">nit. 900.462.957-1 régimen común</p>
-							<p class="description-head">
-								calle 73 sur no. 80j - 52 bogota - colombia - PBX: 777 77 04 <br><br>
-								pagina web: <span>www.prines.com.co</span>
-							</p>
 						</div>        
 						<div class="second-part">
 							<ul>
@@ -475,7 +471,7 @@
 	    				<tr ng-if="(check_modal_entrada=='remision' && producto.cantidad_faltante>0) || (check_modal_entrada=='entrada')" ng-repeat="producto in modal_entrada.productos">
 		    				<td>{{producto.producto.nombre}}</td>
 			    			<td ng-show="check_modal_entrada=='remision'">{{producto.cantidad_faltante}}</td>
-			    			<td ng-show="check_modal_entrada=='remision'"><input type="number" ng-change="validarNumeroProductoEntrada({{producto.producto._id}})" value="{{producto.cantidad_faltante}}" id="cantidad{{producto.producto._id}}" name="cantidad"></td>
+			    			<td ng-show="check_modal_entrada=='remision'"><input type="number" ng-change="validarNumeroProductoEntrada(producto.producto._id)" value="{{producto.cantidad_faltante}}" id="cantidad{{producto.producto._id}}" name="cantidad" ng-model="modal_entrada.productos[$index].cantidad_entrante"></td>
 			    			<td ng-show="check_modal_entrada!='remision'">{{producto.cantidad}}</td>
 		    				<td><button type="button" class="btn btn-danger" ng-click="removerproductoentrada(producto)">Eliminar</button></td>
 		    			</tr>

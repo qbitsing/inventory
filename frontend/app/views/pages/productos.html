@@ -109,7 +109,8 @@
 								<input type="text" ng-keyup="cargarProducto($event)" ng-model="Kit.codigo" id="codigo_barras" name="codigo_barras">
 							</div>
 							<div class="input-field col s8 m4 l4">
-								<input type="number" ng-keyup="detectar($event)" ng-change="validarNumeroKit()" ng-model="Kit.producto.cantidad" id="Cantidad" name="Cantidad">
+								<input type="number" ng-keyup="detectar($event)" 
+								ng-model="Kit.producto.cantidad" id="Cantidad" name="Cantidad">
 								<label for="Cantidad">Cantidad *</label>
 							</div>
 							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!(Kit.producto._id) || !(Kit.producto.cantidad)" ng-click="Agregarkit()">Añadir</button>
