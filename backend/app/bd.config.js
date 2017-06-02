@@ -1,4 +1,4 @@
-exit'use strict';
+'use strict';
 module.exports  = {
 	user : 'inventory',
 	pass : '900462957-1',
