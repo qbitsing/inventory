@@ -52,6 +52,8 @@ angular.module('frontendApp')
     $scope.server = server;
     $scope.contenidoTableProcess = '';
     $scope.fecha_hoy=new Date(Date.now());
+    $scope.producto={};
+    $scope.producto._id='';
     var casillaDeBotones;
     casillaDeBotones = '<div>'+BotonesTabla.Detalles;
     if ($scope.Usuario.rol=='Super Administrador') {
@@ -97,19 +99,14 @@ angular.module('frontendApp')
     angular.extend($scope.gridOptions , Tabla);
     
     /*Validaciones de numeros*/
-    $scope.validarNumeroProducto=function(){
-        if ($scope.producto.cantidad<1) {
-            $scope.producto.cantidad=1;
-        }
-    }
     $scope.validarNumeroRemision=function(){
-        if ($scope.modal_salida.cantidad<1) {
-            $scope.modal_salida.cantidad=1;
+        if ($scope.modal_salida.cantidad<0) {
+            $scope.modal_salida.cantidad=0;
         }
     }
     $scope.validarNumeroEntrada=function(){
-        if ($scope.modal_entrada.cantidad<1) {
-            $scope.modal_entrada.cantidad=1;
+        if ($scope.modal_entrada.cantidad<0) {
+            $scope.modal_entrada.cantidad=0;
         }
     }
     $scope.validarNumeroProductoEntrada=function(id){
@@ -118,13 +115,13 @@ angular.module('frontendApp')
         }
     }
     $scope.validarNumeroSalidaMateria=function(){
-        if ($scope.salida_insumos.cantidadMateria<1) {
-            $scope.salida_insumos.cantidadMateria=1;
+        if ($scope.salida_insumos.cantidadMateria<0) {
+            $scope.salida_insumos.cantidadMateria=0;
         }
     }
     $scope.validarNumeroSalidaProducto=function(){
-        if ($scope.salida_productos.cantidad<1) {
-            $scope.salida_productos.cantidad=1;
+        if ($scope.salida_productos.cantidad<0) {
+            $scope.salida_productos.cantidad=0;
         }
     }
     /*Validaciones de fechas*/
@@ -198,6 +195,8 @@ angular.module('frontendApp')
         $scope.fabricacion.procesos=[];
         $scope.proceso={};
         $scope.producto={};
+        $scope.producto._id='';
+        $scope.producto.cantidad=0;
         $scope.Orden='';
     }
     $scope.Detalles = function(id){
@@ -327,6 +326,8 @@ angular.module('frontendApp')
         $scope.fabricacion.procesos=[];
         $scope.proceso={};
         $scope.producto={};
+        $scope.producto._id='';
+        $scope.producto.cantidad=0;
     }
     $scope.cargarProducto=function(keyEvent){
         $scope.Productos.forEach(function(ele , index){
@@ -339,7 +340,7 @@ angular.module('frontendApp')
         });
     }
     $scope.detectar=function(keyEvent){
-        if ($scope.producto.cantidad!='') {
+        if ($scope.producto.cantidad>0) {
             if (keyEvent.which === 13){
                 if ($scope.producto._id!='') {
                     $scope.AgregarProducto();
@@ -380,6 +381,8 @@ angular.module('frontendApp')
             $scope.fabricacion.procesos=[];
             $scope.proceso={};
             $scope.producto={};
+            $scope.producto._id='';
+            $scope.producto.cantidad=0;
             $scope.modal={};
             $scope.modal.proceso={};    
             $scope.modal.proceso.array_responsables=[];
@@ -393,7 +396,7 @@ angular.module('frontendApp')
         }); 
     }
     $scope.AgregarProducto=function(){
-        if ($scope.producto._id!='' && $scope.producto.cantidad!='') {
+        if ($scope.producto._id!='' && $scope.producto.cantidad>0) {
             var controlador=false;
             var obj = {
                 _id : $scope.producto._id.split(',')[0],
@@ -407,7 +410,7 @@ angular.module('frontendApp')
             $scope.fabricacion.productos.forEach(function(ele, index){
                 if(ele._id==obj._id){
                     ele.cantidad=ele.cantidad+$scope.producto.cantidad;
-                    ele.cantidad_disponible=ele.cantidad_disponible+$scope.producto.cantidad
+                    ele.cantidad_disponible=ele.cantidad_disponible+$scope.producto.cantidad;
                     controlador=true;
                 }
             });
@@ -417,6 +420,8 @@ angular.module('frontendApp')
                 Materialize.toast('La cantidad se ha sumado al producto ya añadido', 4000);
             }
             $scope.producto={};
+            $scope.producto._id='';
+            $scope.producto.cantidad=0;
             $('#codigo_barras').focus();
         }
     }

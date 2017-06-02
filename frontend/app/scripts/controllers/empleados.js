@@ -73,15 +73,27 @@ angular.module('frontendApp')
         switch($scope.Empleado.rol) {
             case 'super_administrador':
                 $scope.Empleado.super_administrador=true;
+                $scope.Empleado.contador=false;
+                $scope.Empleado.almacenista=false;
+                $scope.Empleado.empleado=false;
                 break;
             case 'contador':
                 $scope.Empleado.contador=true;
+                $scope.Empleado.super_administrador=false;
+                $scope.Empleado.almacenista=false;
+                $scope.Empleado.empleado=false;
                 break;
             case 'almacenista':
                 $scope.Empleado.almacenista=true;
+                $scope.Empleado.contador=false;
+                $scope.Empleado.super_administrador=false;
+                $scope.Empleado.empleado=false;
                 break;
             case 'empleado':
                 $scope.Empleado.empleado=true;
+                $scope.Empleado.contador=false;
+                $scope.Empleado.super_administrador=false;
+                $scope.Empleado.almacenista=false;
                 break;
         }
         var ruta="";
@@ -147,7 +159,7 @@ angular.module('frontendApp')
     }
     function Borrar(id){
         webServer
-        .getResource('empleados/'+id,{},'delete')
+        .getResource('personas/'+id,{},'delete')
         .then(function(data){
             $scope.Empleados.forEach(function(ele, index){
                 if(ele._id==id){

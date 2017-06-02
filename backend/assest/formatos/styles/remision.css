@@ -3,7 +3,7 @@
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .header {
-    height: 144px;
+    height: 104px;
     position: relative;
 }
 .factura .first-part{
@@ -100,12 +100,13 @@
 }
 
 .formato-table td {
-    padding: 10px;
+    padding: 5px;
 }
 
 
 
 .table-header{
+    font-size: 10px;
     border: solid 1px;
     border-radius: 7px;
     overflow: hidden;
@@ -137,13 +138,14 @@
 }
 
 .table-body{
+    font-size: 10px;
     overflow: hidden;
     border: solid 1px;
     border-radius: 7px;
 }
 
 .detalles{
-    height: 80px;   
+    height: 40px;   
 }
 
 .detalles td {
