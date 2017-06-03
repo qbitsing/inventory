@@ -8,4 +8,4 @@
  * Constant in the frontendApp.
  */
 angular.module('frontendApp')
-  .constant('server', 'http://localhost:3333');
+  .constant('server', 'http://localhost:5000');

@@ -11,7 +11,7 @@ angular.module('frontendApp')
   .service('webServer', function ($http) {
 	return{
 		getResource: function(resource , data, metodo) {
-			var URL = "http://localhost:3333/"+resource;
+			var URL = "http://localhost:5000/"+resource;
 			if(data == undefined)
 				data = {};
 			if(metodo=="get"){
