@@ -23,6 +23,19 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
+    var handleFileSelect=function(evt) {
+        angular.element(document.querySelector('#inputval')).text( $(this).val());
+        var file=evt.currentTarget.files[0];
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+          $scope.$apply(function($scope){
+            $scope.contador=4;
+            $scope.myImage=evt.target.result;
+          });
+        };
+        reader.readAsDataURL(file);
+    };
+    angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
     $scope.preloader = preloader;
     $scope.panelAnimate='';
     $scope.pageAnimate='';
