@@ -38,6 +38,8 @@ angular.module('frontendApp')
     $scope.button_title_form = "Registrar venta";
     $scope.Orden={};
     $scope.Orden.productos=[];
+    $scope.Orden.Producto={};
+    $scope.Orden.Producto._id='';
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
     if ($scope.Usuario.rol=='Super Administrador') {
         casillaDeBotones+=BotonesTabla.Editarorden+BotonesTabla.Borrarorden;
@@ -141,7 +143,7 @@ angular.module('frontendApp')
         });
     }
     $scope.detectar=function(keyEvent){
-        if ($scope.Orden.Producto.cantidad!='') {
+        if ($scope.Orden.Producto.cantidad>0) {
             if (keyEvent.which === 13){
                 if ($scope.Orden.Producto._id!='') {
                     $scope.AgregarProducto();
@@ -150,7 +152,7 @@ angular.module('frontendApp')
         }
     }
     $scope.AgregarProducto=function(){
-        if ($scope.Orden.Producto._id!='' && $scope.Orden.Producto.cantidad!='') {
+        if ($scope.Orden.Producto._id!='' && $scope.Orden.Producto.cantidad>0) {
             var controlador=false;
             var obj = {
                 _id : $scope.Orden.Producto._id.split(',')[0],
@@ -173,6 +175,8 @@ angular.module('frontendApp')
                 Materialize.toast('El producto ya esta añadido', 4000);
             }
             $scope.Orden.Producto={};
+            $scope.Orden.Producto._id='';
+            $scope.Orden.Producto.cantidad=0;
             $('#codigo_barras').focus();
         }
     }
@@ -233,46 +237,43 @@ angular.module('frontendApp')
         }
     }
     $scope.EnviarOrden=function(){
-        if ($('#Cantidad').focus() || $('#codigo_barras').focus()) {
+        $scope.preloader.estado = true;
+        var ruta="";
+        var metodo="";
+        if ($scope.panel_title_form=="Registro de venta") {
+            ruta="orden_venta";
+            metodo="post";
         }else{
-            $scope.preloader.estado = true;
-            var ruta="";
-            var metodo="";
-            if ($scope.panel_title_form=="Registro de venta") {
-                ruta="orden_venta";
-                metodo="post";
-            }else{
-                ruta="orden_venta/"+$scope.Orden._id;
-                metodo="put";
-            }
-            webServer
-            .getResource(ruta,$scope.Orden,metodo)
-            .then(function(data){
-                $scope.clientes.forEach(function(ele, index){
-                    if(ele._id==$scope.Orden.cliente._id){
-                        $scope.Orden.cliente=ele;
-                    }
-                });
-                if($scope.panel_title_form=="Registro de venta"){
-                    $scope.Orden._id=data.data.datos._id;
-                    $scope.Orden.orden_venta_consecutivo=data.data.datos.orden_venta_consecutivo;
-                    $scope.Orden.estado='Activo';
-                    $scope.Ordenes.push($scope.Orden);
-                }else{
-                    $scope.Orden.estado=data.data.datos.estado;
-                    $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
-                    $scope.panel_title_form = "Registro de venta";
-                    $scope.button_title_form = "Registrar venta";
-                }
-                $scope.Orden={};
-                $scope.Orden.productos=[];
-                $scope.preloader.estado = false;
-                sweetAlert("Completado...", data.data.message , "success");
-            },function(data){
-                $scope.preloader.estado = false;
-                sweetAlert("Oops...", data.data.message , "error");
-            });
+            ruta="orden_venta/"+$scope.Orden._id;
+            metodo="put";
         }
+        webServer
+        .getResource(ruta,$scope.Orden,metodo)
+        .then(function(data){
+            $scope.clientes.forEach(function(ele, index){
+                if(ele._id==$scope.Orden.cliente._id){
+                    $scope.Orden.cliente=ele;
+                }
+            });
+            if($scope.panel_title_form=="Registro de venta"){
+                $scope.Orden._id=data.data.datos._id;
+                $scope.Orden.orden_venta_consecutivo=data.data.datos.orden_venta_consecutivo;
+                $scope.Orden.estado='Activo';
+                $scope.Ordenes.push($scope.Orden);
+            }else{
+                $scope.Orden.estado=data.data.datos.estado;
+                $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
+                $scope.panel_title_form = "Registro de venta";
+                $scope.button_title_form = "Registrar venta";
+            }
+            $scope.Orden={};
+            $scope.Orden.productos=[];
+            $scope.preloader.estado = false;
+            sweetAlert("Completado...", data.data.message , "success");
+        },function(data){
+            $scope.preloader.estado = false;
+            sweetAlert("Oops...", data.data.message , "error");
+        });
     }
     function scroll(){
          $("html, body").animate({
@@ -301,12 +302,6 @@ angular.module('frontendApp')
         $scope.productos=[];
         $scope.panel_title_form = "Registro de venta";
         $scope.button_title_form = "Registrar venta"; 
-    }
-    /*Validaciones de numeros*/
-    $scope.validarNumero=function(id){
-        if ($scope.Orden.Producto.cantidad<1) {
-            $scope.Orden.Producto.cantidad=1;
-        }
     }
     /*Validaciones de fechas*/
     $scope.validarFechaEntrega=function(){
