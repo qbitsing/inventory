@@ -9,6 +9,18 @@
 				<div class="panel-body" >
 					<form name="formEmpleados" novalidate ng-submit="EnviarEmpleado()">
 						<div class="row">
+							<div class="file-field input-field col s12 m12 l6">
+								<div class="btn blue accent-4 waves-effect waves-light">
+							        <span><i class="material-icons">file_upload</i></span>
+							        <input type="file" accept="image/*" id="fileInput">
+								</div>
+								<div class="file-path-wrapper">
+							        <input class="file-path" class="input-value" type="text" id="inputval" readonly>
+							    </div>								
+								<div class="cropArea img-responsive">
+							    	<ui-cropper image="myImage" result-image="myCroppedImage" class="responsive-img" result-image-size="{w: 200, h: 200}" area-min-size="{w:200, h: 200}"></ui-cropper>
+								</div>	
+							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="documento">Documento*</label>
 								<input type="text" ng-model="Empleado.documento" name="documento" id="documento"  required ng-disabled="panel_title_form == 'Editar Empleado'">
@@ -17,8 +29,6 @@
 								<label for="Nombre">Nombre *</label>
 								<input type="text" ng-model="Empleado.nombre" id="Nombre" name="Nombre" required>
 							</div>
-						</div>
-						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<label for="apellidos">Apellidos *</label>
 								<input type="text" ng-model="Empleado.apellidos" id="apellidos" name="apellidos" required>
@@ -27,8 +37,6 @@
 								<label for="Direccion">Direccion *</label>
 								<input type="text" ng-model="Empleado.direccion" id="Direccion" name="Direccion" required>
 							</div>
-						</div>
-						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<label for="Telefono">Telefono *</label>
 								<input type="number" ng-change="validarNumero()" ng-model="Empleado.telefono" id="Telefono" name="Telefono" required>
@@ -38,6 +46,7 @@
 								<input type="email" ng-model="Empleado.correo" id="Correo" name="Correo" required>
 							</div>
 						</div>
+						
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<label for="Cargo">Cargo *</label>
