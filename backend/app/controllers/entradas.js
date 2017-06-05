@@ -58,8 +58,8 @@ let crear = co.wrap(function * (req, res){
 				req.body.orden_compra.materia_prima = [];
 				for(var ele of materia){
 					if(ele.cantidad_entrante > ele.cantidad_faltante){
-						ele.cantidad +=  ele.cantidad_entrante - ele.cantidad_faltante;
-						ele.ingresanMas = ele.cantidad_entrante - ele.cantidad_faltante;
+						ele.cantidad +=  parseInt(ele.cantidad_entrante) - parseInt(ele.cantidad_faltante);
+						ele.ingresanMas = parseInt(ele.cantidad_entrante) - parseInt(ele.cantidad_faltante);
 						ele.cantidad_faltante = 0;
 					}else{
 						ele.cantidad_faltante -= ele.cantidad_entrante;
@@ -75,8 +75,8 @@ let crear = co.wrap(function * (req, res){
 				req.body.orden_compra.productos = [];
 				for(var ele of productos){
 					if(ele.cantidad_entrante > ele.cantidad_faltante){
-						ele.cantidad +=  ele.cantidad_entrante - ele.cantidad_faltante;
-						ele.ingresanMas = ele.cantidad_entrante - ele.cantidad_faltante;
+						ele.cantidad +=  parseInt(ele.cantidad_entrante) - parseInt(ele.cantidad_faltante);
+						ele.ingresanMas = parseInt(ele.cantidad_entrante) - parseInt(ele.cantidad_faltante);
 						ele.cantidad_faltante = 0;
 					}else{
 						ele.cantidad_faltante -= ele.cantidad_entrante;
@@ -129,9 +129,9 @@ let eliminar = co.wrap(function *(req, res){
 			for(var ele of materia){
 				if(ele.ingresanMas){
 					ele.cantidad -= ele.ingresanMas;
-					ele.cantidad_faltante += ele.cantidad_entrante - ele.ingresanMas;
+					ele.cantidad_faltante += parseInt(ele.cantidad_entrante) - parseInt(ele.ingresanMas);
 				}else{
-					ele.cantidad_faltante += ele.cantidad_entrante;
+					ele.cantidad_faltante += parseInt(ele.cantidad_entrante);
 				}
 
 				yield materiaModel.findByIdAndUpdate(ele._id, {$inc: {cantidad : (ele.cantidad_entrante * -1)}});
