@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const autoIncrement = require('../utils/auto-increment');
+const autoIncrement = require('../utils/auto-increment').init();
 
 const entradaRemisionSchema = new Schema({
     fecha: {type: Date, default: Date.now()},

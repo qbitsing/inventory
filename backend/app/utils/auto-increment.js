@@ -2,8 +2,15 @@
 const mongoose = require('mongoose');
 const autoIncrement = require('mongoose-auto-increment');
 const db = require('../bd.config.js');
-autoIncrement.initialize(
-    mongoose.createConnection(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`)
-);
+const co = require('co');
 
-module.exports = autoIncrement;
+let init = co.wrap(function * (){
+	let conn = yield mongoose.mongo.MongoClient.connect(
+		`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`);
+	return autoIncrement.initialize(conn);
+});
+
+
+
+
+module.exports = {init};

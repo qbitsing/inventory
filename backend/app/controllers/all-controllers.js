@@ -5,7 +5,7 @@ const ciudades = require('./ciudades');
 const departamentos = require('./departamentos');
 const unidades = require('./unidades');
 const materiaPrima = require('./materia-prima');
-const categoria = require('./categorias');
+/*const categoria = require('./categorias');
 const productos = require('./productos');
 const ordenCompra = require('./orden-compra');
 const ordenVenta = require('./orden-venta');
@@ -16,7 +16,7 @@ const procesos = require('./procesos');
 const remision = require('./remicion');
 const entradaRemision = require('./entradas-remision');
 const salidasFabricacion = require('./salidas-fabricacion.js');
-const facturas = require('./facturas');
+const facturas = require('./facturas');*/
 
 const controllers = {
 	personas,
@@ -24,7 +24,7 @@ const controllers = {
 	departamentos,
 	unidades,
 	materiaPrima,
-	categoria,
+	/*categoria,
 	productos,
 	ordenCompra,
 	ordenVenta,
@@ -35,7 +35,7 @@ const controllers = {
 	remision,
 	entradaRemision,
 	salidasFabricacion,
-	facturas
+	facturas*/
 };
 
 module.exports = controllers;

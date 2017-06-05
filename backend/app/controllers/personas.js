@@ -73,6 +73,20 @@ let crear = co.wrap(function * (req, res){
 
 		let persona = new personaModel(req.body);
 		let datos = yield persona.save();
+
+		if (req.body.myImage) {
+
+			let myImage = req.body.myImage.split(',')[1];
+			let Image = req.body.Image.split(',')[1];
+
+			let bufMyImage = new Buffer(myImage, 'base64');
+			let bufImage = new Buffer(Image, 'base64');
+			mkdirp.sync('assest/users');
+			mkdirp.sync(`assest/users/${datos._id}`);
+			fs.writeFile(`assest/users/${datos._id}/myImage.png`, bufMyImage);
+			fs.writeFile(`assest/users/${datos._id}/Image.png`, bufImage);
+
+		}
 		
 		return res.status(200).send({
 			message: 'Persona Registrada con Exito',
