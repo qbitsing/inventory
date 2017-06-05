@@ -497,6 +497,14 @@ angular.module('frontendApp')
         $('#modalSalidas').modal('open');
     }
     $scope.CerrarModalSalidas=function(){
+        $scope.contenido_fabricacion.productos.forEach(function(ele , i){
+            $scope.modal_salida.productos.forEach(function(elemento , index){
+                if(ele._id==elemento._id) {
+                    ele.cantidad_disponible=parseInt(ele.cantidad_disponible) + parseInt(elemento.cantidad);
+                    ele.cantidad_saliente=ele.cantidad_saliente - elemento.cantidad;
+                }
+            });
+        });
         $scope.modal_salida={};
         $scope.cancelarsalida={};
         $scope.modal_salida.productos=[];
@@ -515,7 +523,17 @@ angular.module('frontendApp')
                         cantidad : $scope.modal_salida.cantidad,
                         cantidad_faltante : $scope.modal_salida.cantidad
                     }
-                    $scope.modal_salida.productos.push(obj);
+                    var contro=true;
+                    $scope.modal_salida.productos.forEach(function(elemento , index){
+                        if(res._id==elemento._id) {
+                            ele.cantidad = ele.cantidad + obj.cantidad;
+                            ele.cantidad_faltante = parseInt(ele.cantidad_faltante) + parseInt(obj.cantidad);
+                            contro=false;
+                        }
+                    });
+                    if (contro) {
+                        $scope.modal_salida.productos.push(obj);
+                    }
                     $scope.modal_salida.cantidad='';
                     $scope.modal_salida.producto='';
                 }else{
@@ -635,6 +653,14 @@ angular.module('frontendApp')
         $('#modalEntradas').modal('open');
     }
     $scope.CerrarModalEntradas=function(){
+        $scope.contenido_fabricacion.productos.forEach(function(ele , i){
+            $scope.modal_entrada.productos.forEach(function(elemento , index){
+                if(ele._id==elemento._id) {
+                    ele.cantidad_disponible=parseInt(ele.cantidad_disponible) + parseInt(elemento.cantidad);
+                    ele.cantidad_fabricada=ele.cantidad_fabricada - elemento.cantidad;
+                }
+            });
+        });
         $scope.modal_entrada={};
         $scope.cancelarentrada={};
         $scope.modal_entrada.productos=[];
@@ -652,7 +678,16 @@ angular.module('frontendApp')
                         producto : ele,
                         cantidad : $scope.modal_entrada.cantidad
                     }
-                    $scope.modal_entrada.productos.push(obj);
+                    var contro=true;
+                    $scope.modal_entrada.productos.forEach(function(elemento , index){
+                        if(res._id==elemento._id) {
+                            ele.cantidad = ele.cantidad + obj.cantidad;
+                            contro=false;
+                        }
+                    });
+                    if (contro) {
+                        $scope.modal_entrada.productos.push(obj);
+                    }
                     $scope.modal_entrada.cantidad='';
                     $scope.modal_entrada.producto='';
                 }else{
