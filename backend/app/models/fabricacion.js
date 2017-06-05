@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const autoIncrement = require('../utils/auto-increment').init();
+const autoIncrement = require('../utils/auto-increment');
 
 
 const fabricacionSchema = new Schema({

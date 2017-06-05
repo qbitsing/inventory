@@ -78,7 +78,6 @@ app.delete('/materiaPrima/:id' , controllers.materiaPrima.eliminar);
 
 app.post('/materiaPrima' , controllers.materiaPrima.crear);
 // Fin Bloque de rutas de materiaPrima
-/*
 // Bloque de rutas de categorias
 app.get('/categorias', controllers.categoria.listarAll);
 
@@ -208,8 +207,16 @@ app.post('/facturas' , controllers.facturas.crear);
 app.put('/facturas/:id' , controllers.facturas.anular);
 
 //Fin Bloque de rutas de facturas
-*/
+
 app.get('/imagen/:id', (req, res) => {
+  let id = req.params.id;
+
+  if(fs.existsSync(`assest/users/${id}/myImage.png`))
+    res.redirect(`/users/${id}/myImage.png`);
+  else
+    res.redirect('http://img.freepik.com/iconos-gratis/perfil-silueta-usuario_318-40557.jpg?size=338&ext=jpg');
+});
+app.get('/imagen1/:id', (req, res) => {
   let id = req.params.id;
 
   if(fs.existsSync(`assest/users/${id}/myImage.png`))
