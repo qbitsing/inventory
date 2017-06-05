@@ -225,7 +225,7 @@ app.get('/imagen1/:id', (req, res) => {
     res.redirect('http://img.freepik.com/iconos-gratis/perfil-silueta-usuario_318-40557.jpg?size=338&ext=jpg');
 });
 
-mongoose.mongo.MongoClient.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
+mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
   if(err){
     return console.log(`ERROR al conectar con la BD: ${err}`);
   };
