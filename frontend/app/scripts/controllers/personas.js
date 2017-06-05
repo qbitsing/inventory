@@ -121,7 +121,7 @@ angular.module('frontendApp')
     }
     function Borrar(id){
         webServer
-        .getResource('orden_venta/'+id,{},'delete')
+        .getResource('personas/'+id,{},'delete')
         .then(function(data){
             $scope.Personas.forEach(function(ele, index){
                 if(ele._id==id){
