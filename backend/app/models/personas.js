@@ -37,7 +37,7 @@ const personaSchema = Schema({
     contacto: String,
     fax : Number,
     cargo: String,
-    imagen: String
+    Image: String
 });
 
 module.exports = mongoose.model('persona' , personaSchema);

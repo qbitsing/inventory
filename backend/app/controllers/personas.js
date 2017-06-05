@@ -110,8 +110,6 @@ let actualizar = co.wrap(function * (req, res){
 
 		}
 
-
-
 		let update = yield personaModel.findByIdAndUpdate(personaId, req.body);
 
 		if (req.body.myImage) {
@@ -123,8 +121,8 @@ let actualizar = co.wrap(function * (req, res){
 			let bufImage = new Buffer(Image, 'base64');
 			mkdirp.sync('assest/users');
 			mkdirp.sync(`assest/users/${update._id}`);
-			fs.writeFile(`assest/users/${update._id}/myImage.jpg`, bufMyImage);
-			fs.writeFile(`assest/users/${update._id}/Image.jpg`, bufImage);
+			fs.writeFile(`assest/users/${update._id}/myImage.png`, bufMyImage);
+			fs.writeFile(`assest/users/${update._id}/Image.png`, bufImage);
 
 		}
 
@@ -227,15 +225,6 @@ function CreatePass(){
 	return pass;
 }
 
-function fileExists(path) {
-  try {
-    if(fs.accessSync('/archivo.dat')) {
-      return true;
-    }
-  } catch (e) {
-    return false;
-  }
-}
 
 module.exports = {
 	listarAll,

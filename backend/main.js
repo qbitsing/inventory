@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const db = require('./app/bd.config.js');
 const controllers = require('./app/controllers/all-controllers');
+const fs = require('fs');
 
 
 const app = express();
@@ -207,6 +208,19 @@ app.post('/facturas' , controllers.facturas.crear);
 app.put('/facturas/:id' , controllers.facturas.anular);
 
 //Fin Bloque de rutas de facturas
+
+app.get('/imagen/:id', (req, res) => {
+  let id = req.params.id;
+
+  if(fs.existsSync(`assest/users/${id}/myImage.png`))
+    res.redirect(`/users/${id}/myImage.png`);
+  else
+    res.redirect('http://img.freepik.com/iconos-gratis/perfil-silueta-usuario_318-40557.jpg?size=338&ext=jpg');
+});
+
+app.get('/imagen/base64', (req, res) => {
+
+});
 
 
 
