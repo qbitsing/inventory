@@ -25,13 +25,13 @@
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="Direccion">Direccion *</label>
-								<input type="text" ng-model="Empleado.direccion" id="Direccion" name="Direccion" required>
+								<input type="text" ng-model="Empleado.direccion" id="Direccion" name="Direccion">
 							</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<label for="Telefono">Telefono *</label>
-								<input type="number" ng-change="validarNumero()" ng-model="Empleado.telefono" id="Telefono" name="Telefono" required>
+								<input type="number" ng-change="validarNumero()" ng-model="Empleado.telefono" id="Telefono" name="Telefono">
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="Correo">Correo *</label>
@@ -53,6 +53,18 @@
 								<label>Rol *</label>
 							</div>
 						</div>
+						<div class="file-field input-field col s12 m12 l6">
+								<div class="btn blue accent-4 waves-effect waves-light">
+							        <span><i class="material-icons">file_upload</i></span>
+							        <input type="file" accept="image/*" id="fileInput">
+								</div>
+								<div class="file-path-wrapper">
+							        <input class="file-path" class="input-value" type="text" id="inputval" readonly>
+							    </div>								
+								<div class="cropArea img-responsive">
+							    	<ui-cropper image="myImage" result-image="myCroppedImage" on-load-done="cambiar(1)" on-change="cambiar(2)" class="responsive-img"></ui-cropper>
+								</div>	
+							</div>
 						<div class="row">
 							<div class="col">
 								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formEmpleados.$invalid" >{{button_title_form}}</button>

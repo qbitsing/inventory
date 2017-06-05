@@ -93,7 +93,7 @@ angular.module('frontendApp')
     }
     function listarProductos(){
         webServer
-        .getResource('productos',{producto:true},'get')
+        .getResource('productos',{producto:true,kit:true},'get')
         .then(function(data){
             if(data.data){
                 $scope.productos=data.data.datos;
