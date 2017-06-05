@@ -145,6 +145,7 @@ angular.module('frontendApp')
                 $scope.Empleados[$scope.Empleado.index] = $scope.Empleado;
             }
             $scope.Empleado ={};
+            $scope.myImage='';
             $scope.panel_title_form = "Registro de Empleados";
             $scope.button_title_form = "Registrar Empleado";
             $scope.preloader.estado = false;
@@ -167,7 +168,7 @@ angular.module('frontendApp')
         }else if($scope.Detalle.almacenista){
             $scope.Detalle.rol='Almacenista';
         }else if($scope.Detalle.empleado){
-            $scope.Detalle.rol='<E></E>mpleado';
+            $scope.Detalle.rol='Empleado';
         }
         $('#modalDetalles').modal('open');
     }
@@ -217,12 +218,14 @@ angular.module('frontendApp')
         }else if($scope.Empleado.empleado){
             $scope.Empleado.rol='empleado';
         }
+        $scope.myImage=$scope.Empleado.myImage || '';
         $scope.panel_title_form = "Edicion de Empleado";
         $scope.button_title_form = "Actualizar Empleado";
         scroll();
     }
     $scope.CancelarEditar=function(){
         $scope.Empleado={};
+        $scope.myImage='';
         $scope.panel_title_form = "Registro de Empleados";
         $scope.button_title_form = "Registrar Empleado";
     }
@@ -265,7 +268,7 @@ angular.module('frontendApp')
                     contador : ele.contador,
                     empleado : ele.empleado,
                     cargo : ele.cargo,
-                    myImage : ele.Image || ''
+                    myImage : ele.Image
                 };
             }
         });
