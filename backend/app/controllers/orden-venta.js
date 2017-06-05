@@ -100,22 +100,44 @@ let actualizar = co.wrap(function * (req, res){
         }
         let noDisponible = [];
         for(let ele of req.body.productos){
-            let pro = yield productoModel.findById(ele._id);
-            let disponible = pro.cantidad - pro.min_stock;
-            if(pro.cantidad < ele.cantidad){
-                noDisponible.push(`No cuenta con las cantidad suficiente de ${ele.nombre} en inventario`);
-            }else if(disponible < ele.cantidad){
-                noDisponible.push(`El minimo stock  de ${ele.nombre} se esta superando`);
-            }else if((pro.cantidad - pro.apartados) < ele.cantidad){
-                noDisponible.push(`El inventario cuenta con el producto ${ele.nombre} pero ya hay ${pro.apartados} apartados en otras ordenes de venta`);
-            }else if((disponible - pro.apartados) < ele.cantidad){
-                noDisponible.push(`El inventario cuenta con el producto ${ele.nombre} pero ya hay ${pro.apartados} apartados en otras ordenes de venta,
-                y al despacharlos se supera el minimo stock`);                
+            if(ele.tipo == 'kit'){
+                for(let el of ele.productos){
+                    let pr = yield productoModel.findById(el._id);
+                    let dispo = pr.cantidad - pr.min_stock;
+                    if(pr.cantidad < el.cantidad){
+                        noDisponible.push(`No cuenta con las cantidad suficiente de ${el.nombre} en inventario`);
+                    }else if(dispo < (el.cantidad * ele.cantidad)){
+                        noDisponible.push(`El minimo stock  de ${el.nombre} se esta superando`);
+                    }else if((pr.cantidad - pr.apartados) < (el.cantidad * ele.cantidad)){
+                        noDisponible.push(`El inventario cuenta con el producto ${el.nombre} pero ya hay ${pro.apartados} apartados en otras ordenes de venta`);
+                    }else if((dispo - pro.apartados) < (el.cantidad * ele.cantidad)){
+                        noDisponible.push(`El inventario cuenta con el producto ${el.nombre} pero ya hay ${pro.apartados} apartados en otras ordenes de venta,
+                        y al despacharlos se supera el minimo stock`);                
+                    }
+
+                    pr.apartados += parseInt(el.cantidad * ele.cantidad);
+
+                    yield productoModel.findByIdAndUpdate(pr._id, pr);
+
+                } 
+            }else{
+                let pro = yield productoModel.findById(ele._id);
+                let disponible = pro.cantidad - pro.min_stock;
+                if(pro.cantidad < ele.cantidad){
+                    noDisponible.push(`No cuenta con las cantidad suficiente de ${ele.nombre} en inventario`);
+                }else if(disponible < ele.cantidad){
+                    noDisponible.push(`El minimo stock  de ${ele.nombre} se esta superando`);
+                }else if((pro.cantidad - pro.apartados) < ele.cantidad){
+                    noDisponible.push(`El inventario cuenta con el producto ${ele.nombre} pero ya hay ${pro.apartados} apartados en otras ordenes de venta`);
+                }else if((disponible - pro.apartados) < ele.cantidad){
+                    noDisponible.push(`El inventario cuenta con el producto ${ele.nombre} pero ya hay ${pro.apartados} apartados en otras ordenes de venta,
+                    y al despacharlos se supera el minimo stock`);                
+                }
+
+                pro.apartados += ele.cantidad;
+
+                yield productoModel.findByIdAndUpdate(pro._id, pro);
             }
-
-            pro.apartados += ele.cantidad;
-
-            yield productoModel.findByIdAndUpdate(pro._id, pro);
         }
 
         yield ordenVentaModel.findByIdAndUpdate(ordenId, req.body);
