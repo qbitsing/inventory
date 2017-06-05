@@ -277,6 +277,9 @@ $success:#00c853;
       z-index: 2;
       li a{
         color:$azul;
+        i{
+          margin-right: 10px;
+        }
       }
     }
   }
