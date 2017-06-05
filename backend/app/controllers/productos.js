@@ -91,7 +91,7 @@ let actualizar = co.wrap(function * (req, res){
         req.body.unidad_medida = yield unidadMedidaModel.findById(req.body.unidad_medida._id);
 
 
-        yield ProductoModel.findByIdAndUpdate(id, req.body);
+        yield ProductoModel.findByIdAndUpdate(productoId, req.body);
 
         return res.status(200).send({
             message: 'Producto actualizado con exito'
