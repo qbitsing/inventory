@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('DashboardCtrl', function ($scope, $state, SesionUsuario, webServer, Tabla, BotonesTabla, preloader) {
+  .controller('DashboardCtrl', function ($scope, $state, SesionUsuario, webServer, Tabla, BotonesTabla, preloader, server) {
     $(document).ready(function(){
         $('.modal').modal();
         $('#modal1').modal({
@@ -56,6 +56,7 @@ angular.module('frontendApp')
     });
     $scope.preloader = preloader;
     $scope.$state=$state;
+    $scope.server=server;
     $scope.categoria={};
     if(SesionUsuario.ObtenerSesion()==null){
         $state.go('InicioSesion');

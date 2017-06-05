@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('PerfilCtrl', function ($scope, $timeout, SesionUsuario, webServer, preloader) {
+  .controller('PerfilCtrl', function ($scope, $timeout, SesionUsuario, webServer, preloader, server) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -26,14 +26,17 @@ angular.module('frontendApp')
     $scope.preloader = preloader;
     $scope.preloader.estado = false;
     $scope.panelAnimate='';
-    $scope.pageAnimate='';  
+    $scope.pageAnimate='';
     $timeout(function () {
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
     },100);
+    $scope.server=server;  
     $scope.panel_title_form = "Perfil";
     $scope.button_title_form = "Actualizar datos";
     $scope.Usuario=SesionUsuario.ObtenerSesion();
+
+    $scope.myImage=$scope.Usuario.Image || '';
     $scope.MiUsuario={};
     $scope.Detallemodal={};
     $scope.cambio=false;
@@ -78,9 +81,19 @@ angular.module('frontendApp')
             $scope.preloader.estado = true;
             $scope.MiUsuario.myImage=$scope.myCroppedImage;
             $scope.MiUsuario.Image=$scope.myImage;
+            $scope.Usuario.Image=$scope.myImage;
             webServer
             .getResource('personas/'+$scope.Usuario._id , $scope.MiUsuario , 'put')
             .then(function(data){
+                var imagen=document.getElementsByClassName('circle');
+                var atributo=imagen[0].getAttribute('src');
+                var src='';
+                if(atributo==$scope.server+'/imagen/'+$scope.Usuario._id){
+                    src=$scope.server+'/imagen1/'+$scope.Usuario._id;
+                }else if(atributo==$scope.server+'/imagen1/'+$scope.Usuario._id){
+                    src=$scope.server+'/imagen/'+$scope.Usuario._id;
+                }
+                imagen[0].setAttribute('src',src);
                 EnviarDatos(1);
             },function(data){
             });
@@ -103,6 +116,7 @@ angular.module('frontendApp')
             });
         }else{
             if(actualizo==1){
+                SesionUsuario.ActualizarSesion($scope.Usuario);
                 $scope.preloader.estado = false;
                 $scope.Detallemodal.mensaje='Operación realizada con exito';
             }else{
