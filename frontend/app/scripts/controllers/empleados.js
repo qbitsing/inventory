@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('EmpleadosCtrl', function ($state, $scope, $timeout, Tabla, BotonesTabla, webServer, preloader){
+.controller('EmpleadosCtrl', function ($state, $scope, $timeout, Tabla, BotonesTabla, webServer, preloader, server){
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -23,19 +23,7 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
-    var handleFileSelect=function(evt) {
-        angular.element(document.querySelector('#inputval')).text( $(this).val());
-        var file=evt.currentTarget.files[0];
-        var reader = new FileReader();
-        reader.onload = function (evt) {
-          $scope.$apply(function($scope){
-            $scope.contador=4;
-            $scope.myImage=evt.target.result;
-          });
-        };
-        reader.readAsDataURL(file);
-    };
-    angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
+    $scope.server=server;
     $scope.preloader = preloader;
     $scope.panelAnimate='';
     $scope.pageAnimate='';
@@ -81,6 +69,29 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptions , Tabla);
+    var handleFileSelect=function(evt) {
+        angular.element(document.querySelector('#inputval')).text( $(this).val());
+        var file=evt.currentTarget.files[0];
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+          $scope.$apply(function($scope){
+            $scope.contador=4;
+            $scope.myImage=evt.target.result;
+          });
+        };
+        reader.readAsDataURL(file);
+    };
+    angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
+    $scope.cambiar=function(act){
+        if(act==1 && $scope.contador<3){
+            $scope.contador=1;
+        }else if(act==2){
+            $scope.contador++;
+        }
+        if($scope.contador>=3){
+            $scope.cambio=true;
+        }
+    }
     $scope.EnviarEmpleado=function(){
         $scope.preloader.estado = true;
         switch($scope.Empleado.rol) {
@@ -112,9 +123,15 @@ angular.module('frontendApp')
         var ruta="";
         var metodo="";
         if ($scope.panel_title_form=="Registro de Empleados") {
+            $scope.Empleado.myImage=$scope.myCroppedImage;
+            $scope.Empleado.Image=$scope.myImage;
             ruta="personas";
             metodo="post";
         }else{
+            if ($scope.cambio) {
+                $scope.Empleado.myImage=$scope.myCroppedImage;
+                $scope.Empleado.Image=$scope.myImage;
+            }
             ruta="personas/"+$scope.Empleado._id;
             metodo="put";
         }
@@ -128,6 +145,7 @@ angular.module('frontendApp')
                 $scope.Empleados[$scope.Empleado.index] = $scope.Empleado;
             }
             $scope.Empleado ={};
+            $scope.myImage='';
             $scope.panel_title_form = "Registro de Empleados";
             $scope.button_title_form = "Registrar Empleado";
             $scope.preloader.estado = false;
@@ -150,7 +168,7 @@ angular.module('frontendApp')
         }else if($scope.Detalle.almacenista){
             $scope.Detalle.rol='Almacenista';
         }else if($scope.Detalle.empleado){
-            $scope.Detalle.rol='<E></E>mpleado';
+            $scope.Detalle.rol='Empleado';
         }
         $('#modalDetalles').modal('open');
     }
@@ -200,12 +218,14 @@ angular.module('frontendApp')
         }else if($scope.Empleado.empleado){
             $scope.Empleado.rol='empleado';
         }
+        $scope.myImage=$scope.Empleado.myImage || '';
         $scope.panel_title_form = "Edicion de Empleado";
         $scope.button_title_form = "Actualizar Empleado";
         scroll();
     }
     $scope.CancelarEditar=function(){
         $scope.Empleado={};
+        $scope.myImage='';
         $scope.panel_title_form = "Registro de Empleados";
         $scope.button_title_form = "Registrar Empleado";
     }
@@ -247,7 +267,8 @@ angular.module('frontendApp')
                     almacenista : ele.almacenista,
                     contador : ele.contador,
                     empleado : ele.empleado,
-                    cargo : ele.cargo
+                    cargo : ele.cargo,
+                    myImage : ele.Image
                 };
             }
         });

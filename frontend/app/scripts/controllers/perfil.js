@@ -35,7 +35,6 @@ angular.module('frontendApp')
     $scope.panel_title_form = "Perfil";
     $scope.button_title_form = "Actualizar datos";
     $scope.Usuario=SesionUsuario.ObtenerSesion();
-
     $scope.myImage=$scope.Usuario.Image || '';
     $scope.MiUsuario={};
     $scope.Detallemodal={};
