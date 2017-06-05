@@ -78,7 +78,6 @@ app.delete('/materiaPrima/:id' , controllers.materiaPrima.eliminar);
 
 app.post('/materiaPrima' , controllers.materiaPrima.crear);
 // Fin Bloque de rutas de materiaPrima
-
 // Bloque de rutas de categorias
 app.get('/categorias', controllers.categoria.listarAll);
 
@@ -217,14 +216,16 @@ app.get('/imagen/:id', (req, res) => {
   else
     res.redirect('http://img.freepik.com/iconos-gratis/perfil-silueta-usuario_318-40557.jpg?size=338&ext=jpg');
 });
+app.get('/imagen1/:id', (req, res) => {
+  let id = req.params.id;
 
-app.get('/imagen/base64', (req, res) => {
-
+  if(fs.existsSync(`assest/users/${id}/myImage.png`))
+    res.redirect(`/users/${id}/myImage.png`);
+  else
+    res.redirect('http://img.freepik.com/iconos-gratis/perfil-silueta-usuario_318-40557.jpg?size=338&ext=jpg');
 });
 
-
-
-mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
+mongoose.mongo.MongoClient.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
   if(err){
     return console.log(`ERROR al conectar con la BD: ${err}`);
   };

@@ -1,7 +1,8 @@
 'use strict';
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const autoIncrement = require('../utils/auto-increment.js');
+const autoIncrement = require('../utils/auto-increment');
+
 
 const ProductoSchema = new Schema({
     nombre : String,
