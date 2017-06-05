@@ -5,6 +5,10 @@ const ciudadModel = require('../models/ciudades');
 const bcrypt = require('bcrypt-nodejs');
 const co = require('co');
 const transporter = require('../utils/email').transporter;
+const fs = require('fs');
+let mkdirp = require('mkdirp');
+const exec = require('child_process').execSync;
+
 
 function listarAll (req, res){
 	let query = req.query;
@@ -82,40 +86,59 @@ let crear = co.wrap(function * (req, res){
 	}
 });
 
-function actualizar (req, res) {
-	let personaId = req.params.id;
-	if(req.body.pssactual){
-		personaModel.findById(personaId, (err, _user)=>{
-			if(err || !_user){
-				return res.status(500).send({
-					message : 'Los datos indicados no son correctos'
-				});
-			}
-			if(bcrypt.compareSync(req.body.pssactual, _user.contrasena)){
+let actualizar = co.wrap(function * (req, res){
+	try{
+
+		let personaId = req.params.id;
+
+		if (req.body.pssactual) {
+			let persona = yield personaModel.findById(personaId);
+
+			if(bcrypt.compareSync(req.body.pssactual, persona.contrasena)){
+
 				req.body.contrasena = encryptarContrasena(req.body.nueva);
-				Update();
+
 			}else{
-				return res.status(500).send({
-					message : `Contraseña Incorrecta`
-				});
-			}
-			
-		});
-	}else Update();
-	function Update(){
-		personaModel.findByIdAndUpdate(personaId , req.body ,(err , personaStored)=>{
-			if(err){
-				return res.status(500).send({
-					message : `ERROR al intentar actualizar la persona ${err}`
-				});
+
+				return res.status(500).send(
+					{
+						message: 'La contraseña indicada no es correcta'
+					}
+				);
+
 			}
 
-			return res.status(200).send({
-				datos : personaStored
-			});
+		}
+
+
+
+		let update = yield personaModel.findByIdAndUpdate(personaId, req.body);
+
+		if (req.body.myImage) {
+
+			let myImage = req.body.myImage.split(',')[1];
+			let Image = req.body.Image.split(',')[1];
+
+			let bufMyImage = new Buffer(myImage, 'base64');
+			let bufImage = new Buffer(Image, 'base64');
+			mkdirp.sync('assest/users');
+			mkdirp.sync(`assest/users/${update._id}`);
+			fs.writeFile(`assest/users/${update._id}/myImage.jpg`, bufMyImage);
+			fs.writeFile(`assest/users/${update._id}/Image.jpg`, bufImage);
+
+		}
+
+		return res.status(200).send({
+			message: 'los datos se han actualizado con exito'
+		});
+
+	}
+	catch(e){
+		return res.status(500).send({
+			message: `ERROR ${e}`
 		});
 	}
-}
+});
 
 function login (req, res){
 	let credentials = {
@@ -202,6 +225,16 @@ function CreatePass(){
 		pass+= Math.floor(Math.random()*10);
 	}
 	return pass;
+}
+
+function fileExists(path) {
+  try {
+    if(fs.accessSync('/archivo.dat')) {
+      return true;
+    }
+  } catch (e) {
+    return false;
+  }
 }
 
 module.exports = {
