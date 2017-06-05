@@ -316,7 +316,8 @@
 	    				<th>Proceso</th>
 	    				<th>Responsable</th>
 	    				<th>Transportador</th>
-	    				<th>Opción</th>
+	    				<th colspan="2">Opciones</th>
+	    				<th>Observaciones</th>
 	    			</tr>
 	    		</thead>
 	    		<tbody>
@@ -325,12 +326,13 @@
 		    			<td><li ng-repeat="res in remision.productos">{{res.producto.nombre}} - {{res.cantidad}}</li></td>
 		    			<td>{{remision.proceso.nombre}}</td>
 	    				<td ng-hide="remision.proceso.array_responsables.length<1"><li ng-repeat="res in remision.proceso.array_responsables">{{res.nombre}} {{res.apellidos}}</li></td>
-	    				<td ng-hide="remision.proceso.array_responsables>0">No registra</td>
+	    				<td ng-hide="remision.proceso.array_responsables.length>0">No registra</td>
 	    				<td>{{remision.transportador || 'No registra'}}</td>
 	    				<td ng-if="remision.estado=='Sin Entrada'"><button type="button" class="btn btn-tabla btn-danger" ng-click="abrircancelarremision(remision)">Cancelar</button></td>
 	    				<td><button type="button" class="btn btn-tabla btn-primary" ng-click="imprimirRemision(remision)">Imprimir</button></td>
 	    				<td ng-if="remision.estado=='Con Entrada'" class="warning-text">La remisión no se puede cancelar</td>
 	    				<td ng-if="remision.estado=='Cancelada'" class="danger-text">Remisión cancelada</td>
+	    				<td>{{entrada.observaciones || 'No registra'}} </td>
 	    			</tr>
 	    		</tbody>
     		</table>
@@ -343,7 +345,7 @@
 					<div class="header">
 						<div class="first-part">
 							<img src="{{server}}/logo-prines.jpg" class="logo-header">
-							<h2 class="title-header">productos industriales para telecomunicaciones e iliminacion</h2>
+							<h2 class="title-header">productos industriales para telecomunicaciones e iluminación</h2>
 							<h3 class="subtitle-header">producciones industriales esperanza s.a.s.</h3>
 							<p class="nit">nit. 900.462.957-1 régimen común</p>
 						</div>        
