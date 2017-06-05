@@ -12,7 +12,8 @@ const entradaRemisionSchema = new Schema({
     estado:{type: String, enum:['Cancelada']},
     entrada_remision_consecutivo: Number,
     asunto: String,
-    typeRemision: {type: Boolean, default: false}
+    typeRemision: {type: Boolean, default: false},
+    observaciones: String
 });
 
 entradaRemisionSchema.plugin(autoIncrement.plugin, {

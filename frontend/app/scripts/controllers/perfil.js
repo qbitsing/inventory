@@ -108,7 +108,7 @@ angular.module('frontendApp')
             }else{
                 $scope.Detallemodal.mensaje='No hay ningun dato por actualizar';
             }
-            sweetAlert("Completado...", $scope.Detallemodal.mensaje , "error");
+            sweetAlert("Completado...", $scope.Detallemodal.mensaje , "success");
         }
     }
 })
