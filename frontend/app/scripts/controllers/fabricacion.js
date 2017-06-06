@@ -34,6 +34,7 @@ angular.module('frontendApp')
     }
     var estadoactivofab='Incompleta';
     $scope.preloader = preloader;
+    $scope.preloader.estado = true;
     $scope.panel_title_form = "Registro de Fabricaciones";
     $scope.button_title_form = "Registrar fabricación";
     $scope.check='orden';
@@ -92,7 +93,7 @@ angular.module('frontendApp')
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
                 width:'45%',
-                minWidth: 230
+                minWidth: 450
             }
         ]
     }
@@ -1126,6 +1127,7 @@ angular.module('frontendApp')
         });
     }
     function listarFabricaciones(){
+        $scope.preloader.estado = true;
         webServer
         .getResource('fabricacion',{},'get')
         .then(function(data){
@@ -1177,6 +1179,7 @@ angular.module('frontendApp')
         });
     }
     function listarProductos(){
+        $scope.preloader.estado = true;
         webServer
         .getResource('productos',{producto:true},'get')
         .then(function(data){
@@ -1188,6 +1191,7 @@ angular.module('frontendApp')
         });
     }
     function listarMaterias(){
+        $scope.preloader.estado = true;
         webServer
         .getResource('materiaPrima',{},'get')
         .then(function(data){
@@ -1199,6 +1203,7 @@ angular.module('frontendApp')
         });
     }
     function listarRemisiones(){
+        $scope.preloader.estado = true;
         webServer
         .getResource('remision',{},'get')
         .then(function(data){
@@ -1210,6 +1215,7 @@ angular.module('frontendApp')
         });
     }
     function listarSalidasInsumos(){
+        $scope.preloader.estado = true;
         webServer
         .getResource('fabricacion/insumos',{},'get')
         .then(function(data){
@@ -1221,6 +1227,7 @@ angular.module('frontendApp')
         });
     }
     function listarEntradasFabricaciones(){
+        $scope.preloader.estado = true;
         webServer
         .getResource('entrada/remision',{},'get')
         .then(function(data){
@@ -1232,6 +1239,7 @@ angular.module('frontendApp')
         });
     }
     function listarPersonas(){
+        $scope.preloader.estado = true;
         webServer
         .getResource('personas',{empleado:true,proveedorfabricacion:true},'get')
         .then(function(data){

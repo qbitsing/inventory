@@ -68,13 +68,13 @@ angular.module('frontendApp')
             },
             {
                 name:'cliente',field: 'orden_venta.cliente.nombre',
-                width:'20%',
-                minWidth: 150
+                width:'15%',
+                minWidth: 130
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'35%',
-                minWidth: 200
+                width:'40%',
+                minWidth: 450
             }
         ]
     }
