@@ -203,7 +203,7 @@ angular.module('frontendApp')
             confirmButtonText: "Si, Borrar!",
             cancelButtonText: "No, Cancelar!",
             closeOnConfirm: false,
-            showLoaderOnConfirm: true,
+            showLoaderOnConfirm: true
         },
         function(){
             Borrar(_id);

@@ -233,7 +233,8 @@ angular.module('frontendApp')
             confirmButtonText: boton,
             cancelButtonText: "No, Cancelar!",
             closeOnConfirm: false,
-            closeOnCancel: false
+            closeOnCancel: false,
+            showLoaderOnConfirm: true,
         },
         function(isConfirm){
             if (isConfirm) {
@@ -574,6 +575,7 @@ angular.module('frontendApp')
             $scope.modal_salida.remision_consecutivo=data.data.datos.remision_consecutivo;
             $scope.Remisiones.push($scope.modal_salida);
             $scope.modal_salida={};
+            $scope.modal_salida.productos=[];
             $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
         }
@@ -813,6 +815,7 @@ angular.module('frontendApp')
                 $scope.modal_entrada.entrada_remision_consecutivo=data.data.datos.entrada_remision_consecutivo;
                 $scope.EntradasFabricaciones.push($scope.modal_entrada);
                 $scope.modal_entrada={};
+                $scope.modal_entrada.productos=[];
                 $scope.preloader.estado = false;
                 sweetAlert("Completado...", data.data.message , "success");
             }
@@ -832,7 +835,7 @@ angular.module('frontendApp')
             entrada.productos.forEach(function(elemento , index){
                 $scope.contenido_fabricacion.productos.forEach(function(ele , i){
                     if(elemento.producto._id == ele._id){
-                        ele.cantidad_afuera=parseInt(ele.cantidad_afuera)+parseInt(elemento.cantidad);
+                        ele.cantidad_saliente=parseInt(ele.cantidad_saliente)+parseInt(elemento.cantidad);
                         ele.cantidad_fabricada=ele.cantidad_fabricada-elemento.cantidad;
                     }
                     if(ele.cantidad_fabricada>0){
@@ -913,7 +916,8 @@ angular.module('frontendApp')
             showCancelButton: true,
             closeOnConfirm: false,
             animation: "slide-from-top",
-            inputPlaceholder: "Observaciones"
+            inputPlaceholder: "Observaciones",
+            showLoaderOnConfirm: true
         },
         function(inputValue){
             if (inputValue === false) return false;
@@ -1043,7 +1047,8 @@ angular.module('frontendApp')
             showCancelButton: true,
             closeOnConfirm: false,
             animation: "slide-from-top",
-            inputPlaceholder: "Observaciones"
+            inputPlaceholder: "Observaciones",
+            showLoaderOnConfirm: true
         },
         function(inputValue){
             if (inputValue === false) return false;
@@ -1060,21 +1065,22 @@ angular.module('frontendApp')
         var salida=$scope.cancelarsalidainsumos;
         if(salida.productos){
             salida.productos.forEach(function(ele, ind){
-                ele.producto.cantidad=parseInt(ele.producto.cantidad)+parseInt(ele.cantidad);
+                ele.producto.cantidad=ele.producto.cantidad-ele.cantidad;
             });
         }
         if (salida.materia_prima) {
             salida.materia_prima.forEach(function(ele, ind){
-                ele.materia.cantidad=parseInt(ele.materia.cantidad)+parseInt(ele.cantidad);
+                ele.materia.cantidad=ele.materia.cantidad-ele.cantidad;
             });
         }
-        salida.fabricacion=$scope.contenido_fabricacion;
+        salida.fabricacion=$scope.salida_insumos.fabricacion;
         webServer
-        .getResource('fabricacion/insumos'+salida._id,salida,'put')
+        .getResource('fabricacion/insumos/'+salida._id,salida,'put')
         .then(function(data){
             $scope.SalidasInsumos.forEach(function(ele , i){
                 if (ele._id == salida._id) {
                     ele.estado = 'Cancelada';
+                    ele.observaciones=salida.observaciones;
                 }
             });
             if (salida.productos) {

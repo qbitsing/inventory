@@ -11,7 +11,8 @@ const salidaSchema = new Schema({
     fabricacion: {},
     estado: String,
     fecha: {type: Date, defalut: Date.now()},
-    salida_fabricacion_consecutivo: Number
+    salida_fabricacion_consecutivo: Number,
+    observaciones: String
 });
 
 salidaSchema.plugin(autoIncrement.plugin, {
