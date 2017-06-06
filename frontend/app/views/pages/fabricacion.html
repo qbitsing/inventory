@@ -438,7 +438,7 @@
 		<div class="row" ng-show="check_modal_entrada=='remision'">
 			<div class="input-field col s12 m6 l6">
 				<select ng-model="modal_entrada.carga_remision" material-select watch>
-					<option ng-if="remision.fabricacion._id==contenido_fabricacion._id && (remision.estado!='Completada' || remision.estado!='Cancelada')" ng-repeat="remision in Remisiones" value="{{remision}}">{{remision.remision_consecutivo}}-{{remision.proceso.nombre}}</option>
+					<option ng-if="remision.fabricacion._id==contenido_fabricacion._id && remision.estado!='Completada' && remision.estado!='Cancelada'" ng-repeat="remision in Remisiones" value="{{remision}}">{{remision.remision_consecutivo}}-{{remision.proceso.nombre}}</option>
 				</select>
 				<label>Remision de salida *</label>
 			</div>
@@ -473,7 +473,7 @@
 	    				<tr ng-if="(check_modal_entrada=='remision' && producto.cantidad_faltante>0) || (check_modal_entrada=='entrada')" ng-repeat="producto in modal_entrada.productos">
 		    				<td>{{producto.producto.nombre}}</td>
 			    			<td ng-show="check_modal_entrada=='remision'">{{producto.cantidad_faltante}}</td>
-			    			<td ng-show="check_modal_entrada=='remision'"><input type="number" ng-change="validarNumeroProductoEntrada(producto.producto._id)" value="{{producto.cantidad_faltante}}" id="cantidad{{producto.producto._id}}" name="cantidad" ng-model="modal_entrada.productos[$index].cantidad_entrante"></td>
+			    			<td ng-show="check_modal_entrada=='remision'"><input type="number" ng-change="validarNumeroProductoEntrada(producto.producto._id)" value="{{producto.cantidad_faltante}}" id="cantidad{{producto.producto._id}}" name="cantidad" ng-model="modal_entrada.productos[$index].cantidad_entrante" required></td>
 			    			<td ng-show="check_modal_entrada!='remision'">{{producto.cantidad}}</td>
 		    				<td><button type="button" class="btn btn-danger" ng-click="removerproductoentrada(producto)">Eliminar</button></td>
 		    			</tr>
@@ -513,7 +513,7 @@
     				<td ng-hide="entrada.remision.proceso.array_responsables">No registra</td>
     				<td ng-if="entrada.estado!='Cancelada'"><button type="button" class="btn btn-danger" ng-click="abrircancelarentrada(entrada)">Cancelar</button></td>
     				<td ng-if="entrada.estado=='Cancelada'" class="danger-text">Entrada cancelada</td>
-    				<td>{{entrada.observaciones || 'No registra'}} </td>
+    				<td>{{entrada.observaciones || 'No registra'}}</td>
     			</tr>
     		</table>
     	</div>
@@ -539,7 +539,7 @@
 						<input type="number" ng-change="validarNumeroSalidaMateria()" ng-model="salida_materia.cantidadMateria" id="Cantidadinsumo" name="Cantidadinsumo">
 						<label for="Cantidadinsumo">Cantidad *</label>
 					</div>
-					<button type="button" ng-click="addmateriainsumo()" class="btn btn-success col s4 m2 l2" ng-disabled="!salida_materia.Materia || !salida_materia.cantidadMateria">Añadir</button>
+					<button type="button" ng-click="addmateriainsumo()" class="btn btn-success col s4 m2 l2" ng-disabled="!salida_materia.Materia || !salida_materia.cantidadMateria || salida_materia.cantidadMateria<1">Añadir</button>
 				</div>
 				<table class="bordered striped">
 					<thead>
@@ -569,7 +569,7 @@
 						<input type="number" ng-change="validarNumeroSalidaProducto()" ng-model="salida_productos.cantidad" id="Cantidadproductoinsumo" name="Cantidadproductoinsumo">
 						<label for="Cantidadproductoinsumo">Cantidad *</label>
 					</div>
-					<button type="button" ng-click="addproductoinsumo()" class="btn btn-success col s4 m2 l2" ng-disabled="!salida_productos.producto || !salida_productos.cantidad">Añadir</button>
+					<button type="button" ng-click="addproductoinsumo()" class="btn btn-success col s4 m2 l2" ng-disabled="!salida_productos.producto || !salida_productos.cantidad || salida_productos.cantidad<0">Añadir</button>
 				</div>
 				<table class="bordered striped">
 					<thead>
@@ -600,16 +600,18 @@
     				<th>Producto - Cantidad</th>
     				<th>Materia prima - Cantidad</th>
     				<th>Opción</th>
+    				<th>Observaciones</th>
     			</tr>
     		</thead>
     		<tbody>
     			<tr ng-if="salida.fabricacion._id==salida_insumos.fabricacion._id" ng-repeat="salida in SalidasInsumos">
-	    			<td ng-show="salida.productos"><li ng-repeat="res in salida.productos">{{res.producto.nombre}} - {{res.cantidad}}</li></td>
-	    			<td ng-hide="salida.productos">No registra</td>
-	    			<td ng-show="salida.materia_prima"><li ng-repeat="res in salida.materia_prima">{{res.producto.nombre}} - {{res.cantidad}}</li></td>
-	    			<td ng-hide="salida.materia_prima">No registra</td>
+	    			<td ng-show="salida.productos.length>0"><li ng-repeat="res in salida.productos">{{res.producto.nombre}} - {{res.cantidad}}</li></td>
+	    			<td ng-hide="salida.productos.length>0">No registra</td>
+	    			<td ng-show="salida.materia_prima.length>0"><li ng-repeat="res in salida.materia_prima">{{res.materia.nombre}} - {{res.cantidad}}</li></td>
+	    			<td ng-hide="salida.materia_prima.length>0">No registra</td>
     				<td ng-if="salida.estado!='Cancelada'"><button type="button" ng-click="abrircancelarsalidainsumos(salida)">Cancelar</button></td>
     				<td ng-if="salida.estado=='Cancelada'" class="danger-text">Salida cancelada</td>
+    				<td>{{salida.observaciones || 'No registra'}}</td>
     			</tr>
     		</tbody>
     		</table>

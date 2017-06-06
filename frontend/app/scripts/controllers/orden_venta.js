@@ -42,19 +42,19 @@ angular.module('frontendApp')
     $scope.Orden.Producto._id='';
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
     if ($scope.Usuario.rol=='Super Administrador') {
-        casillaDeBotones+=BotonesTabla.Editarorden+BotonesTabla.Borrarorden;
+        casillaDeBotones+=BotonesTabla.Editarorden+BotonesTabla.Borrarorden+BotonesTabla.Finalizar;
     }
     casillaDeBotones+=BotonesTabla.Factura+'</div>';
     $scope.gridOptions = {
         columnDefs: [
             {
                 name:'No. de orden',field: 'orden_venta_consecutivo',
-                width:'10%',
+                width:'15%',
                 minWidth: 100
             },
             {
                 name:'cliente',field: 'cliente.nombre',
-                width:'30%',
+                width:'15%',
                 minWidth: 150
             },
             {
@@ -70,8 +70,8 @@ angular.module('frontendApp')
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'30%',
-                minWidth: 150
+                width:'40%',
+                minWidth: 420
             }
         ]
     }
@@ -167,13 +167,15 @@ angular.module('frontendApp')
             };
             $scope.Orden.productos.forEach(function(ele, index){
                 if(ele._id==obj._id){
+                    ele.cantidad+=parseInt(obj.cantidad);
+                    ele.cantidad_faltante+=parseInt(obj.cantidad);
                     controlador=true;
                 }
             });
             if(!controlador){
                 $scope.Orden.productos.push(obj);
             }else{
-                Materialize.toast('El producto ya esta añadido', 4000);
+                Materialize.toast('La cantidad se ha sumado al producto ya añadido', 4000);
             }
             $scope.Orden.Producto={};
             $scope.Orden.Producto._id='';
@@ -262,7 +264,6 @@ angular.module('frontendApp')
                 $scope.Orden.estado='Activo';
                 $scope.Ordenes.push($scope.Orden);
             }else{
-                $scope.Orden.estado=data.data.datos.estado;
                 $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
                 $scope.panel_title_form = "Registro de venta";
                 $scope.button_title_form = "Registrar venta";

@@ -69,13 +69,13 @@ angular.module('frontendApp')
             },
             {
                 name:'cliente',field: 'orden_venta.cliente.nombre',
-                width:'20%',
-                minWidth: 150
+                width:'15%',
+                minWidth: 130
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'35%',
-                minWidth: 200
+                width:'40%',
+                minWidth: 450
             }
         ]
     }
@@ -137,13 +137,6 @@ angular.module('frontendApp')
         $scope.Salida.orden_venta.productos=[];
         $scope.Orden='';
     }
-    /*Validaciones de numeros*/
-    $scope.validarNumero=function(id){
-        if (parseInt(angular.element('#cantidad'+id).val())<0) {
-            angular.element('#cantidad'+id).val(0);
-        }
-    }
-     /*Fin de las validaciones*/
     $scope.EnviarSalida=function(){
         $scope.Salida.generado=$scope.Usuario;
         $scope.preloader.estado = true;
