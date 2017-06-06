@@ -55,6 +55,13 @@
 					Orden de venta
 					</a>
 				</li>
+
+				<li ng-if="Usuario.rol!='Almacenista'" ng-class="{activate: $state.includes('Factura')}">
+					<a ui-sref="Factura">
+						<i class="tooltipped material-icons" tooltipped data-position="right" data-delay="50" data-tooltip="Facturación">monetization_on</i>
+					Facturación
+					</a>
+				</li>
 				
 				<li ng-if="Usuario.rol!='Contador'" ng-class="{activate: $state.includes('Fabricacion')}">
 					<a ui-sref="Fabricacion">
