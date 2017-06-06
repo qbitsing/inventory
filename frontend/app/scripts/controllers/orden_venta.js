@@ -42,7 +42,7 @@ angular.module('frontendApp')
     $scope.Orden.Producto._id='';
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
     if ($scope.Usuario.rol=='Super Administrador') {
-        casillaDeBotones+=BotonesTabla.Editarorden+BotonesTabla.Borrarorden;
+        casillaDeBotones+=BotonesTabla.Editarorden+BotonesTabla.Borrarorden+BotonesTabla.Finalizar;
     }
     casillaDeBotones+=BotonesTabla.Factura+'</div>';
     $scope.gridOptions = {
@@ -54,7 +54,7 @@ angular.module('frontendApp')
             },
             {
                 name:'cliente',field: 'cliente.nombre',
-                width:'20%',
+                width:'15%',
                 minWidth: 150
             },
             {
@@ -70,8 +70,8 @@ angular.module('frontendApp')
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'35%',
-                minWidth: 350
+                width:'40%',
+                minWidth: 400
             }
         ]
     }
