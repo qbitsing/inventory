@@ -120,6 +120,8 @@ app.get('/orden_venta' , controllers.ordenVenta.listarAll);
 app.get('/orden_venta/:id' , controllers.ordenVenta.listarById);
 
 app.put('/orden_venta/:id' , controllers.ordenVenta.actualizar);
+
+app.put('/orden_venta/finalizar/:id' , controllers.ordenVenta.finalizar);
 // Fin Bloque de rutas de orden_venta
 
 // Bloque de rutas de entradas
