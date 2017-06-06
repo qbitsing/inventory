@@ -340,7 +340,6 @@ angular.module('frontendApp')
         return date;
     }
     $scope.Factura = function(param){
-
         $state.go('Factura',param);
     }
     function IdentificarOrden (id , arrObj){
