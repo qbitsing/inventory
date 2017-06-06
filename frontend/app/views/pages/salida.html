@@ -46,7 +46,7 @@
 								            <td>{{producto.nombre}}</td>
 											<td>{{producto.cantidad}}</td>
 								            <td>{{producto.cantidad_faltante}}</td>
-								            <td><input type="number" ng-change="validarNumero({{producto._id}})" value="{{producto.cantidad_faltante}}" id="cantidad{{producto._id}}" name="cantidad" placeholder="cantidad a enviar" ng-model="Salida.orden_venta.productos[$index].cantidad_entrante" required></td>
+								            <td><input type="number" value="0" id="cantidad{{producto._id}}" name="cantidad" placeholder="cantidad a enviar" required></td>
 							          	</tr>
 							        </tbody>
 						      	</table>
@@ -61,7 +61,7 @@
 								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formSalida.$invalid">{{button_title_form}}</button>
 							</div>
 							<div class="col">
-								<button type="button" ng-click="CancelarEditar()" class="btn btn-large btn-danger">Cancelar</button>
+								<button type="button" ng-click="cancelarEditar()" class="btn btn-large btn-danger">Cancelar</button>
 							</div>
 						</div>
 					</form>

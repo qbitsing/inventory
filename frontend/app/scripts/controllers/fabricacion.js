@@ -499,8 +499,8 @@ angular.module('frontendApp')
     }
     $scope.CerrarModalSalidas=function(){
         $scope.contenido_fabricacion.productos.forEach(function(ele , i){
-            $scope.modal_salida.productos.forEach(function(elemento , index){
-                if(ele._id==elemento._id) {
+            $scope.modal_salida.productos.forEach(function(elemento , index){   
+                if(ele._id==elemento.producto._id) {
                     ele.cantidad_disponible=parseInt(ele.cantidad_disponible) + parseInt(elemento.cantidad);
                     ele.cantidad_saliente=ele.cantidad_saliente - elemento.cantidad;
                 }
@@ -590,6 +590,7 @@ angular.module('frontendApp')
             type: "input",
             showCancelButton: true,
             closeOnConfirm: false,
+            showLoaderOnConfirm: true,
             animation: "slide-from-top",
             inputPlaceholder: "Observaciones"
         },
@@ -624,6 +625,7 @@ angular.module('frontendApp')
                 $scope.Remisiones.forEach(function(ele , i){
                     if (ele._id == remision._id) {
                         ele.estado = 'Cancelada';
+                        ele.observaciones=remision.observaciones;
                     }
                 });
                 $scope.Fabricaciones.forEach(function(ele , i){
@@ -656,7 +658,7 @@ angular.module('frontendApp')
     $scope.CerrarModalEntradas=function(){
         $scope.contenido_fabricacion.productos.forEach(function(ele , i){
             $scope.modal_entrada.productos.forEach(function(elemento , index){
-                if(ele._id==elemento._id) {
+                if(ele._id==elemento.producto._id) {
                     ele.cantidad_disponible=parseInt(ele.cantidad_disponible) + parseInt(elemento.cantidad);
                     ele.cantidad_fabricada=ele.cantidad_fabricada - elemento.cantidad;
                 }
@@ -1258,11 +1260,13 @@ angular.module('frontendApp')
                 obj = {
                     index: index,
                     _id : ele._id,
+                    fabricacion_consecutivo : ele.fabricacion_consecutivo,
                     fecha_entrega : new Date (Date.parse(ele.fecha_entrega)),
                     fecha_solicitud : new Date (Date.parse(ele.fecha_solicitud)),
                     productos : ele.productos,
                     procesos : ele.procesos,
-                    orden_venta : ele.orden_venta
+                    orden_venta : ele.orden_venta,
+                    estado : ele.estado
                 };
             }
         });

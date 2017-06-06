@@ -40,6 +40,7 @@ angular.module('frontendApp')
     $scope.Salida={};
     $scope.Salida.orden_venta={};
     $scope.Salida.orden_venta.productos=[];
+    $scope.Orden='';
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
     casillaDeBotones+= BotonesTabla.ImprimirRemision;
     casillaDeBotones+= BotonesTabla.ImprimirOrdenSalida;
@@ -134,7 +135,7 @@ angular.module('frontendApp')
         $scope.Salida={};
         $scope.Salida.orden_venta={};
         $scope.Salida.orden_venta.productos=[];
-        $scope.Orden.venta='';
+        $scope.Orden='';
     }
     /*Validaciones de numeros*/
     $scope.validarNumero=function(id){
@@ -167,7 +168,7 @@ angular.module('frontendApp')
             $scope.Salida={};
             $scope.Salida.orden_venta={};
             $scope.Salida.orden_venta.productos=[];
-            $scope.Orden.venta='';
+            $scope.Orden='';
             $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success"); 
         },function(data){
