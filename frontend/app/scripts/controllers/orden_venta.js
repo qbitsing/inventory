@@ -72,7 +72,7 @@ angular.module('frontendApp')
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
                 width:'40%',
-                minWidth: 400
+                minWidth: 420
             }
         ]
     }

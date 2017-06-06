@@ -70,11 +70,11 @@
 								<select ng-model="producto.Insumo._id" material-select watch>
 	      							<option ng-repeat="insumo in Insumos" value="{{insumo._id}},{{insumo.nombre}}">{{insumo.nombre}}</option>
 								</select>
-								<label>Insumos *</label>
+								<label>Insumos</label>
 							</div>
 							<div class="input-field col s8 m4 l4">
 								<input type="number" ng-change="validarNumeroInsumo()" ng-model="producto.Insumo.cantidad" id="Cantidad-insumo" name="Cantidad-insumo">
-								<label for="Cantidad-insumo">Cantidad *</label>
+								<label for="Cantidad-insumo">Cantidad</label>
 							</div>
 							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!(producto.Insumo._id) || !(producto.Insumo.cantidad)" ng-click="AgregarInsumo()">Añadir</button>
 						</div>
@@ -103,7 +103,7 @@
 								<select ng-model="Kit.producto._id" material-select watch>
 	      							<option ng-repeat="producto in ProductosSelect" value="{{producto._id}},{{producto.nombre}}">{{producto.nombre}}</option>
 								</select>
-								<label>Productos *</label>
+								<label>Productos</label>
 							</div>
 							<div class="input-field col s2 m1 l1">
 								<input type="text" ng-keyup="cargarProducto($event)" ng-model="Kit.codigo" id="codigo_barras" name="codigo_barras">
@@ -111,7 +111,7 @@
 							<div class="input-field col s8 m4 l4">
 								<input type="number" ng-keyup="detectar($event)" 
 								ng-model="Kit.producto.cantidad" id="Cantidad" name="Cantidad">
-								<label for="Cantidad">Cantidad *</label>
+								<label for="Cantidad">Cantidad</label>
 							</div>
 							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!(Kit.producto._id) || !(Kit.producto.cantidad)" ng-click="Agregarkit()">Añadir</button>
 						</div>
@@ -140,7 +140,7 @@
 								<select ng-model="proceso._id" material-select watch>
 	      							<option ng-repeat="proceso in Procesos" value="{{proceso._id}},{{proceso.nombre}},{{proceso.tipo}}">{{proceso.nombre}} - {{proceso.tipo}}</option>
 								</select>
-								<label>Procesos *</label>
+								<label>Procesos</label>
 							</div>
 							<button type="button" class="btn btn-success col s4 m1 l1" ng-disabled="!(proceso._id)" ng-click="AgregarProceso()">Añadir</button>
 							<div class="input-field col s12 m6 l6">
