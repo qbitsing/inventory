@@ -102,7 +102,7 @@ let eliminar = co.wrap(function * (req, res){
 
         yield fabricacionModel.findByIdAndUpdate(entrada.fabricacion._id, fabricacion);
 
-        yield entradaModel.findByIdAndUpdate(entrada._id , {estado: 'Cancelada', asunto: req.body.asunto});
+        yield entradaModel.findByIdAndUpdate(entrada._id , {estado: 'Cancelada', observaciones: req.body.observaciones});
 
         return res.status(200).send({
             message: 'Entrada cancelada con Exito'

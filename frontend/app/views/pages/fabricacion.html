@@ -87,6 +87,7 @@
 						        <thead>
 						        	<tr>
 										<th data-field="proceso">Proceso</th>
+										<th data-field="tipo">Tipo</th>
 										<th data-field="responsables">Responsable</th>
 										<th data-field="opcion">Opciones</th>
 						          	</tr>
@@ -94,6 +95,7 @@
 						        <tbody>
 						          	<tr ng-repeat="proceso in fabricacion.procesos">
 							            <td>{{proceso.nombre}}</td>
+							            <td>{{proceso.tipo}}</td>
 						            	<td><li ng-repeat="res in proceso.array_responsables">{{res.nombre}} {{res.apellidos}}</li></td>
 							            <td><a class="btn btn-success" class="cursor" ng-click="AbrirModal(proceso)">Añadir responsable</a><a class="btn btn-danger" class="cursor" ng-click="BorrarProceso($index)">Eliminar</a></td>
 						          	</tr>
@@ -332,7 +334,7 @@
 	    				<td><button type="button" class="btn btn-tabla btn-primary" ng-click="imprimirRemision(remision)">Imprimir</button></td>
 	    				<td ng-if="remision.estado=='Con Entrada'" class="warning-text">La remisión no se puede cancelar</td>
 	    				<td ng-if="remision.estado=='Cancelada'" class="danger-text">Remisión cancelada</td>
-	    				<td>{{entrada.observaciones || 'No registra'}} </td>
+	    				<td>{{remision.observaciones || 'No registra'}} </td>
 	    			</tr>
 	    		</tbody>
     		</table>

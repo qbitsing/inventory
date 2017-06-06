@@ -83,7 +83,7 @@ let eliminar = co.wrap(function * (req, res){
   try {
     let fabricacion = yield fabricacionModel.findById(fabricacionId);
 
-    if(fabricacion.estado != 'En Fabricacion') return res.status(400).send({message: 'No se puede eliminar la orden de trabajo ya que no esta en fabricacion'});
+    if(fabricacion.estado != 'En Fabricacion') return res.status(400).send({message: 'No se puede eliminar la orden de trabajo ya que esta en proceso de fabricación'});
     yield fabricacionModel.findByIdAndRemove(fabricacionId);
     return res.status(200).send({
       message: 'Proceso de fabricación eliminado con exito'

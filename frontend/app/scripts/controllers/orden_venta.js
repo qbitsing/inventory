@@ -23,8 +23,8 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
-    var estadoactivoorden='Activo';
-    var estadosalidasorden='Con Salidas';
+    $scope.estadoactivoorden='Activo';
+    $scope.estadosalidasorden='Con Salidas';
     $scope.preloader = preloader;
     $scope.panelAnimate='';
     $scope.pageAnimate='';
