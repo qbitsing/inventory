@@ -199,7 +199,7 @@ let eliminar = co.wrap(function * (req, res) {
     try{
         let ordenId = req.params.id;
         let orden = yield ordenVentaModel.findById(ordenId);
-
+        if(orden.estado != 'Activo') return res.status(400).send({message: 'La orden no se puede cancelar ya que no esta activa'});
         for(let ele of orden.productos){
             if(ele.tipo == 'kit'){
                 let prod = yield productoModel.findById(ele._id);

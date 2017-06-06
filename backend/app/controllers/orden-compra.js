@@ -120,6 +120,10 @@ let actualizar = co.wrap(function * (req, res){
 let eliminar = co.wrap(function * (req, res){
     try {
         let ordenId = req.params.id;
+        let orden = yield ordenCompraModel.findById(ordenId);
+
+        if(orden.estado != 'Activo') return res.status(400).send({message: 'La orden no se puede cancelar ya que no esta activa'});
+
         yield ordenCompraModel.findByIdAndRemove(ordenId);
 
         return res.status(200).send({

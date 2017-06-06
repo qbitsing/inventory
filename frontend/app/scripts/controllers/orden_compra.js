@@ -93,7 +93,7 @@ angular.module('frontendApp')
     $scope.cargarProducto=function(keyEvent){
         $scope.productos.forEach(function(ele , index){
             if($scope.Orden.Producto.codigo == ele.codigo){
-                $scope.Orden.Producto._id=ele._id+','+ele.nombre;
+                $scope.Orden.Producto._id = ele._id+','+ele.nombre;
                 if (keyEvent.which === 13){
                     $('#Cantidad-producto').focus();
                 }
@@ -124,8 +124,8 @@ angular.module('frontendApp')
             obj.cantidad_entrante = 0;
             $scope.Orden.productos.forEach(function(ele, index){
                 if(ele._id==obj._id){
-                    ele.cantidad+=parseInt(obj.cantidad);
-                    ele.cantidad_faltante+=parseInt(obj.cantidad);
+                    ele.cantidad += parseInt(obj.cantidad);
+                    ele.cantidad_faltante += parseInt(obj.cantidad);
                     controlador=true;
                 }
             });
@@ -154,8 +154,8 @@ angular.module('frontendApp')
         obj.cantidad_entrante = 0;
         $scope.Orden.materia_prima.forEach(function(ele, index){
             if(ele._id==obj._id){
-                ele.cantidad+=parseInt(obj.cantidad);
-                ele.cantidad_faltante+=parseInt(obj.cantidad);
+                ele.cantidad += parseInt(obj.cantidad);
+                ele.cantidad_faltante += parseInt(obj.cantidad);
                 controlador=true;
             }
         });
@@ -189,30 +189,18 @@ angular.module('frontendApp')
         });
     }
     function Borrar (id){
-        var conter=false;
-        $scope.Ordenes.forEach(function(ele, index){
-            if(ele._id==id){
-                if (ele.estado=='Activo') {
-                    conter=true;
+        webServer
+        .getResource('orden_compra/'+id,{},'delete')
+        .then(function(data){
+            $scope.Ordenes.forEach(function(ele, index){
+                if(ele._id==id){
+                    $scope.Ordenes.splice(ele.index,1);
                 }
-            }
-        });
-        if (conter) {
-            webServer
-            .getResource('orden_compra/'+id,{},'delete')
-            .then(function(data){
-                $scope.Ordenes.forEach(function(ele, index){
-                    if(ele._id==id){
-                        $scope.Ordenes.splice(ele.index,1);
-                    }
-                });
-                swal("Completado...", data.data.message , "success");
-            },function(data){
-                swal("Oops...", data.data.message , "error");
             });
-        }else{
-            swal("Oops...", "No se puede eliminar la orden porque ya cuenta con salidas" , "error");
-        }
+            swal("Completado...", data.data.message , "success");
+        },function(data){
+            swal("Oops...", data.data.message , "error");
+        });
     }
     $scope.EnviarOrden=function(){
         $scope.preloader.estado = true;

@@ -24,6 +24,7 @@ angular.module('frontendApp')
         });
     });
     var estadoactivoorden='Activo';
+    var estadosalidasorden='Con Salidas';
     $scope.preloader = preloader;
     $scope.panelAnimate='';
     $scope.pageAnimate='';
@@ -167,8 +168,8 @@ angular.module('frontendApp')
             };
             $scope.Orden.productos.forEach(function(ele, index){
                 if(ele._id==obj._id){
-                    ele.cantidad+=parseInt(obj.cantidad);
-                    ele.cantidad_faltante+=parseInt(obj.cantidad);
+                    ele.cantidad += parseInt(obj.cantidad);
+                    ele.cantidad_faltante += parseInt(obj.cantidad);
                     controlador=true;
                 }
             });
@@ -214,30 +215,18 @@ angular.module('frontendApp')
         });
     }
     function Borrar(id){
-        var conter=false;
-        $scope.Ordenes.forEach(function(ele, index){
-            if(ele._id==id){
-                if (ele.estado=='Activo') {
-                    conter=true;
+        webServer
+        .getResource('orden_venta/'+id,{},'delete')
+        .then(function(data){
+            $scope.Ordenes.forEach(function(ele, index){
+                if(ele._id==id){
+                    $scope.Ordenes.splice(ele.index,1);
                 }
-            }
-        });
-        if (conter) {
-            webServer
-            .getResource('orden_venta/'+id,{},'delete')
-            .then(function(data){
-                $scope.Ordenes.forEach(function(ele, index){
-                    if(ele._id==id){
-                        $scope.Ordenes.splice(ele.index,1);
-                    }
-                });
-                swal("Completado...", data.data.message , "success");
-            },function(data){
-                swal("Oops...", data.data.message , "error");
             });
-        }else{
-            swal("Oops...", "No se puede eliminar la orden porque ya cuenta con salidas" , "error");
-        }
+            swal("Completado...", data.data.message , "success");
+        },function(data){
+            swal("Oops...", data.data.message , "error");
+        });
     }
     $scope.EnviarOrden=function(){
         $scope.preloader.estado = true;
@@ -284,7 +273,7 @@ angular.module('frontendApp')
     }
     $scope.Editar = function(id){
         $scope.Orden=IdentificarOrden(id,$scope.Ordenes);
-        if ($scope.Orden.estado=="Activo") {
+        if ($scope.Orden.estado == "Activo") {
             $scope.panel_title_form = "Edicion de Venta";
             $scope.button_title_form = "Actualizar Venta";
             if(!$scope.Orden.productos){
@@ -298,10 +287,37 @@ angular.module('frontendApp')
             $scope.productos=[];
         }
     }
+    $scope.Finalizar = function(id){
+        swal({
+            title: "Confirmar Finalización",
+            text: "¿Esta seguro de finalizar la orden de venta?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Finalizar!",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+        },
+        function(){
+            webServer
+            .getResource('orden_venta/finalizar/'+id,{},'put')
+            .then(function(data){
+                $scope.Ordenes.forEach(function(ele, index){
+                    if(ele._id == id){
+                        $scope.Ordenes[index] = data.data.datos;
+                    }
+                });
+                swal("Completado...", data.data.message , "success");
+            },function(data){
+                swal("Oops...", data.data.message , "error");
+            });
+        });
+    }
     $scope.CancelarEditar=function(){
-        $scope.Orden={};
-        $scope.Orden.productos=[];
-        $scope.productos=[];
+        $scope.Orden = {};
+        $scope.Orden.productos = [];
+        $scope.productos = [];
         $scope.panel_title_form = "Registro de venta";
         $scope.button_title_form = "Registrar venta"; 
     }
@@ -309,13 +325,13 @@ angular.module('frontendApp')
     $scope.validarFechaEntrega=function(){
         if ($scope.Orden.fecha_entrega) {
             if($scope.Orden.fecha_recepcion){
-                if ($scope.Orden.fecha_entrega<$scope.Orden.fecha_recepcion) {
+                if ($scope.Orden.fecha_entrega < $scope.Orden.fecha_recepcion) {
                     Materialize.toast('La fecha de entrega debe ser igual o posterior a la fecha de recepción', 4000);
-                    $scope.Orden.fecha_entrega='';
+                    $scope.Orden.fecha_entrega = '';
                 }
             }else{
                 Materialize.toast('Ingrese por favor una fecha de recepción primero', 4000);
-                $scope.Orden.fecha_entrega='';
+                $scope.Orden.fecha_entrega = '';
                 $('#fecha_recepcion').focus();
             }
         }
@@ -323,9 +339,9 @@ angular.module('frontendApp')
     $scope.validarFechaRecepcion=function(){
         if ($scope.Orden.fecha_recepcion) {
             if($scope.Orden.fecha_entrega){
-                if ($scope.Orden.fecha_entrega<$scope.Orden.fecha_recepcion) {
+                if ($scope.Orden.fecha_entrega < $scope.Orden.fecha_recepcion) {
                     Materialize.toast('La fecha de entrega debe ser igual o posterior a la fecha de recepción', 4000);
-                    $scope.Orden.fecha_entrega='';
+                    $scope.Orden.fecha_entrega = '';
                 }
             }
         }else{
