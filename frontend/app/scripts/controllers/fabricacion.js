@@ -57,13 +57,13 @@ angular.module('frontendApp')
     $scope.producto._id='';
     var casillaDeBotones;
     casillaDeBotones = '<div>'+BotonesTabla.Detalles;
-    if ($scope.Usuario.rol=='Super Administrador') {
-        casillaDeBotones+=BotonesTabla.Editar;
+    if ($scope.Usuario.rol == 'Super Administrador') {
+        casillaDeBotones += BotonesTabla.Editar;
     }
     casillaDeBotones += BotonesTabla.ImprimirOrdenTrabajo;
-    casillaDeBotones+=BotonesTabla.Salida+BotonesTabla.Entrada+BotonesTabla.MateriaPrima;
-    if ($scope.Usuario.rol=='Super Administrador') {
-        casillaDeBotones+=BotonesTabla.Borrarfabricacion;
+    casillaDeBotones += BotonesTabla.Salida+BotonesTabla.Entrada+BotonesTabla.MateriaPrima;
+    if ($scope.Usuario.rol == 'Super Administrador') {
+        casillaDeBotones += BotonesTabla.Borrarfabricacion;
     }
     casillaDeBotones+='</div>';
     $scope.gridOptions = {
@@ -214,15 +214,12 @@ angular.module('frontendApp')
     $scope.abrirModalCrear=function(){
         var titulo="";
         var boton="";
-        var mensaje="";
         if ($scope.button_title_form=='Registrar fabricación') {
             titulo="Confirmar Registro";
             boton="Si, Registrar!";
-            mensaje="La fabricación no se registrará";
         }else{
             titulo="Confirmar Cambios";
             boton="Si, Actualizar!";
-            mensaje="La fabricación no se actualizará";
         }
         swal({
             title: titulo,
@@ -233,15 +230,10 @@ angular.module('frontendApp')
             confirmButtonText: boton,
             cancelButtonText: "No, Cancelar!",
             closeOnConfirm: false,
-            closeOnCancel: false,
             showLoaderOnConfirm: true,
         },
-        function(isConfirm){
-            if (isConfirm) {
-                EnviarFabricacion();
-            } else {
-                swal("Cancelado", mensaje, "error");
-            }
+        function(){
+            EnviarFabricacion();
         });
     }
     $scope.ImprimirTrabajo = function(row){
@@ -282,30 +274,18 @@ angular.module('frontendApp')
         });
     }
     function Borrar(id){
-        var controler=true;
-        $scope.Fabricaciones.forEach(function(ele, index){
-            if (ele._id==id) {
-                if (ele.estado!='En Fabricacion') {
-                    controler=false;
+        webServer
+        .getResource('fabricacion/'+id,{},'delete')
+        .then(function(data){
+            $scope.Fabricaciones.forEach(function(ele, index){
+                if(ele._id==id){
+                    $scope.Fabricaciones.splice(ele.index,1);
                 }
-            }
-        });
-        if(controler){
-            webServer
-            .getResource('fabricacion/'+id,{},'delete')
-            .then(function(data){
-                $scope.Fabricaciones.forEach(function(ele, index){
-                    if(ele._id==id){
-                        $scope.Fabricaciones.splice(ele.index,1);
-                    }
-                });
-                swal("Completado...", data.data.message , "success");
-            },function(data){
-                swal("Oops...", data.data.message , "error");
             });
-        }else{
-            swal("Oops...", "La fabricación no se puede eliminar porque ya posee productos dentro del inventario" , "error");
-        }   
+            swal("Completado...", data.data.message , "success");
+        },function(data){
+            swal("Oops...", data.data.message , "error");
+        });
     }
 
     $scope.Editar = function(id){
@@ -513,8 +493,6 @@ angular.module('frontendApp')
     }
     $scope.addproducto = function(){
         var res = JSON.parse($scope.modal_salida.producto);
-        res.cantidad_disponible=res.cantidad_disponible-$scope.modal_salida.cantidad;
-        res.cantidad_saliente=parseInt(res.cantidad_saliente) + parseInt($scope.modal_salida.cantidad);
         $scope.contenido_fabricacion.productos.forEach(function(ele , i){
             if(res._id == ele._id){
                 if($scope.modal_salida.cantidad<=ele.cantidad_disponible){
@@ -535,13 +513,13 @@ angular.module('frontendApp')
                     });
                     if (contro) {
                         $scope.modal_salida.productos.push(obj);
+                    }else{
+                        Materialize.toast('La cantidad se ha sumado al producto ya añadido', 4000);
                     }
                     $scope.modal_salida.cantidad='';
                     $scope.modal_salida.producto='';
                 }else{
                     Materialize.toast('Error al intentar agregar el producto, la cantidad a sacar es mayor a la cantidad disponible', 4000);
-                    res.cantidad_disponible += parseInt($scope.modal_salida.cantidad);
-                    res.cantidad_saliente -= $scope.modal_salida.cantidad;
                 }
             }
         });
@@ -690,13 +668,13 @@ angular.module('frontendApp')
                     });
                     if (contro) {
                         $scope.modal_entrada.productos.push(obj);
+                    }else{
+                        Materialize.toast('La cantidad se ha sumado al producto ya añadido', 4000);
                     }
                     $scope.modal_entrada.cantidad='';
                     $scope.modal_entrada.producto='';
                 }else{
                     Materialize.toast('Error al intentar agregar el producto, la cantidad a ingresar es mayor a la cantidad disponible', 4000);
-                    res.cantidad_disponible += parseInt($scope.modal_entrada.cantidad);
-                    res.cantidad_cantidad_fabricada -= $scope.modal_entrada.cantidad;
                 }
             }
         });     
@@ -942,25 +920,36 @@ angular.module('frontendApp')
     $scope.addmateriainsumo=function(){
         var controlador=false;
         var materia=JSON.parse($scope.salida_materia.Materia);
+        var cantidadM=0;
         var obj={
             materia : materia,
             cantidad : $scope.salida_materia.cantidadMateria
         };
         $scope.salida_insumos.materia_prima.forEach(function(ele, index){
-            if(ele._id==materia._id){
-                controlador=true;
+            if(ele._id == materia._id){
+                ele.cantidad += obj.cantidad;
+                cantidadM = ele.cantidad;
+                controlador = true;
             }
         });
         $scope.Materias.forEach(function(ele, index){
             if(ele._id==materia._id){
                 if(!controlador){
-                    if($scope.salida_materia.cantidadMateria<ele.cantidad){
+                    if(obj.cantidad <= ele.cantidad){
                         $scope.salida_insumos.materia_prima.push(obj);
                     }else{
                         Materialize.toast('Lo sentimos, pero no posee esa cantidad en inventario', 4000);
                     }
                 }else{
-                    Materialize.toast('La materia prima ya esta añadida', 4000);
+                    if(cantidadM > ele.cantidad){
+                        $scope.salida_insumos.materia_prima.forEach(function(ele, index){
+                            if(ele._id == materia._id){
+                                ele.cantidad -= obj.cantidad;
+                            }
+                        });
+                    }else{
+                        Materialize.toast('No se puede sumar esa cantidad a la materia prima ya que no posee esa cantidad en inventario', 4000);
+                    }
                 }
             }
         });
@@ -969,25 +958,36 @@ angular.module('frontendApp')
     $scope.addproductoinsumo=function(){
         var controlador=false;
         var producto=JSON.parse($scope.salida_productos.producto);
+        var cantidadP=0;
         var obj={
             producto : producto,
             cantidad : $scope.salida_productos.cantidad
         };
         $scope.salida_insumos.productos.forEach(function(ele, index){
             if(ele._id==producto._id){
+                ele.cantidad += obj.cantidad;
+                cantidadP = ele.cantidad;
                 controlador=true;
             }
         });
         $scope.Productos.forEach(function(ele, index){
             if(ele._id==producto._id){
                 if(!controlador){
-                    if($scope.salida_productos.cantidad<ele.cantidad){
+                    if(obj.cantidad <= ele.cantidad){
                         $scope.salida_insumos.productos.push(obj);
                     }else{
                         Materialize.toast('Lo sentimos, pero no posee esa cantidad en inventario', 4000);
                     }
                 }else{
-                    Materialize.toast('El producto ya esta añadido', 4000);
+                    if(cantidadP > ele.cantidad){
+                        $scope.salida_insumos.productos.forEach(function(ele, index){
+                            if(ele._id == producto._id){
+                                ele.cantidad -= obj.cantidad;
+                            }
+                        });
+                    }else{
+                        Materialize.toast('No se puede sumar esa cantidad al producto ya que no posee esa cantidad en inventario', 4000);
+                    }
                 }
             }
         });
