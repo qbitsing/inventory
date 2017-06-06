@@ -50,11 +50,11 @@ let crear = co.wrap(function * (req, res){
     try {
         let salida = new salidaModel(req.body);
         for(let producto of salida.productos){
-            yield productosModel.findByIdAndUpdate(producto._id, producto);
+            yield productosModel.findByIdAndUpdate(producto.producto._id, producto.producto);
         }
 
         for(let materia of salida.materia_prima){
-            yield materiaModel.findByIdAndUpdate(materia._id, materia);
+            yield materiaModel.findByIdAndUpdate(materia.materia._id, materia.materia);
         }
 
         let datos = yield salida.save();
@@ -76,11 +76,11 @@ let eliminar = co.wrap(function * (req, res){
         let salida = req.body;
         salida.estado = 'Cancelada';
         for(let producto of salida.productos){
-            yield productosModel.findByIdAndUpdate(producto._id, producto);
+            yield productosModel.findByIdAndUpdate(producto.producto._id, producto.producto);
         }
 
         for(let materia of salida.materia_prima){
-            yield materiaModel.findByIdAndUpdate(materia._id, materia);
+            yield materiaModel.findByIdAndUpdate(materia.materia._id, materia.materia);
         }
 
         yield salidaModel.findByIdAndUpdate(salida._id, salida);

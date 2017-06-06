@@ -135,16 +135,7 @@ angular.module('frontendApp')
         },function(data){
             swal("Oops...", data.data.message , "error");
         });
-    }
-
-    /*Validaciones de numeros*/
-    $scope.validarNumero=function(id){
-        if (parseInt(angular.element('#cantidad'+id).val())<1) {
-            angular.element('#cantidad'+id).val(1);
-        }
-    }
-    /*Fin de las validaciones*/
-    
+    }    
     $scope.EnviarEntrada=function(){
         $scope.preloader.estado = true;
         if ($scope.Entrada.orden_compra.productos) {
