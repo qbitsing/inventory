@@ -82,7 +82,7 @@ angular.module('frontendApp')
     angular.extend($scope.gridOptions , Tabla);
     $scope.CargarOrden=function(){
         $scope.Ordenes.forEach(function(ele, index){
-            if(ele._id==$scope.Orden.venta){
+            if(ele._id==$scope.Orden){
                 $scope.Salida.orden_venta=ele;
             }
         });

@@ -144,12 +144,12 @@ let eliminar = co.wrap(function *(req, res){
       for(let ele of productos){
         if(ele.tipo == 'kit'){
           for(let el of ele.productos){
-            let pr = productoModel.findById(el._id);
+            let pr = yield productoModel.findById(el._id);
 
             pr.cantidad += (parseInt(el.cantidad) * parseInt(ele.cantidad_saliente));
             pr.apartados += (parseInt(el.cantidad) * parseInt(ele.cantidad_saliente));
 
-            yield productoModel.findByIdAndUpdate(pr._id , pr);
+            yield productoModel.findByIdAndUpdate(pr._id, pr);
           }
         }else{
           let pro = yield productoModel.findById(ele._id);

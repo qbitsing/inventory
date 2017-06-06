@@ -10,7 +10,7 @@
 					<form name="formSalida" ng-submit="EnviarSalida()">
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-								<select ng-change="CargarOrden()" id="orden" ng-model="Orden.venta" material-select watch>
+								<select ng-change="CargarOrden()" id="orden" ng-model="Orden" material-select watch>
 	      							<option ng-if="orden.estado!='Finalizado'" ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.orden_venta_consecutivo}}-{{orden.cliente.nombre}} {{orden.cliente.apellidos}}</option>
 								</select>
 								<label for="orden">Orden de venta *</label>
