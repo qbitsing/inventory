@@ -124,13 +124,15 @@ angular.module('frontendApp')
             obj.cantidad_entrante = 0;
             $scope.Orden.productos.forEach(function(ele, index){
                 if(ele._id==obj._id){
+                    ele.cantidad+=parseInt(obj.cantidad);
+                    ele.cantidad_faltante+=parseInt(obj.cantidad);
                     controlador=true;
                 }
             });
             if(!controlador){
                 $scope.Orden.productos.push(obj);
             }else{
-                Materialize.toast('El producto ya esta añadido', 4000);
+                Materialize.toast('La cantidad se ha sumado al producto ya añadido', 4000);
             }
             $scope.Orden.Producto={};
             $scope.Orden.Producto._id='';
@@ -152,16 +154,17 @@ angular.module('frontendApp')
         obj.cantidad_entrante = 0;
         $scope.Orden.materia_prima.forEach(function(ele, index){
             if(ele._id==obj._id){
+                ele.cantidad+=parseInt(obj.cantidad);
+                ele.cantidad_faltante+=parseInt(obj.cantidad);
                 controlador=true;
             }
         });
         if(!controlador){
             $scope.Orden.materia_prima.push(obj);
-            $scope.Orden.Materia={};
         }else{
-            Materialize.toast('La materia prima ya esta añadida', 4000);
-            $scope.Orden.Materia={};
+            Materialize.toast('La cantidad se ha sumado al materia prima ya añadida', 4000);
         }
+        $scope.Orden.Materia={};
     }
     $scope.BorrarMateria=function(index){
         $scope.Orden.materia_prima.splice(index,1);
@@ -243,7 +246,6 @@ angular.module('frontendApp')
                 $scope.Orden.orden_compra_consecutivo=data.data.datos.orden_compra_consecutivo;
                 $scope.Ordenes.push($scope.Orden);
             }else{
-                $scope.Orden.estado=data.data.datos.estado;
                 $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
                 $scope.panel_title_form = "Registro de Compra";
                 $scope.button_title_form = "Registrar compra";

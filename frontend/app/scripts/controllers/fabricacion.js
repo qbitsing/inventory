@@ -252,7 +252,7 @@ angular.module('frontendApp')
         var ele = document.getElementById('containerFabricacion');
         d.appendChild(ele);
 
-         webServer
+        webServer
         .getResource('fabricacion',{},'get')
         .then(function(data){
             w.print();
@@ -411,8 +411,8 @@ angular.module('frontendApp')
             };
             $scope.fabricacion.productos.forEach(function(ele, index){
                 if(ele._id==obj._id){
-                    ele.cantidad=ele.cantidad+$scope.producto.cantidad;
-                    ele.cantidad_disponible=parseInt(ele.cantidad_disponible) + parseInt($scope.producto.cantidad);
+                    ele.cantidad+=parseInt($scope.producto.cantidad);
+                    ele.cantidad_disponible+=parseInt($scope.producto.cantidad);
                     controlador=true;
                 }
             });
@@ -502,8 +502,8 @@ angular.module('frontendApp')
         $scope.contenido_fabricacion.productos.forEach(function(ele , i){
             $scope.modal_salida.productos.forEach(function(elemento , index){   
                 if(ele._id==elemento.producto._id) {
-                    ele.cantidad_disponible=parseInt(ele.cantidad_disponible) + parseInt(elemento.cantidad);
-                    ele.cantidad_saliente=ele.cantidad_saliente - elemento.cantidad;
+                    ele.cantidad_disponible+=parseInt(elemento.cantidad);
+                    ele.cantidad_saliente-=elemento.cantidad;
                 }
             });
         });
@@ -518,8 +518,8 @@ angular.module('frontendApp')
         $scope.contenido_fabricacion.productos.forEach(function(ele , i){
             if(res._id == ele._id){
                 if($scope.modal_salida.cantidad<=ele.cantidad_disponible){
-                    ele.cantidad_disponible=ele.cantidad_disponible-$scope.modal_salida.cantidad;
-                    ele.cantidad_saliente=parseInt(ele.cantidad_saliente) + parseInt($scope.modal_salida.cantidad);
+                    ele.cantidad_disponible -= $scope.modal_salida.cantidad;
+                    ele.cantidad_saliente += parseInt($scope.modal_salida.cantidad);
                     var obj={
                         producto : ele,
                         cantidad : $scope.modal_salida.cantidad,
@@ -528,8 +528,8 @@ angular.module('frontendApp')
                     var contro=true;
                     $scope.modal_salida.productos.forEach(function(elemento , index){
                         if(res._id==elemento._id) {
-                            ele.cantidad = ele.cantidad + obj.cantidad;
-                            ele.cantidad_faltante = parseInt(ele.cantidad_faltante) + parseInt(obj.cantidad);
+                            ele.cantidad += parseInt(obj.cantidad);
+                            ele.cantidad_faltante += parseInt(obj.cantidad);
                             contro=false;
                         }
                     });
@@ -540,8 +540,8 @@ angular.module('frontendApp')
                     $scope.modal_salida.producto='';
                 }else{
                     Materialize.toast('Error al intentar agregar el producto, la cantidad a sacar es mayor a la cantidad disponible', 4000);
-                    res.cantidad_disponible=parseInt(res.cantidad_disponible) + parseInt($scope.modal_salida.cantidad);
-                    res.cantidad_saliente=res.cantidad_saliente-$scope.modal_salida.cantidad;
+                    res.cantidad_disponible += parseInt($scope.modal_salida.cantidad);
+                    res.cantidad_saliente -= $scope.modal_salida.cantidad;
                 }
             }
         });
@@ -615,8 +615,8 @@ angular.module('frontendApp')
             remision.productos.forEach(function(elemento , index){
                 $scope.contenido_fabricacion.productos.forEach(function(ele , i){
                     if(elemento.producto._id == ele._id){
-                        ele.cantidad_disponible=parseInt(ele.cantidad_disponible)+parseInt(elemento.cantidad);
-                        ele.cantidad_saliente=ele.cantidad_saliente-elemento.cantidad;
+                        ele.cantidad_disponible += parseInt(elemento.cantidad);
+                        ele.cantidad_saliente -= elemento.cantidad;
                     }
                 });
             });
@@ -661,8 +661,8 @@ angular.module('frontendApp')
         $scope.contenido_fabricacion.productos.forEach(function(ele , i){
             $scope.modal_entrada.productos.forEach(function(elemento , index){
                 if(ele._id==elemento.producto._id) {
-                    ele.cantidad_disponible=parseInt(ele.cantidad_disponible) + parseInt(elemento.cantidad);
-                    ele.cantidad_fabricada=ele.cantidad_fabricada - elemento.cantidad;
+                    ele.cantidad_disponible += parseInt(elemento.cantidad);
+                    ele.cantidad_fabricada -= elemento.cantidad;
                 }
             });
         });
@@ -672,13 +672,11 @@ angular.module('frontendApp')
     }
     $scope.addproductoentrada = function(){
         var res = JSON.parse($scope.modal_entrada.producto);
-        res.cantidad_disponible=res.cantidad_disponible-$scope.modal_entrada.cantidad;
-        res.cantidad_cantidad_fabricada=parseInt(res.cantidad_cantidad_fabricada)+parseInt($scope.modal_entrada.cantidad);
         $scope.contenido_fabricacion.productos.forEach(function(ele , i){
             if(res._id == ele._id){
                 if($scope.modal_entrada.cantidad<=ele.cantidad_disponible){
-                    ele.cantidad_disponible=ele.cantidad_disponible-$scope.modal_entrada.cantidad;
-                    ele.cantidad_fabricada=parseInt(ele.cantidad_fabricada)+parseInt($scope.modal_entrada.cantidad);
+                    ele.cantidad_disponible -= $scope.modal_entrada.cantidad;
+                    ele.cantidad_fabricada += parseInt($scope.modal_entrada.cantidad);
                     var obj={
                         producto : ele,
                         cantidad : $scope.modal_entrada.cantidad
@@ -686,7 +684,7 @@ angular.module('frontendApp')
                     var contro=true;
                     $scope.modal_entrada.productos.forEach(function(elemento , index){
                         if(res._id==elemento._id) {
-                            ele.cantidad = ele.cantidad + obj.cantidad;
+                            ele.cantidad += parseInt(obj.cantidad);
                             contro=false;
                         }
                     });
@@ -697,8 +695,8 @@ angular.module('frontendApp')
                     $scope.modal_entrada.producto='';
                 }else{
                     Materialize.toast('Error al intentar agregar el producto, la cantidad a ingresar es mayor a la cantidad disponible', 4000);
-                    res.cantidad_disponible=parseInt(res.cantidad_disponible)+parseInt($scope.modal_entrada.cantidad);
-                    res.cantidad_cantidad_fabricada=res.cantidad_cantidad_fabricada-$scope.modal_entrada.cantidad;
+                    res.cantidad_disponible += parseInt($scope.modal_entrada.cantidad);
+                    res.cantidad_cantidad_fabricada -= $scope.modal_entrada.cantidad;
                 }
             }
         });     
@@ -707,8 +705,8 @@ angular.module('frontendApp')
         if($scope.check_modal_entrada=='entrada'){
             $scope.contenido_fabricacion.productos.forEach(function(ele , i){
                 if(producto.producto._id == ele._id){
-                    ele.cantidad_disponible=parseInt(ele.cantidad_disponible)+parseInt(producto.cantidad);
-                    ele.cantidad_fabricada=ele.cantidad_fabricada-producto.cantidad;
+                    ele.cantidad_disponible += parseInt(producto.cantidad);
+                    ele.cantidad_fabricada -= producto.cantidad;
                 }
             });
         }
@@ -716,7 +714,7 @@ angular.module('frontendApp')
     }
     $scope.cargarRemision=function(){
         var res=JSON.parse($scope.modal_entrada.carga_remision);
-        $scope.modal_entrada.remision= res;
+        $scope.modal_entrada.remision = res;
         $scope.modal_entrada.productos = res.productos;
         $scope.modal_entrada.productos.forEach(function(ele,index){
             if(ele.cantidad_faltante<1){
@@ -766,8 +764,8 @@ angular.module('frontendApp')
                 $scope.modal_entrada.productos.forEach(function(elemento, index){
                     $scope.contenido_fabricacion.productos.forEach(function(ele , i){
                         if (ele._id==elemento.producto._id) {
-                            ele.cantidad_saliente=ele.cantidad_saliente-elemento.cantidad;
-                            ele.cantidad_fabricada=parseInt(ele.cantidad_fabricada)+parseInt(elemento.cantidad);
+                            ele.cantidad_saliente -= elemento.cantidad;
+                            ele.cantidad_fabricada += parseInt(elemento.cantidad);
                         }
                     });
                 });
@@ -835,8 +833,8 @@ angular.module('frontendApp')
             entrada.productos.forEach(function(elemento , index){
                 $scope.contenido_fabricacion.productos.forEach(function(ele , i){
                     if(elemento.producto._id == ele._id){
-                        ele.cantidad_saliente=parseInt(ele.cantidad_saliente)+parseInt(elemento.cantidad);
-                        ele.cantidad_fabricada=ele.cantidad_fabricada-elemento.cantidad;
+                        ele.cantidad_saliente += parseInt(elemento.cantidad);
+                        ele.cantidad_fabricada -= elemento.cantidad;
                     }
                     if(ele.cantidad_fabricada>0){
                         controlerfab=false;
@@ -846,7 +844,7 @@ angular.module('frontendApp')
             entrada.productos.forEach(function(elemento , index){
                 entrada.remision.productos.forEach(function(ele, i){
                     if(elemento.producto._id == ele.producto._id){
-                        ele.cantidad_faltante=parseInt(ele.cantidad_faltante)+parseInt(elemento.cantidad);
+                        ele.cantidad_faltante += parseInt(elemento.cantidad);
                     }
                     if(ele.cantidad_faltante<ele.cantidad){
                         controler=false;
@@ -862,8 +860,8 @@ angular.module('frontendApp')
             entrada.productos.forEach(function(elemento , index){
                 $scope.contenido_fabricacion.productos.forEach(function(ele , i){
                     if(elemento.producto._id == ele._id){
-                        ele.cantidad_disponible=parseInt(ele.cantidad_disponible)+parseInt(elemento.cantidad);
-                        ele.cantidad_fabricada=ele.cantidad_fabricada-elemento.cantidad;
+                        ele.cantidad_disponible += parseInt(elemento.cantidad);
+                        ele.cantidad_fabricada -= elemento.cantidad;
                     }
                     if(ele.cantidad_fabricada>0){
                         controlerfab=false;
@@ -1004,10 +1002,10 @@ angular.module('frontendApp')
     $scope.enviarSalidaInsumos=function(){
         $scope.preloader.estado = true;
         $scope.salida_insumos.productos.forEach(function(ele, ind){
-            ele.producto.cantidad=ele.producto.cantidad-ele.cantidad;
+            ele.producto.cantidad -= ele.cantidad;
         });
         $scope.salida_insumos.materia_prima.forEach(function(ele, ind){
-            ele.materia.cantidad=ele.materia.cantidad-ele.cantidad;
+            ele.materia.cantidad -= ele.cantidad;
         });
         webServer
         .getResource('fabricacion/insumos',$scope.salida_insumos,'post')
@@ -1065,12 +1063,12 @@ angular.module('frontendApp')
         var salida=$scope.cancelarsalidainsumos;
         if(salida.productos){
             salida.productos.forEach(function(ele, ind){
-                ele.producto.cantidad=ele.producto.cantidad-ele.cantidad;
+                ele.producto.cantidad -= ele.cantidad;
             });
         }
         if (salida.materia_prima) {
             salida.materia_prima.forEach(function(ele, ind){
-                ele.materia.cantidad=ele.materia.cantidad-ele.cantidad;
+                ele.materia.cantidad -= ele.cantidad;
             });
         }
         salida.fabricacion=$scope.salida_insumos.fabricacion;
