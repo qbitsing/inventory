@@ -167,13 +167,15 @@ angular.module('frontendApp')
             };
             $scope.Orden.productos.forEach(function(ele, index){
                 if(ele._id==obj._id){
+                    ele.cantidad+=parseInt(obj.cantidad);
+                    ele.cantidad_faltante+=parseInt(obj.cantidad);
                     controlador=true;
                 }
             });
             if(!controlador){
                 $scope.Orden.productos.push(obj);
             }else{
-                Materialize.toast('El producto ya esta añadido', 4000);
+                Materialize.toast('La cantidad se ha sumado al producto ya añadido', 4000);
             }
             $scope.Orden.Producto={};
             $scope.Orden.Producto._id='';
@@ -262,7 +264,6 @@ angular.module('frontendApp')
                 $scope.Orden.estado='Activo';
                 $scope.Ordenes.push($scope.Orden);
             }else{
-                $scope.Orden.estado=data.data.datos.estado;
                 $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
                 $scope.panel_title_form = "Registro de venta";
                 $scope.button_title_form = "Registrar venta";
