@@ -59,10 +59,20 @@ let crear = co.wrap(function * (req, res){
           let contador = 0;
           req.body.orden_venta.productos = [];
           for(let ele of productos){
-            let pro = yield productoModel.findById(ele._id);
-            if(pro.cantidad < ele.cantidad_saliente){
-              noDisponibles.push(`No se puede realizar la salida ya que no cuenta con ${ele.cantidad} de ${ele.nombre}`);
-            }
+            if(ele.tipo == 'kit'){
+              for(let el of ele.productos){
+                let pr = yield productoModel.findById(el._id);
+
+                if(pr.cantidad < (ele.cantidad_saliente * el.cantidad)){
+                  noDisponibles.push(`No se puede realizar la salida ya que no cuenta con ${ele.cantidad * el.cantidad} de ${el.nombre}`);
+                }
+              }
+            }else{
+              let pro = yield productoModel.findById(ele._id);
+              if(pro.cantidad < ele.cantidad_saliente){
+                noDisponibles.push(`No se puede realizar la salida ya que no cuenta con ${ele.cantidad_saliente} de ${ele.nombre}`);
+              }
+            }            
           }
 
           if(noDisponibles.length > 0){
@@ -71,11 +81,23 @@ let crear = co.wrap(function * (req, res){
             });
           }
           for(let ele of productos){
+
             if(ele.cantidad_saliente > 0){
-              let pro = yield productoModel.findById(ele._id);
-              pro.apartados -= ele.cantidad_saliente;
-              pro.cantidad -= ele.cantidad_saliente;
-              yield productoModel.findByIdAndUpdate(pro._id, pro);          
+              if(ele.tipo == 'kit'){
+                for(let el of ele.productos){
+                  let pr = yield productoModel.findById(el._id);
+                  pr.apartados -= (ele.cantidad_saliente * el.cantidad);
+                  pr.cantidad -= (ele.cantidad_saliente * el.cantidad);
+
+                  yield productoModel.findByIdAndUpdate(pr._id, pr);
+                }
+              }else{
+                let pro = yield productoModel.findById(ele._id);
+                pro.apartados -= ele.cantidad_saliente;
+                pro.cantidad -= ele.cantidad_saliente;
+                yield productoModel.findByIdAndUpdate(pro._id, pro);                
+              }
+         
             }
             if(ele.cantidad_faltante == 0) contador ++;
             req.body.orden_venta.productos.push(ele);
@@ -113,32 +135,49 @@ let crear = co.wrap(function * (req, res){
 });
 
 let eliminar = co.wrap(function *(req, res){
-		let salidaId = req.params.id;
-		let salida = yield salidaModel.findById(salidaId);
-		if(salida.orden_venta.productos.length > 0){
-			let productos = salida.orden_venta.productos;
-			salida.orden_venta.productos = [];
-			for(let ele of productos){
-				ele.cantidad_faltante += parseInt(ele.cantidad_saliente);
-        let pro = yield productoModel.findById(ele._id);
-        pro.apartados += ele.cantidad;
-        pro.cantidad += ele.cantidad;
-        yield productoModel.findByIdAndUpdate(pro._id, pro);
-				salida.orden_venta.productos.push(ele);
-			}
-		}
+  try{
+    let salidaId = req.params.id;
+    let salida = yield salidaModel.findById(salidaId);
+    if(salida.orden_venta.productos.length > 0){
+      let productos = salida.orden_venta.productos;
+      salida.orden_venta.productos = [];
+      for(let ele of productos){
+        if(ele.tipo == 'kit'){
+          for(let el of ele.productos){
+            let pr = productoModel.findById(el._id);
+
+            pr.cantidad += (parseInt(el.cantidad) * parseInt(ele.cantidad_saliente));
+            pr.apartados += (parseInt(el.cantidad) * parseInt(ele.cantidad_saliente));
+
+            yield productoModel.findByIdAndUpdate(pr._id , pr);
+          }
+        }else{
+          let pro = yield productoModel.findById(ele._id);
+          pro.apartados += parseInt(ele.cantidad_saliente);
+          pro.cantidad += parseInt(ele.cantidad_saliente);
+          yield productoModel.findByIdAndUpdate(pro._id, pro);
+        }
+        ele.cantidad_faltante += parseInt(ele.cantidad_saliente);
+        
+        salida.orden_venta.productos.push(ele);
+      }
+    }
 
     salida.orden_venta.estado = 'Con Salidas';
 
-		yield ordenModel.findByIdAndUpdate(salida.orden_venta._id , salida.orden_venta);
+    yield ordenModel.findByIdAndUpdate(salida.orden_venta._id , salida.orden_venta);
 
-		yield salidaModel.findByIdAndRemove(salida._id);
+    yield salidaModel.findByIdAndRemove(salida._id);
 
-		return res.status(200).send({
-			message : 'Salida anulada con exito, los cambios han sido revertidos en la base de datos',
+    return res.status(200).send({
+      message : 'Salida anulada con exito, los cambios han sido revertidos en la base de datos',
       datos : salida
-		});
-
+    });
+  }catch(e){
+    return res.status(500).send({
+      message: `ERROR ${e}`
+    });
+  }
 });
 
 

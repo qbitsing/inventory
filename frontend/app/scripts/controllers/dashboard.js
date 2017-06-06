@@ -277,6 +277,7 @@ angular.module('frontendApp')
         }
     }
     function listarCategorias(){
+        $scope.preloader.estado = true;
         webServer
         .getResource('categorias',{},'get')
         .then(function(data){
@@ -290,16 +291,18 @@ angular.module('frontendApp')
         });
     }
     function listarProcesos(){
+        $scope.preloader.estado = true;
         webServer
         .getResource('procesos',{},'get')
         .then(function(data){
             $scope.Procesos=data.data.datos;
             $scope.gridOptionsModalProcesos.data = $scope.Procesos;
-            $scope.preloader.estado=false;
+            $scope.preloader.estado = false;
         },function(data){
             $scope.Procesos=[];
             $scope.gridOptionsModalProcesos.data = $scope.Procesos;
-            $scope.preloader.estado=false;
+            $scope.preloader.estado = false;
+            
         });
     }
     $scope.EnviarProceso=function(){
@@ -350,6 +353,7 @@ angular.module('frontendApp')
     $scope.cerrarSesion=function(){
         SesionUsuario.CerrarSesion();
     	$state.go('InicioSesion');
+        $scope.preloader.estado = false;
     }
     function scroll(){
          $("html, body").animate({

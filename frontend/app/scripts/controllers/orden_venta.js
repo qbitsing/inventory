@@ -49,12 +49,12 @@ angular.module('frontendApp')
         columnDefs: [
             {
                 name:'No. de orden',field: 'orden_venta_consecutivo',
-                width:'10%',
+                width:'15%',
                 minWidth: 100
             },
             {
                 name:'cliente',field: 'cliente.nombre',
-                width:'30%',
+                width:'20%',
                 minWidth: 150
             },
             {
@@ -70,8 +70,8 @@ angular.module('frontendApp')
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'30%',
-                minWidth: 150
+                width:'35%',
+                minWidth: 350
             }
         ]
     }
