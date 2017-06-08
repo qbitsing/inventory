@@ -351,7 +351,7 @@ angular.module('frontendApp')
             if($scope.button_title_form=='Registrar fabricación'){
                 $scope.fabricacion.fabricacion_consecutivo=data.data.datos.fabricacion_consecutivo;
                 $scope.fabricacion._id=data.data.datos._id;
-                $scope.Fabricaciones.push($scope.fabricacion);
+                $scope.Fabricaciones.unshift($scope.fabricacion);
             }else{
                 $scope.Fabricaciones[$scope.fabricacion.index] = $scope.fabricacion;
             }
@@ -548,7 +548,7 @@ angular.module('frontendApp')
             });
             $scope.modal_salida._id=data.data.datos._id;
             $scope.modal_salida.remision_consecutivo=data.data.datos.remision_consecutivo;
-            $scope.Remisiones.push($scope.modal_salida);
+            $scope.Remisiones.unshift($scope.modal_salida);
             $scope.modal_salida={};
             $scope.modal_salida.productos=[];
             $scope.preloader.estado = false;
@@ -781,7 +781,7 @@ angular.module('frontendApp')
                 });
                 $scope.modal_entrada._id=data.data.datos._id;
                 $scope.modal_entrada.entrada_remision_consecutivo=data.data.datos.entrada_remision_consecutivo;
-                $scope.EntradasFabricaciones.push($scope.modal_entrada);
+                $scope.EntradasFabricaciones.unshift($scope.modal_entrada);
                 $scope.modal_entrada={};
                 $scope.modal_entrada.productos=[];
                 $scope.preloader.estado = false;
@@ -1017,7 +1017,7 @@ angular.module('frontendApp')
                     }
                 });
             });
-            $scope.SalidasInsumos.push($scope.salida_insumos);
+            $scope.SalidasInsumos.unshift($scope.salida_insumos);
             $scope.salida_insumos.productos=[];
             $scope.salida_insumos.materia=[];
             $scope.preloader.estado = false;

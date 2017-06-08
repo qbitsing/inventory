@@ -140,7 +140,7 @@ angular.module('frontendApp')
         .then(function(data){
             if($scope.panel_title_form=="Registro de Empleados"){
                 $scope.Empleado._id=data.data.datos._id;
-                $scope.Empleados.push($scope.Empleado);
+                $scope.Empleados.unshift($scope.Empleado);
             }else{
                 $scope.Empleados[$scope.Empleado.index] = $scope.Empleado;
             }
