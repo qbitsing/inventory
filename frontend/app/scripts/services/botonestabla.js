@@ -26,5 +26,5 @@ angular.module('frontendApp')
     Finalizar: '<a type="button" class="btn btn-tabla btn-primary" ng-show=""row.entity.estado==grid.appScope.estadosalidasorden" ng-click="grid.appScope.Factura(row.entity._id)">Finalizar</a>',
     Borrarorden : '<a type="button" class="btn btn-tabla btn-danger" ng-show="row.entity.estado==grid.appScope.estadoactivoorden" ng-click="grid.appScope.abrirModal(row.entity._id)">Borrar</a>',
     Borrarfabricacion : '<a type="button" class="btn btn-tabla btn-danger" ng-show="row.entity.estado==grid.appScope.estadoactivofab" ng-click="grid.appScope.abrirModal(row.entity._id)">Borrar</a>',
-    Editarorden : '<a type="button" class="btn btn-tabla btn-warning" ng-show="row.entity.estado!=grid.appScope.estadoactivoorden" ng-click="grid.appScope.Editar(row.entity._id)">Editar</a>'
+    Editarorden : '<a type="button" class="btn btn-tabla btn-warning" ng-show="row.entity.estado==grid.appScope.estadoactivoorden" ng-click="grid.appScope.Editar(row.entity._id)">Editar</a>'
 })

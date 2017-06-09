@@ -163,7 +163,7 @@ angular.module('frontendApp')
             $scope.Entrada.fecha=new Date(Date.now());
             $scope.Entrada._id=data.data.datos._id;
             $scope.Entrada.entrada_consecutivo=data.data.datos.entrada_consecutivo;
-            $scope.Entradas.push($scope.Entrada);
+            $scope.Entradas.unshift($scope.Entrada);
             $scope.Ordenes.forEach(function(ele,ind){
                 if (ele._id==$scope.Entrada.orden_compra._id) {
                     $scope.Ordenes[ind] = data.data.datos.orden_compra;

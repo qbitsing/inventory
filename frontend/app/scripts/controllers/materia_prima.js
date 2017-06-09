@@ -89,7 +89,7 @@ angular.module('frontendApp')
             });
             if($scope.panel_title_form=="Registro de Materia Prima"){
                 $scope.Materia._id=data.data.datos._id;
-                $scope.Materias.push($scope.Materia);
+                $scope.Materias.unshift($scope.Materia);
             }else{
                 $scope.Materias[$scope.Materia.index] = $scope.Materia;
                 $scope.panel_title_form = "Registro de Materia Prima";
