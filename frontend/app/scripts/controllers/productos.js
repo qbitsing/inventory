@@ -302,9 +302,9 @@ angular.module('frontendApp')
                 $scope.Producto.producto_consecutivo=data.data.datos.producto_consecutivo;
                 if($scope.check=='producto'){
                     $scope.Producto.codigo=data.data.datos.codigo;
-                    $scope.ProductosSelect.push($scope.Producto);
+                    $scope.ProductosSelect.unshift($scope.Producto);
                 }
-                $scope.Productos.push($scope.Producto);
+                $scope.Productos.unshift($scope.Producto);
             }else{
                 $scope.Productos[$scope.Producto.index] = $scope.Producto;
                 if($scope.check=='producto'){

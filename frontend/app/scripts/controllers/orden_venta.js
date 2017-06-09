@@ -23,8 +23,8 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
-    var estadoactivoorden='Activo';
-    var estadosalidasorden='Con Salidas';
+    $scope.estadoactivoorden='Activo';
+    $scope.estadosalidasorden='Con Salidas';
     $scope.preloader = preloader;
     $scope.panelAnimate='';
     $scope.pageAnimate='';
@@ -37,6 +37,7 @@ angular.module('frontendApp')
     },100);
     $scope.panel_title_form = "Registro de venta";
     $scope.button_title_form = "Registrar venta";
+    $scope.noDisponible=[];
     $scope.Orden={};
     $scope.Orden.productos=[];
     $scope.Orden.Producto={};
@@ -214,12 +215,12 @@ angular.module('frontendApp')
             Borrar(_id);
         });
     }
-    function Borrar(id){
+    function Borrar(_id){
         webServer
-        .getResource('orden_venta/'+id,{},'delete')
+        .getResource('orden_venta/'+_id,{},'delete')
         .then(function(data){
             $scope.Ordenes.forEach(function(ele, index){
-                if(ele._id==id){
+                if(ele._id==_id){
                     $scope.Ordenes.splice(ele.index,1);
                 }
             });
@@ -251,7 +252,7 @@ angular.module('frontendApp')
                 $scope.Orden._id=data.data.datos._id;
                 $scope.Orden.orden_venta_consecutivo=data.data.datos.orden_venta_consecutivo;
                 $scope.Orden.estado='Activo';
-                $scope.Ordenes.push($scope.Orden);
+                $scope.Ordenes.unshift($scope.Orden);
             }else{
                 $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
                 $scope.panel_title_form = "Registro de venta";
@@ -260,7 +261,12 @@ angular.module('frontendApp')
             $scope.Orden={};
             $scope.Orden.productos=[];
             $scope.preloader.estado = false;
-            sweetAlert("Completado...", data.data.message , "success");
+            if (data.data.noDisponible.length>0) {
+                $scope.noDisponible=data.data.noDisponible;
+                $('#Mensaje_disponibilidad').modal('open');
+            }else{
+                sweetAlert("Completado...", data.data.message , "success");
+            }
         },function(data){
             $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");

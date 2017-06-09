@@ -119,10 +119,55 @@ let eliminar = co.wrap(function * (req, res){
         });
     }
 });
+
+let valance = co.wrap(function * (req, res){
+    try{
+        let productos = yield ProductoModel.find({});
+        let materia = yield materiaPrimaModel.find({});
+        productos = productos.map(function(ele){
+            let datos = {
+                nombre: ele.nombre,
+                _id: ele._id,
+                producto_consecutivo: ele.producto_consecutivo,
+                unidad_medida: ele.unidad_medida,
+                categoria: ele.categoria,
+                marca: ele.marca,
+                precio: ele.precio,
+                precioCalculado: (ele.precio * ele.cantidad)
+            }
+            return datos;
+        });
+        let total = calcularTotal(0, productos, 0);
+        return res.status(200).send({
+            productos,
+            materia,
+            total
+        });
+    }catch(e){
+        return res.status(500).send({
+            message: `ERROR ${e}`
+        });
+    }
+});
+
+function calcularTotal(total , array , i){
+
+    if (i == (array.length - 1)){
+        total += parseInt(array[i].precioCalculado);
+        return total;
+    }
+
+    total += parseInt(array[i].precioCalculado);
+
+    return calcularTotal(total, array, i+1);
+
+}
+
 module.exports = {
     listarAll,
     listarById,
     crear,
     actualizar,
-    eliminar
+    eliminar,
+    valance
 };

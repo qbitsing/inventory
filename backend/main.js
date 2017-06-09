@@ -93,6 +93,8 @@ app.delete('/productos/:id' , controllers.productos.eliminar);
 
 app.get('/productos' , controllers.productos.listarAll);
 
+app.get('/productos/valance' , controllers.productos.valance);
+
 app.get('/productos/:id' , controllers.productos.listarById);
 
 app.put('/productos/:id' , controllers.productos.actualizar);

@@ -23,7 +23,7 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
-    var estadoactivoorden='Activo';
+    $scope.estadoactivoorden='Activo';
     $scope.preloader = preloader;
     $scope.panelAnimate='';
     $scope.pageAnimate='';
@@ -232,7 +232,7 @@ angular.module('frontendApp')
                 $scope.Orden.fecha=new Date(Date.now());
                 $scope.Orden._id=data.data.datos._id;
                 $scope.Orden.orden_compra_consecutivo=data.data.datos.orden_compra_consecutivo;
-                $scope.Ordenes.push($scope.Orden);
+                $scope.Ordenes.unshift($scope.Orden);
             }else{
                 $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
                 $scope.panel_title_form = "Registro de Compra";
