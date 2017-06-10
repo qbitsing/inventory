@@ -22,7 +22,7 @@ angular.module('frontendApp')
 	            }
 	            return $http(req);
 			}
-			if(metodo=="8"){
+			if(metodo=="post"){
 				var req = {
 					method : 'POST',
 					url : URL,
