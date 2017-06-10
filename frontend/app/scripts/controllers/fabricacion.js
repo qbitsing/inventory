@@ -337,7 +337,8 @@ angular.module('frontendApp')
             ruta='fabricacion';
             $scope.fabricacion.estado='En Fabricacion';
             $scope.fabricacion.estado_remision='Sin Remision';
-            $scope.generado=$scope.Usuario;
+            delete $scope.Usuario.Image;
+            $scope.fabricacion.generado=$scope.Usuario;
         }else{
             metodo='put';
             ruta='fabricacion/'+$scope.fabricacion._id;
