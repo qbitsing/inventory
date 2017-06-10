@@ -11,7 +11,7 @@ angular.module('frontendApp')
   .service('webServer', function ($http) {
 	return{
 		getResource: function(resource , data, metodo) {
-			var URL = "http://localhost:5000/"+resource;
+			var URL = "http://inventory:5000/"+resource;
 			if(data == undefined)
 				data = {};
 			if(metodo=="get"){
@@ -22,7 +22,7 @@ angular.module('frontendApp')
 	            }
 	            return $http(req);
 			}
-			if(metodo=="post"){
+			if(metodo=="8"){
 				var req = {
 					method : 'POST',
 					url : URL,
