@@ -122,7 +122,7 @@ let eliminar = co.wrap(function * (req, res){
 
 let valance = co.wrap(function * (req, res){
     try{
-        let productos = yield ProductoModel.find({});
+        let productos = yield ProductoModel.find({tipo : 'producto'});
         let materia = yield materiaPrimaModel.find({});
         productos = productos.map(function(ele){
             let datos = {
@@ -133,14 +133,15 @@ let valance = co.wrap(function * (req, res){
                 categoria: ele.categoria,
                 marca: ele.marca,
                 precio: ele.precio,
-                precioCalculado: (ele.precio * ele.cantidad)
+                precioCalculado: (ele.precio * ele.cantidad) || 0,
+                codigo: ele.codigo,
+                cantidad: ele.cantidad,
             }
             return datos;
         });
         let total = calcularTotal(0, productos, 0);
         return res.status(200).send({
-            productos,
-            materia,
+            productos: productos.concat(materia),
             total
         });
     }catch(e){
