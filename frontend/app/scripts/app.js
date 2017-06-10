@@ -140,5 +140,11 @@ angular
         parent: 'Dashboard',
         templateUrl: 'views/pages/factura.html',
         controller: 'FacturaCtrl'
-    })  
+    })
+    .state('Balance',{
+        url: '/Balance',
+        parent: 'Dashboard',
+        templateUrl: 'views/pages/valance.html',
+        controller: 'ValanceCtrl'
+    })
 })
