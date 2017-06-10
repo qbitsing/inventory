@@ -161,7 +161,7 @@ angular.module('frontendApp')
         .then(function(data){
             $scope.Materias.forEach(function(ele, index){
                 if(ele._id==id){
-                    $scope.Materias.splice(ele.index,1);
+                    $scope.Materias.splice(index,1);
                 }
             });
             swal("Completado...", data.data.message , "success");
