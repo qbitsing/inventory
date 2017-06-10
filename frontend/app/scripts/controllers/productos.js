@@ -215,12 +215,12 @@ angular.module('frontendApp')
         .then(function(data){
             $scope.Productos.forEach(function(ele, index){
                 if(ele._id==id){
-                    $scope.Productos.splice(ele.index,1);
+                    $scope.Productos.splice(index,1);
                 }
             });
             $scope.ProductosSelect.forEach(function(ele, index){
                 if(ele._id==id){
-                    $scope.ProductosSelect.splice(ele.index,1);
+                    $scope.ProductosSelect.splice(index,1);
                 }
             });
             swal("Completado...", data.data.message , "success");

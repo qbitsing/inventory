@@ -178,7 +178,7 @@ angular.module('frontendApp')
         .then(function(data){
             if($scope.TituloPanelUnidades=='Registro de Unidades de Medida'){
                 $scope.Unidad_de_medida._id=data.data.datos._id;
-                $scope.Unidades.push($scope.Unidad_de_medida);
+                $scope.Unidades.unshift($scope.Unidad_de_medida);
             }else{
                 $scope.Unidades[$scope.Unidad_de_medida.index] = $scope.Unidad_de_medida;
             }
@@ -222,7 +222,7 @@ angular.module('frontendApp')
             if($scope.TituloPanelCategorias=='Registro de Categorias'){
                 $scope.categoria._id=data.data.datos._id;
                 $scope.categoria.codigo=data.data.datos.codigo;
-                $scope.Categorias.push($scope.categoria);
+                $scope.Categorias.unshift($scope.categoria);
             }else{
                 $scope.Categorias[$scope.categoria.index] = $scope.categoria;
             }
@@ -322,7 +322,7 @@ angular.module('frontendApp')
             if($scope.TituloPanelProcesos=='Registro de procesos de fabricación'){
                 $scope.proceso._id=data.data.datos._id;
                 $scope.proceso.proceso_consecutivo=data.data.datos.proceso_consecutivo;
-                $scope.Procesos.push($scope.proceso);
+                $scope.Procesos.unshift($scope.proceso);
             }else{
                 $scope.Procesos[$scope.proceso.index] = $scope.proceso;
             }
