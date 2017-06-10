@@ -8,6 +8,6 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('HomeCtrl', function () {
+.controller('HomeCtrl', function ($scope,socket) {
 	
 })
