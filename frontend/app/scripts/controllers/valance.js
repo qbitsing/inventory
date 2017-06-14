@@ -8,10 +8,11 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('ValanceCtrl', function ($scope, preloader, webServer, $timeout) {
+.controller('ValanceCtrl', function ($scope, preloader, webServer, $timeout, server) {
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';
 	$scope.valance = {};
+    $scope.server = server;
 	$timeout(function () {
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
@@ -86,5 +87,23 @@ angular.module('frontendApp')
     }, function(data){
     	
     });
+
+    $scope.print = function(){
+        var w = window.open();
+        var d = w.document.open();
+        var ele = $('#container')[0];
+        d.appendChild(ele);
+        webServer.getResource('productos/valance', {}, 'get')
+        .then(function(data){
+            w.print();
+            w.close();
+            $('#superContainer')[0].appendChild(ele);
+        }, function(data){
+            w.print();
+            w.close();
+            $('#superContainer')[0].appendChild(ele);
+        });
+
+    }
 
 });

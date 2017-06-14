@@ -10,7 +10,7 @@ const salidaSchema = new Schema({
     materia_prima: [],
     fabricacion: {},
     estado: String,
-    fecha: {type: Date, defalut: Date.now()},
+    fecha: {type: Date, default: Date.now()},
     salida_fabricacion_consecutivo: Number,
     observaciones: String
 });
