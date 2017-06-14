@@ -381,8 +381,8 @@ angular.module('frontendApp')
 
     socket.on('user:join', function (data) {
         $scope.messages.push({
-            user: 'chatroom',
-            text: 'User ' + data.name + ' has joined.'
+            user: 'Chatroom',
+            text: 'El usuario ' + data.name + ' se ha conectado.'
         });
         $scope.users.push(data.name);
     });
@@ -390,8 +390,8 @@ angular.module('frontendApp')
     // add a message to the conversation when a user disconnects or leaves the room
     socket.on('user:left', function (data) {
         $scope.messages.push({
-            user: 'chatroom',
-            text: 'User ' + data.name + ' has left.'
+            user: 'Chatroom',
+            text: 'El usuario ' + data.name + ' se ha desconectado.'
         });
         var i, user;
         for (i = 0; i < $scope.users.length; i++) {
@@ -416,8 +416,8 @@ angular.module('frontendApp')
         }
 
         $scope.messages.push({
-            user: 'chatroom',
-            text: 'User ' + oldName + ' is now known as ' + newName + '.'
+            user: 'Chatroom',
+            text: 'El usuario ' + oldName + ' ha cambiado a ' + newName + '.'
         });
     }
 
@@ -429,7 +429,7 @@ angular.module('frontendApp')
             name: $scope.newName
         }, function (result) {
             if (!result) {
-                alert('There was an error changing your name');
+                alert('Se ha presentado un error al cambiar el nombre de usuario');
             } else {
 
                 changeName($scope.name, $scope.newName);
