@@ -128,7 +128,7 @@ angular.module('frontendApp')
             });
             $scope.Entradas.forEach(function(ele, index){
                 if (ele._id==id) {
-                    $scope.Entradas.splice(ele.index,1);
+                    $scope.Entradas.splice(index,1);
                 }
             });
             swal("Completado...", data.data.message , "success");

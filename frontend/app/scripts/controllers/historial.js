@@ -2,42 +2,21 @@
 
 /**
  * @ngdoc function
- * @name frontendApp.controller:ValanceCtrl
+ * @name frontendApp.controller:HistorialCtrl
  * @description
- * # ValanceCtrl
+ * # HistorialCtrl
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('ValanceCtrl', function ($scope, preloader, webServer, $timeout, server) {
+.controller('HistorialCtrl', function ($scope, preloader, webServer, $timeout, server) {
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';
-	$scope.valance = {};
     $scope.server = server;
+    $scope.datos = [];
 	$timeout(function () {
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
     },100);
-    $scope.convertirFecha = function(fecha){
-    	var dias = new Array('domingo','lunes','martes','miercoles','juev es','viernes','sabado');
-    	var meses = new Array(
-    			'Enero',
-    			'Febrero',
-    			'Marzo',
-    			'Abril',
-    			'Mayo',
-    			'Junio',
-    			'Julio',
-    			'Agosto',
-    			'Septiembre',
-    			'Octubre',
-    			'Noviembre',
-    			'Diciembre'
-    		);
-        var date = new Date(fecha);
-        var dateConvert = dias[date.getDay()] + ' ' + date.getDate() + ' de ' + meses[date.getMonth()] + ' de ' + date.getFullYear();
-        return dateConvert;
-    }
-	$scope.fecha = $scope.convertirFecha(Date.now());
     $scope.gridOptions = {
     	columnDefs: [
     		{
@@ -56,39 +35,41 @@ angular.module('frontendApp')
     			minWidth: 160
     		},
     		{
-    			field: 'cantidad',
-    			name: 'SALDO',
-    			minWidth: 160
-    		},
-    		{
     			field: 'unidad_medida.nombre',
     			name: 'UNIDAD',
     			minWidth: 160
     		},
     		{
-    			field: 'precio',
-    			name: 'V. UNITARIO',
+    			field: 'cantidad_entrada',
+    			name: 'cantidad que entro',
     			minWidth: 160
     		},
     		{
-    			field: 'precioCalculado',
-    			name: 'V. TOTAL',
+    			field: 'cantidad_salida',
+    			name: 'cantidad que salio',
     			minWidth: 160
-    		}
+    		},
+    		
     	]
     };
 
+    $scope.buscar = function(){
+    	preloader.estado = true;
+    	var fechaInit = $scope.fechaInit.getFullYear()+ '-' + ($scope.fechaInit.getMonth() + 1) + '-' +$scope.fechaInit.getDate();
+    	var fechaFinal = $scope.fechaFinal.getFullYear()+ '-' + ($scope.fechaFinal.getMonth() + 1) + '-' +$scope.fechaFinal.getDate();
+	    webServer.getResource('historial/'+fechaInit+'/'+fechaFinal, {}, 'get')
+	    .then(function(data){
+	    	preloader.estado = false;
+	    	$scope.datos = data.data.productos.concat(data.data.materia);
+	    	$scope.gridOptions.data = $scope.datos;
+	    }, function(data){
+	    	preloader.estado = false;
+	    });
+    }
 
 
-    webServer.getResource('productos/valance', {}, 'get')
-    .then(function(data){
-    	$scope.valance = data.data;
-    	$scope.gridOptions.data = $scope.valance.productos;
-    }, function(data){
-    	
-    });
 
-    $scope.print = function(){
+    /*$scope.print = function(){
         var w = window.open();
         var d = w.document.open();
         var ele = $('#container')[0];
@@ -104,6 +85,6 @@ angular.module('frontendApp')
             $('#superContainer')[0].appendChild(ele);
         });
 
-    }
+    }*/
 
 });

@@ -125,7 +125,7 @@ angular.module('frontendApp')
         .then(function(data){
             $scope.Personas.forEach(function(ele, index){
                 if(ele._id==id){
-                    $scope.Personas.splice(ele.index,1);
+                    $scope.Personas.splice(index,1);
                 }
             });
             swal("Completado...", data.data.message , "success");

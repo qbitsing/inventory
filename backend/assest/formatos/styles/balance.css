@@ -1,0 +1,28 @@
+h3{
+	font-size: 13px;
+}
+
+table{
+	text-transform: uppercase;
+	border-collapse: collapse;
+	border: solid 1px #C2BEBD;
+	width: 100%;
+	font-size: 9px;
+}
+
+table tr:first-child{
+	font-weight: bold;
+}
+
+table tr td {
+	border-right: solid 1px #C2BEBD;
+	border-left: solid 1px #C2BEBD;
+}
+
+table tr td:first-child{
+	width: 25%;
+}
+
+table tr:nth-child(even){
+	background: #DDDCDB;
+}

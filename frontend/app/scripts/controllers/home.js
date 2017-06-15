@@ -9,4 +9,5 @@
  */
 angular.module('frontendApp')
 .controller('HomeCtrl', function () {
+	
 })

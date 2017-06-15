@@ -212,6 +212,12 @@ app.put('/facturas/:id' , controllers.facturas.anular);
 
 //Fin Bloque de rutas de facturas
 
+// Historial
+
+app.get('/historial/:fechaInicial/:fechaFinal', controllers.historial.buscar);
+
+// Fin Historial
+
 app.get('/imagen/:id', (req, res) => {
   let id = req.params.id;
 

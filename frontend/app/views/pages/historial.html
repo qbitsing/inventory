@@ -3,10 +3,24 @@
 	<div class="row">
 		<div class="col s12">
 			<div class="card-panel panel-default {{panelAnimate}}">
-				<div class="panel-heading blue accent-4">
-					<h3 class="panel-title"><STRONG>Saldo de invetario</STRONG> {{fecha}} <span class="right"><strong>{{valance.total | currency : $ : 0}}</strong></span></h3>
-				</div>
 				<div class="panel-body" >
+					<form name="fechas" novalidate ng-submit="buscar()">
+						<div class="row">
+							<div class="input-field col s12 m6 l6">
+								<input type="date" ng-model="fechaInit" name="fechaInit" id="fechaInit"  required>
+								<label class="active" for="fechaInit">Fecha Inicial de Busqueda</label>
+							</div>
+							<div class="input-field col s12 m6 l6">
+								<input type="date" ng-model="fechaFinal" name="fechaFinal" id="fechaFinal"  required>
+								<label class="active" for="fechaFinal">Fecha Final de Busqueda</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="fechas.$invalid">Buscar</button>
+							</div>
+						</div>
+					</form>
 					<div class="gridStyle grid" ui-grid="gridOptions" ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
 
 					<button ng-click="print()">Imprimir Balance</button>
