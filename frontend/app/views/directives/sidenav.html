@@ -69,6 +69,12 @@
 						Fabricacion
 					</a>
 				</li>
+				<li ng-if="Usuario.rol!='Contador'" ng-class="{activate: $state.includes('Balance')}">
+					<a ui-sref="Balance">
+						<i class="tooltipped material-icons" tooltipped data-position="right" data-delay="50" data-tooltip="Balance">account_balance</i>
+						Balance
+					</a>
+				</li>
 				<li ng-if="Usuario.rol!='Contador'" ng-class="{activate: $state.includes('Entrada')}">
 					<a ui-sref="Entrada">
 						<i class="tooltipped material-icons" tooltipped data-position="right" data-delay="50" data-tooltip="Entrada">archive</i>
