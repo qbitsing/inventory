@@ -94,7 +94,7 @@ $success:#00c853;
   position:absolute;
   right:0;
   top:64px;
-  height:auto;
+  bottom:0;
   left:300px;
 }
 .top-nav-hidden{
@@ -344,6 +344,10 @@ $success:#00c853;
       color: $blanco;
       font-size: 1.3rem;
       padding-left: .8rem;
+      strong{
+        font-size: 1.7rem;
+        text-transform:uppercase;
+      }
     }
   }
   .panel-body{
