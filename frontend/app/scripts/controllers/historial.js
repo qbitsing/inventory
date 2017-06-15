@@ -69,7 +69,7 @@ angular.module('frontendApp')
 
 
 
-    /*$scope.print = function(){
+    $scope.print = function(){
         var w = window.open();
         var d = w.document.open();
         var ele = $('#container')[0];
@@ -85,6 +85,6 @@ angular.module('frontendApp')
             $('#superContainer')[0].appendChild(ele);
         });
 
-    }*/
+    }
 
 });
