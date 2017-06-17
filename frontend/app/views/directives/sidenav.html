@@ -75,6 +75,12 @@
 						Balance
 					</a>
 				</li>
+				<li ng-if="Usuario.rol=='Super Administrador'" ng-class="{activate: $state.includes('Historial')}">
+					<a ui-sref="Historial">
+						<i class="tooltipped material-icons" tooltipped data-position="right" data-delay="50" data-tooltip="Historial">history</i>
+					salida
+					</a>
+				</li>
 				<li ng-if="Usuario.rol!='Contador'" ng-class="{activate: $state.includes('Entrada')}">
 					<a ui-sref="Entrada">
 						<i class="tooltipped material-icons" tooltipped data-position="right" data-delay="50" data-tooltip="Entrada">archive</i>
@@ -87,6 +93,7 @@
 					salida
 					</a>
 				</li>
+				
 			</ul>
 		</div>
 	</div>
