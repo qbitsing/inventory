@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <h2 class="titulo-pagina blue accent-4 right-align {{pageAnimate}}">Historial movimiento de Productos</h2>
+=======
+<h2 class="titulo-pagina blue accent-4 right-align {{pageAnimate}}">Historial de movimientos</h2>
+>>>>>>> e3e0dc848f98a31b77d5ac4f8e9a9a5764297b12
 <div class="contenido">
 	<div class="row">
 		<div class="col s12">
@@ -27,6 +31,7 @@
 							</div>
 						</div>
 					</form>
+<<<<<<< HEAD
 					<div class="row">
 					<br>
 					<div class="col s12">
@@ -37,6 +42,10 @@
 					
 
 					
+=======
+					<div class="gridStyle grid" ui-grid="gridOptions" ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
+					<button ng-click="print()">Imprimir</button>
+>>>>>>> e3e0dc848f98a31b77d5ac4f8e9a9a5764297b12
 				</div>
 			</div>
 		</div>
@@ -46,25 +55,23 @@
 <div id="superContainer" ng-show="false">
 	<div id="container">
 		<link rel="stylesheet" ng-href="{{server}}/formatos/styles/balance.css">
-		<h3 class="title">Saldo de invetario {{fecha}} <span class="right-align">{{valance.total | currency : $ : 0}}</span></h3>
+		<h3 class="title">Histiral de movimientos</h3>
 		<table>
 			<tr>
 				<td>ARTICULO</td>
 				<td>MARCA</td>
 				<td>CODIFICACION</td>
-				<td>SALDO</td>
 				<td>UNIDAD</td>
-				<td>V. UNITARIO</td>
-				<td>V. TOTAL</td>
+				<td>cantidad que entro</td>
+				<td>cantidad que salio</td>
 			</tr>
-			<tr ng-repeat="producto in valance.productos">
+			<tr ng-repeat="producto in datos">
 				<td>{{producto.nombre}}</td>
 				<td>{{producto.marca}}</td>
 				<td>{{producto.codigo}}</td>
-				<td>{{producto.cantidad}}</td>
 				<td>{{producto.unidad_medida.nombre}}</td>
-				<td>{{producto.precio}}</td>
-				<td>{{producto.precioCalculado}}</td>
+				<td>{{producto.cantidad_entrada}}</td>
+				<td>{{producto.cantidad_entrada}}</td>
 			</tr>
 		</table>
 	</div>
