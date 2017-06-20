@@ -4,18 +4,31 @@
 		<div class="col s12">
 			<div class="card-panel panel-default {{panelAnimate}}">
 				<div class="panel-heading blue accent-4">
-					<h3 class="panel-title">Saldo de invetario {{fecha}} <span class="right-align">{{valance.total | currency : $ : 0}}</span></h3>
+					<h3 class="panel-title"><STRONG>Saldo de invetario</STRONG> {{fecha}} <span class="right"><strong>{{valance.total | currency : $ : 0}}</strong></span></h3>
 				</div>
 				<div class="panel-body" >
-					<div class="gridStyle grid" ui-grid="gridOptions" ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
+				<div class="row">
+					<div class="col s12">
+						<button ng-click="print()" class="btn btn-large btn-success">Imprimir Balance</button>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col s12">
+						<div class="gridStyle grid" ui-grid="gridOptions" ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
+					</div>
+				</div>
+				
 
-					<button ng-click="print()">Imprimir Balance</button>
+					
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
+<br>
+<br>
+<br>
 <div id="superContainer" ng-show="false">
 	<div id="container">
 		<link rel="stylesheet" ng-href="{{server}}/formatos/styles/balance.css">

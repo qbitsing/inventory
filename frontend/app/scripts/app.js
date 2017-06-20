@@ -147,4 +147,10 @@ angular
         templateUrl: 'views/pages/valance.html',
         controller: 'ValanceCtrl'
     })
+    .state('Historial',{
+        url: '/Historial',
+        parent: 'Dashboard',
+        templateUrl: 'views/pages/historial.html',
+        controller: 'HistorialCtrl'
+    })
 })

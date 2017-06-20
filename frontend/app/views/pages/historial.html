@@ -1,0 +1,67 @@
+
+<h2 class="titulo-pagina blue accent-4 right-align {{pageAnimate}}">Historial de movimientos</h2>
+<div class="contenido">
+	<div class="row">
+		<div class="col s12">
+			<div class="card-panel panel-default {{panelAnimate}}">
+			<div class="panel-heading blue accent-4">
+				<h3 class="panel-title">Fechas de busqueda</h3>
+			</div>
+				<div class="panel-body" >
+					<form name="fechas" novalidate ng-submit="buscar()">
+						<div class="row">
+							<div class="input-field col s12 m6 l6">
+								<input type="date" ng-model="fechaInit" name="fechaInit" id="fechaInit"  required>
+								<label class="active" for="fechaInit">Fecha Inicial de Busqueda</label>
+							</div>
+							<div class="input-field col s12 m6 l6">
+								<input type="date" ng-model="fechaFinal" name="fechaFinal" id="fechaFinal"  required>
+								<label class="active" for="fechaFinal">Fecha Final de Busqueda</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="fechas.$invalid">Buscar</button>
+							</div>
+							<div class="col">
+								<button ng-click="print()" class="btn btn-large btn-success">Imprimir Balance</button>
+							</div>
+						</div>
+					</form>
+					<div class="row">
+					<br>
+					<div class="col s12">
+						<div class="gridStyle grid" ui-grid="gridOptions" ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
+					</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="superContainer" ng-show="false">
+	<div id="container">
+		<link rel="stylesheet" ng-href="{{server}}/formatos/styles/balance.css">
+		<h3 class="title">Histiral de movimientos</h3>
+		<table>
+			<tr>
+				<td>ARTICULO</td>
+				<td>MARCA</td>
+				<td>CODIFICACION</td>
+				<td>UNIDAD</td>
+				<td>cantidad que entro</td>
+				<td>cantidad que salio</td>
+			</tr>
+			<tr ng-repeat="producto in datos">
+				<td>{{producto.nombre}}</td>
+				<td>{{producto.marca}}</td>
+				<td>{{producto.codigo}}</td>
+				<td>{{producto.unidad_medida.nombre}}</td>
+				<td>{{producto.cantidad_entrada}}</td>
+				<td>{{producto.cantidad_entrada}}</td>
+			</tr>
+		</table>
+	</div>
+</div>
