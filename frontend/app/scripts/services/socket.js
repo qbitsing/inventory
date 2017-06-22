@@ -9,9 +9,9 @@
  */
 angular.module('frontendApp')
   .factory('socket', function ($rootScope) {
-    var socket=io.connect('http://localhost:5000');
+    /*var socket=io.connect('http://localhost:5000');*/
     return {
-	    on: function (eventName, callback) {
+	    /*on: function (eventName, callback) {
 	      	socket.on(eventName, function () {  
 		        var args = arguments;
 		        $rootScope.$apply(function () {
@@ -28,6 +28,6 @@ angular.module('frontendApp')
 					}
 	        	});
 	      	})
-	    }
+	    }*/
 	 };
   });

@@ -69,16 +69,16 @@
 						Fabricacion
 					</a>
 				</li>
-				<li ng-if="Usuario.rol!='Contador'" ng-class="{activate: $state.includes('Balance')}">
+				<li ng-class="{activate: $state.includes('Balance')}">
 					<a ui-sref="Balance">
 						<i class="tooltipped material-icons" tooltipped data-position="right" data-delay="50" data-tooltip="Balance">account_balance</i>
 						Balance
 					</a>
 				</li>
-				<li ng-if="Usuario.rol=='Super Administrador'" ng-class="{activate: $state.includes('Historial')}">
+				<li ng-if="Usuario.rol!='Almacenista'" ng-class="{activate: $state.includes('Historial')}">
 					<a ui-sref="Historial">
 						<i class="tooltipped material-icons" tooltipped data-position="right" data-delay="50" data-tooltip="Historial">history</i>
-					salida
+					Historial
 					</a>
 				</li>
 				<li ng-if="Usuario.rol!='Contador'" ng-class="{activate: $state.includes('Entrada')}">
@@ -90,7 +90,7 @@
 				<li ng-if="Usuario.rol!='Contador'" ng-class="{activate: $state.includes('Salida')}">
 					<a ui-sref="Salida">
 						<i class="tooltipped material-icons" tooltipped data-position="right" data-delay="50" data-tooltip="Salida">unarchive</i>
-					salida
+					Salida
 					</a>
 				</li>
 				

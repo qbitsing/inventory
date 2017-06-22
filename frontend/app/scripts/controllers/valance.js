@@ -17,6 +17,9 @@ angular.module('frontendApp')
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
     },100);
+    if ($scope.Usuario.rol=='Almacenista') {
+        $state.go('Home');
+    }
     $scope.convertirFecha = function(fecha){
     	var dias = new Array('domingo','lunes','martes','miercoles','juev es','viernes','sabado');
     	var meses = new Array(
@@ -59,25 +62,25 @@ angular.module('frontendApp')
     			field: 'cantidad',
     			name: 'SALDO',
     			minWidth: 160
-    		},
-    		{
-    			field: 'unidad_medida.nombre',
-    			name: 'UNIDAD',
-    			minWidth: 160
-    		},
-    		{
-    			field: 'precio',
-    			name: 'V. UNITARIO',
-    			minWidth: 160
-    		},
-    		{
-    			field: 'precioCalculado',
-    			name: 'V. TOTAL',
-    			minWidth: 160
     		}
     	]
     };
-
+    if ($scope.Usuario.rol!='Almacenista') {
+        $scope.gridOptions.columnDefs.push(
+            {
+                field: 'precio',
+                name: 'V. UNITARIO',
+                minWidth: 160
+            }
+        );
+        $scope.gridOptions.columnDefs.push(
+            {
+                field: 'precioCalculado',
+                name: 'V. TOTAL',
+                minWidth: 160
+            }
+        );
+    }
 
 
     webServer.getResource('productos/valance', {}, 'get')

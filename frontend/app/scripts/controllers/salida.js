@@ -40,6 +40,7 @@ angular.module('frontendApp')
     $scope.Salida={};
     $scope.Salida.orden_venta={};
     $scope.Salida.orden_venta.productos=[];
+    $scope.noDisponible=[];
     $scope.Orden='';
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
     casillaDeBotones+= BotonesTabla.ImprimirRemision;
@@ -47,7 +48,6 @@ angular.module('frontendApp')
     if ($scope.Usuario.rol=='Super Administrador') {
         casillaDeBotones+=BotonesTabla.Borrar;
     }
-
     casillaDeBotones+='</div>';
     $scope.gridOptions = {
         columnDefs: [
@@ -166,7 +166,12 @@ angular.module('frontendApp')
             sweetAlert("Completado...", data.data.message , "success"); 
         },function(data){
             $scope.preloader.estado = false;
-            sweetAlert("Oops...", data.data.message , "error");
+            if (data.data.noDisponible.length>0) {
+                $scope.noDisponible=data.data.noDisponible;
+                $('#Mensaje_disponibilidad').modal('open');
+            }else{
+                sweetAlert("Oops...", data.data.message , "error");
+            }
         });
     }
 

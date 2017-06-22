@@ -450,19 +450,10 @@ angular.module('frontendApp')
         }
         if (contadorresponsables) {
             var res = JSON.parse($scope.from_modal.persona);
-            var index = null;
             $scope.modal.proceso.array_responsables.push(res);
-            $scope.personas.forEach(function(ele , i){
-                if(res._id == ele._id){
-                    index = i;
-                }
-            });
-            $scope.personas.splice(index , 1);
         }
     }
     $scope.removeresponsable = function(index){
-        var res = $scope.modal.proceso.array_responsables[index];
-        $scope.personas.push(res);
         $scope.modal.proceso.array_responsables.splice(index , 1);
     }
     $scope.AbrirModalSalida=function(_id){
@@ -1239,7 +1230,7 @@ angular.module('frontendApp')
     function listarPersonas(){
         $scope.preloader.estado = true;
         webServer
-        .getResource('personas',{empleado:true,proveedorfabricacion:true},'get')
+        .getResource('personas',{empleado:true,proveedorfabricacion:true,almacenista: true},'get')
         .then(function(data){
             $scope.personas = data.data.datos;
             listarProductos();

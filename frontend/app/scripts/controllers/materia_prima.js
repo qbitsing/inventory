@@ -195,7 +195,8 @@ angular.module('frontendApp')
                     marca : ele.marca,
                     unidad_medida : ele.unidad_medida,
                     min_stock : ele.min_stock,
-                    cantidad : ele.cantidad
+                    cantidad : ele.cantidad,
+                    materia_consecutivo : ele.materia_consecutivo
                 };
             }
         });

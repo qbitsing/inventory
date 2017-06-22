@@ -4,7 +4,7 @@
 		<div class="col s12">
 			<div class="card-panel panel-default {{panelAnimate}}">
 				<div class="panel-heading blue accent-4">
-					<h3 class="panel-title"><STRONG>Saldo de invetario</STRONG> {{fecha}} <span class="right"><strong>{{valance.total | currency : $ : 0}}</strong></span></h3>
+					<h3 class="panel-title"><STRONG>Saldo de invetario</STRONG> {{fecha}} <span class="right"><strong ng-if="Usuario.rol!='Almacenista'">{{valance.total | currency : $ : 0}}</strong></span></h3>
 				</div>
 				<div class="panel-body" >
 				<div class="row">
@@ -32,7 +32,7 @@
 <div id="superContainer" ng-show="false">
 	<div id="container">
 		<link rel="stylesheet" ng-href="{{server}}/formatos/styles/balance.css">
-		<h3 class="title">Saldo de invetario {{fecha}} <span class="right-align">{{valance.total | currency : $ : 0}}</span></h3>
+		<h3 class="title">Saldo de inventario {{fecha}} <span class="right-align" ng-if="Usuario!='Almacenista'">{{valance.total | currency : $ : 0}}</span></h3>
 		<table>
 			<tr>
 				<td>ARTICULO</td>
@@ -40,7 +40,7 @@
 				<td>CODIFICACION</td>
 				<td>SALDO</td>
 				<td>UNIDAD</td>
-				<td>V. UNITARIO</td>
+				<td ng-if="Usuario!='Almacenista'">V. UNITARIO</td>
 				<td>V. TOTAL</td>
 			</tr>
 			<tr ng-repeat="producto in valance.productos">
@@ -49,7 +49,7 @@
 				<td>{{producto.codigo}}</td>
 				<td>{{producto.cantidad}}</td>
 				<td>{{producto.unidad_medida.nombre}}</td>
-				<td>{{producto.precio}}</td>
+				<td ng-if="Usuario!='Almacenista'">{{producto.precio}}</td>
 				<td>{{producto.precioCalculado}}</td>
 			</tr>
 		</table>

@@ -301,14 +301,15 @@ angular.module('frontendApp')
         arrObj.forEach(function(ele , index){
             if(ele._id ==  id){
                 obj = {
-                    index: index,
+                    index : index,
                     _id : ele._id,
                     proveedor : ele.proveedor,
                     orden_compra_consecutivo : ele.orden_compra_consecutivo,
                     productos : ele.productos,
                     materia_prima : ele.materia_prima,
                     observaciones : ele.observaciones,
-                    fecha : ele.fecha
+                    fecha : ele.fecha,
+                    estado : ele.estado
                 };
             }
         });

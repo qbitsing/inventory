@@ -235,28 +235,45 @@ angular.module('frontendApp')
         });
     }
     $scope.EditarModal = function(_id){
+        var obj;
         if($scope.categorias){
             $scope.Categorias.forEach(function(ele,index){
                 if (ele._id==_id) {
-                    $scope.categoria = ele;
+                    obj={
+                        _id : ele._id,
+                        nombre : ele.nombre,
+                        codigo : ele.codigo
+                    };
                 }
             });
+            $scope.categoria = obj;
             $scope.TituloPanelCategorias='Edición de Categorias';
             $scope.TituloBotonCategorias='Editar Categoria';
         }else if($scope.unidades){
             $scope.Unidades.forEach(function(ele,index){
                 if (ele._id==_id) {
-                    $scope.Unidad_de_medida = ele;
+                    obj={
+                        _id : ele._id,
+                        nombre : ele.nombre,
+                        codigo : ele.codigo
+                    };
                 }
             });
+            $scope.Unidad_de_medida = obj;
             $scope.TituloPanelUnidades='Edición de Unidades de Medida';
             $scope.TituloBotonUnidades='Editar Unidad de Medida';
         }else if($scope.procesos){
             $scope.Procesos.forEach(function(ele,index){
                 if (ele._id==_id) {
-                    $scope.proceso = ele;
+                    obj={
+                        _id : ele._id,
+                        nombre : ele.nombre,
+                        tipo : ele.tipo,
+                        proceso_consecutivo : ele.proceso_consecutivo
+                    };
                 }
             });
+            $scope.proceso = obj;
             $scope.TituloPanelProcesos='Edición de Procesos';
             $scope.TituloBotonProcesos='Editar Proceso';
         }
@@ -366,7 +383,7 @@ angular.module('frontendApp')
 
 
     /*Chat*/
-    socket.on('init', function (data) {
+    /*socket.on('init', function (data) {
         $scope.name = data.name;
         $scope.users = data.users;
         $scope.messages = data.messages;
@@ -374,22 +391,22 @@ angular.module('frontendApp')
 
     socket.on('send:message', function (message) {
         $scope.messages.push(message);
-    });
+    });*/
 
     /*socket.on('change:name', function (data) {
         changeName(data.oldName, data.newName);
     });*/
 
-    socket.on('user:join', function (data) {
+    /*socket.on('user:join', function (data) {
         $scope.messages.push({
             user: 'Chatroom',
             text: 'El usuario ' + data.name + ' se ha conectado.'
         });
         $scope.users.push(data.name);
-    });
+    });*/
 
     // add a message to the conversation when a user disconnects or leaves the room
-    socket.on('user:left', function (data) {
+    /*socket.on('user:left', function (data) {
         $scope.messages.push({
             user: 'Chatroom',
             text: 'El usuario ' + data.name + ' se ha desconectado.'
@@ -402,7 +419,7 @@ angular.module('frontendApp')
                 break;
             }
         }
-    });
+    });*/
 
     // Private helpers
     // ===============
@@ -441,7 +458,7 @@ angular.module('frontendApp')
         });
     };*/
 
-    $scope.sendMessage = function () {
+    /*$scope.sendMessage = function () {
         socket.emit('send:message', {
             message: $scope.message
         });
@@ -454,5 +471,5 @@ angular.module('frontendApp')
 
         // clear message box
         $scope.message = '';
-    };
+    };*/
 })

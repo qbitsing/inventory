@@ -25,6 +25,7 @@ angular.module('frontendApp')
     });
     $scope.estadoactivoorden='Activo';
     $scope.estadosalidasorden='Con Salidas';
+    $scope.estadofinalizadoorden='Finalizado';
     $scope.preloader = preloader;
     $scope.panelAnimate='';
     $scope.pageAnimate='';
@@ -371,6 +372,7 @@ angular.module('frontendApp')
                 obj = {
                     index: index,
                     _id : ele._id,
+                    orden_venta_consecutivo : ele.orden_venta_consecutivo,
                     cliente : ele.cliente,
                     productos : ele.productos,
                     observaciones : ele.observaciones,

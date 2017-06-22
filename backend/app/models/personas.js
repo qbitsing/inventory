@@ -18,11 +18,7 @@ const personaSchema = Schema({
     telefono : String,
     correo : {
         type : String, 
-        unique : true, 
-        required : [
-            true, 
-            'el correo es requerido'
-        ]
+        unique : true
     },
     contrasena : String,
     proveedor:Boolean,
