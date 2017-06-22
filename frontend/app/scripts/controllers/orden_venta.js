@@ -264,7 +264,17 @@ angular.module('frontendApp')
             $scope.preloader.estado = false;
             if (data.data.noDisponible.length>0) {
                 $scope.noDisponible=data.data.noDisponible;
-                $('#Mensaje_disponibilidad').modal('open');
+                var mensaje='<ul>';
+                $scope.noDisponible.forEach(function(ele,index){
+                    mensaje+='<li>'+ele+'</li>'
+                });
+                mensaje+='</ul>';
+                swal({
+                    title: "Atención",
+                    text: mensaje,
+                    type: "warning",
+                    html: true
+                });
             }else{
                 sweetAlert("Completado...", data.data.message , "success");
             }

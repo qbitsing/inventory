@@ -449,8 +449,18 @@ angular.module('frontendApp')
             }
         }
         if (contadorresponsables) {
+            var contador=true;
             var res = JSON.parse($scope.from_modal.persona);
-            $scope.modal.proceso.array_responsables.push(res);
+            $scope.modal.proceso.array_responsables.forEach(function(ele,index){
+                if (ele._id==res_id) {
+                    contador=false;
+                }
+            });
+            if (contador) {
+                $scope.modal.proceso.array_responsables.push(res);
+            }else{
+                Materialize.toast('El empleado ya esta añadido a este proceso', 4000);
+            }
         }
     }
     $scope.removeresponsable = function(index){

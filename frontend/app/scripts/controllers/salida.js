@@ -139,40 +139,67 @@ angular.module('frontendApp')
     }
     $scope.EnviarSalida=function(){
         $scope.Salida.generado=$scope.Usuario;
-        $scope.preloader.estado = true;
         if ($scope.Salida.orden_venta.productos) {
+            var conter=true;
             $scope.Salida.orden_venta.productos.forEach(function(ele, index){
                 ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
-                ele.cantidad_faltante=parseInt(ele.cantidad_faltante)-parseInt(ele.cantidad_saliente);
-            });
-        }
-        webServer
-        .getResource("salidas",$scope.Salida,"post")
-        .then(function(data){
-            $scope.Salida.fecha=new Date(Date.now());
-            $scope.Salida.salida_consecutivo=data.data.datos.salida_consecutivo;
-            $scope.Salida._id=data.data.datos._id;
-            $scope.Salidas.unshift($scope.Salida);
-            $scope.Ordenes.forEach(function(ele,ind){
-                if (ele._id==$scope.Salida.orden_venta._id) {
-                    $scope.Ordenes[ind] = data.data.datos.orden_venta;
+                if (ele.cantidad_faltante<ele.cantidad_saliente) {
+                    conter=false;
                 }
             });
-            $scope.Salida={};
-            $scope.Salida.orden_venta={};
-            $scope.Salida.orden_venta.productos=[];
-            $scope.Orden='';
-            $scope.preloader.estado = false;
-            sweetAlert("Completado...", data.data.message , "success"); 
-        },function(data){
-            $scope.preloader.estado = false;
-            if (data.data.noDisponible.length>0) {
-                $scope.noDisponible=data.data.noDisponible;
-                $('#Mensaje_disponibilidad').modal('open');
-            }else{
-                sweetAlert("Oops...", data.data.message , "error");
-            }
-        });
+        }
+        if (conter) {
+            $scope.preloader.estado = true;
+            $scope.Salida.orden_venta.productos.forEach(function(ele, index){
+                ele.cantidad_faltante=parseInt(ele.cantidad_faltante)-parseInt(ele.cantidad_saliente);
+            });
+            webServer
+            .getResource("salidas",$scope.Salida,"post")
+            .then(function(data){
+                $scope.Salida.fecha=new Date(Date.now());
+                $scope.Salida.salida_consecutivo=data.data.datos.salida_consecutivo;
+                $scope.Salida._id=data.data.datos._id;
+                $scope.Salidas.unshift($scope.Salida);
+                $scope.Ordenes.forEach(function(ele,ind){
+                    if (ele._id==$scope.Salida.orden_venta._id) {
+                        $scope.Ordenes[ind] = data.data.datos.orden_venta;
+                    }
+                });
+                $scope.Salida={};
+                $scope.Salida.orden_venta={};
+                $scope.Salida.orden_venta.productos=[];
+                $scope.Orden='';
+                $scope.preloader.estado = false;
+                sweetAlert("Completado...", data.data.message , "success"); 
+            },function(data){
+                $scope.preloader.estado = false;
+                if (data.data.noDisponibles.length>0) {
+                    $scope.noDisponible=data.data.noDisponibles;
+                    var mensaje='<ul>';
+                    $scope.noDisponible.forEach(function(ele,index){
+                        mensaje+='<li>'+ele+'</li>'
+                    });
+                    mensaje+='</ul>';
+                    swal({
+                        title: "No se puede realizar la salida",
+                        text: mensaje,
+                        type: "error",
+                        html: true
+                    });
+                    $scope.Salida.orden_venta.productos.forEach(function(ele, index){
+                        ele.cantidad_faltante=parseInt(ele.cantidad_faltante)+parseInt(ele.cantidad_saliente);
+                    });
+                    $scope.Salida={};
+                    $scope.Salida.orden_venta={};
+                    $scope.Salida.orden_venta.productos=[];
+                    $scope.Orden='';
+                }else{
+                    sweetAlert("Oops...", data.data.message , "error");
+                }
+            });
+        }else{
+            sweetAlert("Oops...", "Esta intentando sacar cantidades mayores a las faltantes" , "error");
+        }
     }
 
     $scope.Imprimir = function(formato , tipo){
