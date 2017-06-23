@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('HistorialCtrl', function ($scope, preloader, webServer, $timeout, server) {
+.controller('HistorialCtrl', function ($scope, preloader, webServer, $timeout, server, Tabla) {
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';
     $scope.server = server;
