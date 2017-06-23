@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('ValanceCtrl', function ($scope, preloader, webServer, $timeout, server) {
+.controller('ValanceCtrl', function ($scope, preloader, webServer, $timeout, server, Tabla) {
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';
 	$scope.valance = {};
@@ -17,9 +17,6 @@ angular.module('frontendApp')
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
     },100);
-    if ($scope.Usuario.rol=='Almacenista') {
-        $state.go('Home');
-    }
     $scope.convertirFecha = function(fecha){
     	var dias = new Array('domingo','lunes','martes','miercoles','juev es','viernes','sabado');
     	var meses = new Array(
@@ -81,7 +78,7 @@ angular.module('frontendApp')
             }
         );
     }
-
+    angular.extend($scope.gridOptions , Tabla);
 
     webServer.getResource('productos/valance', {}, 'get')
     .then(function(data){

@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('FacturaCtrl', function ($scope, $state, preloader,BotonesTabla, server, webServer, numeroaletras, $timeout) {
+.controller('FacturaCtrl', function ($scope, $state, preloader,BotonesTabla, server, webServer, numeroaletras, $timeout, Tabla) {
     $scope.panelAnimate='';
 	$scope.pageAnimate='';
     $(document).ready(function(){
@@ -75,7 +75,7 @@ angular.module('frontendApp')
             }
         ]
     }
-
+    angular.extend($scope.gridOptions , Tabla);
     $scope.print = function(){
         preloader.estado = true;
         var factura = {

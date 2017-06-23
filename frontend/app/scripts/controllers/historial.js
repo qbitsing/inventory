@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('HistorialCtrl', function ($scope, preloader, webServer, $timeout, server) {
+.controller('HistorialCtrl', function ($scope, preloader, webServer, $timeout, server, Tabla) {
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';
     $scope.server = server;
@@ -17,6 +17,9 @@ angular.module('frontendApp')
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
     },100);
+    if ($scope.Usuario.rol=='Almacenista') {
+        $state.go('Home');
+    }
     $scope.gridOptions = {
     	columnDefs: [
     		{
@@ -52,7 +55,7 @@ angular.module('frontendApp')
     		
     	]
     };
-
+    angular.extend($scope.gridOptions , Tabla);
     $scope.buscar = function(){
     	preloader.estado = true;
     	var fechaInit = $scope.fechaInit.getFullYear()+ '-' + ($scope.fechaInit.getMonth() + 1) + '-' +$scope.fechaInit.getDate();
