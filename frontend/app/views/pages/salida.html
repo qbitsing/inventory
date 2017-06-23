@@ -167,10 +167,175 @@
 						<td colspan="5">descripcion</td>
 						<td>cantidad</td>						
 					</tr>
-					<tr ng-repeat="producto in formato.orden_venta.productos">
-						<td>{{producto.codigo}}</td>
-						<td colspan="5">{{producto.codigo}}</td>
-						<td>{{producto.cantidad}}</td>	
+					<tr>
+						<td>{{formato.orden_venta.productos[0].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[0].codigo}}</td>
+						<td>{{formato.orden_venta.productos[0].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[1].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[1].codigo}}</td>
+						<td>{{formato.orden_venta.productos[1].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[2].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[2].codigo}}</td>
+						<td>{{formato.orden_venta.productos[2].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[3].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[3].codigo}}</td>
+						<td>{{formato.orden_venta.productos[3].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[4].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[4].codigo}}</td>
+						<td>{{formato.orden_venta.productos[4].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[5].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[5].codigo}}</td>
+						<td>{{formato.orden_venta.productos[5].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[6].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[6].codigo}}</td>
+						<td>{{formato.orden_venta.productos[6].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[7].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[7].codigo}}</td>
+						<td>{{formato.orden_venta.productos[7].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[8].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[8].codigo}}</td>
+						<td>{{formato.orden_venta.productos[8].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[9].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[9].codigo}}</td>
+						<td>{{formato.orden_venta.productos[9].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[10].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[10].codigo}}</td>
+						<td>{{formato.orden_venta.productos[10].cantidad}}</td>	
+					</tr>
+				</table>
+				<p class="formato-contenido">
+					{{formato.contenido}}
+				</p>
+			</div>
+			<div class="firmas">
+				<p>asesor comercial</p>
+				<p>firma del cliente</p>
+			</div>
+		</div>
+		<br>
+		<div class="factura">
+			<div class="header">
+				<div class="first-part">
+					<img src="{{server}}/logo-prines.jpg" class="logo-header">
+					<h2 class="title-header">productos industriales para telecomunicaciones e iliminacion</h2>
+					<h3 class="subtitle-header">producciones industriales esperanza s.a.s.</h3>
+					<p class="nit">nit. 900.462.957-1 régimen común</p>
+					<p class="description-head">
+						calle 73 sur no. 80j - 52 bogota - colombia - PBX: 777 77 04 <br><br>
+						pagina web: <span>www.prines.com.co</span>
+					</p>
+				</div>        
+				<div class="second-part">
+					<ul>
+						<li>Frabricación y distribución de herrajería para redes de CATV y HFC</li>
+						<li>Implementacion y montaje de redes de comunicación, seguridad y televisión</li>
+						<li>Asesorias y mantenimiento en mecánica hidráulica y neumática</li>
+						<li>Asesorias, montajes y diseño de redes HFC</li>
+						<li>Díseño y montajes de sistemas de iliminación</li>
+					</ul>
+				</div>
+				<div class="last-part">
+					<h2 class="title-last-part">Remisión</h2>
+					<div class="no-factura">
+						<p>N° {{formato.salida_consecutivo}}</p>                    
+					</div>
+				</div>       
+			</div>
+			<div class="table-header">
+				<table class="formato-table">
+					<tr>
+						<td colspan="5">Cliente: {{formato.orden_venta.cliente.nombre}}</td>
+						<td colspan="5">Nit: {{formato.orden_venta.cliente.documento}}</td>
+						<td>Fecha: {{convertirFecha(formato.fecha)}}</td>
+					</tr>
+					<tr>
+						<td colspan="5">Direccion: {{formato.orden_venta.cliente.direccion}}</td>
+						<td colspan="5">Ciudad: {{formato.orden_venta.cliente.ciudad.nombre}}</td>
+						<td>Tel: {{formato.orden_venta.cliente.telefono}}</td>
+					</tr>
+				</table>
+			</div>
+			<div class="table-body">
+				<table class="formato-table">
+					<tr class="black">
+						<td>codigo</td>
+						<td colspan="5">descripcion</td>
+						<td>cantidad</td>						
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[0].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[0].codigo}}</td>
+						<td>{{formato.orden_venta.productos[0].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[1].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[1].codigo}}</td>
+						<td>{{formato.orden_venta.productos[1].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[2].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[2].codigo}}</td>
+						<td>{{formato.orden_venta.productos[2].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[3].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[3].codigo}}</td>
+						<td>{{formato.orden_venta.productos[3].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[4].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[4].codigo}}</td>
+						<td>{{formato.orden_venta.productos[4].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[5].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[5].codigo}}</td>
+						<td>{{formato.orden_venta.productos[5].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[6].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[6].codigo}}</td>
+						<td>{{formato.orden_venta.productos[6].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[7].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[7].codigo}}</td>
+						<td>{{formato.orden_venta.productos[7].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[8].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[8].codigo}}</td>
+						<td>{{formato.orden_venta.productos[8].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[9].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[9].codigo}}</td>
+						<td>{{formato.orden_venta.productos[9].cantidad}}</td>	
+					</tr>
+					<tr>
+						<td>{{formato.orden_venta.productos[10].codigo}}</td>
+						<td colspan="5">{{formato.orden_venta.productos[10].codigo}}</td>
+						<td>{{formato.orden_venta.productos[10].cantidad}}</td>	
 					</tr>
 				</table>
 				<p class="formato-contenido">
@@ -214,6 +379,7 @@
 					</div>
 				</div>       
 			</div>
+			<br>
 			<div class="table-header">
 				<table class="formato-table">
 					<tr>
@@ -228,9 +394,148 @@
 						<td>cantidad</td>
 						<td colspan="5">descripcion</td>												
 					</tr>
-					<tr ng-repeat="producto in formato.orden_venta.productos">
-						<td>{{producto.cantidad}}</td>	
-						<td colspan="5">{{producto.codigo}}</td>
+					<tr >
+						<td>{{formato.orden_venta.productos[0].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[0].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[1].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[1].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[2].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[2].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[3].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[3].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[4].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[4].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[5].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[5].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[6].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[6].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[7].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[7].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[8].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[8].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[9].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[9].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[10].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[10].codigo}}</td>
+					</tr>
+					<tr>
+						<td>Entrgado por: <br>{{formato.generado.nombre}} {{formato.generado.apellidos}}</td>
+						<td>Revisado por: <br></td>
+						<td>Visto Bueno: <br></td>
+					</tr>
+				</table>
+				<p class="formato-contenido">
+					{{formato.contenido}}
+				</p>
+			</div>
+		</div>
+		<br>
+		<div class="factura">
+			<div class="header">
+				<div class="first-part">
+					<img src="{{server}}/logo-prines.jpg" class="logo-header">
+					<h2 class="title-header">productos industriales para telecomunicaciones e iliminacion</h2>
+					<h3 class="subtitle-header">producciones industriales esperanza s.a.s.</h3>
+					<p class="nit">nit. 900.462.957-1 régimen común</p>
+					<p class="description-head">
+						calle 73 sur no. 80j - 52 bogota - colombia - PBX: 777 77 04 <br><br>
+						pagina web: <span>www.prines.com.co</span>
+					</p>
+				</div>        
+				<div class="second-part">
+					<ul>
+						<li>Frabricación y distribución de herrajería para redes de CATV y HFC</li>
+						<li>Implementacion y montaje de redes de comunicación, seguridad y televisión</li>
+						<li>Asesorias y mantenimiento en mecánica hidráulica y neumática</li>
+						<li>Asesorias, montajes y diseño de redes HFC</li>
+						<li>Díseño y montajes de sistemas de iliminación</li>
+					</ul>
+				</div>
+				<div class="last-part">
+					<h2 class="title-last-part">Orden salida de almacen</h2>
+					<div class="no-factura">
+						<p>N° {{formato.salida_consecutivo}}</p>                    
+					</div>
+				</div>       
+			</div>
+			<br>
+			<div class="table-header">
+				<table class="formato-table">
+					<tr>
+						<td colspan="5">Cliente: {{formato.orden_venta.cliente.nombre}}</td>
+						<td>Fecha: {{convertirFecha(formato.fecha)}}</td>
+					</tr>
+				</table>
+			</div>
+			<div class="table-body">
+				<table class="formato-table">
+					<tr class="black">
+						<td>cantidad</td>
+						<td colspan="5">descripcion</td>												
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[0].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[0].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[1].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[1].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[2].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[2].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[3].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[3].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[4].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[4].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[5].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[5].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[6].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[6].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[7].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[7].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[8].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[8].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[9].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[9].codigo}}</td>
+					</tr>
+					<tr >
+						<td>{{formato.orden_venta.productos[10].cantidad}}</td>	
+						<td colspan="5">{{formato.orden_venta.productos[10].codigo}}</td>
 					</tr>
 					<tr>
 						<td>Entrgado por: <br>{{formato.generado.nombre}} {{formato.generado.apellidos}}</td>
