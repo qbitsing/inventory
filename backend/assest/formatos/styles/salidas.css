@@ -3,7 +3,6 @@
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .header {
-    height: 144px;
     position: relative;
 }
 .factura .first-part{
@@ -114,8 +113,8 @@ table{
 .formato-table tr td{
     border:  solid 1px;
     font-size: 10px;
-    height: 17px;
-    padding: 9px;
+    height: 11px;
+    padding: 3px;
 }
 
 .formato-table tr:first-child td{
@@ -141,7 +140,7 @@ table{
 }
 
 .firmas {
-    padding-top: 30px;
+    padding-top: 10px;
     text-align: center;
 }
 
@@ -151,6 +150,7 @@ table{
     border-top: solid 1px;
     text-align: center;
     margin-left: 40px;
+    text-transform: capitalize;
 }
 
 .formato-contenido {

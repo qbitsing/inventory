@@ -144,6 +144,10 @@
     border-radius: 7px;
 }
 
+.table-body tr td{
+    height: 11px;
+}
+
 .detalles{
     height: 40px;   
 }

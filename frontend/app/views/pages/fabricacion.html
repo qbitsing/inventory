@@ -367,6 +367,7 @@
 							</div>
 						</div>       
 					</div>
+					<br>
 					<div class="table-header">
 						<table class="formato-table">
 							<tr>
@@ -386,9 +387,146 @@
 								<td colspan="5">descripcion</td>
 							</tr>
 
-							<tr ng-repeat="producto in formato.productos">
-								<td>{{producto.cantidad}}</td>
-								<td colspan="5">{{producto.producto.nombre}}</td>
+							<tr>
+								<td>{{formato.productos[0].cantidad}}</td>
+								<td colspan="5">{{formato.productos[0].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[1].cantidad}}</td>
+								<td colspan="5">{{formato.productos[1].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[2].cantidad}}</td>
+								<td colspan="5">{{formato.productos[2].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[3].cantidad}}</td>
+								<td colspan="5">{{formato.productos[3].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[4].cantidad}}</td>
+								<td colspan="5">{{formato.productos[4].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[5].cantidad}}</td>
+								<td colspan="5">{{formato.productos[5].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[6].cantidad}}</td>
+								<td colspan="5">{{formato.productos[6].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[7].cantidad}}</td>
+								<td colspan="5">{{formato.productos[7].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[8].cantidad}}</td>
+								<td colspan="5">{{formato.productos[8].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[9].cantidad}}</td>
+								<td colspan="5">{{formato.productos[9].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[10].cantidad}}</td>
+								<td colspan="5">{{formato.productos[10].producto.nombre}}</td>
+							</tr>
+							<tr class="detalles">
+								<td>despachado por: <br> {{formato.generado.nombre}} {{formato.generado.apellido}}</td>
+								<td>transportado por: <br> {{formato.transportador}}</td>
+								<td>recibido por: <br> </td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<br>
+				<div class="factura">
+					<div class="header">
+						<div class="first-part">
+							<img src="{{server}}/logo-prines.jpg" class="logo-header">
+							<h2 class="title-header">productos industriales para telecomunicaciones e iluminación</h2>
+							<h3 class="subtitle-header">producciones industriales esperanza s.a.s.</h3>
+							<p class="nit">nit. 900.462.957-1 régimen común</p>
+						</div>        
+						<div class="second-part">
+							<ul>
+								<li>Frabricación y distribución de herrajería para redes de CATV y HFC</li>
+								<li>Implementacion y montaje de redes de comunicación, seguridad y televisión</li>
+								<li>Asesorias y mantenimiento en mecánica hidráulica y neumática</li>
+								<li>Asesorias, montajes y diseño de redes HFC</li>
+								<li>Díseño y montajes de sistemas de iliminación</li>
+							</ul>
+						</div>
+						<div class="last-part">
+							<h2 class="title-last-part">Remisión de trabajo</h2>
+							<div class="no-factura">
+								<p>N° {{formato.remision_consecutivo}}</p>                    
+							</div>
+						</div>       
+					</div>
+					<br>
+					<div class="table-header">
+						<table class="formato-table">
+							<tr>
+								<td colspan="5">empresa: {{formato.proceso.array_responsables[0].nombre}}</td>
+								<td>Fecha: {{convertirFecha(formato.fecha_solicitud)}}</td>
+							</tr>
+							<tr>
+								<td colspan="5">proceso: {{formato.proceso.nombre}}</td>
+								<td>Tel: {{formato.proceso.array_responsables[0].telefono}}</td>
+							</tr>
+						</table>
+					</div>
+					<div class="table-body">
+						<table class="formato-table">
+							<tr class="black">
+								<td>cantidad</td>
+								<td colspan="5">descripcion</td>
+							</tr>
+
+							<tr>
+								<td>{{formato.productos[0].cantidad}}</td>
+								<td colspan="5">{{formato.productos[0].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[1].cantidad}}</td>
+								<td colspan="5">{{formato.productos[1].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[2].cantidad}}</td>
+								<td colspan="5">{{formato.productos[2].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[3].cantidad}}</td>
+								<td colspan="5">{{formato.productos[3].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[4].cantidad}}</td>
+								<td colspan="5">{{formato.productos[4].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[5].cantidad}}</td>
+								<td colspan="5">{{formato.productos[5].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[6].cantidad}}</td>
+								<td colspan="5">{{formato.productos[6].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[7].cantidad}}</td>
+								<td colspan="5">{{formato.productos[7].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[8].cantidad}}</td>
+								<td colspan="5">{{formato.productos[8].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[9].cantidad}}</td>
+								<td colspan="5">{{formato.productos[9].producto.nombre}}</td>
+							</tr>
+							<tr>
+								<td>{{formato.productos[10].cantidad}}</td>
+								<td colspan="5">{{formato.productos[10].producto.nombre}}</td>
 							</tr>
 							<tr class="detalles">
 								<td>despachado por: <br> {{formato.generado.nombre}} {{formato.generado.apellido}}</td>
@@ -405,6 +543,7 @@
 	    <a class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="CerrarModalSalidas()">Cerrar</a>
     </div>
 </div>
+
 <div id="modalEntradas" class="modal modal-fixed-footer">
     <div class="modal-content">
 	    <h4 class="modal-title">Entradas</h4>
@@ -524,6 +663,8 @@
 	    <a class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="CerrarModalEntradas()">Cerrar</a>
     </div>
 </div>
+
+
 <div id="modalMateriaPrima" class="modal modal-fixed-footer">
     <div class="modal-content">
 	    <h4 class="modal-title">Salida de insumos</h4>
@@ -623,6 +764,7 @@
 	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
     </div>
 </div>
+
 <div id="superContainerFabricacion" ng-show="false">
 	<div id="containerFabricacion">
 		<link rel="stylesheet" ng-href="{{server}}/formatos/styles/remision.css">		
@@ -633,7 +775,7 @@
 					<h2 class="title-header">productos industriales para telecomunicaciones e iliminacion</h2>
 					<h3 class="subtitle-header">producciones industriales esperanza s.a.s.</h3>
 					<p class="nit">nit. 900.462.957-1 régimen común</p>
-				</div>        
+				</div>      
 				<div class="second-part">
 					<ul>
 						<li>Frabricación y distribución de herrajería para redes de CATV y HFC</li>
@@ -650,6 +792,7 @@
 					</div>
 				</div>       
 			</div>
+			<br>
 			<div class="table-header">
 				<table class="formato-table">
 					<tr>
@@ -691,6 +834,7 @@
 						<tr class="black">
 							<td>Proceso</td>
 							<td>Responsables</td>
+							<td>Firma</td>
 						</tr>
 					</thead>
 					<tbody id="contenidoTableProcess">

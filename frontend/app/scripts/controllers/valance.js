@@ -17,9 +17,6 @@ angular.module('frontendApp')
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
     },100);
-    if ($scope.Usuario.rol=='Almacenista') {
-        $state.go('Home');
-    }
     $scope.convertirFecha = function(fecha){
     	var dias = new Array('domingo','lunes','martes','miercoles','juev es','viernes','sabado');
     	var meses = new Array(
