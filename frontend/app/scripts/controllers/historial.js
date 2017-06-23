@@ -17,6 +17,9 @@ angular.module('frontendApp')
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
     },100);
+    if ($scope.Usuario.rol=='Almacenista') {
+        $state.go('Home');
+    }
     $scope.gridOptions = {
     	columnDefs: [
     		{
