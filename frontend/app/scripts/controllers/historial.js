@@ -52,7 +52,7 @@ angular.module('frontendApp')
     		
     	]
     };
-
+    angular.extend($scope.gridOptions , Tabla);
     $scope.buscar = function(){
     	preloader.estado = true;
     	var fechaInit = $scope.fechaInit.getFullYear()+ '-' + ($scope.fechaInit.getMonth() + 1) + '-' +$scope.fechaInit.getDate();

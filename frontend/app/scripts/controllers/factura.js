@@ -75,7 +75,7 @@ angular.module('frontendApp')
             }
         ]
     }
-
+    angular.extend($scope.gridOptions , Tabla);
     $scope.print = function(){
         preloader.estado = true;
         var factura = {

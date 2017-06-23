@@ -81,7 +81,7 @@ angular.module('frontendApp')
             }
         );
     }
-
+    angular.extend($scope.gridOptions , Tabla);
 
     webServer.getResource('productos/valance', {}, 'get')
     .then(function(data){
