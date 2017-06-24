@@ -212,6 +212,9 @@ app.put('/facturas/:id' , controllers.facturas.anular);
 
 //Fin Bloque de rutas de facturas
 
+app.post('/resolucion', controllers.dian.set);
+app.get('/resolucion', controllers.dian.get);
+
 // Historial
 
 app.get('/historial/:fechaInicial/:fechaFinal', controllers.historial.buscar);
