@@ -224,9 +224,11 @@ angular.module('frontendApp')
         .then(function(data){
             w.print();
             w.close();
+            $('#superconatiner')[0].append(eleToPrint);
         }, function(data){
             w.print();
             w.close();
+            $('#superconatiner')[0].append(eleToPrint);
         });
     }
 

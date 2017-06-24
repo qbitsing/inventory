@@ -240,7 +240,6 @@ angular.module('frontendApp')
         var d = w.document.open();
         var ele = document.getElementById('containerFabricacion');
         d.appendChild(ele);
-
         webServer
         .getResource('fabricacion',{},'get')
         .then(function(data){
@@ -1146,18 +1145,19 @@ angular.module('frontendApp')
         var cade = '';
         for(var i = 0; i < $scope.formatoFabricacion.procesos.length; i++){
             cade += '<tr><td rowspan="'+$scope.formatoFabricacion.procesos[i].array_responsables.length+'">';
-            cade += $scope.formatoFabricacion.procesos[i].proceso_consecutivo || '' + ' - ';
+            cade += ($scope.formatoFabricacion.procesos[i].proceso_consecutivo || '') + ' - ';
             cade += $scope.formatoFabricacion.procesos[i].nombre;
             cade += '</td><td class="sinBordesTopBottom">';
             if($scope.formatoFabricacion.procesos[i].array_responsables[0]){
-                cade += $scope.formatoFabricacion.procesos[i].array_responsables[0].nombre || '';
-                cade += $scope.formatoFabricacion.procesos[i].array_responsables[0].apellidos || '';
+                cade += ($scope.formatoFabricacion.procesos[i].array_responsables[0].nombre || '') + ' ';
+                cade += ($scope.formatoFabricacion.procesos[i].array_responsables[0].apellidos || '');
+                cade += '</td><td>'
             }
             cade += '</td></tr>';
             for(var x = 1; x < $scope.formatoFabricacion.procesos[i].array_responsables.length; x++){
                 cade += '<tr><td class="sinBordesTopBottom">';
                 cade += $scope.formatoFabricacion.procesos[i].array_responsables[x].nombre+ ' ';
-                cade += $scope.formatoFabricacion.procesos[i].array_responsables[x].apellidos|| '' + ' ';
+                cade += ($scope.formatoFabricacion.procesos[i].array_responsables[x].apellidos|| '') + ' ';
                 cade += '</td></tr>';
             }
         }

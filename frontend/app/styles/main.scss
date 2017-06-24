@@ -219,10 +219,13 @@ $success:#00c853;
     background-color: $azul;
   }
 }
-#app-container .btn-floating{
+#app-container {
+  .btn-floating{
     position:fixed;
-    z-index: 100;
+    z-index: 2;
   }
+}
+
 .sidenav{
   position:fixed;
   top:0;
