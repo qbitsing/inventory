@@ -139,6 +139,7 @@ angular.module('frontendApp')
     }
     $scope.EnviarSalida=function(){
         $scope.Salida.generado=$scope.Usuario;
+        delete $scope.Salida.generado.Image;
         if ($scope.Salida.orden_venta.productos) {
             var conter=true;
             $scope.Salida.orden_venta.productos.forEach(function(ele, index){

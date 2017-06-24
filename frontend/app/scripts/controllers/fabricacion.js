@@ -337,8 +337,8 @@ angular.module('frontendApp')
             ruta='fabricacion';
             $scope.fabricacion.estado='En Fabricacion';
             $scope.fabricacion.estado_remision='Sin Remision';
-            delete $scope.Usuario.Image;
             $scope.fabricacion.generado=$scope.Usuario;
+            delete $scope.fabricacion.generado.Image;
         }else{
             metodo='put';
             ruta='fabricacion/'+$scope.fabricacion._id;
@@ -540,6 +540,7 @@ angular.module('frontendApp')
         $scope.modal_salida.estado='Sin Entrada';
         $scope.modal_salida.fabricacion=$scope.contenido_fabricacion;
         $scope.modal_salida.generado=$scope.Usuario;
+        delete $scope.modal_salida.generado.Image;
         webServer
         .getResource('remision',$scope.modal_salida,'post')
         .then(function(data){
