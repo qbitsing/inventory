@@ -114,11 +114,12 @@
 				<li> Cliente: {{Detalle.cliente.nombre || 'No registra'}}</li>
 				<li> Numero de Orden del Cliente: {{Detalle.orden_compra_cliente || 'No registra'}}</li>
 				<li> Fecha de Recepción: {{convertirFecha(Detalle.fecha_recepcion) || 'No registra'}}</li>
-				<li> Lugar de Entrega: {{Detalle.cliente.nombre || 'No registra'}}</li>
+				<li> Lugar de Entrega: {{Detalle.lugar_entrega || 'No registra'}}</li>
 				<li> Fecha de Entrega: {{convertirFecha(Detalle.fecha_entrega) || 'No registra'}}</li>
 				<li> Estado: {{Detalle.estado || 'No registra'}}</li>
 				<li> Observaciones: {{Detalle.observaciones || 'No registra'}}</li>
-				<li ng-hide="Detalle.productos.length<1"> <h5>Productos:</h5></li>
+				<h5 ng-hide="Detalle.productos.length<1">Productos:</h5>
+			</ul>
 				<table class="highlight" ng-hide="Detalle.productos.length<1">
 			        <thead>
 			        	<tr>
@@ -135,7 +136,7 @@
 			          	</tr>
 			        </tbody>
 			    </table>
-			    <li><h5>Remisiones:</h5></li>
+			    <h5>Remisiones:</h5>
 			    <table class="highlight">
 			        <thead>
 			        	<tr>
@@ -155,7 +156,7 @@
 			          	</tr>
 			        </tbody>
 			    </table>
-			</ul>
+			
     	</div>
 	</div>
     <div class="modal-footer">

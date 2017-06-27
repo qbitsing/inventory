@@ -73,6 +73,10 @@
 							</div>
 						</div>
 						<div class="row">
+							<div class="input-field col s12 m6 l6">
+					            <textarea id="observaciones" class="materialize-textarea" ng-model="fabricacion.observaciones" data-length="120"></textarea>
+					            <label for="observaciones">Observaciones</label>
+				        	</div>
 							<div class="input-field col s12 m4 l4">
 								<select ng-model="proceso._id" material-select watch>
 	      							<option ng-repeat="proceso in Procesos" value="{{proceso._id}},{{proceso.proceso_consecutivo}},{{proceso.nombre}},{{proceso.tipo}}">{{proceso.nombre}} - {{proceso.tipo}}</option>
@@ -143,6 +147,7 @@
 				<li> Fecha de solicitud: {{convertirFecha(Detalle.fecha_solicitud) || 'No registra'}}</li>
 				<li> Fecha de entrega: {{convertirFecha(Detalle.fecha_entrega) || 'No registra'}}</li>
 				<li> Estado: {{Detalle.estado || 'No registra'}}</li>
+				<li> Observaciones: {{Detalle.observaciones || 'No registra'}}</li>
 				<li ng-hide="Detalle.productos.length<1"> <h5>Productos:</h5></li>
 				<table class="bordered striped" ng-hide="Detalle.productos.length<1">
 					<thead>
@@ -192,7 +197,7 @@
     			<div class="row">
 					<div class="input-field col s8 m8 l8">
 						<select ng-model="from_modal.persona" material-select watch>
-							<option ng-repeat="persona in personas" ng-if="(modal.proceso.tipo=='Externo' && persona.proveedor) || (modal.proceso.tipo=='Interno' && persona.empleado)" value="{{persona}}">{{persona.nombre}} {{persona.apellidos}}</option>
+							<option ng-repeat="persona in personas" ng-if="(modal.proceso.tipo=='Externo' && persona.proveedor) || (modal.proceso.tipo=='Interno' && (persona.empleado || persona.almacenista))" value="{{persona}}">{{persona.nombre}} {{persona.apellidos}}</option>
 						</select>
 						<label>Responsable *</label>
 					</div>

@@ -126,11 +126,9 @@ let actualizar = co.wrap(function * (req, res){
 
 		let update = yield personaModel.findByIdAndUpdate(personaId, req.body);
 
-		if (req.body.myImage) {
-
+		if (req.body.Image) {
 			let myImage = req.body.myImage.split(',')[1];
 			let Image = req.body.Image.split(',')[1];
-
 			let bufMyImage = new Buffer(myImage, 'base64');
 			let bufImage = new Buffer(Image, 'base64');
 			mkdirp.sync('assest/users');
