@@ -96,7 +96,7 @@
 		<div class="col s12">
 			<div class="card-panel panel-default {{panelAnimate}}">
 				<div class="panel-heading blue accent-4">
-					<h3 class="panel-title">Lista de fabricaciones</h3>
+					<h3 class="panel-title">Lista de ventas</h3>
 				</div>
 				<div class="panel-body" >
 					<div class="gridStyle grid" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
@@ -114,7 +114,7 @@
 				<li> Cliente: {{Detalle.cliente.nombre || 'No registra'}}</li>
 				<li> Numero de Orden del Cliente: {{Detalle.orden_compra_cliente || 'No registra'}}</li>
 				<li> Fecha de Recepción: {{convertirFecha(Detalle.fecha_recepcion) || 'No registra'}}</li>
-				<li> Lugar de Entrega: {{Detalle.cliente.nombre || 'No registra'}}</li>
+				<li> Lugar de Entrega: {{Detalle.lugar_entrega || 'No registra'}}</li>
 				<li> Fecha de Entrega: {{convertirFecha(Detalle.fecha_entrega) || 'No registra'}}</li>
 				<li> Estado: {{Detalle.estado || 'No registra'}}</li>
 				<li> Observaciones: {{Detalle.observaciones || 'No registra'}}</li>

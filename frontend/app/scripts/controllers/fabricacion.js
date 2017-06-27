@@ -427,7 +427,6 @@ angular.module('frontendApp')
     }
     $scope.BorrarProceso=function(index){
         var responsables = $scope.fabricacion.procesos[index].array_responsables;
-        $scope.personas = $scope.personas.concat(responsables);
         $scope.fabricacion.procesos.splice(index,1);
     }
     
@@ -451,7 +450,7 @@ angular.module('frontendApp')
             var contador=true;
             var res = JSON.parse($scope.from_modal.persona);
             $scope.modal.proceso.array_responsables.forEach(function(ele,index){
-                if (ele._id==res_id) {
+                if (ele._id==res._id) {
                     contador=false;
                 }
             });
@@ -1001,6 +1000,7 @@ angular.module('frontendApp')
         $scope.salida_insumos.materia_prima.forEach(function(ele, ind){
             ele.materia.cantidad -= ele.cantidad;
         });
+        $scope.SalidasInsumos.fecha=new Date(Date.now());
         webServer
         .getResource('fabricacion/insumos',$scope.salida_insumos,'post')
         .then(function(data){
@@ -1263,6 +1263,7 @@ angular.module('frontendApp')
                     fecha_solicitud : new Date (Date.parse(ele.fecha_solicitud)),
                     productos : ele.productos,
                     procesos : ele.procesos,
+                    observaciones : observaciones,
                     orden_venta : ele.orden_venta,
                     estado : ele.estado
                 };

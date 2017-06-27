@@ -194,6 +194,7 @@
     	<h4 class="modal-title blue accent-4">{{Detalle.nombre}}</h4>
     	<div class="row">
     		<ul>
+    		<li> Codigo: {{Detalle.codigo || 'No registra'}}</li>
 			<li> Nombre: {{Detalle.nombre || 'No registra'}}</li>
 			<li ng-show="Detalle.tipo=='producto'"> Minimo stock: {{Detalle.min_stock || 'No registra'}}</li>
 			<li ng-show="Detalle.tipo=='producto'"> Marca: {{Detalle.marca || 'No registra'}}</li>

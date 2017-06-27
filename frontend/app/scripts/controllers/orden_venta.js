@@ -52,13 +52,18 @@ angular.module('frontendApp')
         columnDefs: [
             {
                 name:'No. de orden',field: 'orden_venta_consecutivo',
-                width:'15%',
+                width:'10%',
                 minWidth: 100
             },
             {
                 name:'cliente',field: 'cliente.nombre',
                 width:'15%',
                 minWidth: 150
+            },
+            {
+                name:'Orden de cliente',field: 'orden_compra_cliente',
+                width:'12%',
+                minWidth: 100
             },
             {
                 name:'fecha de solicitud',
@@ -68,12 +73,12 @@ angular.module('frontendApp')
             },
             { 
                 field: 'estado',
-                width:'15%',
+                width:'13%',
                 minWidth: 100
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'40%',
+                width:'35%',
                 minWidth: 420
             }
         ]
@@ -138,7 +143,7 @@ angular.module('frontendApp')
     $scope.cargarProducto=function(keyEvent){
         $scope.productos.forEach(function(ele , index){
             if($scope.Orden.Producto.codigo == ele.codigo){
-                $scope.Orden.Producto._id=ele._id+','+ele.nombre+','+ele.precio+','+ele.fabricado+','+ele.codigo+','+ele.tipo;
+                $scope.Orden.Producto._id=ele._id+','+ele.nombre+','+ele.precio+','+(ele.fabricado || '')+','+ele.codigo+','+ele.tipo;
                 if (keyEvent.which === 13){
                     $('#Cantidad').focus();
                 }

@@ -123,7 +123,7 @@ angular.module('frontendApp')
             });
             $scope.Salidas.forEach(function(ele, ind){
                 if(ele._id==id){
-                    $scope.Salidas.splice(index,1);
+                    $scope.Salidas.splice(ind,1);
                 }
             });
             swal("Completado...", data.data.message , "success");
