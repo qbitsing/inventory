@@ -154,7 +154,7 @@ let eliminar = co.wrap(function *(req, res){
 			}
 		}
 
-		let entrada.orden_compra.estado = 'Con Entradas';
+		entrada.orden_compra.estado = 'Con Entradas';
 
 		yield ordenModel.findByIdAndUpdate(entrada.orden_compra._id , entrada.orden_compra);
 
