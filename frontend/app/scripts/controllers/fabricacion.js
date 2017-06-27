@@ -427,7 +427,6 @@ angular.module('frontendApp')
     }
     $scope.BorrarProceso=function(index){
         var responsables = $scope.fabricacion.procesos[index].array_responsables;
-        $scope.personas = $scope.personas.concat(responsables);
         $scope.fabricacion.procesos.splice(index,1);
     }
     

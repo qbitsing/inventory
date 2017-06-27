@@ -61,6 +61,11 @@ angular.module('frontendApp')
                 minWidth: 150
             },
             {
+                name:'Orden de cliente',field: 'orden_compra_cliente',
+                width:'15%',
+                minWidth: 100
+            },
+            {
                 name:'fecha de solicitud',
                 width:'15%',
                 cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha_recepcion)}}</div>',
@@ -138,7 +143,7 @@ angular.module('frontendApp')
     $scope.cargarProducto=function(keyEvent){
         $scope.productos.forEach(function(ele , index){
             if($scope.Orden.Producto.codigo == ele.codigo){
-                $scope.Orden.Producto._id=ele._id+','+ele.nombre+','+ele.precio+','+ele.fabricado+','+ele.codigo+','+ele.tipo;
+                $scope.Orden.Producto._id=ele._id+','+ele.nombre+','+ele.precio+','+(ele.fabricado || '')+','+ele.codigo+','+ele.tipo;
                 if (keyEvent.which === 13){
                     $('#Cantidad').focus();
                 }
