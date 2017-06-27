@@ -14,8 +14,8 @@ let buscar = co.wrap(function * (req, res){
 		let fechaFinal = req.params.fechaFinal + ' 23:59:59';
 		let salidas = yield salidasModel.find({fecha : { $gte: fechaInicial, $lte: fechaFinal }});
 		let entradas = yield entradasModel.find({fecha : { $gte: fechaInicial, $lte: fechaFinal }});
-		let entradasRemision = yield entradasRemisionModel.find({fecha : { $gte: fechaInicial, $lte: fechaFinal }, estado: {$not: 'Cancelada'}});
-		let salidasFabricacion = yield salidasFabricacionModel.find({fecha : { $gte: fechaInicial, $lte: fechaFinal }, estado: {$not: 'Cancelada'}});
+		let entradasRemision = yield entradasRemisionModel.find({fecha : { $gte: fechaInicial, $lte: fechaFinal }, estado: {$ne: 'Cancelada'}});
+		let salidasFabricacion = yield salidasFabricacionModel.find({fecha : { $gte: fechaInicial, $lte: fechaFinal }, estado: {$ne: 'Cancelada'}});
 		let productos = yield productosModel.find({tipo: 'producto'});
 		let materia = yield materiaModel.find({});
 		productos = productos.map(ele => {
