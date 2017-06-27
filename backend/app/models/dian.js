@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const dianSchema = Schema({
 	numero: String,
-	fecha: Date,
+	fecha: String,
 	desde: Number,
 	hasta: Number
 });

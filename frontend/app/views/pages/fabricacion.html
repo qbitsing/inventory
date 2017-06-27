@@ -752,7 +752,7 @@
 	    			<td ng-hide="salida.productos.length>0">No registra</td>
 	    			<td ng-show="salida.materia_prima.length>0"><li ng-repeat="res in salida.materia_prima">{{res.materia.nombre}} - {{res.cantidad}}</li></td>
 	    			<td ng-hide="salida.materia_prima.length>0">No registra</td>
-    				<td ng-if="salida.estado!='Cancelada'"><button type="button" ng-click="abrircancelarsalidainsumos(salida)">Cancelar</button></td>
+    				<td ng-if="salida.estado!='Cancelada'"><button type="button" class="btn btn-danger" ng-click="abrircancelarsalidainsumos(salida)">Cancelar</button></td>
     				<td ng-if="salida.estado=='Cancelada'" class="danger-text">Salida cancelada</td>
     				<td>{{salida.observaciones || 'No registra'}}</td>
     			</tr>
