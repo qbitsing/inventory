@@ -58,7 +58,6 @@ angular.module('frontendApp')
     $scope.$state=$state;
     $scope.server=server;
     $scope.categoria={};
-    $scope.infoResolucion={};
     if(SesionUsuario.ObtenerSesion()==null){
         $state.go('InicioSesion');
     }else{
@@ -285,10 +284,8 @@ angular.module('frontendApp')
         .getResource('resolucion',{},'get')
         .then(function(data){
             $scope.resolucion=data.data.datos;
-            $scope.infoResolucion=data.data.datos;
         },function(data){
             $scope.resolucion={};
-            $scope.infoResolucion={};
         });
     }
     function listarProcesos(){
@@ -370,25 +367,20 @@ angular.module('frontendApp')
         });
     }
     $scope.EnviarResolucion=function(){
-        if ((JSON.stringify($scope.resolucion)!=JSON.stringify($scope.infoResolucion)) || ($scope.infoResolucion=={} && $scope.resolucion!={})) {
-            if ($scope.resolucion.hasta>$scope.resolucion.desde) {
-                $scope.preloader.estado = true;
-                webServer
-                .getResource('resolucion',$scope.resolucion,'post')
-                .then(function(data){
-                    $scope.infoResolucion=$scope.resolucion;
-                    $scope.preloader.estado = false;
-                    sweetAlert("Completado...", data.data.message , "success");
-                },function(data){
-                    $scope.preloader.estado = false;
-                    sweetAlert("Oops...", data.data.message , "error");
-                });
-            }else{
-                Materialize.toast("El número 'Hasta:' debe ser mayor al número 'Desde:'", 4000);
-                $('#hastaResolucion').focus();
-            }
+        if ($scope.resolucion.hasta>$scope.resolucion.desde) {
+            $scope.preloader.estado = true;
+            webServer
+            .getResource('resolucion',$scope.resolucion,'post')
+            .then(function(data){
+                $scope.preloader.estado = false;
+                sweetAlert("Completado...", data.data.message , "success");
+            },function(data){
+                $scope.preloader.estado = false;
+                sweetAlert("Oops...", data.data.message , "error");
+            });
         }else{
-            sweetAlert("Completado...", "No hay ningun dato por actualizar" , "success");
+            Materialize.toast("El número 'Hasta:' debe ser mayor al número 'Desde:'", 4000);
+            $('#hastaResolucion').focus();
         }
     }
     $scope.sidenav = function(){

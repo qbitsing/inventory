@@ -1001,6 +1001,7 @@ angular.module('frontendApp')
         $scope.salida_insumos.materia_prima.forEach(function(ele, ind){
             ele.materia.cantidad -= ele.cantidad;
         });
+        $scope.SalidasInsumos.fecha=new Date(Date.now());
         webServer
         .getResource('fabricacion/insumos',$scope.salida_insumos,'post')
         .then(function(data){
