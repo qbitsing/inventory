@@ -190,21 +190,6 @@ angular.module('frontendApp')
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
-    function listarunidades(){
-        $scope.preloader.estado=true;
-        webServer
-        .getResource('unidades',{},'get')
-        .then(function(data){
-            $scope.Unidades=data.data.datos;
-            $scope.gridOptionsModalUnidades.data = $scope.Unidades;
-            listarCategorias();
-        },function(data){
-            $scope.Unidades=[];
-            $scope.gridOptionsModalUnidades.data = $scope.Unidades;
-            listarCategorias();
-        });
-    }
-    listarunidades();
     $scope.EnviarCategoria=function(){
         $scope.preloader.estado = true;
         var ruta='';
@@ -293,8 +278,30 @@ angular.module('frontendApp')
             $scope.proceso={};
         }
     }
+    /*listar*/
+    function listarResolucion(){
+        webServer
+        .getResource('resolucion',{},'get')
+        .then(function(data){
+            $scope.resolucion=data.data.datos;
+        },function(data){
+            $scope.resolucion={};
+        });
+    }
+    function listarProcesos(){
+        webServer
+        .getResource('procesos',{},'get')
+        .then(function(data){
+            $scope.Procesos=data.data.datos;
+            $scope.gridOptionsModalProcesos.data = $scope.Procesos;
+            listarResolucion();
+        },function(data){
+            $scope.Procesos=[];
+            $scope.gridOptionsModalProcesos.data = $scope.Procesos;
+            listarResolucion();
+        });
+    }
     function listarCategorias(){
-        $scope.preloader.estado = true;
         webServer
         .getResource('categorias',{},'get')
         .then(function(data){
@@ -307,21 +314,29 @@ angular.module('frontendApp')
             listarProcesos();
         });
     }
-    function listarProcesos(){
-        $scope.preloader.estado = true;
+    function listarunidades(){
         webServer
-        .getResource('procesos',{},'get')
+        .getResource('unidades',{},'get')
         .then(function(data){
-            $scope.Procesos=data.data.datos;
-            $scope.gridOptionsModalProcesos.data = $scope.Procesos;
-            $scope.preloader.estado = false;
+            $scope.Unidades=data.data.datos;
+            $scope.gridOptionsModalUnidades.data = $scope.Unidades;
+            listarCategorias();
         },function(data){
-            $scope.Procesos=[];
-            $scope.gridOptionsModalProcesos.data = $scope.Procesos;
-            $scope.preloader.estado = false;
-            
+            $scope.Unidades=[];
+            $scope.gridOptionsModalUnidades.data = $scope.Unidades;
+            listarCategorias();
         });
     }
+    listarunidades();
+    /*fin de listar*/
+
+    /*validaciones de numeros*/
+    $scope.validarNumeroDesde=function(){
+        if ($scope.resolucion.desde<0) {
+            $scope.resolucion.desde=0;
+        }
+    }
+    /*fin de las validaciones*/
     $scope.EnviarProceso=function(){
         $scope.preloader.estado = true;
         var ruta='';
@@ -351,6 +366,23 @@ angular.module('frontendApp')
             sweetAlert("Oops...", data.data.message , "error");
         });
     }
+    $scope.EnviarResolucion=function(){
+        if ($scope.resolucion.hasta>$scope.resolucion.desde) {
+            $scope.preloader.estado = true;
+            webServer
+            .getResource('resolucion',$scope.resolucion,'post')
+            .then(function(data){
+                $scope.preloader.estado = false;
+                sweetAlert("Completado...", data.data.message , "success");
+            },function(data){
+                $scope.preloader.estado = false;
+                sweetAlert("Oops...", data.data.message , "error");
+            });
+        }else{
+            Materialize.toast("El número 'Hasta:' debe ser mayor al número 'Desde:'", 4000);
+            $('#hastaResolucion').focus();
+        }
+    }
     $scope.sidenav = function(){
         angular.element(".sidenav").toggleClass('sidenav-hidden');
         angular.element(".top-nav").toggleClass('top-nav-hidden');
@@ -369,7 +401,7 @@ angular.module('frontendApp')
     $scope.active=true;
     $scope.cerrarSesion=function(){
         SesionUsuario.CerrarSesion();
-    	$state.go('InicioSesion');
+        $state.go('InicioSesion');
         $scope.preloader.estado = false;
     }
     function scroll(){
