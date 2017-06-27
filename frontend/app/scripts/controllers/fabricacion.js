@@ -451,7 +451,7 @@ angular.module('frontendApp')
             var contador=true;
             var res = JSON.parse($scope.from_modal.persona);
             $scope.modal.proceso.array_responsables.forEach(function(ele,index){
-                if (ele._id==res_id) {
+                if (ele._id==res._id) {
                     contador=false;
                 }
             });
