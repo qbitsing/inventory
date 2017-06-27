@@ -413,7 +413,6 @@ angular.module('frontendApp')
        scroll();
     });
 
-
     /*Chat*/
     /*socket.on('init', function (data) {
         $scope.name = data.name;
