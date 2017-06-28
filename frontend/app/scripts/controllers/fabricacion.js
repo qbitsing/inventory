@@ -1263,7 +1263,6 @@ angular.module('frontendApp')
                     fecha_solicitud : new Date (Date.parse(ele.fecha_solicitud)),
                     productos : ele.productos,
                     procesos : ele.procesos,
-                    observaciones : observaciones,
                     orden_venta : ele.orden_venta,
                     estado : ele.estado
                 };
