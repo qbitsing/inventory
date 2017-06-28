@@ -29,9 +29,6 @@ angular.module('frontendApp')
     $scope.preloader = preloader;
     $scope.panelAnimate='';
     $scope.pageAnimate='';
-    if ($scope.Usuario.rol=='Almacenista') {
-        $state.go('Home');
-    }
     $timeout(function () {
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
@@ -47,7 +44,10 @@ angular.module('frontendApp')
     if ($scope.Usuario.rol=='Super Administrador') {
         casillaDeBotones+=BotonesTabla.Editarorden+BotonesTabla.Borrarorden+BotonesTabla.Finalizar;
     }
-    casillaDeBotones+=BotonesTabla.Factura+'</div>';
+    if ($scope.Usuario.rol!='Almacenista') {
+        casillaDeBotones+=BotonesTabla.Factura;
+    }
+    casillaDeBotones+='</div>';
     $scope.gridOptions = {
         columnDefs: [
             {
