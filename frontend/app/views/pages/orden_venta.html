@@ -96,7 +96,7 @@
 		<div class="col s12">
 			<div class="card-panel panel-default {{panelAnimate}}">
 				<div class="panel-heading blue accent-4">
-					<h3 class="panel-title">Lista de ventas</h3>
+					<h3 class="panel-title">Lista de Ordenes de Venta</h3>
 				</div>
 				<div class="panel-body" >
 					<div class="gridStyle grid" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
@@ -118,7 +118,8 @@
 				<li> Fecha de Entrega: {{convertirFecha(Detalle.fecha_entrega) || 'No registra'}}</li>
 				<li> Estado: {{Detalle.estado || 'No registra'}}</li>
 				<li> Observaciones: {{Detalle.observaciones || 'No registra'}}</li>
-				<li ng-hide="Detalle.productos.length<1"> <h5>Productos:</h5></li>
+				<h5 ng-hide="Detalle.productos.length<1">Productos:</h5>
+			</ul>
 				<table class="highlight" ng-hide="Detalle.productos.length<1">
 			        <thead>
 			        	<tr>
@@ -135,7 +136,7 @@
 			          	</tr>
 			        </tbody>
 			    </table>
-			    <li><h5>Remisiones:</h5></li>
+			    <h5>Remisiones:</h5>
 			    <table class="highlight">
 			        <thead>
 			        	<tr>
@@ -155,7 +156,7 @@
 			          	</tr>
 			        </tbody>
 			    </table>
-			</ul>
+			
     	</div>
 	</div>
     <div class="modal-footer">
