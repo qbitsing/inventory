@@ -46,6 +46,10 @@ angular.module('frontendApp')
     $scope.Producto.Insumos=[];
     $scope.Producto.productos=[];
     $scope.Producto.procesos=[];
+    $scope.producto={}
+    $scope.producto.Insumo={};
+    $scope.Kit={};
+    $scope.Kit.producto={};
     $scope.check='producto';
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
     if ($scope.Usuario.rol=='Super Administrador') {
@@ -166,7 +170,8 @@ angular.module('frontendApp')
         }else{
             Materialize.toast('El insumo ya esta añadido', 4000);
         }
-        $scope.producto={}
+        $scope.producto.Insumo._id='';
+        $scope.producto.Insumo.cantidad=0;
     }
     $scope.AgregarProceso=function(){
         var controlador=false;
@@ -262,6 +267,8 @@ angular.module('frontendApp')
         $scope.Producto.Insumos=[];
         $scope.Producto.productos=[];
         $scope.Producto.procesos=[];
+        $scope.producto={};
+        $scope.producto.Insumo={};
         $scope.Kit={};
         $scope.Kit.producto={};
         $scope.Kit.producto._id='';
@@ -360,6 +367,8 @@ angular.module('frontendApp')
         $scope.Producto.Insumos=[];
         $scope.Producto.productos=[];
         $scope.Producto.procesos=[];
+        $scope.producto={};
+        $scope.producto.Insumo={};
         $scope.Kit={};
         $scope.Kit.producto={};
         $scope.Kit.producto._id='';
@@ -385,8 +394,8 @@ angular.module('frontendApp')
         }
     }
     $scope.validarNumeroInsumo=function(){
-        if ($scope.Producto.Insumo.cantidad<0) {
-            $scope.Producto.Insumo.cantidad=0;
+        if ($scope.producto.Insumo.cantidad<0) {
+            $scope.producto.Insumo.cantidad=0;
         }
     }
     /*Fin de las validaciones*/
