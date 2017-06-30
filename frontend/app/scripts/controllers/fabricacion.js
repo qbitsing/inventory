@@ -41,6 +41,7 @@ angular.module('frontendApp')
     $scope.fabricacion={};
     $scope.modal={};
     $scope.modal.proceso={};
+    $scope.proceso={};
     $scope.fabricacion.productos=[];
     $scope.fabricacion.procesos=[];
     $scope.contenido_fabricacion={};
@@ -1144,25 +1145,26 @@ angular.module('frontendApp')
     $scope.calcularContenidoTableProcess = function(){
         var cade = '';
         for(var i = 0; i < $scope.formatoFabricacion.procesos.length; i++){
-            cade += '<tr><td rowspan="'+$scope.formatoFabricacion.procesos[i].array_responsables.length+'">';
+            cade += '<tr><td rowspan="'+$scope.formatoFabricacion.procesos[i].array_responsables.length+'" class="tdproccess">';
             cade += ($scope.formatoFabricacion.procesos[i].proceso_consecutivo || '') + ' - ';
             cade += $scope.formatoFabricacion.procesos[i].nombre;
-            cade += '</td><td class="sinBordesTopBottom">';
+            cade += '</td><td class="tdresponsable">';
             if($scope.formatoFabricacion.procesos[i].array_responsables[0]){
                 cade += ($scope.formatoFabricacion.procesos[i].array_responsables[0].nombre || '') + ' ';
                 cade += ($scope.formatoFabricacion.procesos[i].array_responsables[0].apellidos || '');
-                cade += '</td><td>'
+                cade += '</td><td class="tdfirma">'
             }
             cade += '</td></tr>';
             for(var x = 1; x < $scope.formatoFabricacion.procesos[i].array_responsables.length; x++){
-                cade += '<tr><td class="sinBordesTopBottom">';
+                cade += '<tr><td class="tdresponsable">';
                 cade += $scope.formatoFabricacion.procesos[i].array_responsables[x].nombre+ ' ';
                 cade += ($scope.formatoFabricacion.procesos[i].array_responsables[x].apellidos|| '') + ' ';
-                cade += '</td></tr>';
+                cade += '</td><td class="tdfirma"></td></tr>';
             }
         }
 
-        cade += '<tr><td> Autoriza: '+ $scope.formatoFabricacion.generado.nombre+' '+$scope.formatoFabricacion.generado.apellidos || '' +'</td></tr>';
+        cade += '<tr><td colspan="3"> Autoriza: '+ $scope.formatoFabricacion.generado.nombre+' '+$scope.formatoFabricacion.generado.apellidos || '' +'</td></tr>';
+        cade += '<tr><td colspan="3"> Observaciones: '+ ($scope.formatoFabricacion.Observaciones || '')+'</td></tr>';
 
         $('#contenidoTableProcess').html(cade);
     }

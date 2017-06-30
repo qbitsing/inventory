@@ -163,3 +163,10 @@
 .center{
     text-align: center;
 }
+
+.tdresponsable, .tdfirma{
+    width: 40%;
+}
+.tdproccess{
+    width: 20%;
+}

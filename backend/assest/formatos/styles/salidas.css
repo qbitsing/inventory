@@ -156,3 +156,15 @@ table{
 .formato-contenido {
     padding-left: 20px;
 }
+
+.width15{
+    width: 15%;
+}
+
+.width70{
+    width: 70%;
+}
+
+.width85{
+    width: 85%;
+}
