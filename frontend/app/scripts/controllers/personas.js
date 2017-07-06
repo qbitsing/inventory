@@ -26,7 +26,7 @@ angular.module('frontendApp')
     $scope.preloader = preloader;
     $scope.panelAnimate='';
     $scope.pageAnimate='';
-    if ($scope.Usuario.rol=='Contador' || $scope.Usuario.rol=='Almacenista') {
+    if ($scope.Usuario.rol=='Almacenista') {
         $state.go('Home');
     }
     $timeout(function () {

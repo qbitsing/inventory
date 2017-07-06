@@ -19,7 +19,7 @@
 		</div>
 		<div class="side-nav">
 			<ul>
-				<li ng-if="Usuario.rol=='Super Administrador'" ng-class="{activate: $state.includes('Personas')}">
+				<li ng-if="Usuario.rol!='Almacenista'" ng-class="{activate: $state.includes('Personas')}">
 					<a ui-sref="Personas">
 						<i class="tooltipped material-icons" tooltipped data-position="right" data-delay="50" data-tooltip="Clientes y proveedores">store_mall_directory</i>
 					Clientes y proveedores
