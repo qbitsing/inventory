@@ -77,7 +77,7 @@
     height: 30px;
     border: solid 1px;
     border-radius: 7px;
-    font-size: 12px;
+    font-size: 20px;
     text-align: center; 
 }
 
@@ -154,7 +154,7 @@ table{
 }
 
 .formato-contenido {
-    padding-left: 20px;
+    padding-left: 5px;
 }
 
 .width15{
@@ -167,4 +167,7 @@ table{
 
 .width85{
     width: 85%;
+}
+.width33{
+    width: 33.33%;
 }
