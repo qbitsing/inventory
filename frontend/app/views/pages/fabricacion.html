@@ -37,8 +37,8 @@
 						<div class="row">
 							<div class="input-field col s10 m5 l5">
 								<select ng-model="producto._id" material-select watch>
-	      							<option ng-if="panel_title_form=='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in Productos" value="{{producto._id}},{{producto.nombre}},{{producto.fabricado}}">{{producto.nombre}}</option>
-	      							<option ng-if="panel_title_form!='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in fabricacion.productos" value="{{producto._id}},{{producto.nombre}},{{producto.fabricado}}">{{producto.nombre}}</option>
+	      							<option ng-if="panel_title_form=='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in Productos" value="{{producto._id}},{{producto.nombre}},{{producto.fabricado}}">{{producto.nombre}} - {{producto.marca}}</option>
+	      							<option ng-if="panel_title_form!='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in fabricacion.productos" value="{{producto._id}},{{producto.nombre}},{{producto.fabricado}}">{{producto.nombre}} - {{producto.marca}}</option>
 								</select>
 								<label>Productos *</label>
 							</div>
@@ -58,6 +58,7 @@
 							        <thead>
 							        	<tr>
 											<th data-field="producto">Producto</th>
+											<th data-field="marca">Marca</th>
 											<th data-field="cantidad">Cantidad</th>
 											<th data-field="opcion" ng-hide="panel_title_form!='Registro de Fabricaciones'">Opción</th>
 							          	</tr>
@@ -65,6 +66,7 @@
 							        <tbody>
 							          	<tr ng-repeat="producto in fabricacion.productos">
 								            <td>{{producto.nombre}}</td>
+								            <td>{{producto.marca}}</td>
 								            <td>{{producto.cantidad}}</td>
 								            <td ng-hide="panel_title_form!='Registro de Fabricaciones'"><a class="btn btn-danger" class="cursor" ng-click="BorrarProducto($index)">Eliminar</a></td>
 							          	</tr>
@@ -153,6 +155,7 @@
 					<thead>
 						<tr>
 							<th data-field="id">Nombre</th>
+							<th data-field="marca">Marca</th>
 							<th data-field="cantidad">Cantidad</th>
 							<th data-field="cantidad_saliente">Cantidad en areas externas</th>
 							<th data-field="cantidad_fabricada">Cantidad fabricada</th>
@@ -161,6 +164,7 @@
 					<tbody>
 						<tr ng-repeat="producto in Detalle.productos">
 							<td>{{producto.nombre}}</td>
+							<td>{{producto.marca}}</td>
 							<td>{{producto.cantidad}}</td>
 							<td>{{producto.cantidad_saliente}}</td>
 							<td>{{producto.cantidad_fabricada}}</td>
@@ -233,6 +237,7 @@
 	    		<thead>
 	    			<tr>
 	    				<th>Producto</th>
+	    				<th>Marca</th>
 	    				<th>Cantidad en zona externa</th>
 	    				<th>Cantidad disponible</th>
 	    				<th>Cantidad fabricada</th>
@@ -241,6 +246,7 @@
 	    		<tbody>
 	    			<tr ng-repeat="producto in contenido_fabricacion.productos">
 	    				<td>{{producto.nombre}}</td>
+	    				<td>{{producto.marca}}</td>
 	    				<td>{{producto.cantidad_saliente}}</td>
 	    				<td>{{producto.cantidad_disponible}}</td>
 	    				<td>{{producto.cantidad_fabricada}}</td>
@@ -253,7 +259,7 @@
     			<div class="row">
 					<div class="input-field col s12 m6 l6">
 						<select ng-model="modal_salida.producto" material-select watch>
-							<option ng-if="producto.fabricado" ng-repeat="producto in contenido_fabricacion.productos" value="{{producto}}">{{producto.nombre}}</option>
+							<option ng-if="producto.fabricado" ng-repeat="producto in contenido_fabricacion.productos" value="{{producto}}">{{producto.nombre}} - {{producto.marca}}</option>
 						</select>
 						<label>Producto *</label>
 					</div>
@@ -268,6 +274,7 @@
 					<thead>
 						<tr>
 		    				<th>Nombre</th>
+		    				<th>Marca</th>
 		    				<th>Cantidad</th>
 		    				<th>Opción</th>
 		    			</tr>
@@ -275,6 +282,7 @@
 	    			<tbody>
 	    				<tr ng-repeat="producto in modal_salida.productos">
 		    				<td>{{producto.producto.nombre}}</td>
+		    				<td>{{producto.producto.marca}}</td>
 			    			<td>{{producto.cantidad}}</td>
 		    				<td><button type="button" ng-click="removerproducto(producto)" class="btn btn-tabla btn-danger">Eliminar</button></td>
 		    			</tr>
@@ -562,6 +570,7 @@
 		    	<thead>
 		    		<tr>
 	    				<th>Producto</th>
+	    				<th>Marca</th>
 	    				<th>Cantidad en areas externas</th>
 	    				<th>Cantidad disponible</th>
 	    				<th>Cantidad fabricada</th>
@@ -570,6 +579,7 @@
 		    	<tbody>
 		    		<tr ng-repeat="producto in contenido_fabricacion.productos">
 	    				<td>{{producto.nombre}}</td>
+	    				<td>{{producto.marca}}</td>
 	    				<td>{{producto.cantidad_saliente}}</td>
 	    				<td>{{producto.cantidad_disponible}}</td>
 	    				<td>{{producto.cantidad_fabricada}}</td>
@@ -599,7 +609,7 @@
     			<div class="row" ng-show="check_modal_entrada!='remision'">
 					<div class="input-field col s12 m6 l6">
 						<select ng-model="modal_entrada.producto" material-select watch>
-							<option ng-repeat="producto in contenido_fabricacion.productos" value="{{producto}}">{{producto.nombre}}</option>
+							<option ng-repeat="producto in contenido_fabricacion.productos" value="{{producto}}">{{producto.nombre}} - {{producto.marca}}</option>
 						</select>
 						<label>Producto *</label>
 					</div>
@@ -614,6 +624,7 @@
 					<thead>
 						<tr>
 		    				<th>Nombre</th>
+		    				<th>Marca</th>
 		    				<th ng-show="check_modal_entrada=='remision'">Cantidad faltante</th>
 		    				<th>Cantidad entrante</th>
 		    				<th>Opción</th>
@@ -622,6 +633,7 @@
 	    			<tbody>
 	    				<tr ng-if="(check_modal_entrada=='remision' && producto.cantidad_faltante>0) || (check_modal_entrada=='entrada')" ng-repeat="producto in modal_entrada.productos">
 		    				<td>{{producto.producto.nombre}}</td>
+		    				<td>{{producto.producto.marca}}</td>
 			    			<td ng-show="check_modal_entrada=='remision'">{{producto.cantidad_faltante}}</td>
 			    			<td ng-show="check_modal_entrada=='remision'"><input type="number" ng-change="validarNumeroProductoEntrada(producto.producto._id)" value="0" id="cantidad{{producto.producto._id}}" name="cantidad" ng-model="modal_entrada.productos[$index].cantidad_entrante" ng-required="check_modal_entrada=='remision'"></td>
 			    			<td ng-show="check_modal_entrada!='remision'">{{producto.cantidad}}</td>
@@ -713,7 +725,7 @@
 					<h5>Productos:</h5>
 					<div class="input-field col s12 m6 l6">
 						<select ng-model="salida_productos.producto" material-select watch>
-							<option ng-repeat="producto in Productos" value="{{producto}}">{{producto.nombre}}</option>
+							<option ng-repeat="producto in Productos" value="{{producto}}">{{producto.nombre}} - {{producto.marca}}</option>
 						</select>
 						<label>Producto *</label>
 					</div>
@@ -727,6 +739,7 @@
 					<thead>
 						<tr>
 		    				<th>Nombre</th>
+		    				<th>Marca</th>
 		    				<th>Cantidad</th>
 		    				<th>Opción</th>
 		    			</tr>
@@ -734,6 +747,7 @@
 	    			<tbody>
 	    				<tr ng-repeat="producto in salida_insumos.productos">
 		    				<td>{{producto.producto.nombre}}</td>
+		    				<td>{{producto.producto.marca}}</td>
 			    			<td>{{producto.cantidad}}</td>
 		    				<td><button type="button" ng-click="removerproductoinsumo(producto)" class="btn btn-tabla btn-danger">Eliminar</button></td>
 		    			</tr>

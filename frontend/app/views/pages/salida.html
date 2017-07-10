@@ -36,6 +36,7 @@
 							        <thead>
 							        	<tr>
 											<th data-field="producto">Producto</th>
+											<th data-field="marca">Marca</th>
 											<th data-field="cantidad">Cantidad</th>
 											<th data-field="faltante">Cantidad faltante</th>
 											<th data-field="entrante">Cantidad saliente</th>
@@ -44,6 +45,7 @@
 							        <tbody>
 							          	<tr ng-if="producto.cantidad_faltante>0" ng-repeat="producto in Salida.orden_venta.productos">
 								            <td>{{producto.nombre}}</td>
+								            <td>{{producto.marca}}</td>
 											<td>{{producto.cantidad}}</td>
 								            <td>{{producto.cantidad_faltante}}</td>
 								            <td><input type="number" value="0" id="cantidad{{producto._id}}" name="cantidad" placeholder="cantidad a enviar" required></td>
@@ -97,12 +99,14 @@
 					<thead>
 						<tr>
 							<th data-field="id">Nombre</th>
+							<th data-field="marca">Marca</th>
 							<th data-field="name">Cantidad</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-if="producto.cantidad_saliente>0" ng-repeat="producto in Detalle.orden_venta.productos">
 							<td>{{producto.nombre}}</td>
+							<td>{{producto.marca}}</td>
 							<td>{{producto.cantidad_saliente}}</td>
 						</tr>
 					</tbody>
