@@ -39,7 +39,7 @@
 						<div class="row">
 							<div class="input-field col s10 m5 l5">
 								<select ng-model="Orden.Producto._id" material-select watch>
-	      							<option ng-repeat="producto in productos" value="{{producto._id}},{{producto.nombre}},{{producto.precio}},{{producto.fabricado}},{{producto.codigo}},{{producto.tipo}}">{{producto.nombre}}</option>
+	      							<option ng-repeat="producto in productos" value="{{producto._id}},{{producto.nombre}},{{producto.precio}},{{producto.fabricado}},{{producto.codigo}},{{producto.tipo}}">{{producto.nombre}} - {{producto.marca}}</option>
 								</select>
 								<label>Productos *</label>
 							</div>
@@ -61,6 +61,7 @@
 						        <thead>
 						        	<tr>
 										<th data-field="insumo">Producto</th>
+										<th data-field="marca">Marca</th>
 										<th data-field="cantidad">Cantidad</th>
 										<th data-field="opcion">Opción</th>
 						          	</tr>
@@ -68,6 +69,7 @@
 						        <tbody>
 						          	<tr ng-repeat="producto in Orden.productos">
 							            <td>{{producto.nombre}}</td>
+							            <td>{{producto.marca}}</td>
 							            <td>{{producto.cantidad}}</td>
 							            <td><a class="btn btn-danger" class="cursor" ng-click="BorrarProducto($index)">Eliminar</a></td>
 						          	</tr>
@@ -124,6 +126,7 @@
 			        <thead>
 			        	<tr>
 							<th data-field="nombre">Nombre</th>
+							<th data-field="marca">Marca</th>
 							<th data-field="cantidad">Cantidad</th>
 							<th data-field="pendiente">Cantidad pendiente</th>
 			          	</tr>
@@ -131,6 +134,7 @@
 			        <tbody>
 			          	<tr ng-repeat="producto in Detalle.productos">
 				            <td>{{producto.nombre}}</td>
+				            <td>{{producto.marca}}</td>
 				            <td>{{producto.cantidad}}</td>
 				            <td>{{producto.cantidad_faltante || '0'}}</td>
 			          	</tr>
