@@ -174,4 +174,3 @@ angular.module('frontendApp')
         }
     }*/
 })
-  sendRequest({"cmd":"createuserkey","data":{"syscode":"36363636","regcode":"31313131","id":12,"groupid":333,"beep":true,"timezonelist":[{"id":1,"count":1,"list":[{"id":1,"begin":"0001","end":"2359","mo":1,"tu":1,"we":1,"th":1,"fr":1,"sa":1,"su":1,"h":1,"s1":1,"s2":1}]}],"calendaryear":"2017","activationtime":"1706291832","expirytime":"1906291832","addplanlist":[{"id":26,"type":"lock","timezoneid":1},{"id":20,"type":"lock","timezoneid":1}],"delplanlist":[]}});
