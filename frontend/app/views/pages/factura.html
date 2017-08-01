@@ -1,4 +1,4 @@
-<button class="btn" ng-click="print()" ng-show="newFactura">Imprimir Factura</button>
+<button class="btn" ng-click="print()" ng-show="newFactura" ng-disabled="Orden.orden_venta_consecutivo > resolucion.hasta">Imprimir Factura</button>
 <div id="superconatiner" ng-show="newFactura">
 <div id="container">
     <link rel="stylesheet" ng-href="{{server}}/formatos/styles/factura.css">
@@ -26,12 +26,12 @@
             <div class="last-part">
                 <h2 class="title-last-part">factura de venta</h2>
                 <div class="no-factura">
-                    N° {{Orden.orden_venta_consecutivo}}                    
+                    N° {{convertirNumeroFactura(Orden.orden_venta_consecutivo)}}                    
                 </div>
                 <p>actividad económica 2410</p>
-                <p>Resolucion <span>DIAN</span> no. 320001276762</p>
-                <p>Fecha: 2015 / 06 / 03</p>
-                <p>Autoriza del No. 1001 al 2000</p>
+                <p>AUTORIZACION <span>DIAN</span> POR COMP. no. {{resolucion.numero}}</p>
+                <p>Fecha: {{resolucion.fecha}}</p>
+                <p>Autoriza del No. {{convertirNumeroFactura(resolucion.desde)}} al {{convertirNumeroFactura(resolucion.hasta)}}</p>
             </div>       
         </div>
         <div class="table-header">
@@ -185,6 +185,7 @@
                 </tr>
             </table>
         </div>
+        <p class="footter">Factura impresa por computador en software inventory prines</p>
     </div>
 </div>
 </div>

@@ -7,10 +7,10 @@
  * # FacturaCtrl
  * Controller of the frontendApp
  */
-angular.module('frontendApp')
-.controller('FacturaCtrl', function ($scope, $state, preloader,BotonesTabla, server, webServer, numeroaletras, $timeout, Tabla) {
+ angular.module('frontendApp')
+ .controller('FacturaCtrl', function ($scope, $state, preloader,BotonesTabla, server, webServer, numeroaletras, $timeout, Tabla) {
     $scope.panelAnimate='';
-	$scope.pageAnimate='';
+    $scope.pageAnimate='';
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -25,7 +25,7 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
-	$timeout(function () {
+    $timeout(function () {
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
     },100);
@@ -41,38 +41,38 @@ angular.module('frontendApp')
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Borrar+BotonesTabla.Imprimir+'</div>';
     $scope.gridOptions = {
         columnDefs: [
-            {
-                name:'no. orden',field: 'consecutivo',
-                width:'10%',
-                minWidth: 100
-            },
-            {
-                name:'fecha',
-                width:'15%',
-                cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha)}}</div>',
-                minWidth: 100
-            },
-            {
-                field:  'subtotal',
-                width:'15%',
-                minWidth: 100
-            },
-            { 
-                name: 'Iva',
-                field: 'valorIva',
-                width:'15%',
-                minWidth: 100
-            },
-            { 
-                field: 'total',
-                width:'15%',
-                minWidth: 100
-            },
-            {
-                name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'30%',
-                minWidth: 230
-            }
+        {
+            name:'no. orden',field: 'consecutivo',
+            width:'10%',
+            minWidth: 100
+        },
+        {
+            name:'fecha',
+            width:'15%',
+            cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha)}}</div>',
+            minWidth: 100
+        },
+        {
+            field:  'subtotal',
+            width:'15%',
+            minWidth: 100
+        },
+        { 
+            name: 'Iva',
+            field: 'valorIva',
+            width:'15%',
+            minWidth: 100
+        },
+        { 
+            field: 'total',
+            width:'15%',
+            minWidth: 100
+        },
+        {
+            name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
+            width:'30%',
+            minWidth: 230
+        }
         ]
     }
     angular.extend($scope.gridOptions , Tabla);
@@ -90,7 +90,8 @@ angular.module('frontendApp')
             remision: $scope.remision,
             ordenCompra: $scope.ordenCompra,
             orden: $scope.Orden._id,
-            consecutivo: $scope.Orden.orden_venta_consecutivo
+            consecutivo: $scope.Orden.orden_venta_consecutivo,
+            resolucion: $scope.resolucion
         };
         if(!$scope.remision){
             $('#remision').html('');
@@ -116,18 +117,34 @@ angular.module('frontendApp')
             $state.go('OrdenVenta');
             
         });
-               
+
     }
     webServer.getResource('orden_venta/'+$state.params._id, {} , 'get')
     .then(function(data){
         $scope.Orden = data.data.datos;
+        webServer.getResource('facturas/'+$scope.Orden.orden_venta_consecutivo, {} , 'get')
+        .then(function(data){
+            $scope.Imprimir(data.data.factura, true);
+        }, function(data){
+        });
         $scope.calcularTotal();
+        listarResolucion();
     }, function(data){
         $scope.newFactura = false;
         $scope.listarFacturas();
         
     });
 
+    function listarResolucion(){
+        webServer.getResource('resolucion', {} , 'get')
+        .then(function(data){
+            $scope.resolucion = data.data.datos;
+            if(($scope.Orden.orden_venta_consecutivo) >= ($scope.resolucion.hasta - 25))
+                swal('El consecutivo se agota', 'El consecutivo de la resolucion de la DIAN se esta agotando', 'error');
+        }, function(data){
+            listarResolucion();
+        });
+    }
     $scope.listarFacturas = function(){
         webServer.getResource('facturas', {} , 'get')
         .then(function(data){
@@ -196,7 +213,7 @@ angular.module('frontendApp')
         });
     }
 
-    $scope.Imprimir = function(ele){
+    $scope.Imprimir = function(ele, close){
         $scope.Orden = {
             orden_venta_consecutivo: ele.consecutivo,
             cliente: ele.cliente,
@@ -208,6 +225,7 @@ angular.module('frontendApp')
         $scope.iva = ele.iva;
         $scope.valorIva = ele.valorIva;
         $scope.total = ele.total;
+        $scope.resolucion = ele.resolucion;
         if(!$scope.remision){
             $('#remision').html('');
         }
@@ -224,11 +242,17 @@ angular.module('frontendApp')
         .then(function(data){
             w.print();
             w.close();
-            $('#superconatiner')[0].append(eleToPrint);
+            if(!close)
+                $('#superconatiner')[0].append(eleToPrint);
+            else
+                $state.go('OrdenVenta');
         }, function(data){
             w.print();
             w.close();
-            $('#superconatiner')[0].append(eleToPrint);
+            if(!close)
+                $('#superconatiner')[0].append(eleToPrint);
+            else
+                $state.go('OrdenVenta');
         });
     }
 
@@ -254,6 +278,13 @@ angular.module('frontendApp')
             }
         });
         return obj;
+    }
+
+    $scope.convertirNumeroFactura = function(num){
+        if(num > 999) return num;
+        if(num > 99) return '0'+num;
+        if(num > 9) return '00'+num;
+        return '000'+num
     }
 
 

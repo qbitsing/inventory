@@ -20,7 +20,7 @@ const ordenVentaSchema = new Schema({
 ordenVentaSchema.plugin(autoIncrement.plugin, {
     model: 'orden_venta',
     field: 'orden_venta_consecutivo',
-    startAt: 1000,
+    startAt: 1,
     incrementBy: 1
 });
 

@@ -17,7 +17,8 @@ const facturaSchema = new Schema({
     orden: {type: String},
     consecutivo: Number,
     estado: {type: String, enum:['activa' , 'cancelada'], default: 'activa'},
-    observacion: String
+    observacion: String,
+    resolucion: {}
 });
 
 module.exports = mongoose.model('factura', facturaSchema);
