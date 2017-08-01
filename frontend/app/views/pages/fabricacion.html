@@ -18,7 +18,7 @@
 							    </p>
 							</div>
 							<div class="input-field col s12 m6 l6" ng-show="check=='orden'">
-								<select id="ordenn" ng-change="CargarOrden()" ng-model="Orden" material-select watch>
+								<select id="ordenn" ng-change="CargarOrden(Orden)" ng-model="Orden" material-select watch>
 	      							<option ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.orden_venta_consecutivo}}-{{orden.cliente.nombre}}</option>
 								</select>
 								<label for="ordenn">Orden de venta *</label>

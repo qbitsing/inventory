@@ -167,10 +167,12 @@ angular.module('frontendApp')
     }
     /*Fin de las validaciones*/
 
-    $scope.CargarOrden=function(){
+    $scope.CargarOrden=function(valor){
+        $scope.Orden=valor;
         $scope.Ordenes.forEach(function(ele, index){
             if(ele._id==$scope.Orden){
                 $scope.fabricacion.orden_venta=ele;
+                
             }
         });
         if(!$scope.fabricacion.orden_venta.productos){
@@ -340,6 +342,7 @@ angular.module('frontendApp')
             $scope.fabricacion.generado=$scope.Usuario;
             delete $scope.fabricacion.generado.Image;
         }else{
+            console.log($scope.fabricacion)
             metodo='put';
             ruta='fabricacion/'+$scope.fabricacion._id;
         }
@@ -1164,7 +1167,7 @@ angular.module('frontendApp')
         }
 
         cade += '<tr><td colspan="3"> Autoriza: '+ $scope.formatoFabricacion.generado.nombre+' '+$scope.formatoFabricacion.generado.apellidos || '' +'</td></tr>';
-        cade += '<tr><td colspan="3"> Observaciones: '+ ($scope.formatoFabricacion.Observaciones || '')+'</td></tr>';
+        cade += '<tr><td colspan="3"> Observaciones: '+ ($scope.formatoFabricacion.observaciones || '')+'</td></tr>';
 
         $('#contenidoTableProcess').html(cade);
     }
@@ -1266,7 +1269,9 @@ angular.module('frontendApp')
                     productos : ele.productos,
                     procesos : ele.procesos,
                     orden_venta : ele.orden_venta,
-                    estado : ele.estado
+                    estado : ele.estado,
+                    generado : ele.generado,
+                    observaciones : ele.observaciones
                 };
             }
         });
