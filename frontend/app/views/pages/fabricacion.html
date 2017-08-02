@@ -606,6 +606,15 @@
 			<button type="button" ng-click="cargarRemision()" class="btn btn-success col s4 m2 l2" ng-disabled="!modal_entrada.carga_remision">Cargar</button>
 		</div>
     	<div class="row">
+<<<<<<< HEAD
+    		<form novalidate ng-submit="addresponsable()">
+    			<div class="row">
+					<div class="input-field col s12 m4 l4">
+						<select ng-model="from_modal.persona" material-select watch>
+							<option ng-repeat="persona in personas" ng-if="(modal.proceso.tipo=='Externo' && persona.proveedor) || (modal.proceso.tipo=='Interno' && persona.empleado)" value="{{persona}}">{{persona.nombre}}</option>
+						</select>
+						<label>Responsable *</label>
+=======
     		<form name="formEntrada" ng-submit="enviarEntrada()">
     			<div class="row" ng-show="check_modal_entrada!='remision'">
 					<div class="input-field col s12 m6 l6">
@@ -617,6 +626,7 @@
 					<div class="input-field col s8 m4 l4">
 						<input type="number" ng-change="validarNumeroEntrada()" ng-model="modal_entrada.cantidad" id="CantidadEntrada" name="CantidadEntrada">
 						<label for="CantidadEntrada">Cantidad *</label>
+>>>>>>> 12749c2733a6840f2dcb6d688d6174aac2d8c514
 					</div>
 					<button type="button" ng-click="addproductoentrada()" class="btn btn-success col s4 m2 l2" ng-disabled="!modal_entrada.producto || !modal_entrada.cantidad">Añadir</button>
 				</div>
@@ -656,6 +666,16 @@
 	    			<button type="submit" class="btn btn-primary col" ng-disabled="formEntrada.$invalid || modal_entrada.productos.length<1">Registrar entrada</button>
 	    		</div>
     		</form>
+<<<<<<< HEAD
+    		<table>
+    			<tr>
+    				<td>Nombre</td>
+    				<td>Opción</td>
+    			</tr>
+    			<tr ng-repeat="res in modal.proceso.array_responsables">
+    				<td>{{res.nombre}} {{res.apellidos}}</td>
+    				<td><button ng-click="removeresponsable($index)">Eliminar</button></td>
+=======
     	</div>
     	<div class="row">
     		<h4>Lista de Entradas</h4>
@@ -779,6 +799,7 @@
     				<td ng-if="salida.estado!='Cancelada'"><button type="button" class="btn btn-danger" ng-click="abrircancelarsalidainsumos(salida)">Cancelar</button></td>
     				<td ng-if="salida.estado=='Cancelada'" class="danger-text">Salida cancelada</td>
     				<td>{{salida.observaciones || 'No registra'}}</td>
+>>>>>>> 12749c2733a6840f2dcb6d688d6174aac2d8c514
     			</tr>
     		</tbody>
     		</table>
@@ -788,6 +809,90 @@
 	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
     </div>
 </div>
+<<<<<<< HEAD
+<div id="modalSalidas" class="modal modal-fixed-footer">
+    <div class="modal-content">
+	    <h4 class="modal-title">Generar remisión de salida</h4>
+	    <div class="row">
+	    <h5>Productos disponibles</h5>
+	    	<table>
+	    			<tr>
+	    				<td>Producto</td>
+	    				<td>Cantidad afuera</td>
+	    				<td>Cantidad disponible</td>
+	    			</tr>
+	    			<tr ng-repeat="producto in modal_salida.fabricacion.productos">
+	    				<td>{{producto.nombre}}</td>
+	    				<td>{{producto.cantidad_saliente}}</td>
+	    				<td>{{producto.cantidad_disponible}}</td>
+	    			</tr>
+	    		</table>
+	    </div>
+    	<div class="row">
+    		<form novalidate ng-submit="addproducto()">
+    			<div class="row">
+					<div class="input-field col s12 m6 l6">
+						<select ng-model="modal_salida.producto" material-select watch>
+							<option ng-repeat="producto in modal_salida.fabricacion.productos" value="{{producto}}">{{producto.nombre}}</option>
+						</select>
+						<label>Producto *</label>
+					</div>
+					<div class="input-field col s8 m4 l4">
+						<input type="number" ng-model="modal_salida.cantidad" id="Cantidad" name="Cantidad">
+						<label for="Cantidad">Cantidad *</label>
+					</div>
+					<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!modal_salida.producto || !modal_salida.cantidad">Añadir</button>
+				</div>
+				<table>
+	    			<tr>
+	    				<td>Nombre</td>
+	    				<td>Cantidad</td>
+	    				<td>Opción</td>
+	    			</tr>
+	    			<tr ng-repeat="producto in modal_salida.productos">
+	    				<td>{{producto.nombre}}</td>
+		    			<td>{{producto.cantidad}}</td>
+	    				<td><button ng-click="removerproducto({{producto}})">Eliminar</button></td>
+	    			</tr>
+	    		</table>
+	    		<div class="row">
+	    			<div class="input-field col s12 m6 l6">
+						<select ng-model="modal_salida.proceso" material-select watch>
+							<option ng-repeat="proceso in modal_salida.fabricacion.procesos" value="{{proceso}}">{{proceso.nombre}}</option>
+						</select>
+						<label>Proceso *</label>
+					</div>
+					<div class="input-field col s12 m6 l6">
+						<li ng-repeat="res in modal_salida.proceso.array_responsables">{{res.nombre}}</li>
+					</div>
+	    		</div>
+	    		<div class="row">
+	    			<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!modal_salida.producto || !modal_salida.cantidad">Registrar remisión</button>
+	    		</div>
+    		</form>
+    	</div>
+	</div>
+    <div class="modal-footer">
+	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
+    </div>
+</div>
+<script type="text/javascript" charset="utf-8">
+	$('.datepicker').pickadate({
+		labelMonthNext: 'Next month',
+		labelMonthPrev: 'Previous month',
+		labelMonthSelect: 'Select a month',
+		labelYearSelect: 'Select a year',
+		monthsFull: [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ],
+		monthsShort: [ 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
+		weekdaysFull: [ 'Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado' ],
+		weekdaysShort: [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab' ],
+		weekdaysLetter: [ 'D', 'L', 'M', 'Mi', 'J', 'V', 'S' ],
+		today: 'Hoy',
+		clear: 'Limpiar',
+		close: 'Cerrar'
+	});
+</script>
+=======
 
 <div id="superContainerFabricacion" ng-show="false">
 	<div id="containerFabricacion">
@@ -868,3 +973,4 @@
 		</div>
 	</div>
 </div>
+>>>>>>> 12749c2733a6840f2dcb6d688d6174aac2d8c514
