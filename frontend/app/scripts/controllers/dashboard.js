@@ -53,6 +53,15 @@ angular.module('frontendApp')
             },
             complete: function() {  } // Callback for Modal close
         });
+        $('#modal4').modal({
+            dismissible: true, // Modal can be dismissed by clicking outside of the modal
+            opacity: 0, // Opacity of modal background
+            inDuration: 300, // Transition in duration
+            outDuration: 200, // Transition out duration
+            startingTop: '10%', // Starting top style attribute
+            endingTop: '10%', // Ending top style attribute
+            complete: function() {  } // Callback for Modal close
+        });
     });
     $scope.preloader = preloader;
     $scope.$state=$state;
