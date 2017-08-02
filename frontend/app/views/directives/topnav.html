@@ -2,7 +2,7 @@
 	<div class="nav-wrapper">
       <a class="brand-logo center"><img src="images/logo-prines.jpg" class="responsive-img"></a>
       <ul class="right">
-      	<li ng-if="Usuario.rol!='Contador'"><a class='waves-effect waves-block waves-light notification-button' href='javascript:void(0);' data-activates='config' dropdown ><i class="material-icons">settings_applications</i></a></li>
+      	<li ><a class='waves-effect waves-block waves-light notification-button' href='javascript:void(0);' data-activates='config' dropdown ><i class="material-icons">settings_applications</i></a></li>
         <li><a class="waves-effect waves-block waves-light notification-button" href='javascript:void(0);' data-activates='notificacion' dropdown><i class="material-icons">notifications
 			<small class="notification-badge">5</small>
         </i></a></li>
@@ -14,10 +14,10 @@
 			<li><a href="#!">three</a></li>
 		</ul>
 		<ul id='config' class='dropdown-content'>
-			<li><a data-target='modal1'>Unidad de medida</a></li>
-			<li><a data-target='modal2'>Categorias</a></li>
-			<li><a data-target='modal3'>Procesos</a></li>
-			<li><a data-target='modal4'>Resolución de la DIAN</a></li>
+			<li><a data-target='modal1' ng-if="Usuario.rol!='Contador'">Unidad de medida</a></li>
+			<li><a data-target='modal2' ng-if="Usuario.rol!='Contador'">Categorias</a></li>
+			<li><a data-target='modal3' ng-if="Usuario.rol!='Contador'">Procesos</a></li>
+			<li><a data-target='modal4' ng-if="Usuario.rol!='Almacenista'">Resolución de la DIAN</a></li>
 		</ul>
       </ul>
     </div>
