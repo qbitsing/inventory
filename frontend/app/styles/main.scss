@@ -8,10 +8,14 @@ $gris:#424242;
 $warning:#ffd600;
 $danger:#d50000;
 $success:#00c853;
+
 /* label color */
 .input-field label {
   color: #000 !important;
   font-size: 1.1rem !important;
+}
+.modal{
+  width:72% !important;
 }
 .input-field input,
 .input-field textarea{
@@ -86,11 +90,11 @@ $success:#00c853;
 }
 .main-view{
   transition:all 0.3s linear;
-  z-index: -1;
+  z-index: 1;
   position:absolute;
   right:0;
   top:64px;
-  height:auto;
+  bottom:0;
   left:300px;
 }
 .top-nav-hidden{
@@ -105,6 +109,7 @@ $success:#00c853;
   right:0!important;
   width:auto;
   transition:all 0.3s linear;
+  z-index: 2;
   .dropdown-content{
     margin-top: 64px;
     z-index: 2;
@@ -113,6 +118,7 @@ $success:#00c853;
     }
   }
 }
+
 .side-nav{
   width:100%;
   position:relative;
@@ -120,7 +126,6 @@ $success:#00c853;
   background: none;
   transform: translateX(0)!important;
   padding:0;
-  
   ul{
     margin:0;
     li{ 
@@ -150,7 +155,7 @@ $success:#00c853;
   }
   .main-view{
     transition:all 0.3s linear;
-    z-index: -1;
+    z-index: 1;
     position:absolute;
     right:0;
     top:64px;
@@ -168,6 +173,7 @@ $success:#00c853;
   }
   .sidenav{
      width:100% !important; 
+     z-index: 2 !important;
   }
   .top-nav-hidden{
     left:0!important;
@@ -180,14 +186,13 @@ $success:#00c853;
   }
   .main-view{
     transition:all 0.3s linear;
-    z-index: -1;
     position:absolute;
     right:0;
-    top:64px;
+    top:56px;
     height:auto;
     left:0;
     .titulo-pagina{
-      top:56px;
+      top:0;
     }
   }
 }
@@ -214,10 +219,13 @@ $success:#00c853;
     background-color: $azul;
   }
 }
-#app-container .btn-floating{
+#app-container {
+  .btn-floating{
     position:fixed;
-    z-index: 100;
+    z-index: 2;
   }
+}
+
 .sidenav{
   position:fixed;
   top:0;
@@ -227,6 +235,7 @@ $success:#00c853;
   transition:all 0.3s linear;
   overflow-y:scroll;
   overflow-x:hidden;
+  z-index: 1;
   &::-webkit-scrollbar {
         width: 10px;
         }  
@@ -258,6 +267,8 @@ $success:#00c853;
     background-size: cover;
     img{
       border-radius: 50%;
+      cursor: pointer;
+      background-color: $blanco;
     }
     .profile-btn{
       margin: 0;
@@ -274,6 +285,9 @@ $success:#00c853;
       z-index: 2;
       li a{
         color:$azul;
+        i{
+          margin-right: 10px;
+        }
       }
     }
   }
@@ -285,8 +299,8 @@ $success:#00c853;
   }
 }
 .titulo-pagina{
-  position:fixed;
-  top:64px;
+  position:absolute;
+  top:0;
   left:0;
   right:0;
   z-index: 3;
@@ -333,6 +347,10 @@ $success:#00c853;
       color: $blanco;
       font-size: 1.3rem;
       padding-left: .8rem;
+      strong{
+        font-size: 1.7rem;
+        text-transform:uppercase;
+      }
     }
   }
   .panel-body{
@@ -374,9 +392,9 @@ $success:#00c853;
   }
 }
 .btn-danger{
-  background: $danger;
+  background: $danger !important;
   &:hover{
-    background:darken( $danger, 5% );
+    background:darken( $danger, 5% )!important;
   }
 }
 .cropArea {
@@ -388,7 +406,15 @@ $success:#00c853;
 .modal-overlay{
   display:none!important;
 }
+#modal4{
+  height: 70%;
+}
 .modal{
+  top:70px !important;
+  max-height: 80%;
+  &.modal-fixed-footer{
+    height: 80%;
+  }
   .modal-content{
     .modal-title{
       position:fixed;
@@ -429,3 +455,70 @@ $success:#00c853;
 .cursor{
   cursor:pointer;
 }
+table.bordered > thead > tr{
+  border-bottom: 2px solid $azul;
+}
+.danger-text{
+  color:$danger;
+}
+.warning-text{
+  color: $warning;
+}
+.confirm{
+  background-color: $azul !important;
+}
+preloader{
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background:transparentize(#212121, 0.3);
+  z-index: 1004;
+  .preloader-wrapper{
+    width: 150px !important;
+    height: 150px !important;
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    .circle-clipper .circle{
+      border-width: 10px;
+    } 
+  }
+  h4{
+      position: absolute;
+      width: 96px;
+      height:24px;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+      display: inline-block;
+      color:#fff;
+      font-size: 22px;
+      span{
+        margin-right: -5px;
+        transition: all 0.3s;
+      }
+      .animacion{
+        color: #4285f4;
+      }
+    }
+}
+.row{
+  margin-bottom: 0;
+}
+.ui-grid-filter-container input[type=text]{
+  height: 2em;
+  padding: 0 5px;
+  &:focus{
+    border-bottom: 1px solid $azul !important;
+    box-shadow: 0 1px 0 0 $azul !important
+  }
+}
+
+

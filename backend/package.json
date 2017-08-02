@@ -4,7 +4,7 @@
   "description": "api restful para el manejo de inventario de prines sas",
   "main": "main.js",
   "scripts": {
-    "start": "nodemon main.js",
+    "start": "nodemon main.js -L",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -15,7 +15,9 @@
     "co": "^4.6.0",
     "express": "^4.14.1",
     "jwt-simple": "^0.5.1",
-    "mongoose": "^4.8.5"
+    "mongoose": "^4.8.5",
+    "mongoose-auto-increment": "^5.0.1",
+    "nodemailer": "^4.0.1"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

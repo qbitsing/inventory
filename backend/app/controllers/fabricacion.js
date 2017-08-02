@@ -9,7 +9,7 @@ const co = require('co');
 
 let listarAll = co.wrap(function * (req, res){
   try {
-    let datos = yield fabricacionModel.find({});
+    let datos = yield fabricacionModel.find({},null, {sort: {fecha_solicitud: -1}} );
     if(datos.length > 0){
       return res.status(200).send({
         datos
@@ -48,15 +48,11 @@ let listarById = co.wrap(function * (req, res){
 let crear = co.wrap(function * (req, res){
   let fabricacion = req.body;
   try {
-    let responsable = yield personaModel.findById(req.body.responsable._id);
-    fabricacion.responsable = responsable;
-
     let newfabricacion = new fabricacionModel(fabricacion);
-    yield newfabricacion.save();
-
+    let newfabricacion1 = yield newfabricacion.save();
     return res.status(200).send({
       message: 'proceso de fabricacion registrado con exito',
-      datos: newfabricacion._id
+      datos: newfabricacion1
     });
   } catch (e) {
     return res.status(500).send({
@@ -72,11 +68,29 @@ let actualizar = co.wrap(function * (req, res){
   try {
     yield fabricacionModel.findByIdAndUpdate(fabricacionId, req.body);
     return res.send({
-      message: 'proceso de fabricacion actualizado con exito'
+      message: 'proceso de fabricación actualizado con exito'
     });
   } catch (e) {
     return res.status(500).send({
-      message: `ERROR `
+      message: `ERROR ${e}`
+    });
+  }
+});
+
+let eliminar = co.wrap(function * (req, res){
+  let fabricacionId = req.params.id;
+
+  try {
+    let fabricacion = yield fabricacionModel.findById(fabricacionId);
+
+    if(fabricacion.estado != 'En Fabricacion') return res.status(400).send({message: 'No se puede eliminar la orden de trabajo ya que esta en proceso de fabricación'});
+    yield fabricacionModel.findByIdAndRemove(fabricacionId);
+    return res.status(200).send({
+      message: 'Proceso de fabricación eliminado con exito'
+    });
+  } catch(e) {
+    return res.status(500).send({
+      message:`ERROR ${e}`
     });
   }
 });
@@ -85,5 +99,6 @@ module.exports = {
   listarAll,
   listarById,
   crear,
-  actualizar
+  actualizar,
+  eliminar
 }

@@ -1,9 +1,11 @@
 'use strict';
 
 const departamentoModel = require('../models/departamentos');
+const departamentosMocks = require('../utils/mocks/departamentos.mocks');
+const co = require('co');
 
 function listarAll (req, res){
-	departamentoModel.find({} , (err , datos)=>{
+	departamentoModel.find({}, null, {sort: {nombre: 1}} , (err , datos)=>{
         if(err) {
             return res.status(500).send({
                 message : `ERROR al obtener la lista de departamentos ${err}`
@@ -20,6 +22,7 @@ function listarAll (req, res){
         });
     });
 }
+
 
 function listarById (req, res) {
 	let departamentoId = req.params.id;
@@ -53,10 +56,30 @@ function crear (req, res) {
     });
 }
 
+let restuarar = co.wrap(function * (req, res){
+    try {
+        for(let dep of departamentosMocks){
+            let x = new departamentoModel(dep);
+
+            yield x.save();
+        }
+
+        return res.status(200).send({
+            message: 'Se han restaurado los departamentos'
+        });
+    } catch (error) {
+        return res.status(500).send({
+            message: `ERROR ${error}`
+        });
+    }
+    
+});
+
 
 
 module.exports = {
 	listarAll,
 	listarById,
-    crear
+    crear,
+    restuarar
 };

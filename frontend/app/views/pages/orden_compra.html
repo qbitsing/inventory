@@ -9,22 +9,12 @@
 				<div class="panel-body" >
 					<form name="formOrdenCompra" novalidate ng-submit="EnviarOrden()">
 						<div class="row">
-							<div class="input-field col s12 m6 l6">
-								<input type="text" ng-model="Orden.consecutivo" id="numero" ng-disabled="true" name="numero">
-								<label>Numero interno de compra*</label>
-							</div>
-							<div class="input-field col s12 m6 l6">
+							<div class="input-field col s12 m12 l12">
 								<select ng-model="Orden.proveedor._id" material-select watch required>
-	      							<option ng-repeat="proveedor in proveedores" value="{{proveedor._id}}">{{proveedor.nombre}}</option>
+	      							<option ng-repeat="proveedor in proveedores" value="{{proveedor._id}}">{{proveedor.nombre}} {{proveedor.apellidos}}</option>
 								</select>
 								<label>Proveedor*</label>
 							</div>
-						</div>
-						<div class="row">
-							<div class="input-field col s12 m12 l12">
-					            <textarea id="observaciones" class="materialize-textarea" ng-model="Orden.observaciones" data-length="120"></textarea>
-					            <label for="observaciones">Observaciones</label>
-				        	</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
@@ -33,37 +23,41 @@
 								</select>
 								<label>Materias primas *</label>
 							</div>
-							<div class="input-field col s12 m6 l6">
-								<select ng-model="Orden.Producto._id" material-select watch>
-	      							<option ng-repeat="producto in productos" value="{{producto._id}},{{producto.nombre}}">{{producto.nombre}}</option>
+							<div class="input-field col s10 m5 l5">
+								<select ng-model="Orden.Producto._id" id="select_producto" material-select watch>
+	      							<option ng-repeat="producto in productos" value="{{producto._id}},{{producto.nombre}}">{{producto.nombre}} - {{producto.marca}}</option>
 								</select>
-								<label>Productos *</label>
+								<label for="select_producto">Productos *</label>
+							</div>
+							<div class="input-field col s2 m1 l1">
+								<input type="text" ng-keyup="cargarProducto($event)" ng-model="Orden.Producto.codigo" id="codigo_barras" name="codigo_barras">
+								<label for="codigo_barras">codigo</label>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col s12 m6 l6">
 								<div class="input-field col s8 m8 l8">
-									<input type="number" ng-model="Orden.Materia.cantidad" id="Cantidad" name="Cantidad">
-									<label for="Cantidad">Cantidad *</label>
+									<input type="number" ng-change="validarNumeroMateria()" ng-model="Orden.Materia.cantidad" id="Cantidad-materia" name="Cantidad-materia">
+									<label for="Cantidad-materia">Cantidad *</label>
 								</div>
 								<button type="button" class="btn btn-success col s4 m4 l4" ng-disabled="!(Orden.Materia._id) || !(Orden.Materia.cantidad)" ng-click="AgregarMateria()">Añadir</button>
 							</div>
 							<div class="col s12 m6 l6">
 								<div class="input-field col s8 m8 l8">
-									<input type="number" ng-model="Orden.Producto.cantidad" id="Cantidad" name="Cantidad">
-									<label for="Cantidad">Cantidad *</label>
+									<input type="number" ng-keyup="detectar($event)" ng-model="Orden.Producto.cantidad" id="Cantidad-producto" name="Cantidad-producto">
+									<label for="Cantidad-producto">Cantidad *</label>
 								</div>
 								<button type="button" class="btn btn-success col s4 m4 l4" ng-disabled="!(Orden.Producto._id) || !(Orden.Producto.cantidad)" ng-click="AgregarProducto()">Añadir</button>
 							</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-								<table class="highlight" ng-hide="Orden.materia_prima.length<1">
+								<table class="bordered striped" ng-hide="Orden.materia_prima.length<1">
 							        <thead>
 							        	<tr>
 											<th data-field="insumo">Insumo</th>
-										<th data-field="cantidad">Cantidad</th>
-										<th data-field="opcion">Opción</th>
+											<th data-field="cantidad">Cantidad</th>
+											<th data-field="opcion">Opción</th>
 							          	</tr>
 							        </thead>
 							        <tbody>
@@ -76,10 +70,11 @@
 						      	</table>
 							</div>
 							<div class="input-field col s12 m6 l6">
-								<table class="highlight" ng-hide="Orden.productos.length<1">
+								<table class="bordered striped" ng-hide="Orden.productos.length<1">
 							        <thead>
 							        	<tr>
 											<th data-field="id">Producto</th>
+											<th data-field="marca">Marca</th>
 											<th data-field="name">Cantidad</th>
 											<th data-field="price">Opción</th>
 							          	</tr>
@@ -87,18 +82,27 @@
 							        <tbody>
 							          	<tr ng-repeat="insumo in Orden.productos">
 								            <td>{{insumo.nombre}}</td>
+								            <td>{{insumo.marca}}</td>
 								            <td>{{insumo.cantidad}}</td>
 								            <td><a class="btn btn-danger" class="cursor" ng-click="BorrarProducto($index)">Eliminar</a></td>
 							          	</tr>
 							        </tbody>
 						      	</table>
 							</div>
+							<div class="row">
+							<div class="input-field col s12 m12 l12">
+					            <textarea id="observaciones" class="materialize-textarea" ng-model="Orden.observaciones" data-length="120"></textarea>
+					            <label for="observaciones">Observaciones</label>
+				        	</div>
+						</div>
 						</div>
 						<div class="row">
-							<div class="col s12 m6 l4">
+							<div class="col">
 								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formOrdenCompra.$invalid || (Orden.productos.length<1 && Orden.materia_prima.length<1)">{{button_title_form}}</button>
 							</div>
-							<button type="button" class="btn btn-danger" ng-show="panel_title_form == 'Edicion de Compras'" ng-click="CancelarEditar()">Cancelar</button>
+							<div class="col">
+								<button type="button" class="btn btn-large btn-danger" ng-click="CancelarEditar()">Cancelar</button>
+							</div>
 						</div>						
 					</form>
 				</div>
@@ -120,69 +124,77 @@
 </div>
 <div id="modalDetalles" class="modal modal-fixed-footer">
     <div class="modal-content">
-    	<h4 class="modal-title blue accent-4">Compra No. {{Detalle.consecutivo}}</h4>
+    	<h4 class="modal-title blue accent-4">Compra No. {{Detalle.orden_compra_consecutivo}}</h4>
     	<div class="row">
     		<ul>
-			<li> Numero interno: {{Detalle.consecutivo || 'No registra'}}</li>
-			<li> Proveedor: {{Detalle.proveedor.nombre || 'No registra'}}</li>
-			<li> Observaciones: {{Detalle.observaciones || 'No registra'}}</li>
-			<li ng-hide="Detalle.materia_prima.length<1"> <h5>Materias Primas:</h5></li>
-			<table class="highlight" ng-hide="Detalle.materia_prima.length<1">
-		        <thead>
-		        	<tr>
-						<th data-field="id">Nombre</th>
-						<th data-field="name">Cantidad</th>
-		          	</tr>
-		        </thead>
-		        <tbody>
-		          	<tr ng-repeat="materia in Detalle.materia_prima">
-			            <td>{{materia.nombre}}</td>
-			            <td>{{materia.cantidad}}</td>
-		          	</tr>
-		        </tbody>
-		    </table>
-			<li ng-hide="Detalle.productos.length<1"><h5>Productos:</h5></li>
-			<table class="highlight" ng-hide="Detalle.productos.length<1">
-		        <thead>
-		        	<tr>
-						<th data-field="id">Nombre</th>
-						<th data-field="name">Cantidad</th>
-		          	</tr>
-		        </thead>
-		        <tbody>
-		          	<tr ng-repeat="producto in Detalle.productos">
-			            <td>{{producto.nombre}}</td>
-			            <td>{{producto.cantidad}}</td>
-		          	</tr>
-		        </tbody>
-		    </table>
-		</ul>
+				<li> Numero interno: {{Detalle.orden_compra_consecutivo || 'No registra'}}</li>
+				<li> Proveedor: {{Detalle.proveedor.nombre || 'No registra'}}</li>
+				<li> Fecha: {{convertirFecha(Detalle.fecha) || 'No registra'}}</li>
+				<li> Observaciones: {{Detalle.observaciones || 'No registra'}}</li>
+				<li ng-hide="Detalle.materia_prima.length<1"> <h5>Materias Primas:</h5></li>
+				<table class="highlight" ng-hide="Detalle.materia_prima.length<1">
+			        <thead>
+			        	<tr>
+							<th data-field="nombre">Nombre</th>
+							<th data-field="cantidad">Cantidad</th>
+							<th data-field="pendiente">Cantidad pendiente</th>
+			          	</tr>
+			        </thead>
+			        <tbody>
+			          	<tr ng-repeat="materia in Detalle.materia_prima">
+				            <td>{{materia.nombre}}</td>
+				            <td>{{materia.cantidad}}</td>
+				            <td>{{materia.cantidad_faltante || '0'}}</td>
+			          	</tr>
+			        </tbody>
+			    </table>
+				<li ng-hide="Detalle.productos.length<1"><h5>Productos:</h5></li>
+				<table class="highlight" ng-hide="Detalle.productos.length<1">
+			        <thead>
+			        	<tr>
+							<th data-field="nombre">Nombre</th>
+							<th data-field="marca">Marca</th>
+							<th data-field="cantidad">Cantidad</th>
+							<th data-field="pendiente">Cantidad pendiente</th>
+			          	</tr>
+			        </thead>
+			        <tbody>
+			          	<tr ng-repeat="producto in Detalle.productos">
+				            <td>{{producto.nombre}}</td>
+				            <td>{{producto.marca}}</td>
+				            <td>{{producto.cantidad}}</td>
+				            <td>{{producto.cantidad_faltante || '0'}}</td>
+			          	</tr>
+			        </tbody>
+			    </table>
+			    <li><h5>Entradas:</h5></li>
+			    <table class="highlight">
+			        <thead>
+			        	<tr>
+							<th data-field="nombre">No. entrada</th>
+							<th data-field="cantidad">Fecha</th>
+							<th data-field="pendiente">Cantidad - Producto</th>
+							<th data-field="materia">Cantidad - Materia prima</th>
+			          	</tr>
+			        </thead>
+			        <tbody>
+			          	<tr ng-if="entrada.orden_compra._id==Detalle._id" ng-show="Detalle.estado!='Activo'" ng-repeat="entrada in Entradas">
+				            <td>{{entrada.entrada_consecutivo}}</td>
+				            <td>{{convertirFecha(entrada.fecha)}}</td>
+			            	<td ng-hide="entrada.orden_compra.productos.length<1"><li ng-repeat="producto in entrada.orden_compra.productos">{{producto.cantidad_entrante}} - {{producto.nombre}}</li></td>
+			            	<td ng-hide="entrada.orden_compra.productos.length>0 ">No hay productos</td>
+			            	<td ng-hide="entrada.orden_compra.materia_prima.length<1"><li ng-repeat="materia in entrada.orden_compra.materia_prima">{{materia.cantidad_entrante}} - {{materia.nombre}}</li></td>
+			            	<td ng-hide="entrada.orden_compra.materia_prima.length>0">no hay materia prima</td>
+			          	</tr>
+			          	<tr ng-hide="Detalle.estado!='Activo'">
+			          		<td colspan="3">Esta orden de compra no posee entradas</td>
+			          	</tr>
+			        </tbody>
+			    </table>
+			</ul>
     	</div>
 	</div>
     <div class="modal-footer">
       	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Cerrar</a>
-    </div>
-</div>
-<div id="modalNotificacion" class="modal modal-fixed-footer">
-    <div class="modal-content">
-    <h4 class="modal-title">{{Detallemodal.titulo}}</h4>
-    	<div class="row">
-    		<h5>{{Detallemodal.mensaje}}</h5>
-    	</div>
-	</div>
-    <div class="modal-footer">
-      	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Ok</a>
-    </div>
-</div>
-<div id="modalConfirmacion" class="modal modal-fixed-footer">
-    <div class="modal-content">
-    <h4 class="modal-title">{{Detallemodal.titulo}}</h4>
-    	<div class="row">
-    		<h5>{{Detallemodal.mensaje}}</h5>
-    	</div>
-	</div>
-    <div class="modal-footer">
-      	<button type="submit" ng-click="Borrar(Detallemodal.id)" class="modal-action waves-effect waves-green btn-flat">Confirmar</button>
-	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
     </div>
 </div>

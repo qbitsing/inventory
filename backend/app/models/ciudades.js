@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const cuidadSchema = Schema({
     nombre : {
-         type : String,
+        type : String,
         required : 'el nombre de la cuidad es requerido'
     },
     departamento : {

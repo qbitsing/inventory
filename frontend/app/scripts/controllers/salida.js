@@ -8,9 +8,29 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('SalidaCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer) {
+  .controller('SalidaCtrl', function ($state, $scope, server, $timeout, Tabla, BotonesTabla, webServer, preloader) {
+    $(document).ready(function(){
+        $('.modal').modal();
+        $('.modal').modal({
+            dismissible: true, // Modal can be dismissed by clicking outside of the modal
+            opacity: 0, // Opacity of modal background
+            inDuration: 300, // Transition in duration
+            outDuration: 200, // Transition out duration
+            startingTop: '10%', // Starting top style attribute
+            endingTop: '15%', // Ending top style attribute
+            ready: function(modal, trigger) {
+            },
+            complete: function() {  } // Callback for Modal close
+        });
+    });
+    $scope.preloader = preloader;
+    $scope.preloader.estado = false;
     $scope.panelAnimate='';
-    $scope.pageAnimate='';  
+    $scope.pageAnimate='';
+    $scope.server = server;
+    if ($scope.Usuario.rol=='Contador') {
+        $state.go('Home');
+    }
     $timeout(function () {
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
@@ -18,38 +38,51 @@ angular.module('frontendApp')
     $scope.panel_title_form = "Registro de Salidas";
     $scope.button_title_form = "Registrar salida";
     $scope.Salida={};
-    $scope.Detallemodal={};
-    $scope.Salida.orden_venta=[];
+    $scope.Salida.orden_venta={};
     $scope.Salida.orden_venta.productos=[];
-    var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Borrar+'</div>';
+    $scope.noDisponible=[];
+    $scope.Orden='';
+    var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
+    casillaDeBotones+= BotonesTabla.ImprimirRemision;
+    casillaDeBotones+= BotonesTabla.ImprimirOrdenSalida;
+    if ($scope.Usuario.rol=='Super Administrador') {
+        casillaDeBotones+=BotonesTabla.Borrar;
+    }
+    casillaDeBotones+='</div>';
     $scope.gridOptions = {
         columnDefs: [
             {
-                name:'orden de venta',field: 'orden_venta.consecutivo',
-                width:'20%',
-                minWidth: 160
+                name:'orden de venta',field: 'orden_venta.orden_venta_consecutivo',
+                width:'15%',
+                minWidth: 100
             },
             {
-                name:'numero de remision',field: 'remision',
-                width:'20%',
-                minWidth: 160
+                name:'no. salida',field: 'salida_consecutivo',
+                width:'15%',
+                minWidth: 100
             },
             {
-                name:'cliente',field: 'orden_compra.cliente.nombre',
-                width:'30%',
-                minWidth: 200
+                name:'fecha',
+                width:'15%',
+                cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha)}}</div>',
+                minWidth: 100
+            },
+            {
+                name:'cliente',field: 'orden_venta.cliente.nombre',
+                width:'15%',
+                minWidth: 130
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'30%',
-                minWidth: 230
+                width:'40%',
+                minWidth: 450
             }
         ]
     }
     angular.extend($scope.gridOptions , Tabla);
     $scope.CargarOrden=function(){
         $scope.Ordenes.forEach(function(ele, index){
-            if(ele._id==$scope.Orden.venta){
+            if(ele._id==$scope.Orden){
                 $scope.Salida.orden_venta=ele;
             }
         });
@@ -58,67 +91,155 @@ angular.module('frontendApp')
         }
     }
     $scope.abrirModal=function(_id){
-        $scope.Detallemodal.id=_id;
-        $scope.Detallemodal.titulo='Confirmar eliminación';
-        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar esta salida?';
-        $('#modalConfirmacion').modal('open');
+        swal({
+            title: "Confirmar Eliminación",
+            text: "¿Esta seguro de borrar la salida?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Borrar!",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+        },
+        function(){
+            Borrar(_id);
+        });
     }
-    $scope.Borrar=function(id){
-        $('#modalConfirmacion').modal('close');
-        $scope.Detallemodal={};
-         webServer
+    $scope.convertirFecha = function(fecha){
+        var date = new Date(fecha).getDate();
+        date += '/'+(new Date(fecha).getMonth()+1);
+        date += '/'+new Date(fecha).getFullYear();
+        return date;
+    }
+    function Borrar(id){
+        webServer
         .getResource('salidas/'+id,{},'delete')
         .then(function(data){
-            $scope.Entradas.forEach(function(ele, index){
-                if(ele._id==id){
-                    $scope.Entradas.splice(ele.index,1);
+            $scope.Ordenes.forEach(function(ele,ind){
+                if (ele._id==data.data.datos.orden_venta._id) {
+                    $scope.Ordenes[ind] = data.data.datos.orden_venta;
                 }
             });
-            $scope.Detallemodal.mensaje='La salida se ha eliminado exitosamente';
+            $scope.Salidas.forEach(function(ele, ind){
+                if(ele._id==id){
+                    $scope.Salidas.splice(ind,1);
+                }
+            });
+            swal("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data.data.message);
+            swal("Oops...", data.data.message , "error");
         });
-        $scope.Detallemodal.titulo='Notificacion de eliminación';
-        $('#modalNotificacion').modal('open');
+    }
+    $scope.cancelarEditar=function(){
+        $scope.Salida={};
+        $scope.Salida.orden_venta={};
+        $scope.Salida.orden_venta.productos=[];
+        $scope.Orden='';
     }
     $scope.EnviarSalida=function(){
-        $scope.Salida.orden_venta.productos.forEach(function(ele, index){
-            ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
-        });
-        $scope.Salida.orden_venta.materia_prima.forEach(function(ele, index){
-            ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
-        });
+        $scope.Salida.generado=$scope.Usuario;
+        delete $scope.Salida.generado.Image;
+        if ($scope.Salida.orden_venta.productos) {
+            var conter=true;
+            $scope.Salida.orden_venta.productos.forEach(function(ele, index){
+                ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
+                if (ele.cantidad_faltante<ele.cantidad_saliente) {
+                    conter=false;
+                }
+            });
+        }
+        if (conter) {
+            $scope.preloader.estado = true;
+            $scope.Salida.orden_venta.productos.forEach(function(ele, index){
+                ele.cantidad_faltante=parseInt(ele.cantidad_faltante)-parseInt(ele.cantidad_saliente);
+            });
+            webServer
+            .getResource("salidas",$scope.Salida,"post")
+            .then(function(data){
+                $scope.Salida.fecha=new Date(Date.now());
+                $scope.Salida.salida_consecutivo=data.data.datos.salida_consecutivo;
+                $scope.Salida._id=data.data.datos._id;
+                $scope.Salidas.unshift($scope.Salida);
+                $scope.Ordenes.forEach(function(ele,ind){
+                    if (ele._id==$scope.Salida.orden_venta._id) {
+                        $scope.Ordenes[ind] = data.data.datos.orden_venta;
+                    }
+                });
+                $scope.Salida={};
+                $scope.Salida.orden_venta={};
+                $scope.Salida.orden_venta.productos=[];
+                $scope.Orden='';
+                $scope.preloader.estado = false;
+                sweetAlert("Completado...", data.data.message , "success"); 
+            },function(data){
+                $scope.preloader.estado = false;
+                if (data.data.noDisponibles.length>0) {
+                    $scope.noDisponible=data.data.noDisponibles;
+                    var mensaje='<ul>';
+                    $scope.noDisponible.forEach(function(ele,index){
+                        mensaje+='<li>'+ele+'</li>'
+                    });
+                    mensaje+='</ul>';
+                    swal({
+                        title: "No se puede realizar la salida",
+                        text: mensaje,
+                        type: "error",
+                        html: true
+                    });
+                    $scope.Salida.orden_venta.productos.forEach(function(ele, index){
+                        ele.cantidad_faltante=parseInt(ele.cantidad_faltante)+parseInt(ele.cantidad_saliente);
+                    });
+                    $scope.Salida={};
+                    $scope.Salida.orden_venta={};
+                    $scope.Salida.orden_venta.productos=[];
+                    $scope.Orden='';
+                }else{
+                    sweetAlert("Oops...", data.data.message , "error");
+                }
+            });
+        }else{
+            sweetAlert("Oops...", "Esta intentando sacar cantidades mayores a las faltantes" , "error");
+        }
+    }
+
+    $scope.Imprimir = function(formato , tipo){
+        $scope.formato = formato;
+        var formatoPrint = null;
+        if(tipo == 1){
+            formatoPrint = document.getElementById('container');
+        }
+
+        if(tipo == 2){
+            formatoPrint = document.getElementById('container2');
+        }
+
+        var w = window.open();
+        var d = w.document.open();
+        d.appendChild(formatoPrint);
+
         webServer
-        .getResource("salidas",$scope.Salida,"post")
+        .getResource('orden_venta',{Activo: true, Salidas:true, Finalizado:true},'get')
         .then(function(data){
-            $scope.Salidas.push($scope.Salida);
-            $scope.Salida={};
-            $scope.Salida.orden_venta.productos=[];
-            $scope.Salida.orden_venta.materia_prima=[];
-            $scope.Detallemodal.titulo='Notificacion de registro';
-            $scope.Detallemodal.mensaje='Salida registrada correctamente';
-            listarOrdenes(); 
+            w.print();
+            w.close();
+            document.getElementById('superContainer').appendChild(formatoPrint);
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de eror';
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data);
+            w.print();
+            w.close();
+            document.getElementById('superContainer').appendChild(formatoPrint);            
         });
-        $('#modalNotificacion').modal('open');
     }
     function listarOrdenes(){
         webServer
-        .getResource('orden_venta',{},'get')
+        .getResource('orden_venta',{Activo: true, Salidas:true, Finalizado:true},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Ordenes=data.data.datos;
-            }else{
-                $scope.Ordenes=[];
-            }
+            $scope.Ordenes=data.data.datos;
+            $scope.preloader.estado = false;
         },function(data){
             $scope.Ordenes=[];
             $scope.gridOptions.data=$scope.Ordenes;
-            console.log(data.data.message);
+            $scope.preloader.estado = false;
         });
     }
     $scope.Detalles = function(id){
@@ -127,43 +248,30 @@ angular.module('frontendApp')
                 return ele;
             }
         });
-        if(!$scope.Detalle.orden_compra.productos){
-            $scope.Detalle.orden_compra.productos=[];
+        if(!$scope.Detalle.orden_venta.productos){
+            $scope.Detalle.orden_venta.productos=[];
         }
         $('#modaldeDetalles').modal('open');
     }
+    $scope.convertirFecha = function(fecha){
+        var date = new Date(fecha).getDate();
+        date += '/'+(new Date(fecha).getMonth()+1);
+        date += '/'+new Date(fecha).getFullYear();
+        return date;
+    }
     function listarSalidas(){
+        $scope.preloader.estado = true;
         webServer
         .getResource('salidas',{},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Salidas=data.data.datos;
-            }else{
-                $scope.Salidas=[];
-            }
+            $scope.Salidas=data.data.datos;
             $scope.gridOptions.data=$scope.Salidas;
             listarOrdenes();
         },function(data){
             $scope.Salidas=[];
             $scope.gridOptions.data=$scope.Salidas;
-            console.log(data.data.message);
             listarOrdenes();
         });
     }
     listarSalidas();
-    function IdentificarSalida(id , arrObj){
-        var obj;
-        arrObj.forEach(function(ele , index){
-            if(ele._id ==  id){
-                obj = {
-                    index: index,
-                    _id : ele._id,
-                    orden_venta : ele.orden_venta,
-                    observaciones : ele.observaciones,
-                    remision : remision
-                };
-            }
-        });
-        return obj;
-    }
-  });
+  })

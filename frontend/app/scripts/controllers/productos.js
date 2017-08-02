@@ -8,32 +8,30 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('ProductosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer,SesionUsuario) {
+.controller('ProductosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer, preloader) {
     $scope.productBarCode = [];
     $scope.bc = {
         lineColor: '#000000',
-        width: 0.5,
-        height: 25,
+        height: 50,
         displayValue: true,
         fontSize: 10
     }
-    $scope.text = "Hola";
-    $scope.Usuario=SesionUsuario.ObtenerSesion();
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
-                dismissible: true, // Modal can be dismissed by clicking outside of the modal
-                opacity: 0, // Opacity of modal background
-                inDuration: 300, // Transition in duration
-                outDuration: 200, // Transition out duration
-                startingTop: '10%', // Starting top style attribute
-                endingTop: '15%', // Ending top style attribute
-                ready: function(modal, trigger) {
-                },
-                complete: function() {  } // Callback for Modal close
-            }
-        );
+            dismissible: true, // Modal can be dismissed by clicking outside of the modal
+            opacity: 0, // Opacity of modal background
+            inDuration: 300, // Transition in duration
+            outDuration: 200, // Transition out duration
+            startingTop: '10%', // Starting top style attribute
+            endingTop: '15%', // Ending top style attribute
+            ready: function(modal, trigger) {
+            },
+            complete: function() {  } // Callback for Modal close
+        });
     });
+    $scope.preloader = preloader;
+    $scope.preloader.estado = false;
 	$scope.panelAnimate='';
 	$scope.pageAnimate='';  
 	$timeout(function () {
@@ -43,38 +41,52 @@ angular.module('frontendApp')
 	$scope.panel_title_form = "Registro de Productos";
 	$scope.button_title_form = "Registrar Producto";
 	$scope.Producto={};
-    $scope.Detallemodal={};
+    $scope.Producto.unidad_medida={};
+    $scope.Producto.categoria={};
     $scope.Producto.Insumos=[];
     $scope.Producto.productos=[];
     $scope.Producto.procesos=[];
+    $scope.producto={}
+    $scope.producto.Insumo={};
+    $scope.Kit={};
+    $scope.Kit.producto={};
     $scope.check='producto';
-    $scope.Detallemodal={};
-    var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
+    var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
+    if ($scope.Usuario.rol=='Super Administrador') {
+        casillaDeBotones+=BotonesTabla.Editar+BotonesTabla.Borrar;
+    }
+    casillaDeBotones+='</div>';
     $scope.gridOptions = {
         columnDefs: [
             {
+                field: 'codigo',
+                width:'15%',
+                minWidth: 160
+            },
+            {
                 field: 'nombre',
-                width:'20%',
+                width:'15%',
                 minWidth: 160
             },
             {
                 field: 'marca',
-                width:'20%',
+                width:'15%',
                 minWidth: 160
             },
             {
                 name: 'categoria', field: 'categoria.nombre',
-                width:'20%',
+                width:'15%',
                 minWidth: 160
             },
             {
-                field: 'cantidad',
+                name:'cantidad',
                 width:'20%',
-                minWidth: 160
+                cellTemplate: '<div>{{row.entity.cantidad}} {{row.entity.unidad_medida.nombre}}</div>',
+                minWidth: 250
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'20%',
+                width:'25%',
                 minWidth: 230
             }
         ]
@@ -84,19 +96,15 @@ angular.module('frontendApp')
         webServer
         .getResource('materiaPrima',{},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Insumos=data.data.datos;
-            }else{
-                $scope.Insumos=[];
-            }
+            $scope.Insumos=data.data.datos;
             listarProductosSelect();
         },function(data){
             $scope.Insumos=[];
-            console.log(data.data.message);
             listarProductosSelect();
         });
     }
     function listarProductos(){
+        $scope.preloader.estado = true;
         webServer
         .getResource('productos',{producto:true,kit:true},'get')
         .then(function(data){
@@ -111,7 +119,6 @@ angular.module('frontendApp')
         },function(data){
             $scope.Productos=[];
             $scope.gridOptions.data=$scope.Productos;
-            console.log(data.data.message);
             listarInsumos();
         });
     }
@@ -119,17 +126,33 @@ angular.module('frontendApp')
         webServer
         .getResource('productos',{producto:true},'get')
         .then(function(data){
-            if(data.data){
-                $scope.ProductosSelect=data.data.datos;
-            }else{
-                $scope.ProductosSelect=[];
-            }
+            $scope.ProductosSelect=data.data.datos;
+            $scope.preloader.estado = false;
         },function(data){
             $scope.ProductosSelect=[];
-            console.log(data.data.message);
+            $scope.preloader.estado = false;
         });
     }
     listarProductos();
+    $scope.cargarProducto=function(){
+        $scope.Productos.forEach(function(ele , index){
+            if($scope.Kit.codigo == ele.codigo){
+                $scope.Kit.producto._id=ele._id+','+ele.nombre;
+            }
+            if (keyEvent.which === 13){
+                $('#Cantidad').focus();
+            }
+        });
+    }
+    $scope.detectar=function(keyEvent){
+        if ($scope.Kit.producto.cantidad>0) {
+            if (keyEvent.which === 13){
+                if ($scope.Kit.producto._id!='') {
+                    $scope.Agregarkit();
+                }
+            }
+        }
+    }
     $scope.AgregarInsumo=function(){
         var controlador=false;
         var obj = {
@@ -145,9 +168,10 @@ angular.module('frontendApp')
         if(!controlador){
             $scope.Producto.Insumos.push(obj);
         }else{
-            console.log('El insumo ya esta añadido');
+            Materialize.toast('El insumo ya esta añadido', 4000);
         }
-        $scope.producto={}
+        $scope.producto.Insumo._id='';
+        $scope.producto.Insumo.cantidad=0;
     }
     $scope.AgregarProceso=function(){
         var controlador=false;
@@ -164,7 +188,7 @@ angular.module('frontendApp')
         if(!controlador){
             $scope.Producto.procesos.push(obj);
         }else{
-            console.log('El proceso ya esta añadido');
+            Materialize.toast('El proceso ya esta añadido', 4000);
         }
         $scope.proceso={}
     }
@@ -175,64 +199,100 @@ angular.module('frontendApp')
         $scope.Producto.Insumos.splice(index,1);
     }
     $scope.abrirModal=function(_id){
-        $scope.Detallemodal.id=_id;
-        $scope.Detallemodal.titulo='Confirmar eliminación';
-        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar el producto?';
-        $('#modalConfirmacion').modal('open');
+        swal({
+            title: "Confirmar Eliminación",
+            text: "¿Esta seguro de borrar el producto?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Borrar!",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true
+        },
+        function(){
+            Borrar(_id);
+        });
     }
-    $scope.Borrar=function(id){
-        $('#modalConfirmacion').modal('close');
-        $scope.Detallemodal={};
-         webServer
+    function Borrar(id){
+        webServer
         .getResource('productos/'+id,{},'delete')
         .then(function(data){
             $scope.Productos.forEach(function(ele, index){
                 if(ele._id==id){
-                    $scope.Productos.splice(ele.index,1);
+                    $scope.Productos.splice(index,1);
                 }
             });
             $scope.ProductosSelect.forEach(function(ele, index){
                 if(ele._id==id){
-                    $scope.ProductosSelect.splice(ele.index,1);
+                    $scope.ProductosSelect.splice(index,1);
                 }
             });
-            $scope.Detallemodal.mensaje='El producto se ha eliminado exitosamente';
+            swal("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data.data.message);
+            swal("Oops...", data.data.message , "error");
         });
-        $scope.Detallemodal.titulo='Notificacion de eliminación';
-        $('#modalNotificacion').modal('open');
     }
     $scope.Agregarkit=function(){
-        var controlador=false;
-        var obj = {
-            _id : $scope.Kit.producto._id.split(',')[0],
-            nombre : $scope.Kit.producto._id.split(',')[1],
-            cantidad : $scope.Kit.producto.cantidad
-        };
-        $scope.Producto.productos.forEach(function(ele, index){
-            if(ele._id==obj._id){
-                controlador=true;
+        if ($scope.Kit.producto._id!='' && $scope.Kit.producto.cantidad>0) {
+            var controlador=false;
+            var obj = {
+                _id : $scope.Kit.producto._id.split(',')[0],
+                nombre : $scope.Kit.producto._id.split(',')[1],
+                cantidad : $scope.Kit.producto.cantidad
+            };
+            $scope.Producto.productos.forEach(function(ele, index){
+                if(ele._id==obj._id){
+                    controlador=true;
+                }
+            });
+            if(!controlador){
+                $scope.Producto.productos.push(obj);
+                $('#codigo_barras').focus();
+            }else{
+                Materialize.toast('El producto ya esta añadido', 4000);
             }
-        });
-        if(!controlador){
-            $scope.Producto.productos.push(obj);
-        }else{
-            console.log('El insumo ya esta añadido');
+            $scope.Kit.producto={};
+            $scope.Kit.producto._id='';
+            $scope.Kit.producto.cantidad=0;
         }
-        $scope.Kit={};
     }
     $scope.Borrarkit=function(index){
         $scope.Producto.productos.splice(index,1);
     }
+    $scope.cambiar=function(){
+        $scope.Producto={};
+        $scope.Producto.unidad_medida={};
+        $scope.Producto.categoria={};
+        $scope.Producto.Insumos=[];
+        $scope.Producto.productos=[];
+        $scope.Producto.procesos=[];
+        $scope.producto={};
+        $scope.producto.Insumo={};
+        $scope.Kit={};
+        $scope.Kit.producto={};
+        $scope.Kit.producto._id='';
+        $scope.Kit.producto.cantidad=0;
+    }
     $scope.EnviarProducto=function(){
+        $scope.preloader.estado = true;
         var ruta="";
         var metodo="";
-        if($scope.check=='producto'){
-            $scope.Producto.productos=null;
+        $scope.Categorias.forEach(function(ele,index){
+            if ($scope.Producto.categoria._id==ele._id) {
+                $scope.Producto.categoria=ele;
+            }
+        });
+        if($scope.check=='kit'){
+            $scope.Producto.Insumos=null;
+            $scope.Producto.tipo='kit';
         }else{
-            $scope.Producto.Insumos=null
+            $scope.Producto.tipo='producto';
+            $scope.Unidades.forEach(function(ele, index){
+                if(ele._id==$scope.Producto.unidad_medida._id){
+                    $scope.Producto.unidad_medida=ele;
+                }
+            });
         }
         if ($scope.panel_title_form=="Registro de Productos") {
             ruta="productos";
@@ -243,53 +303,54 @@ angular.module('frontendApp')
         }
         webServer
         .getResource(ruta,$scope.Producto,metodo)
-        .then(function(data){ 
-            $scope.Producto._id=data.data._id;
-            $scope.Categorias.forEach(function(ele, index){
-                if(ele._id==$scope.Producto.categoria._id){
-                    $scope.Producto.categoria=ele;
-                }
-            });
-            if($scope.check=='producto'){
-                $scope.Unidades.forEach(function(ele, index){
-                    if(ele._id==$scope.Producto.unidad_medida._id){
-                        $scope.Producto.unidad_medida=ele;
-                    }
-                });
-                $scope.ProductosSelect.push($scope.Producto);
-            }
+        .then(function(data){
             if($scope.panel_title_form=="Registro de Productos"){
-                $scope.Productos.push($scope.Producto);
-                $scope.Detallemodal.titulo='Notificacion de registro';
-                $scope.Detallemodal.mensaje='Producto registrado correctamente';
+                $scope.Producto._id=data.data.datos._id;
+                $scope.Producto.producto_consecutivo=data.data.datos.producto_consecutivo;
+                if($scope.check=='producto'){
+                    $scope.Producto.codigo=data.data.datos.codigo;
+                    $scope.ProductosSelect.unshift($scope.Producto);
+                }
+                $scope.Productos.unshift($scope.Producto);
             }else{
                 $scope.Productos[$scope.Producto.index] = $scope.Producto;
-                $scope.Detallemodal.titulo='Notificacion de actualización';
-                $scope.Detallemodal.mensaje='Producto atualizado correctamente';
+                if($scope.check=='producto'){
+                    $scope.ProductosSelect.forEach(function(ele, index){
+                        if(ele._id==$scope.Producto._id){
+                            $scope.ProductosSelect[$scope.Producto.index] = $scope.Producto;
+                        }
+                    });
+                }
                 $scope.panel_title_form = "Registro de Productos";
-	            $scope.button_title_form = "Registrar Producto";
+                $scope.button_title_form = "Registrar Producto";
             }
             $scope.Producto={};
             $scope.Producto.Insumos=[];
             $scope.Producto.productos=[];
             $scope.Producto.procesos=[];
             $scope.check='producto';
+            $scope.preloader.estado = false;
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de eror';
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data);
+            $scope.preloader.estado = false;
+            sweetAlert("Oops...", data.data.message , "error");
         });
-        $('#modalNotificacion').modal('open');
+    }
+    function scroll(){
+        $("html, body").animate({
+            scrollTop: 0
+        }, 1000); 
     }
     $scope.Editar = function(id){
-        $scope.panel_title_form = "Edicion de Productos";
-        $scope.button_title_form = "Editar Producto";
+        $scope.panel_title_form = "Edicion de Producto";
+        $scope.button_title_form = "Actualizar Producto";
         $scope.Producto = IdentificarProducto(id,$scope.Productos);
-        if($scope.Producto.productos){
+        if($scope.Producto.tipo=='kit'){
             $scope.check='kit';
         }else{
             $scope.check='producto';
         }
+        scroll();
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Productos.find(function(ele){
@@ -301,9 +362,44 @@ angular.module('frontendApp')
     }
     $scope.CancelarEditar=function(){
         $scope.Producto={};
+        $scope.Producto.unidad_medida={};
+        $scope.Producto.categoria={};
+        $scope.Producto.Insumos=[];
+        $scope.Producto.productos=[];
+        $scope.Producto.procesos=[];
+        $scope.producto={};
+        $scope.producto.Insumo={};
+        $scope.Kit={};
+        $scope.Kit.producto={};
+        $scope.Kit.producto._id='';
+        $scope.Kit.producto.cantidad=0;
         $scope.panel_title_form = "Registro de Productos";
         $scope.button_title_form = "Registrar Producto";
     }
+
+    /*Validaciones de numeros*/
+    $scope.validarNumeroMinStock=function(){
+        if ($scope.Producto.min_stock<0) {
+            $scope.Producto.min_stock=0;
+        }
+    }
+    $scope.validarNumeroPrecio=function(){
+        if ($scope.Producto.precio<0) {
+            $scope.Producto.precio=0;
+        }
+    }
+    $scope.validarNumeroCantidad=function(){
+        if ($scope.Producto.cantidad<0) {
+            $scope.Producto.cantidad=0;
+        }
+    }
+    $scope.validarNumeroInsumo=function(){
+        if ($scope.producto.Insumo.cantidad<0) {
+            $scope.producto.Insumo.cantidad=0;
+        }
+    }
+    /*Fin de las validaciones*/
+
     $scope.openModalBarCode = function(){
         $('#modalBarCode').modal('open');
     }
@@ -317,7 +413,7 @@ angular.module('frontendApp')
             pro.barcodes = [];
             for(var i = 0; i < $scope.productBarCodeCant; i++){
                 pro.barcodes.push({
-                    code : '100-'+pro._id
+                    code : pro.codigo
                 });
             }
             $scope.productBarCode.push({
@@ -327,7 +423,6 @@ angular.module('frontendApp')
         }
         $scope.productBarCodeCant = null;
         $scope.productBarCodeId = null;
-
     }
     $scope.printBarCodes = function(){
         var container = document.getElementById('containerBarCodesToPrint');
@@ -335,7 +430,9 @@ angular.module('frontendApp')
         newWindow.document.open();
         newWindow.document.appendChild(container);
         newWindow.print();
-        
+        newWindow.close();
+        document.getElementById('superContainer').appendChild(container);
+        $scope.productBarCode = [];
     }
     function IdentificarProducto (id , arrObj){
         var obj;
@@ -345,18 +442,23 @@ angular.module('frontendApp')
                     index: index,
                     _id : ele._id,
                     nombre : ele.nombre,
+                    unidad_medida : ele.unidad_medida,
                     min_stock : ele.min_stock,
                     cantidad : ele.cantidad,
                     marca : ele.marca,
                     categoria : ele.categoria,
-                    unidad_medida : ele.unidad_medida,
                     Insumos : ele.Insumos,
                     procesos : ele.procesos,
                     productos : ele.productos,
-                    precio : ele.precio
+                    precio : ele.precio,
+                    producto_consecutivo : ele.producto_consecutivo,
+                    codigo : ele.codigo,
+                    tipo : ele.tipo,
+                    fabricado : ele.fabricado,
+                    comprado : ele.comprado
                 };
             }
         });
         return obj;
     }
-});
+})

@@ -1,6 +1,6 @@
 <h2 class="titulo-pagina blue accent-4 right-align {{pageAnimate}}">Gestion de productos</h2>
 <div class="contenido">
-	<div class="row">
+	<div class="row" ng-if="Usuario.rol!='Contador'">
 		<div class="col s12">
 			<div class="card-panel panel-default {{panelAnimate}}">
 				<div class="panel-heading blue accent-4">
@@ -10,9 +10,9 @@
 					<form name="formProductos" novalidate ng-submit="EnviarProducto()">
 						<div class="row" ng-disabled="panel_title_form == 'Edicion de Productos'" ng-hide="panel_title_form == 'Edicion de Productos'">
 							<p>
-								<input name="tipo" type="radio" ng-model="check" id="kit" value="kit"/>
+								<input name="tipo" type="radio" ng-click="cambiar()" ng-model="check" id="kit" value="kit"/>
 								<label for="kit">Kit</label>
-								<input name="tipo" type="radio" ng-model="check" id="producto" value="producto" />
+								<input name="tipo" type="radio" ng-click="cambiar()" ng-model="check" id="producto" value="producto" />
 								<label for="producto">Producto</label>
 						    </p>
 						</div>
@@ -29,62 +29,58 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="input-field col s12 m6 l6" ng-show="check=='producto'">								
-								<input type="text" ng-model="Producto.marca" id="marca" name="marca" ng-required="check.producto">
+							<div class="input-field col s12 m6 l6" ng-show="check=='producto'">
+								<input type="text" ng-model="Producto.marca" id="marca" name="marca" ng-required="check=='producto'">
 								<label for="marca">Marca *</label>
 							</div>
-							<div class="input-field col s12 m6 l6" ng-show="check=='producto'">								
-								<input type="number" ng-model="Producto.min_stock" id="min_stock" name="min_stock" ng-required="check.producto">
+							<div class="input-field col s12 m6 l6" ng-show="check=='producto'">
+								<input type="number" ng-change="validarNumeroMinStock()" ng-model="Producto.min_stock" id="min_stock" name="min_stock" ng-required="check=='producto'">
 								<label for="min_stock">Min stock *</label>
 							</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6" ng-show="check=='producto'">
-								<select ng-model="Producto.unidad_medida._id" material-select watch ng-required="check.producto">
+								<select ng-model="Producto.unidad_medida._id" material-select watch ng-required="check=='producto'">
 	      							<option ng-repeat="unidad in Unidades" value="{{unidad._id}}">{{unidad.nombre}}</option>
 								</select>
 								<label>Unidad de medida *</label>
 							</div>
-							<div class="input-field col s12 m6 l6">
-								<input type="number" ng-model="Producto.precio" id="Precio" name="Precio" required>
-								<label for="Precio">Precio *</label>
+							<div class="input-field col s12 m6 l6" ng-show="Usuario.rol=='Super Administrador'">
+								<input type="number" ng-change="validarNumeroPrecio()" ng-model="Producto.precio" id="Precio" name="Precio">
+								<label for="Precio">Precio</label>
 							</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6" ng-show="check=='producto'">
-								<input type="number" ng-model="Producto.cantidad" id="Cantidad" name="Cantidad" ng-required="check.producto">
-								<label for="Cantidad">Cantidad *</label>
+								<input type="number" ng-change="validarNumeroCantidad()" ng-model="Producto.cantidad" id="Cantidad-producto" name="Cantidad-producto" ng-required="check=='producto'">
+								<label for="Cantidad-producto">Cantidad *</label>
 							</div>
+							<p class="col s6 m2 l2" ng-show="check=='producto'">
+								<input type="checkbox" ng-model="Producto.fabricado" id="fabricado"/>
+	      						<label for="fabricado">Fabricado</label>
+							</p>
+							<p class="col s6 m2 l2" ng-show="check=='producto'">
+								<input type="checkbox" ng-model="Producto.comprado" id="comprado" />
+	      						<label for="comprado">Comprado</label>
+							</p>
 						</div>
-						<div class="row" ng-show="check=='producto'">
+						<h4 ng-show="Producto.fabricado && check=='producto'">Insumos de fabricación:</h4>
+						<div class="row" ng-show="check=='producto' && Producto.fabricado">
 							<div class="input-field col s12 m6 l6">
 								<select ng-model="producto.Insumo._id" material-select watch>
 	      							<option ng-repeat="insumo in Insumos" value="{{insumo._id}},{{insumo.nombre}}">{{insumo.nombre}}</option>
 								</select>
-								<label>Insumos *</label>
+								<label>Insumos</label>
 							</div>
 							<div class="input-field col s8 m4 l4">
-								<input type="number" ng-model="producto.Insumo.cantidad" id="Cantidad" name="Cantidad">
-								<label for="Cantidad">Cantidad *</label>
+								<input type="number" ng-change="validarNumeroInsumo()" ng-model="producto.Insumo.cantidad" id="Cantidad-insumo" name="Cantidad-insumo">
+								<label for="Cantidad-insumo">Cantidad</label>
 							</div>
 							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!(producto.Insumo._id) || !(producto.Insumo.cantidad)" ng-click="AgregarInsumo()">Añadir</button>
 						</div>
-						<div class="row" ng-show="check=='kit'">
-							<div class="input-field col s12 m6 l6" >
-								<select ng-model="Kit.producto._id" material-select watch>
-	      							<option ng-repeat="producto in ProductosSelect" value="{{producto._id}},{{producto.nombre}}">{{producto.nombre}}</option>
-								</select>
-								<label>Productos *</label>
-							</div>
-							<div class="input-field col s8 m4 l4">
-								<input type="number" ng-model="Kit.producto.cantidad" id="Cantidad" name="Cantidad">
-								<label for="Cantidad">Cantidad *</label>
-							</div>
-							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!(Kit.producto._id) || !(Kit.producto.cantidad)" ng-click="Agregarkit()">Añadir</button>
-						</div>
 						<div class="row">
-							<div class="input-field col s12 m6 l6" ng-show="check=='producto'">
-								<table class="highlight" ng-hide="Producto.Insumos.length<1">
+							<div class="input-field col s12 m12 l12" ng-show="check=='producto' && Producto.fabricado">
+								<table class="bordered striped" ng-hide="Producto.Insumos.length<1">
 									<thead>
 										<tr>
 											<th data-field="id">Insumo</th>
@@ -101,8 +97,27 @@
 									</tbody>
 						      	</table>
 							</div>
-							<div class="input-field col s12 m6 l6" ng-show="check=='kit'">
-								<table class="highlight" ng-hide="Producto.productos.length<1">
+						</div>
+						<div class="row" ng-hide="check=='producto' && !Producto.fabricado">
+							<div class="input-field col s10 m5 l5" >
+								<select ng-model="Kit.producto._id" material-select watch>
+	      							<option ng-repeat="producto in ProductosSelect" value="{{producto._id}},{{producto.nombre}}">{{producto.nombre}}</option>
+								</select>
+								<label>Productos</label>
+							</div>
+							<div class="input-field col s2 m1 l1">
+								<input type="text" ng-keyup="cargarProducto($event)" ng-model="Kit.codigo" id="codigo_barras" name="codigo_barras">
+							</div>
+							<div class="input-field col s8 m4 l4">
+								<input type="number" ng-keyup="detectar($event)" 
+								ng-model="Kit.producto.cantidad" id="Cantidad" name="Cantidad">
+								<label for="Cantidad">Cantidad</label>
+							</div>
+							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!(Kit.producto._id) || !(Kit.producto.cantidad)" ng-click="Agregarkit()">Añadir</button>
+						</div>
+						<div class="row" ng-hide="check=='producto' && !Producto.fabricado">
+							<div class="input-field col s12 m12 l12">
+								<table class="bordered striped" ng-hide="Producto.productos.length<1">
 									<thead>
 										<tr>
 											<th data-field="id">Producto</th>
@@ -120,16 +135,16 @@
 						      	</table>
 							</div>
 						</div>
-						<div class="row" ng-show="check=='producto'">
+						<div class="row" ng-show="check=='producto' && Producto.fabricado">
 							<div class="input-field col s12 m5 l5">
 								<select ng-model="proceso._id" material-select watch>
-	      							<option ng-repeat="proceso in Procesos" value="{{proceso._id}},{{proceso.nombre}},{{proceso.tipo}}">{{proceso.nombre}}-{{proceso.tipo}}</option>
+	      							<option ng-repeat="proceso in Procesos" value="{{proceso._id}},{{proceso.nombre}},{{proceso.tipo}}">{{proceso.nombre}} - {{proceso.tipo}}</option>
 								</select>
-								<label>Procesos *</label>
-								</div>
+								<label>Procesos</label>
+							</div>
 							<button type="button" class="btn btn-success col s4 m1 l1" ng-disabled="!(proceso._id)" ng-click="AgregarProceso()">Añadir</button>
-							<div class="input-field col s8 m6 l6">
-								<table class="highlight" ng-hide="Producto.procesos.length<1">
+							<div class="input-field col s12 m6 l6">
+								<table class="bordered striped" ng-hide="Producto.procesos.length<1">
 									<thead>
 										<tr>
 											<th data-field="id">Proceso</th>
@@ -148,11 +163,13 @@
 							</div>							
 						</div>
 						<div class="row">
-							<div class="col s12 m6 l4">
-								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formProductos.$invalid || ((check=='producto' && Producto.Insumos.length<1) ||(check=='producto' && Producto.procesos.length<1)) || (check=='kit' && Producto.productos.length<1)">{{button_title_form}}</button>
+							<div class="col">
+								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formProductos.$invalid || (check=='producto' && !Producto.fabricado && !Producto.comprado) || (check=='kit' && Producto.productos.length<1)">{{button_title_form}}</button>
 							</div>
-						</div>						
-						<button type="button" class="btn btn-danger" ng-show="panel_title_form == 'Edicion de Productos'" ng-click="CancelarEditar()">Cancelar</button>
+							<div class="col">
+								<button type="button" class="btn btn-large btn-danger" ng-click="CancelarEditar()">Cancelar</button>
+							</div>
+						</div>
 					</form>
 				</div>
 			</div>
@@ -177,15 +194,16 @@
     	<h4 class="modal-title blue accent-4">{{Detalle.nombre}}</h4>
     	<div class="row">
     		<ul>
+    		<li> Codigo: {{Detalle.codigo || 'No registra'}}</li>
 			<li> Nombre: {{Detalle.nombre || 'No registra'}}</li>
-			<li ng-show="Detalle.Insumos.length>0"> Unidad de medida: {{Detalle.unidad_medida.nombre || 'No registra'}}</li>
-			<li ng-show="Detalle.Insumos.length>0"> Minimo stock: {{Detalle.min_stock || 'No registra'}}</li>
-			<li ng-show="Detalle.Insumos.length>0"> Marca: {{Detalle.marca || 'No registra'}}</li>
+			<li ng-show="Detalle.tipo=='producto'"> Minimo stock: {{Detalle.min_stock || 'No registra'}}</li>
+			<li ng-show="Detalle.tipo=='producto'"> Marca: {{Detalle.marca || 'No registra'}}</li>
 			<li> Categoria: {{Detalle.categoria.nombre || 'No registra'}}</li>
 			<li ng-show="Usuario.rol!='Almacenista'"> Precio: {{Detalle.precio || 'No registra'}}</li>
-			<li> Cantidad: {{Detalle.cantidad || 'No registra'}}</li>
-			<li ng-show="Detalle.procesos.length>0"> Procesos:</li>
-			<table class="highlight" ng-show="Detalle.procesos.length>0">
+			<li> Cantidad: {{Detalle.cantidad}} {{Detalle.unidad_medida.nombre}}</li>
+			<li> Tipo: {{Detalle.tipo}}</li>
+			<li ng-show="Detalle.procesos.length>0"> <h4>Procesos:</h4></li>
+			<table class="bordered striped" ng-show="Detalle.procesos.length>0">
 		        <thead>
 		        	<tr>
 						<th data-field="id">Proceso</th>
@@ -199,8 +217,8 @@
 		          	</tr>
 		        </tbody>
 		    </table>
-			<li ng-show="Detalle.Insumos.length>0"> Insumos:</li>
-			<table class="highlight" ng-show="Detalle.Insumos.length>0">
+			<li ng-show="Detalle.Insumos.length>0"> <h4>Insumos:</h4></li>
+			<table class="bordered striped" ng-show="Detalle.Insumos.length>0">
 		        <thead>
 		        	<tr>
 						<th data-field="id">Insumo</th>
@@ -214,8 +232,8 @@
 		          	</tr>
 		        </tbody>
 		    </table>
-			<li ng-show="Detalle.productos.length>0"> Productos:</li>
-			<table class="highlight" ng-show="Detalle.productos.length>0">
+			<li ng-show="Detalle.productos.length>0"> <h4>Productos:</h4></li>
+			<table class="bordered striped" ng-show="Detalle.productos.length>0">
 		        <thead>
 		        	<tr>
 						<th data-field="id">Producto</th>
@@ -268,7 +286,7 @@
 					<tr ng-repeat="item in productBarCode">
 						<td>{{item.producto.nombre}}</td>
 						<td>{{item.cantidad}}</td>
-						<td><io-barcode code="100-{{item.producto._id}}" type="CODE128B" options="bc"></io-barcode></td>
+						<td><io-barcode code="{{item.producto.codigo}}" type="CODE128B" options="bc"></io-barcode></td>
 						<td><button type="button" class="btn btn-danger" ng-click="productBarCode.splice($index , 1)">Eliminar</button></td>
 					</tr>
 				</tbody>
@@ -278,7 +296,10 @@
 				<div id="containerBarCodesToPrint" ng-show="false">
 					<div ng-repeat="item in productBarCode">
 						<h2>{{item.producto.nombre}}</h2>
-						<io-barcode ng-repeat="code in item.producto.barcodes" code="{{code.code}}" type="CODE128B" options="bc" style="margin-top: 10px"></io-barcode>
+						<div ng-repeat="code in item.producto.barcodes" style="width: 220px; display: inline-block;" style="margin-top: 20px">
+							<div style="width: 220px;   text-align: center; margin-bottom: 0px;">{{item.producto.nombre.toUpperCase()}}</div>
+							<io-barcode code="{{code.code}}" type="CODE128B" options="bc"style="margin-top: 0px"></io-barcode>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -286,28 +307,5 @@
 	</div>
     <div class="modal-footer">
       	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Cerrar</a>
-    </div>
-</div>
-<div id="modalNotificacion" class="modal modal-fixed-footer">
-    <div class="modal-content">
-    <h4 class="modal-title">{{Detallemodal.titulo}}</h4>
-    	<div class="row">
-    		<h5>{{Detallemodal.mensaje}}</h5>
-    	</div>
-	</div>
-    <div class="modal-footer">
-      	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Ok</a>
-    </div>
-</div>
-<div id="modalConfirmacion" class="modal modal-fixed-footer">
-    <div class="modal-content">
-    <h4 class="modal-title">{{Detallemodal.titulo}}</h4>
-    	<div class="row">
-    		<h5>{{Detallemodal.mensaje}}</h5>
-    	</div>
-	</div>
-    <div class="modal-footer">
-      	<button type="submit" ng-click="Borrar(Detallemodal.id)" class="modal-action waves-effect waves-green btn-flat">Confirmar</button>
-	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
     </div>
 </div>

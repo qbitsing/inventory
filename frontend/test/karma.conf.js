@@ -59,6 +59,7 @@ module.exports = function(config) {
       '../bower_components/angular-materialize/src/angular-materialize.js',
       '../bower_components/angular-barcode/dist/angular-barcode.min.js',
       '../bower_components/angular-io-barcode/build/angular-io-barcode.js',
+      '../bower_components/sweetalert/dist/sweetalert.min.js',
       '../bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

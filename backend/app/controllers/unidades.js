@@ -3,7 +3,7 @@
 const unidadModel = require('../models/unidades');
 
 function listarAll (req, res){
-	unidadModel.find({} , (err , datos , count)=>{
+	unidadModel.find({} ,null, {short: {nombre: 1}}, (err , datos , count)=>{
         if(err) {
             return res.status(500).send({
                 message : `ERROR al obtener la lista de unidades ${err}`
@@ -28,21 +28,22 @@ function crear (req, res) {
         if(err) return res.status(500).send({message : `ERROR al guardar la unidad en la DB ${err}`});
 
         return res.status(200).send({
-            datos
+            datos,
+            message: 'Unidad de medida registrada con exito'
         });
     });
 }
 
 function eliminar(req , res){
     let unidadId = req.params.id;
-	unidadModel.findByIdAndRemove(unidadId , (err)=>{
+	unidadModel.findByIdAndUpdate(unidadId ,req.body, (err)=>{
 		if(err){
 			return res.status(500).send({
-				message : `ERROR al intentar eliminar la unidad ${err}`
+				message : `ERROR al intentar editar la unidad ${err}`
 			});
 		}
 		return res.status(200).send({
-			message : `Unidad eliminada con exito`
+			message : `Unidad editada con exito`
 		});
 	});
 }

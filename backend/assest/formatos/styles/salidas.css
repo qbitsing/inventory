@@ -1,0 +1,173 @@
+.factura{
+    background: #fff;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.header {
+    position: relative;
+}
+.factura .first-part{
+    width: 33%;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.factura .first-part .logo-header{
+    width: 100%;
+    height: auto;
+}
+
+.factura .first-part .title-header{
+    text-align: center;
+    font-size: 10px;
+    text-transform: uppercase;
+    margin: 0 !important;
+}
+
+.factura .first-part .subtitle-header{
+    text-align: center;
+    font-size: 7px;
+    text-transform: uppercase;
+    margin: 0 !important;
+}
+.factura .first-part .nit{
+    text-align: center;
+    font-size: 7px;
+    text-transform: capitalize;
+    margin-top: 4px;
+}
+.factura .first-part .description-head{
+    text-align: center;
+    font-size: 7px;
+    text-transform: capitalize;
+}
+
+.factura .first-part .description-head span{
+    text-transform: lowercase;
+}
+
+.factura .second-part{
+    width: 40%;
+    overflow: hidden;
+    display: inline-block;
+    padding-left: 20px;
+    margin-bottom: 30px;
+}
+
+.factura .second-part ul li{
+    font-size: 7px;
+}
+
+.factura .last-part{
+    width: 22%;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 10px;
+}
+
+.factura .last-part .title-last-part{
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 0 !important;
+}
+
+.factura .last-part .no-factura{
+    width: 100%;
+    height: 30px;
+    border: solid 1px;
+    border-radius: 7px;
+    font-size: 20px;
+    text-align: center; 
+}
+
+.factura .last-part>p{
+    text-align: center;
+    width: 100%;
+    font-size: 7px;
+    text-transform: capitalize;
+    font-weight: bold;
+    margin: 0;
+    margin-top: 5px;
+}
+
+table{
+    text-transform: uppercase;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.table-header, .table-body{
+    border: solid 1px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table-header, .table-body{
+    border: solid 1px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.formato-table tr td{
+    border:  solid 1px;
+    font-size: 10px;
+    height: 11px;
+    padding: 3px;
+}
+
+.formato-table tr:first-child td{
+    border-top: none;
+}
+
+.formato-table tr td:first-child{
+    border-left:  none;
+}
+
+.formato-table tr td:last-child {
+    border-right: none; 
+}
+
+.black{
+    background: #000;
+    color: #fff;
+    font-weight: bold;
+}
+
+.black td{
+    text-align: center;
+}
+
+.firmas {
+    padding-top: 10px;
+    text-align: center;
+}
+
+.firmas p {
+    width: 40%;
+    display: inline-block;
+    border-top: solid 1px;
+    text-align: center;
+    margin-left: 40px;
+    text-transform: capitalize;
+}
+
+.formato-contenido {
+    padding-left: 5px;
+}
+
+.width15{
+    width: 15%;
+}
+
+.width70{
+    width: 70%;
+}
+
+.width85{
+    width: 85%;
+}
+.width33{
+    width: 33.33%;
+}

@@ -13,6 +13,13 @@ const entradas = require('./entradas');
 const salidas = require('./salidas');
 const fabricacion = require('./fabricacion');
 const procesos = require('./procesos');
+const remision = require('./remicion');
+const entradaRemision = require('./entradas-remision');
+const salidasFabricacion = require('./salidas-fabricacion.js');
+const facturas = require('./facturas');
+const historial = require('./historial');
+const dian = require('./dian');
+
 
 const controllers = {
 	personas,
@@ -27,7 +34,13 @@ const controllers = {
 	entradas,
 	salidas,
 	fabricacion,
-	procesos
+	procesos,
+	remision,
+	entradaRemision,
+	salidasFabricacion,
+	facturas,
+	historial,
+	dian
 };
 
 module.exports = controllers;

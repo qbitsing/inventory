@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-.controller('EmpleadosCtrl', function ($scope, $timeout, Tabla, BotonesTabla, webServer){
+.controller('EmpleadosCtrl', function ($state, $scope, $timeout, Tabla, BotonesTabla, webServer, preloader, server){
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -23,8 +23,13 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
+    $scope.server=server;
+    $scope.preloader = preloader;
     $scope.panelAnimate='';
-    $scope.pageAnimate='';  
+    $scope.pageAnimate='';
+    if ($scope.Usuario.rol=='Contador' || $scope.Usuario.rol=='Almacenista') {
+        $state.go('Home');
+    } 
     $timeout(function(){
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
@@ -33,7 +38,6 @@ angular.module('frontendApp')
     $scope.button_title_form = "Registrar Empleado";
     $scope.Empleado={};
     $scope.Empleado.rol=null;
-    $scope.Detallemodal={};
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
@@ -49,7 +53,7 @@ angular.module('frontendApp')
             },
             { 
                 field: 'telefono',
-                width:'20%',
+                width:'15%',
                 minWidth: 160
             },
             { 
@@ -65,28 +69,69 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptions , Tabla);
-
+    var handleFileSelect=function(evt) {
+        angular.element(document.querySelector('#inputval')).text( $(this).val());
+        var file=evt.currentTarget.files[0];
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+          $scope.$apply(function($scope){
+            $scope.contador=4;
+            $scope.myImage=evt.target.result;
+          });
+        };
+        reader.readAsDataURL(file);
+    };
+    angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
+    $scope.cambiar=function(act){
+        if(act==1 && $scope.contador<3){
+            $scope.contador=1;
+        }else if(act==2){
+            $scope.contador++;
+        }
+        if($scope.contador>=3){
+            $scope.cambio=true;
+        }
+    }
     $scope.EnviarEmpleado=function(){
+        $scope.preloader.estado = true;
         switch($scope.Empleado.rol) {
             case 'super_administrador':
                 $scope.Empleado.super_administrador=true;
+                $scope.Empleado.contador=false;
+                $scope.Empleado.almacenista=false;
+                $scope.Empleado.empleado=false;
                 break;
             case 'contador':
                 $scope.Empleado.contador=true;
+                $scope.Empleado.super_administrador=false;
+                $scope.Empleado.almacenista=false;
+                $scope.Empleado.empleado=false;
                 break;
             case 'almacenista':
                 $scope.Empleado.almacenista=true;
+                $scope.Empleado.contador=false;
+                $scope.Empleado.super_administrador=false;
+                $scope.Empleado.empleado=false;
                 break;
             case 'empleado':
                 $scope.Empleado.empleado=true;
+                $scope.Empleado.contador=false;
+                $scope.Empleado.super_administrador=false;
+                $scope.Empleado.almacenista=false;
                 break;
         }
         var ruta="";
         var metodo="";
         if ($scope.panel_title_form=="Registro de Empleados") {
+            $scope.Empleado.myImage=$scope.myCroppedImage;
+            $scope.Empleado.Image=$scope.myImage;
             ruta="personas";
             metodo="post";
         }else{
+            if ($scope.cambio) {
+                $scope.Empleado.myImage=$scope.myCroppedImage;
+                $scope.Empleado.Image=$scope.myImage;
+            }
             ruta="personas/"+$scope.Empleado._id;
             metodo="put";
         }
@@ -94,62 +139,73 @@ angular.module('frontendApp')
         .getResource(ruta,$scope.Empleado,metodo)
         .then(function(data){
             if($scope.panel_title_form=="Registro de Empleados"){
-                $scope.Empleados.push($scope.Empleado);
-                $scope.Detallemodal.titulo='Notificacion de registro';
-                $scope.Detallemodal.mensaje='Empleado registrado correctamente';
+                $scope.Empleado._id=data.data.datos._id;
+                $scope.Empleados.unshift($scope.Empleado);
             }else{
                 $scope.Empleados[$scope.Empleado.index] = $scope.Empleado;
-                $scope.Detallemodal.titulo='Notificacion de actualización';
-                $scope.Detallemodal.mensaje='Empleado actualizado correctamente';
             }
+            $scope.Empleado ={};
+            $scope.myImage='';
+            $scope.panel_title_form = "Registro de Empleados";
+            $scope.button_title_form = "Registrar Empleado";
+            $scope.preloader.estado = false;
+            sweetAlert("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de eror';
-            $scope.Detallemodal.mensaje=data.data.message;
-            alert(data.data.message);
+            $scope.preloader.estado = false;
+            sweetAlert("Oops...", data.data.message , "error");
         });
-        $('#modalNotificacion').modal('open');
     }
     $scope.Detalles = function(id){
         $scope.Detalle = $scope.Empleados.find(function(ele){
-            if(ele.documento == id){
+            if(ele._id == id){
                 return ele;
             }
         });
         if($scope.Detalle.super_administrador){
-            $scope.Detalle.rol='super_administrador';
+            $scope.Detalle.rol='Super Administrador';
         }else if($scope.Detalle.contador){
-            $scope.Detalle.rol='contador';
+            $scope.Detalle.rol='Contador';
         }else if($scope.Detalle.almacenista){
-            $scope.Detalle.rol='almacenista';
-        }else if($scope.Detalle.empleadon){
-            $scope.Detalle.rol='empleado';
+            $scope.Detalle.rol='Almacenista';
+        }else if($scope.Detalle.empleado){
+            $scope.Detalle.rol='Empleado';
         }
         $('#modalDetalles').modal('open');
     }
     $scope.abrirModal=function(_id){
-        $scope.Detallemodal.id=_id;
-        $scope.Detallemodal.titulo='Confirmar eliminación';
-        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar el empleado?';
-        $('#modalConfirmacion').modal('open');
+        swal({
+            title: "Confirmar Eliminación",
+            text: "¿Esta seguro de borrar el empleado de la base de datos?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Borrar!",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+        },
+        function(){
+            Borrar(_id);
+        });
     }
-    $scope.Borrar=function(id){
-        $('#modalConfirmacion').modal('close');
-        $scope.Detallemodal={};
+    function Borrar(id){
         webServer
-        .getResource('empleados/'+id,{},'delete')
+        .getResource('personas/'+id,{},'delete')
         .then(function(data){
             $scope.Empleados.forEach(function(ele, index){
                 if(ele._id==id){
-                    $scope.Empleados.splice(ele.index,1);
+                    $scope.Empleados.splice(index,1);
                 }
             });
-            $scope.Detallemodal.mensaje='El empleado se ha eliminado exitosamente';
+            swal("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data.data.message);
+            swal("Oops...", data.data.message , "error");
         });
-        $scope.Detallemodal.titulo='Notificacion de eliminación';
-        $('#modalNotificacion').modal('open');
+    }
+    function scroll(){
+        $("html, body").animate({
+            scrollTop: 0
+        }, 1000); 
     }
     $scope.Editar = function(id){
         $scope.Empleado = IdentificarPersona(id,$scope.Empleados);
@@ -162,26 +218,35 @@ angular.module('frontendApp')
         }else if($scope.Empleado.empleado){
             $scope.Empleado.rol='empleado';
         }
-        $scope.panel_title_form = "Edicion de Empleados";
-        $scope.button_title_form = "Editar Empleado";
+        $scope.myImage=$scope.Empleado.myImage || '';
+        $scope.panel_title_form = "Edicion de Empleado";
+        $scope.button_title_form = "Actualizar Empleado";
+        scroll();
     }
     $scope.CancelarEditar=function(){
         $scope.Empleado={};
+        $scope.myImage='';
         $scope.panel_title_form = "Registro de Empleados";
         $scope.button_title_form = "Registrar Empleado";
     }
+    /*Validaciones de numeros*/
+    $scope.validarNumero=function(id){
+        if ($scope.Empleado.telefono<0) {
+            $scope.Empleado.telefono=0;
+        }
+    }
+    /*Fin de las validaciones*/
     function listarpersonas(){
+        $scope.preloader.estado=true;
         webServer
-        .getResource('personas',{empleado:true},'get')
+        .getResource('personas',{empleado:true,contador:true,almacenista:true,super_administrador:true  },'get')
         .then(function(data){
-            if(data.data){
-                $scope.Empleados=data.data.datos;
-                $scope.gridOptions.data = data.data.datos;
-            }else{
-                $scope.gridOptions.data =[];
-            }
+            $scope.Empleados=data.data.datos;
+            $scope.gridOptions.data = data.data.datos;
+            $scope.preloader.estado=false;
         },function(data){
-            alert(data.data.message);
+            $scope.Empleados=[];
+            $scope.preloader.estado=false;
         });
     }
     listarpersonas();
@@ -198,13 +263,15 @@ angular.module('frontendApp')
                     direccion : ele.direccion,
                     telefono : ele.telefono,
                     correo : ele.correo,
+                    super_administrador : ele.super_administrador,
                     almacenista : ele.almacenista,
                     contador : ele.contador,
                     empleado : ele.empleado,
-                    cargo : ele.cargo
+                    cargo : ele.cargo,
+                    myImage : ele.Image
                 };
             }
         });
         return obj;
     }
-});
+})

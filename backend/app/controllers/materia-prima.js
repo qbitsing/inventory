@@ -4,7 +4,7 @@ const materiaPrimaModel = require('../models/materia-prima');
 const unidadMedidaModel = require('../models/unidades');
 
 function listarAll(req, res){
-    materiaPrimaModel.find({}, (err , materiaPrimaStored)=>{
+    materiaPrimaModel.find({},null, {sort: {nombre: 1}} , (err , materiaPrimaStored)=>{
         if(err){
             return res.status(500).send({
                 message: `ERROR al intentar obtener la lista de materia prima ${err}`
@@ -74,6 +74,7 @@ function crear(req, res){
             }
 
             return res.status(200).send({
+                message: 'Materia prima registrada con exito',
                 datos: materiaPrimaStored
             });
         });

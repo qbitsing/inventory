@@ -1,0 +1,18 @@
+.tableHead{
+  text-align: center;
+  width: 100%;
+  font-size: 10px;
+}
+
+.tdLogoContainer{
+  width: 25%;
+  overflow: hidden;
+}
+.tableHeadOrden{
+  border-left: solid 1px #000 !important;
+}
+.logo{
+  width: 80%;
+  height: auto;
+}
+

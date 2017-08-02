@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const db = require('./app/bd.config.js');
 const controllers = require('./app/controllers/all-controllers');
+const fs = require('fs');
 
 
 const app = express();
@@ -14,11 +15,13 @@ app.use(bodyParser.urlencoded({ extended: true , limit: '5mb'}));
 app.use(express.static(__dirname+'/assest'));
 app.use(bodyParser.json({limit: '5mb'}));
 app.use(function(req,res,next){
-	res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    next();
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  next();
 })
+
+
 
 // Bloque de Rutas de personas
 app.get('/personas', controllers.personas.listarAll);
@@ -42,6 +45,8 @@ app.get('/ciudades', controllers.ciudades.listarAll);
 app.get('/ciudades/:id' , controllers.ciudades.listarById);
 
 app.post('/ciudades' , controllers.ciudades.crear);
+
+app.post('/ciudades/restaurar' , controllers.ciudades.restaurar);
 // Fin Bloque de rutas de ciudades
 
 // Bloque de rutas de departamentos
@@ -50,12 +55,14 @@ app.get('/departamentos', controllers.departamentos.listarAll);
 app.get('/departamentos/:id' , controllers.departamentos.listarById);
 
 app.post('/departamentos' , controllers.departamentos.crear);
+
+app.post('/departamentos/restaurar', controllers.departamentos.restuarar);
 // Fin Bloque de rutas de departamentos
 
 // Bloque de rutas de unidades
 app.get('/unidades', controllers.unidades.listarAll);
 
-app.delete('/unidades/:id' , controllers.unidades.eliminar);
+app.put('/unidades/:id' , controllers.unidades.eliminar);
 
 app.post('/unidades' , controllers.unidades.crear);
 // Fin Bloque de rutas de unidades
@@ -71,11 +78,10 @@ app.delete('/materiaPrima/:id' , controllers.materiaPrima.eliminar);
 
 app.post('/materiaPrima' , controllers.materiaPrima.crear);
 // Fin Bloque de rutas de materiaPrima
-
 // Bloque de rutas de categorias
 app.get('/categorias', controllers.categoria.listarAll);
 
-app.delete('/categorias/:id' , controllers.categoria.eliminar);
+app.put('/categorias/:id' , controllers.categoria.eliminar);
 
 app.post('/categorias' , controllers.categoria.crear);
 // Fin Bloque de rutas de categorias
@@ -86,6 +92,8 @@ app.post('/productos', controllers.productos.crear);
 app.delete('/productos/:id' , controllers.productos.eliminar);
 
 app.get('/productos' , controllers.productos.listarAll);
+
+app.get('/productos/valance' , controllers.productos.valance);
 
 app.get('/productos/:id' , controllers.productos.listarById);
 
@@ -114,6 +122,8 @@ app.get('/orden_venta' , controllers.ordenVenta.listarAll);
 app.get('/orden_venta/:id' , controllers.ordenVenta.listarById);
 
 app.put('/orden_venta/:id' , controllers.ordenVenta.actualizar);
+
+app.put('/orden_venta/finalizar/:id' , controllers.ordenVenta.finalizar);
 // Fin Bloque de rutas de orden_venta
 
 // Bloque de rutas de entradas
@@ -137,6 +147,17 @@ app.get('/salidas' , controllers.salidas.listarAll);
 app.get('/salidas/:id' , controllers.salidas.listarById);
 // Fin Bloque de rutas de salidas
 
+//Bloque de Rutas de Salidas de Fabricacion
+
+app.post('/fabricacion/insumos', controllers.salidasFabricacion.crear);
+
+app.get('/fabricacion/insumos', controllers.salidasFabricacion.listarAll);
+
+app.put('/fabricacion/insumos/:id', controllers.salidasFabricacion.eliminar);
+
+
+//Fin Bloque de Rutas de Salidas de Fabricacion
+
 // Bloque de rutas de fabricacion
 app.get('/fabricacion', controllers.fabricacion.listarAll);
 
@@ -145,6 +166,8 @@ app.get('/fabricacion/:id', controllers.fabricacion.listarById);
 app.post('/fabricacion', controllers.fabricacion.crear);
 
 app.put('/fabricacion/:id', controllers.fabricacion.actualizar);
+
+app.delete('/fabricacion/:id', controllers.fabricacion.eliminar);
 // Fin Bloque de rutas de fabricacion
 
 //Bloque de rutas de procesos
@@ -159,12 +182,70 @@ app.put('/procesos/:id', controllers.procesos.actualizar);
 app.delete('/procesos/:id', controllers.procesos.eliminar);
 //Fin Bloque de rutas de procesos
 
+// Bloque de Rutas de Remision
+app.get('/remision', controllers.remision.listarAll);
+
+app.get('/remision/:id', controllers.remision.listarById);
+
+app.post('/remision', controllers.remision.crear);
+
+app.put('/remision/:id', controllers.remision.eliminar);
+//Fin Bloque de Rutas de Remision
+
+//Bloque de Rutas de Entradas de Remicion
+app.post('/entrada/remision' , controllers.entradaRemision.crear);
+
+app.get('/entrada/remision' , controllers.entradaRemision.listarAll);
+
+app.get('/entrada/remision/:id' , controllers.entradaRemision.listarById);
+
+app.put('/entrada/remision/:id' , controllers.entradaRemision.eliminar);
+//Fin BLoque de Rutas Entradas de Remicion
+
+//Bloque de rutas de facturas
+
+app.get('/facturas' , controllers.facturas.listarAll);
+
+app.get('/facturas/:id' , controllers.facturas.listarById);
+
+app.post('/facturas' , controllers.facturas.crear);
+
+app.put('/facturas/:id' , controllers.facturas.anular);
+
+//Fin Bloque de rutas de facturas
+
+app.post('/resolucion', controllers.dian.set);
+app.get('/resolucion', controllers.dian.get);
+
+// Historial
+
+app.get('/historial/:fechaInicial/:fechaFinal', controllers.historial.buscar);
+
+// Fin Historial
+
+app.get('/imagen/:id', (req, res) => {
+  let id = req.params.id;
+
+  if(fs.existsSync(`assest/users/${id}/myImage.png`))
+    res.redirect(`/users/${id}/myImage.png`);
+  else
+    res.redirect('http://img.freepik.com/iconos-gratis/perfil-silueta-usuario_318-40557.jpg?size=338&ext=jpg');
+});
+app.get('/imagen1/:id', (req, res) => {
+  let id = req.params.id;
+
+  if(fs.existsSync(`assest/users/${id}/myImage.png`))
+    res.redirect(`/users/${id}/myImage.png`);
+  else
+    res.redirect('http://img.freepik.com/iconos-gratis/perfil-silueta-usuario_318-40557.jpg?size=338&ext=jpg');
+});
+
 mongoose.connect(`mongodb://${db.user}:${db.pass}@${db.host}:${db.port}/${db.data}`, (err , res) => {
-	if(err){
-		return console.log(`ERROR al conectar con la BD: ${err}`);
-	};
-	console.log('Conexión con la base de datos establecida');
-	app.listen(port, () => {
-		console.log(`Api REST corriendo en: http://localhost:${port}`);
-	});
+  if(err){
+    return console.log(`ERROR al conectar con la BD: ${err}`);
+  };
+  console.log('Conexión con la base de datos establecida');
+  app.listen(port, () => {
+    console.log(`Api REST corriendo en: http://localhost:${port}`);
+  });  
 });

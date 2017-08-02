@@ -7,7 +7,7 @@ const procesosModel = require('../models/procesos');
 
 let listarAll = co.wrap(function * (req, res){
   try{
-    let datos = yield procesosModel.find({});
+    let datos = yield procesosModel.find({},null, {short: {nombre: 1}});
     if(datos.length > 0){
       return res.status(200).send({
         datos
@@ -48,10 +48,10 @@ let listarById = co.wrap(function * (req, res){
 let crear = co.wrap(function * (req, res){
   try {
     let proceso = new procesosModel(req.body);
-    proceso = yield proceso.save();
+    let datos = yield proceso.save();
     return res.status(200).send({
       message: 'Proceso registrado con exito',
-      datos: proceso._id
+      datos
     });
   } catch (e) {
     return res.status(500).send({
@@ -63,7 +63,7 @@ let crear = co.wrap(function * (req, res){
 let actualizar = co.wrap(function * (req, res){
   try {
     let procesoId = req.params.id;
-
+    delete req.body._id;
     let proceso = yield procesosModel.findOneAndUpdate(procesoId, req.body);
 
     return res.status(200).send({

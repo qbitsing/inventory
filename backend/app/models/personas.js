@@ -15,19 +15,17 @@ const personaSchema = Schema({
     nombre : String,
     apellidos : String,
     direccion : String,
-    telefono : Number,
+    telefono : String,
     correo : {
         type : String, 
-        unique : true, 
-        required : [
-            true, 
-            'el correo es requerido'
-        ]
+        unique : true
     },
     contrasena : String,
     proveedor:Boolean,
+    proveedorproductos: Boolean,
+    proveedorfabricacion: Boolean,
     cliente:Boolean,
-    administardor:Boolean,
+    super_administrador:Boolean,
     almacenista:Boolean,
     contador:Boolean,
     empleado:Boolean,
@@ -35,7 +33,7 @@ const personaSchema = Schema({
     contacto: String,
     fax : Number,
     cargo: String,
-    imagen: String
+    Image: String
 });
 
 module.exports = mongoose.model('persona' , personaSchema);

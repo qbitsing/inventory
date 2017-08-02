@@ -8,7 +8,7 @@
  * Controller of the frontendApp
  */
 angular.module('frontendApp')
-  .controller('OrdenVentaCtrl', function ($scope, $timeout, webServer, Tabla, BotonesTabla) {
+  .controller('OrdenVentaCtrl', function ($scope, $state, $timeout, webServer, Tabla, BotonesTabla, preloader) {
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -23,34 +23,63 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
+    $scope.estadoactivoorden='Activo';
+    $scope.estadosalidasorden='Con Salidas';
+    $scope.estadofinalizadoorden='Finalizado';
+    $scope.preloader = preloader;
     $scope.panelAnimate='';
-    $scope.pageAnimate='';  
+    $scope.pageAnimate='';
     $timeout(function () {
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
     },100);
     $scope.panel_title_form = "Registro de venta";
     $scope.button_title_form = "Registrar venta";
+    $scope.noDisponible=[];
     $scope.Orden={};
-    $scope.Detallemodal={};
     $scope.Orden.productos=[];
-    var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editar+BotonesTabla.Borrar+'</div>';
+    $scope.Orden.Producto={};
+    $scope.Orden.Producto._id='';
+    var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
+    if ($scope.Usuario.rol=='Super Administrador') {
+        casillaDeBotones+=BotonesTabla.Editarorden+BotonesTabla.Finalizar;
+    }
+    if ($scope.Usuario.rol!='Almacenista') {
+        casillaDeBotones+=BotonesTabla.Factura;
+    }
+    casillaDeBotones+='</div>';
     $scope.gridOptions = {
         columnDefs: [
             {
-                name:'Numero de orden interna',field: 'consecutivo',
-                width:'20%',
-                minWidth: 200
+                name:'No. de orden',field: 'orden_venta_consecutivo',
+                width:'10%',
+                minWidth: 100
             },
             {
                 name:'cliente',field: 'cliente.nombre',
-                width:'40%',
-                minWidth: 250
+                width:'15%',
+                minWidth: 150
+            },
+            {
+                name:'Orden de cliente',field: 'orden_compra_cliente',
+                width:'12%',
+                minWidth: 100
+            },
+            {
+                name:'fecha de solicitud',
+                width:'15%',
+                cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha_recepcion)}}</div>',
+                minWidth: 150
+            },
+            { 
+                field: 'estado',
+                width:'13%',
+                minWidth: 100
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
-                width:'40%',
-                minWidth: 230
+                width:'35%',
+                minWidth: 420
             }
         ]
     }
@@ -63,77 +92,103 @@ angular.module('frontendApp')
         webServer
         .getResource('personas',{cliente:true},'get')
         .then(function(data){
-            if(data.data){
-                $scope.clientes = data.data.datos;
-            }else{
-                $scope.clientes = [];
-            }
+            $scope.clientes = data.data.datos;
             listarProductos();
         },function(data){
             $scope.clientes = [];
-            console.log(data);
             listarProductos();
         });
     }
     function listarProductos(){
         webServer
-        .getResource('productos',{},'get')
+        .getResource('productos',{producto:true,kit:true},'get')
         .then(function(data){
             if(data.data){
                 $scope.productos=data.data.datos;
             }else{
                 $scope.productos=[];
             }
+            listarSalidas();
         },function(data){
-            $scope.materias=[];
-            console.log(data.data.message);
+            $scope.productos=[];
+            listarSalidas();
+        });
+    }
+    function listarSalidas(){
+        webServer
+        .getResource('salidas',{},'get')
+        .then(function(data){
+            $scope.Salidas=data.data.datos;
+            $scope.preloader.estado=false;
+        },function(data){
+            $scope.Salidas=[];
+            $scope.preloader.estado=false;
         });
     }
     function listarOrdenes(){
+        $scope.preloader.estado=true;
         webServer
-        .getResource('orden_venta',{},'get')
+        .getResource('orden_venta',{Salidas:true, Finalizado:true, Activo:true},'get')
         .then(function(data){
-            if(data.data){
-                $scope.Ordenes=data.data.datos;
-                $scope.gridOptions.data=$scope.Ordenes;
-                $scope.Orden.consecutivo=0;
-                $scope.Ordenes.forEach(function(ele, index){
-                    if(ele.consecutivo>=$scope.Orden.consecutivo){
-                        $scope.Orden.consecutivo=ele.consecutivo;
-                    }
-                });
-                $scope.Orden.consecutivo=$scope.Orden.consecutivo+1; 
-            }else{
-                $scope.Orden.consecutivo='1';
-                $scope.Ordenes=[];
-                $scope.gridOptions.data=$scope.Ordenes;
-            }
+            $scope.Ordenes=data.data.datos;
+            $scope.gridOptions.data=$scope.Ordenes;
             listarPersonas();
         },function(data){
-            $scope.Orden.consecutivo='1';
             $scope.Ordenes=[];
             $scope.gridOptions.data=$scope.Ordenes;
-            console.log(data.data.message);
             listarPersonas();
         });
     }
     listarOrdenes();
-    $scope.AgregarProducto=function(){
-        var controlador=false;
-        var obj = {
-            _id : $scope.Orden.Producto._id.split(',')[0],
-            nombre : $scope.Orden.Producto._id.split(',')[1],
-            cantidad : $scope.Orden.Producto.cantidad
-        };
-        $scope.Orden.productos.forEach(function(ele, index){
-            if(ele._id==obj._id){
-                controlador=true;
+    $scope.cargarProducto=function(keyEvent){
+        $scope.productos.forEach(function(ele , index){
+            if($scope.Orden.Producto.codigo == ele.codigo){
+                $scope.Orden.Producto._id=ele._id+','+ele.nombre+','+ele.precio+','+(ele.fabricado || '')+','+ele.codigo+','+ele.tipo;
+                if (keyEvent.which === 13){
+                    $('#Cantidad').focus();
+                }
             }
         });
-        if(!controlador){
-            $scope.Orden.productos.push(obj);
-        }else{
-            console.log('El insumo ya esta añadido');
+    }
+    $scope.detectar=function(keyEvent){
+        if ($scope.Orden.Producto.cantidad>0) {
+            if (keyEvent.which === 13){
+                if ($scope.Orden.Producto._id!='') {
+                    $scope.AgregarProducto();
+                }
+            }
+        }
+    }
+    $scope.AgregarProducto=function(){
+        if ($scope.Orden.Producto._id!='' && $scope.Orden.Producto.cantidad>0) {
+            var controlador=false;
+            var obj = {
+                _id : $scope.Orden.Producto._id.split(',')[0],
+                nombre : $scope.Orden.Producto._id.split(',')[1],
+                precio : parseInt($scope.Orden.Producto._id.split(',')[2]),
+                fabricado : $scope.Orden.Producto._id.split(',')[3],
+                codigo : $scope.Orden.Producto._id.split(',')[4],
+                tipo : $scope.Orden.Producto._id.split(',')[5],
+                cantidad : $scope.Orden.Producto.cantidad,
+                cantidad_faltante : $scope.Orden.Producto.cantidad,
+                cantidad_saliente : 0
+            };
+            $scope.Orden.productos.forEach(function(ele, index){
+                if(ele._id==obj._id){
+                    ele.cantidad += parseInt(obj.cantidad);
+                    ele.cantidad_faltante += parseInt(obj.cantidad);
+                    controlador=true;
+                }
+            });
+            if(!controlador){
+                $scope.Orden.productos.push(obj);
+            }else{
+                Materialize.toast('La cantidad se ha sumado al producto ya añadido', 4000);
+            }
+            $scope.Orden.Producto={};
+            $scope.Orden.Producto._id='';
+            $scope.Orden.Producto.cantidad=0;
+            $('#codigo_barras').focus();
         }
     }
     $scope.Detalles = function(id){
@@ -151,31 +206,37 @@ angular.module('frontendApp')
         $scope.Orden.productos.splice(index,1);
     }
     $scope.abrirModal=function(_id){
-        $scope.Detallemodal.id=_id;
-        $scope.Detallemodal.titulo='Confirmar eliminación';
-        $scope.Detallemodal.mensaje='¿Esta seguro que desea eliminar la orden de venta?';
-        $('#modalConfirmacion').modal('open');
+        swal({
+            title: "Confirmar Eliminación",
+            text: "¿Esta seguro de borrar la orden de venta?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Borrar!",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+        },
+        function(){
+            Borrar(_id);
+        });
     }
-    $scope.Borrar=function(id){
-        $('#modalConfirmacion').modal('close');
-        $scope.Detallemodal={};
-         webServer
-        .getResource('orden_venta/'+id,{},'delete')
+    function Borrar(_id){
+        webServer
+        .getResource('orden_venta/'+_id,{},'delete')
         .then(function(data){
-            $scope.Entradas.forEach(function(ele, index){
-                if(ele._id==id){
-                    $scope.Entradas.splice(ele.index,1);
+            $scope.Ordenes.forEach(function(ele, index){
+                if(ele._id==_id){
+                    $scope.Ordenes.splice(index,1);
                 }
             });
-            $scope.Detallemodal.mensaje='La orden de venta se ha eliminado exitosamente';
+            swal("Completado...", data.data.message , "success");
         },function(data){
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data.data.message);
+            swal("Oops...", data.data.message , "error");
         });
-        $scope.Detallemodal.titulo='Notificacion de eliminación';
-        $('#modalNotificacion').modal('open');
     }
     $scope.EnviarOrden=function(){
+        $scope.preloader.estado = true;
         var ruta="";
         var metodo="";
         if ($scope.panel_title_form=="Registro de venta") {
@@ -194,50 +255,130 @@ angular.module('frontendApp')
                 }
             });
             if($scope.panel_title_form=="Registro de venta"){
-                $scope.Ordenes.push($scope.Orden);
-                $scope.Detallemodal.titulo='Notificacion de registro';
-                $scope.Detallemodal.mensaje='Orden de compra registrada correctamente';
+                $scope.Orden._id=data.data.datos._id;
+                $scope.Orden.orden_venta_consecutivo=data.data.datos.orden_venta_consecutivo;
+                $scope.Orden.estado='Activo';
+                $scope.Ordenes.unshift($scope.Orden);
             }else{
                 $scope.Ordenes[$scope.Orden.index] = $scope.Orden;
-                $scope.Detallemodal.titulo='Notificacion de actualización';
-                $scope.Detallemodal.mensaje='Orden de compra actualizada correctamente';
+                $scope.panel_title_form = "Registro de venta";
+                $scope.button_title_form = "Registrar venta";
             }
             $scope.Orden={};
             $scope.Orden.productos=[];
-            $scope.Orden.consecutivo=0;
-            $scope.Ordenes.forEach(function(ele, index){
-                if(ele.consecutivo>=$scope.Orden.consecutivo){
-                    $scope.Orden.consecutivo=ele.consecutivo;
-                }
-            });
-            $scope.Orden.consecutivo=$scope.Orden.consecutivo+1;
+            $scope.preloader.estado = false;
+            if (data.data.noDisponible.length>0) {
+                $scope.noDisponible=data.data.noDisponible;
+                var mensaje='<ul>';
+                $scope.noDisponible.forEach(function(ele,index){
+                    mensaje+='<li>'+ele+'</li>'
+                });
+                mensaje+='</ul>';
+                swal({
+                    title: "Atención",
+                    text: mensaje,
+                    type: "warning",
+                    html: true
+                });
+            }else{
+                sweetAlert("Completado...", data.data.message , "success");
+            }
         },function(data){
-            $scope.Detallemodal.titulo='Notificacion de error';
-            $scope.Detallemodal.mensaje=data.data.message;
-            console.log(data);
+            $scope.preloader.estado = false;
+            sweetAlert("Oops...", data.data.message , "error");
         });
-        $('#modalNotificacion').modal('open');
+    }
+    function scroll(){
+         $("html, body").animate({
+            scrollTop: 0
+        }, 1000); 
     }
     $scope.Editar = function(id){
-        $scope.panel_title_form = "Edicion de Ventas";
-        $scope.button_title_form = "Editar Venta";
         $scope.Orden=IdentificarOrden(id,$scope.Ordenes);
-        if(!$scope.Orden.productos){
+        if ($scope.Orden.estado == "Activo") {
+            $scope.panel_title_form = "Edicion de Venta";
+            $scope.button_title_form = "Actualizar Venta";
+            if(!$scope.Orden.productos){
+                $scope.Orden.productos=[];
+            }
+            scroll();
+        }else{
+            sweetAlert("Oops..." , "La orden de venta no se puede editar porque ya cuenta con salidas" , "error");
+            $scope.Orden={};
             $scope.Orden.productos=[];
+            $scope.productos=[];
         }
     }
-    $scope.CancelarEditar=function(){
-        $scope.Orden={};
-        $scope.Orden.productos=[];
-        $scope.panel_title_form = "Registro de venta";
-        $scope.button_title_form = "Registrar venta";
-        $scope.Orden.consecutivo=0;
-        $scope.Ordenes.forEach(function(ele, index){
-            if(ele.consecutivo>=$scope.Orden.consecutivo){
-                $scope.Orden.consecutivo=ele.consecutivo;
-            }
+    $scope.Finalizar = function(id){
+        swal({
+            title: "Confirmar Finalización",
+            text: "¿Esta seguro de finalizar la orden de venta?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Finalizar!",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+        },
+        function(){
+            webServer
+            .getResource('orden_venta/finalizar/'+id,{},'put')
+            .then(function(data){
+                $scope.Ordenes.forEach(function(ele, index){
+                    if(ele._id == id){
+                        $scope.Ordenes[index] = data.data.datos;
+                    }
+                });
+                swal("Completado...", data.data.message , "success");
+            },function(data){
+                swal("Oops...", data.data.message , "error");
+            });
         });
-        $scope.Orden.consecutivo=$scope.Orden.consecutivo+1; 
+    }
+    $scope.CancelarEditar=function(){
+        $scope.Orden = {};
+        $scope.Orden.productos = [];
+        $scope.productos = [];
+        $scope.panel_title_form = "Registro de venta";
+        $scope.button_title_form = "Registrar venta"; 
+    }
+    /*Validaciones de fechas*/
+    $scope.validarFechaEntrega=function(){
+        if ($scope.Orden.fecha_entrega) {
+            if($scope.Orden.fecha_recepcion){
+                if ($scope.Orden.fecha_entrega < $scope.Orden.fecha_recepcion) {
+                    Materialize.toast('La fecha de entrega debe ser igual o posterior a la fecha de recepción', 4000);
+                    $scope.Orden.fecha_entrega = '';
+                }
+            }else{
+                Materialize.toast('Ingrese por favor una fecha de recepción primero', 4000);
+                $scope.Orden.fecha_entrega = '';
+                $('#fecha_recepcion').focus();
+            }
+        }
+    }
+    $scope.validarFechaRecepcion=function(){
+        if ($scope.Orden.fecha_recepcion) {
+            if($scope.Orden.fecha_entrega){
+                if ($scope.Orden.fecha_entrega < $scope.Orden.fecha_recepcion) {
+                    Materialize.toast('La fecha de entrega debe ser igual o posterior a la fecha de recepción', 4000);
+                    $scope.Orden.fecha_entrega = '';
+                }
+            }
+        }else{
+            $scope.Orden.fecha_entrega='';
+        }
+    }
+    /*Fin de las validaciones*/
+    $scope.convertirFecha = function(fecha){
+        var date = new Date(fecha).getDate();
+        date += '/'+(new Date(fecha).getMonth()+1);
+        date += '/'+new Date(fecha).getFullYear();
+        return date;
+    }
+    $scope.Factura = function(param){
+        $state.go('Factura',param);
     }
     function IdentificarOrden (id , arrObj){
         var obj;
@@ -246,15 +387,18 @@ angular.module('frontendApp')
                 obj = {
                     index: index,
                     _id : ele._id,
+                    orden_venta_consecutivo : ele.orden_venta_consecutivo,
                     cliente : ele.cliente,
                     productos : ele.productos,
                     observaciones : ele.observaciones,
-                    fecha_recepcion : ele.fecha_recepcion,
-                    fecha_entrega : ele.fecha_entrega,
-                    lugar_entrega : ele.lugar_entrega
+                    orden_compra_cliente: ele.orden_compra_cliente,
+                    fecha_recepcion : new Date (Date.parse(ele.fecha_recepcion)),
+                    fecha_entrega : new Date (Date.parse(ele.fecha_entrega)),
+                    lugar_entrega : ele.lugar_entrega,
+                    estado : ele.estado
                 };
             }
         });
         return obj;
     }
-});
+})

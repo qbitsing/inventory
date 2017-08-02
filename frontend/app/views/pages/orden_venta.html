@@ -1,6 +1,6 @@
 <h2 class="titulo-pagina blue accent-4 right-align {{pageAnimate}}">Gestion de ventas</h2>
 <div class="contenido">
-	<div class="row">
+	<div class="row" ng-hide="Usuario.rol!='Super Administrador'">
 		<div class="col s12">
 			<div class="card-panel panel-default {{panelAnimate}}">
 				<div class="panel-heading blue accent-4">
@@ -11,25 +11,15 @@
 						<div class="row">
 							<div class="input-field col s12 m12 l12">
 								<select ng-model="Orden.cliente._id" material-select watch required>
-	      							<option ng-repeat="cliente in clientes" value="{{cliente._id}}">{{cliente.nombre}}</option>
+	      							<option ng-repeat="cliente in clientes" value="{{cliente._id}}">{{cliente.nombre}} {{cliente.apellidos}}</option>
 								</select>
 								<label>Cliente*</label>
 							</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-								<input type="text" ng-model="Orden.consecutivo" id="numero" ng-disabled="true" name="numero">
-								<label>Numero interno de compra*</label>
-							</div>
-							<div class="input-field col s12 m6 l6">
-								<label for="orden-cliente">Numero de orden cliente *</label>
-								<input type="text" name="orden-cliente" id="orden-cliente" ng-model="Orden.orden_compra_cliente" required>
-							</div>
-						</div>
-						<div class="row">
-							<div class="input-field col s12 m6 l6">
-								<label for="fecha_recepcion">Fecha de recepción *</label>
-								<input type="date" ng-model="Orden.fecha_recepcion" class="datepicker" required>
+								<label for="orden-cliente">Numero de orden cliente</label>
+								<input type="text" name="orden-cliente" id="orden-cliente" ng-model="Orden.orden_compra_cliente">
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="lugar_entrega">Lugar entrega *</label>
@@ -38,24 +28,28 @@
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-					            <textarea id="observaciones" class="materialize-textarea" ng-model="Orden.observaciones" data-length="120"></textarea>
-					            <label for="observaciones">Observaciones</label>
-				        	</div>
-				          	<div class="input-field col s12 m6 l6">
-								<label for="fecha_recepcion">Fecha de entrega *</label>
-								<input type="date" class="datepicker" ng-model="Orden.fecha_entrega" required>
+								<label for="fecha_recepcion" class="active">Fecha de recepción *</label>
+								<input type="date" id="fecha_recepcion" ng-change="validarFechaRecepcion()" ng-model="Orden.fecha_recepcion" required>
+							</div>
+							<div class="input-field col s12 m6 l6">
+								<label for="fecha_entrega" class="active">Fecha de entrega *</label>
+								<input type="date" id="fecha_entrega" ng-change="validarFechaEntrega()" ng-model="Orden.fecha_entrega" required>
 							</div>
 						</div>
 						<div class="row">
-							<div class="input-field col s12 m6 l6">
+							<div class="input-field col s10 m5 l5">
 								<select ng-model="Orden.Producto._id" material-select watch>
-	      							<option ng-repeat="producto in productos" value="{{producto._id}},{{producto.nombre}}">{{producto.nombre}}</option>
+	      							<option ng-repeat="producto in productos" value="{{producto._id}},{{producto.nombre}},{{producto.precio}},{{producto.fabricado}},{{producto.codigo}},{{producto.tipo}}">{{producto.nombre}} - {{producto.marca}}</option>
 								</select>
 								<label>Productos *</label>
 							</div>
+							<div class="input-field col s2 m1 l1">
+								<input type="text" ng-keyup="cargarProducto($event)" ng-model="Orden.Producto.codigo" id="codigo_barras" name="codigo_barras">
+								<label for="codigo_barras">codigo</label>
+							</div>
 							<div class="col s12 m6 l6">
 								<div class="input-field col s8 m8 l8">
-									<input type="number" ng-model="Orden.Producto.cantidad" id="Cantidad" name="Cantidad">
+									<input type="number" ng-keyup="detectar($event)" ng-model="Orden.Producto.cantidad" id="Cantidad" name="Cantidad">
 									<label for="Cantidad">Cantidad *</label>
 								</div>
 								<button type="button" class="btn btn-success col s4 m4 l4" ng-disabled="!(Orden.Producto._id) || !(Orden.Producto.cantidad)" ng-click="AgregarProducto()">Añadir</button>
@@ -63,10 +57,11 @@
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-							<table class="highlight" ng-hide="Orden.productos.length<1">
+							<table class="bordered striped" ng-hide="Orden.productos.length<1">
 						        <thead>
 						        	<tr>
-										<th data-field="insumo">Insumo</th>
+										<th data-field="insumo">Producto</th>
+										<th data-field="marca">Marca</th>
 										<th data-field="cantidad">Cantidad</th>
 										<th data-field="opcion">Opción</th>
 						          	</tr>
@@ -74,18 +69,25 @@
 						        <tbody>
 						          	<tr ng-repeat="producto in Orden.productos">
 							            <td>{{producto.nombre}}</td>
+							            <td>{{producto.marca}}</td>
 							            <td>{{producto.cantidad}}</td>
 							            <td><a class="btn btn-danger" class="cursor" ng-click="BorrarProducto($index)">Eliminar</a></td>
 						          	</tr>
 						        </tbody>
 						      </table>
 							</div>
+							<div class="input-field col s12 m6 l6">
+					            <textarea id="observaciones" class="materialize-textarea" ng-model="Orden.observaciones" data-length="120"></textarea>
+					            <label for="observaciones">Observaciones</label>
+				        	</div>
 						</div>	
 						<div class="row">
-							<div class="col s12 m6 l4">
-								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formMateriaPrima.$invalid || Orden.productos.length<1">{{button_title_form}}</button>
-							</div>
-							<button type="button" class="btn btn-danger" ng-show="panel_title_form == 'Edicion de Ventas'" ng-click="CancelarEditar()">Cancelar</button>
+						<div class="col">
+							<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formMateriaPrima.$invalid || Orden.productos.length<1">{{button_title_form}}</button>
+						</div>
+						<div class="col">
+							<button type="button" class="btn btn-large btn-danger" ng-click="CancelarEditar()">Cancelar</button>
+						</div>
 						</div>						
 					</form>
 				</div>
@@ -96,7 +98,7 @@
 		<div class="col s12">
 			<div class="card-panel panel-default {{panelAnimate}}">
 				<div class="panel-heading blue accent-4">
-					<h3 class="panel-title">Lista de fabricaciones</h3>
+					<h3 class="panel-title">Lista de Ordenes de Venta</h3>
 				</div>
 				<div class="panel-body" >
 					<div class="gridStyle grid" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
@@ -107,75 +109,61 @@
 </div>
 <div id="modaldeDetalles" class="modal modal-fixed-footer">
     <div class="modal-content">
-    	<h4 class="modal-title blue accent-4">Venta No. {{Detalle.numero_interno}}</h4>
+    	<h4 class="modal-title blue accent-4">Venta No. {{Detalle.orden_venta_consecutivo}}</h4>
     	<div class="row">
     		<ul>
-			<li> Numero interno: {{Detalle.numero_interno || 'No registra'}}</li>
-			<li> Cliente: {{Detalle.cliente.nombre || 'No registra'}}</li>
-			<li> Numero de Orden del Cliente: {{Detalle.orden_compra_cliente || 'No registra'}}</li>
-			<li> Fecha de Recepción: {{Detalle.fecha_recepcion || 'No registra'}}</li>
-			<li> Lugar de Entrega: {{Detalle.cliente.nombre || 'No registra'}}</li>
-			<li> Fecha de Entrega: {{Detalle.fecha_entrega || 'No registra'}}</li>
-			<li> Observaciones: {{Detalle.observaciones || 'No registra'}}</li>
-			<li ng-hide="Detalle.productos.length<1"> <h5>Productos:</h5></li>
-			<table class="highlight" ng-hide="Detalle.productos.length<1">
-		        <thead>
-		        	<tr>
-						<th data-field="id">Nombre</th>
-						<th data-field="name">Cantidad</th>
-		          	</tr>
-		        </thead>
-		        <tbody>
-		          	<tr ng-repeat="producto in Detalle.productos">
-			            <td>{{producto.nombre}}</td>
-			            <td>{{producto.cantidad}}</td>
-		          	</tr>
-		        </tbody>
-		    </table>
-		</ul>
+				<li> Numero interno: {{Detalle.orden_venta_consecutivo || 'No registra'}}</li>
+				<li> Cliente: {{Detalle.cliente.nombre || 'No registra'}}</li>
+				<li> Numero de Orden del Cliente: {{Detalle.orden_compra_cliente || 'No registra'}}</li>
+				<li> Fecha de Recepción: {{convertirFecha(Detalle.fecha_recepcion) || 'No registra'}}</li>
+				<li> Lugar de Entrega: {{Detalle.lugar_entrega || 'No registra'}}</li>
+				<li> Fecha de Entrega: {{convertirFecha(Detalle.fecha_entrega) || 'No registra'}}</li>
+				<li> Estado: {{Detalle.estado || 'No registra'}}</li>
+				<li> Observaciones: {{Detalle.observaciones || 'No registra'}}</li>
+				<h5 ng-hide="Detalle.productos.length<1">Productos:</h5>
+			</ul>
+				<table class="highlight" ng-hide="Detalle.productos.length<1">
+			        <thead>
+			        	<tr>
+							<th data-field="nombre">Nombre</th>
+							<th data-field="marca">Marca</th>
+							<th data-field="cantidad">Cantidad</th>
+							<th data-field="pendiente">Cantidad pendiente</th>
+			          	</tr>
+			        </thead>
+			        <tbody>
+			          	<tr ng-repeat="producto in Detalle.productos">
+				            <td>{{producto.nombre}}</td>
+				            <td>{{producto.marca}}</td>
+				            <td>{{producto.cantidad}}</td>
+				            <td>{{producto.cantidad_faltante || '0'}}</td>
+			          	</tr>
+			        </tbody>
+			    </table>
+			    <h5>Remisiones:</h5>
+			    <table class="highlight">
+			        <thead>
+			        	<tr>
+							<th data-field="nombre">No. remisión</th>
+							<th data-field="cantidad">Fecha</th>
+							<th data-field="pendiente">Cantidad - Producto</th>
+			          	</tr>
+			        </thead>
+			        <tbody>
+			          	<tr ng-if="salida.orden_venta._id==Detalle._id" ng-show="Detalle.estado!='Activo'" ng-repeat="salida in Salidas">
+				            <td rowspan="{{salida.orden_venta.productos.length}}">{{salida.salida_consecutivo}}</td>
+				            <td rowspan="{{salida.orden_venta.productos.length}}">{{convertirFecha(salida.fecha)}}</td>
+			            	<td> <li ng-repeat="producto in salida.orden_venta.productos">{{producto.cantidad_saliente}} - {{producto.nombre}}</li></td>
+			          	</tr>
+			          	<tr ng-hide="Detalle.estado!='Activo'">
+			          		<td colspan="3">Esta orden de venta no posee salidas</td>
+			          	</tr>
+			        </tbody>
+			    </table>
+			
     	</div>
 	</div>
     <div class="modal-footer">
       	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Cerrar</a>
     </div>
 </div>
-<div id="modalNotificacion" class="modal modal-fixed-footer">
-    <div class="modal-content">
-    <h4 class="modal-title">{{Detallemodal.titulo}}</h4>
-    	<div class="row">
-    		<h5>{{Detallemodal.mensaje}}</h5>
-    	</div>
-	</div>
-    <div class="modal-footer">
-      	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Ok</a>
-    </div>
-</div>
-<div id="modalConfirmacion" class="modal modal-fixed-footer">
-    <div class="modal-content">
-    <h4 class="modal-title">{{Detallemodal.titulo}}</h4>
-    	<div class="row">
-    		<h5>{{Detallemodal.mensaje}}</h5>
-    	</div>
-	</div>
-    <div class="modal-footer">
-      	<button type="submit" ng-click="Borrar(Detallemodal.id)" class="modal-action waves-effect waves-green btn-flat">Confirmar</button>
-	    <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-    </div>
-</div>
-<script type="text/javascript" charset="utf-8">
-	$('.datepicker').pickadate({
-  labelMonthNext: 'Next month',
-  labelMonthPrev: 'Previous month',
-  labelMonthSelect: 'Select a month',
-  labelYearSelect: 'Select a year',
-  monthsFull: [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ],
-  monthsShort: [ 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
-  weekdaysFull: [ 'Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado' ],
-  weekdaysShort: [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab' ],
-  weekdaysLetter: [ 'D', 'L', 'M', 'Mi', 'J', 'V', 'S' ],
-  today: 'Hoy',
-  clear: 'Limpiar',
-  close: 'Cerrar'
-});
-	$('textarea#observaciones').characterCounter();
-</script>
