@@ -206,6 +206,8 @@ app.put('/entrada/remision/:id' , controllers.entradaRemision.eliminar);
 
 app.get('/facturas' , controllers.facturas.listarAll);
 
+app.get('/facturas/:id' , controllers.facturas.listarById);
+
 app.post('/facturas' , controllers.facturas.crear);
 
 app.put('/facturas/:id' , controllers.facturas.anular);

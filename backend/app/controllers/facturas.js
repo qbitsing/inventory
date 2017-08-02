@@ -57,8 +57,31 @@ let anular = co.wrap(function * (req, res) {
     }
 });
 
+let listarById = co.wrap(function * (req, res){
+    try{
+        let facturaId = req.params.id;
+
+        let factura = yield facturaModel.findOne({consecutivo : facturaId});
+
+        if(!factura){
+            return res.status(404).send({
+                message: 'no hay factura'
+            });
+        }
+
+        return res.status(200).send({
+            factura
+        });
+    }catch(e){
+        return res.status(500).send({
+            message: `ERROR ${e}`
+        });
+    }
+});
+
 module.exports = {
     listarAll,
     crear,
-    anular
+    anular,
+    listarById
 }

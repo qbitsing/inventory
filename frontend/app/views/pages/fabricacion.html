@@ -75,10 +75,6 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="input-field col s12 m6 l6">
-					            <textarea id="observaciones" class="materialize-textarea" ng-model="fabricacion.observaciones" data-length="120"></textarea>
-					            <label for="observaciones">Observaciones</label>
-				        	</div>
 							<div class="input-field col s12 m4 l4">
 								<select ng-model="proceso._id" material-select watch>
 	      							<option ng-repeat="proceso in Procesos" value="{{proceso._id}},{{proceso.proceso_consecutivo}},{{proceso.nombre}},{{proceso.tipo}}">{{proceso.nombre}} - {{proceso.tipo}}</option>
@@ -86,6 +82,12 @@
 								<label>Procesos *</label>
 							</div>
 							<button type="button" class="btn btn-success col s4 m2 l2" ng-disabled="!proceso._id" ng-click="AgregarProceso()">Añadir</button>
+						</div>
+						<div class="row">
+							<div class="input-field col s12 m6 l6">
+					            <textarea id="observaciones" class="materialize-textarea" ng-model="fabricacion.observaciones" data-length="120"></textarea>
+					            <label for="observaciones">Observaciones</label>
+				        	</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m12 l12">
