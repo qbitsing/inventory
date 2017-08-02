@@ -23,7 +23,7 @@ angular.module('frontendApp')
 	Entrada : '<a type="button" class="btn btn-tabla btn-success" ng-click="grid.appScope.AbrirModalEntrada(row.entity._id)">Entrada</a>',
 	MateriaPrima : '<a type="button" class="btn btn-tabla btn-warning" ng-click="grid.appScope.AbrirModalMateriaPrima(row.entity._id)">Materia Prima</a>',
     Factura: '<a type="button" class="btn btn-tabla btn-info" ng-show="row.entity.estado==grid.appScope.estadofinalizadoorden" ng-click="grid.appScope.Factura(row.entity)">Generar Factura</a>',
-    Finalizar: '<a type="button" class="btn btn-tabla btn-primary" ng-show="row.entity.estado==grid.appScope.estadosalidasorden" ng-click="grid.appScope.Factura(row.entity._id)">Finalizar</a>',
+    Finalizar: '<a type="button" class="btn btn-tabla btn-primary" ng-show="row.entity.estado==grid.appScope.estadosalidasorden" ng-click="grid.appScope.Finalizar(row.entity._id)">Finalizar</a>',
     Borrarorden : '<a type="button" class="btn btn-tabla btn-danger" ng-show="row.entity.estado==grid.appScope.estadoactivoorden" ng-click="grid.appScope.abrirModal(row.entity._id)">Borrar</a>',
     Borrarfabricacion : '<a type="button" class="btn btn-tabla btn-danger" ng-show="row.entity.estado==grid.appScope.estadoactivofab" ng-click="grid.appScope.abrirModal(row.entity._id)">Borrar</a>',
     Editarorden : '<a type="button" class="btn btn-tabla btn-warning" ng-show="row.entity.estado==grid.appScope.estadoactivoorden" ng-click="grid.appScope.Editar(row.entity._id)">Editar</a>'

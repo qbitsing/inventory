@@ -42,7 +42,7 @@ angular.module('frontendApp')
     $scope.Orden.Producto._id='';
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
     if ($scope.Usuario.rol=='Super Administrador') {
-        casillaDeBotones+=BotonesTabla.Editarorden+BotonesTabla.Borrarorden+BotonesTabla.Finalizar;
+        casillaDeBotones+=BotonesTabla.Editarorden+BotonesTabla.Finalizar;
     }
     if ($scope.Usuario.rol!='Almacenista') {
         casillaDeBotones+=BotonesTabla.Factura;
