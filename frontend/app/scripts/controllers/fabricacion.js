@@ -23,7 +23,7 @@ angular.module('frontendApp')
     $scope.modal={};
 	$scope.fabricacion.productos=[];
     $scope.fabricacion.procesos=[];
-	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Borrar+'</div>';
+	var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Salida+BotonesTabla.Borrar+'</div>';
     $scope.gridOptions = {
         columnDefs: [
             {
@@ -152,6 +152,7 @@ angular.module('frontendApp')
         var proceso = {
             _id : $scope.proceso._id.split(',')[0],
             nombre : $scope.proceso._id.split(',')[1],
+            tipo : $scope.proceso._id.split(',')[2],
             array_responsables : [],
             responsables: ''
         };
@@ -174,6 +175,7 @@ angular.module('frontendApp')
     $scope.AbrirModal = function(proceso){
         $scope.modal.proceso=proceso;
         $('#modalResponsables').modal('open');
+        console.log($scope.modal);
     }
     $scope.addresponsable = function(){
         var res = JSON.parse($scope.from_modal.persona);
@@ -237,6 +239,20 @@ angular.module('frontendApp')
             listarPersonas();
         });
     }
+    function listarProductos(){
+        webServer
+        .getResource('productos',{},'get')
+        .then(function(data){
+            if(data.data){
+                $scope.Productos=data.data.datos;
+            }else{
+                $scope.Productos=[];
+            }
+        },function(data){
+            $scope.materias=[];
+            console.log(data.data.message);
+        });
+    }
     function listarPersonas(){
         webServer
         .getResource('personas',{empleado:true,proveedor:true},'get')
@@ -246,8 +262,10 @@ angular.module('frontendApp')
             }else{
                 $scope.personas = [];
             }
+            listarProductos();
         },function(data){
             console.log(data);
+            listarProductos();
         });
     }
 	listarFabricaciones();
