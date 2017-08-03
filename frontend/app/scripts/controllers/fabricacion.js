@@ -9,8 +9,8 @@
  */
 angular.module('frontendApp')
 .controller('FabricacionCtrl', function ($state, $scope, server, $timeout, Tabla, BotonesTabla, webServer, preloader) {
-	$scope.panelAnimate='';
-	$scope.pageAnimate='';
+    $scope.panelAnimate='';
+    $scope.pageAnimate='';
     $(document).ready(function(){
         $('.modal').modal();
         $('.modal').modal({
@@ -25,7 +25,7 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
-	$timeout(function () {
+    $timeout(function () {
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
     },100);
@@ -412,17 +412,10 @@ angular.module('frontendApp')
         var controler=false;
         var proceso = {
             _id : $scope.proceso._id.split(',')[0],
-<<<<<<< HEAD
-            nombre : $scope.proceso._id.split(',')[1],
-            tipo : $scope.proceso._id.split(',')[2],
-            array_responsables : [],
-            responsables: ''
-=======
             proceso_consecutivo : $scope.proceso._id.split(',')[1],
             nombre : $scope.proceso._id.split(',')[2],
             tipo : $scope.proceso._id.split(',')[3],
             array_responsables : []
->>>>>>> 12749c2733a6840f2dcb6d688d6174aac2d8c514
         };
         $scope.fabricacion.procesos.forEach(function(ele, index){
             if(ele._id==proceso._id){
@@ -444,7 +437,6 @@ angular.module('frontendApp')
     $scope.AbrirModal = function(proceso){
         $scope.modal.proceso=proceso;
         $('#modalResponsables').modal('open');
-        console.log($scope.modal);
     }
     
     $scope.addresponsable = function(){
@@ -1179,7 +1171,7 @@ angular.module('frontendApp')
 
         $('#contenidoTableProcess').html(cade);
     }
-	function listarOrdenes(){
+    function listarOrdenes(){
         $scope.preloader.estado = true;
         webServer
         .getResource('orden_venta',{Salidas:true, Activo:true},'get')
@@ -1192,19 +1184,6 @@ angular.module('frontendApp')
         });
     }
     function listarProductos(){
-<<<<<<< HEAD
-        webServer
-        .getResource('productos',{},'get')
-        .then(function(data){
-            if(data.data){
-                $scope.Productos=data.data.datos;
-            }else{
-                $scope.Productos=[];
-            }
-        },function(data){
-            $scope.materias=[];
-            console.log(data.data.message);
-=======
         $scope.preloader.estado = true;
         webServer
         .getResource('productos',{producto:true},'get')
@@ -1262,7 +1241,6 @@ angular.module('frontendApp')
         },function(data){
             $scope.EntradasFabricaciones=[];
             listarFabricaciones();
->>>>>>> 12749c2733a6840f2dcb6d688d6174aac2d8c514
         });
     }
     function listarPersonas(){
@@ -1270,17 +1248,6 @@ angular.module('frontendApp')
         webServer
         .getResource('personas',{empleado:true,proveedorfabricacion:true,almacenista: true},'get')
         .then(function(data){
-<<<<<<< HEAD
-            if(data.data){
-                $scope.personas = data.data.datos;
-            }else{
-                $scope.personas = [];
-            }
-            listarProductos();
-        },function(data){
-            console.log(data);
-            listarProductos();
-=======
             $scope.personas = data.data.datos;
             listarProductos();
         },function(data){
@@ -1307,7 +1274,6 @@ angular.module('frontendApp')
                     observaciones : ele.observaciones
                 };
             }
->>>>>>> 12749c2733a6840f2dcb6d688d6174aac2d8c514
         });
         return obj;
     }
