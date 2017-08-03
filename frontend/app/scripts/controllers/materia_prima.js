@@ -157,7 +157,7 @@ angular.module('frontendApp')
     }
     function Borrar(id){
         webServer
-        .getResource('fabricacion/'+id,{},'delete')
+        .getResource('materiaPrima/'+id,{},'delete')
         .then(function(data){
             $scope.Materias.forEach(function(ele, index){
                 if(ele._id==id){
