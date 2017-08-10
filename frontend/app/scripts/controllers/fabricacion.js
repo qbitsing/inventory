@@ -313,7 +313,7 @@ angular.module('frontendApp')
     $scope.cargarProducto=function(keyEvent){
         $scope.Productos.forEach(function(ele , index){
             if($scope.producto.codigo == ele.codigo){
-                $scope.producto._id=ele._id+','+ele.nombre+','+ele.fabricado;
+                $scope.producto._id=ele._id+','+ele.nombre+','+ele.marca+','+ele.fabricado;
                 if (keyEvent.which === 13){
                     $('#Cantidad').focus();
                 }
@@ -384,7 +384,8 @@ angular.module('frontendApp')
             var obj = {
                 _id : $scope.producto._id.split(',')[0],
                 nombre : $scope.producto._id.split(',')[1],
-                fabricado : $scope.producto._id.split(',')[2],
+                marca : $scope.producto._id.split(',')[2],
+                fabricado : $scope.producto._id.split(',')[3],
                 cantidad : $scope.producto.cantidad,
                 cantidad_saliente : 0,
                 cantidad_fabricada :0,
