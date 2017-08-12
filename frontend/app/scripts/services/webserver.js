@@ -38,7 +38,7 @@ angular.module('frontendApp')
 			if(metodo=="delete"){
 				return $http.delete(URL, data);
 			}
-				
+
 		  }
 		};
 })
