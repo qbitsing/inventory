@@ -37,8 +37,8 @@
 						<div class="row">
 							<div class="input-field col s10 m5 l5">
 								<select ng-model="producto._id" material-select watch>
-	      							<option ng-if="panel_title_form=='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in Productos" value="{{producto._id}},{{producto.nombre}},{{producto.fabricado}}">{{producto.nombre}} - {{producto.marca}}</option>
-	      							<option ng-if="panel_title_form!='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in fabricacion.productos" value="{{producto._id}},{{producto.nombre}},{{producto.fabricado}}">{{producto.nombre}} - {{producto.marca}}</option>
+	      							<option ng-if="panel_title_form=='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in Productos" value="{{producto._id}},{{producto.nombre}},{{producto.marca}},{{producto.fabricado}}">{{producto.nombre}} - {{producto.marca}}</option>
+	      							<option ng-if="panel_title_form!='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in fabricacion.productos" value="{{producto._id}},{{producto.nombre}},{{producto.marca}},{{producto.fabricado}}">{{producto.nombre}} - {{producto.marca}}</option>
 								</select>
 								<label>Productos *</label>
 							</div>
