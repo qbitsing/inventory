@@ -23,6 +23,7 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
+    $scope.fecha = Date.now();
     $scope.preloader = preloader;
     $scope.preloader.estado = false;
     $scope.panelAnimate='';
