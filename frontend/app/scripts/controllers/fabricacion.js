@@ -172,7 +172,6 @@ angular.module('frontendApp')
         $scope.Ordenes.forEach(function(ele, index){
             if(ele._id==$scope.Orden){
                 $scope.fabricacion.orden_venta=ele;
-                
             }
         });
         if(!$scope.fabricacion.orden_venta.productos){
@@ -182,6 +181,10 @@ angular.module('frontendApp')
         $scope.fabricacion.productos.forEach(function(ele,index){
             if (!ele.fabricado) {
                 $scope.fabricacion.productos.splice(index,1);
+            }else{
+                ele.cantidad_disponible=ele.cantidad;
+                ele.cantidad_fabricada=0;
+                ele.cantidad_saliente=0;
             }
         });
     }

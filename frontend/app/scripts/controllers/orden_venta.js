@@ -143,7 +143,7 @@ angular.module('frontendApp')
     $scope.cargarProducto=function(keyEvent){
         $scope.productos.forEach(function(ele , index){
             if($scope.Orden.Producto.codigo == ele.codigo){
-                $scope.Orden.Producto._id=ele._id+','+ele.nombre+','+ele.precio+','+(ele.fabricado || '')+','+ele.codigo+','+ele.tipo;
+                $scope.Orden.Producto._id=ele._id+','+ele.nombre+','+ele.marca+','+ele.precio+','+(ele.fabricado || '')+','+ele.codigo+','+ele.tipo;
                 if (keyEvent.which === 13){
                     $('#Cantidad').focus();
                 }
@@ -165,10 +165,11 @@ angular.module('frontendApp')
             var obj = {
                 _id : $scope.Orden.Producto._id.split(',')[0],
                 nombre : $scope.Orden.Producto._id.split(',')[1],
-                precio : parseInt($scope.Orden.Producto._id.split(',')[2]),
-                fabricado : $scope.Orden.Producto._id.split(',')[3],
-                codigo : $scope.Orden.Producto._id.split(',')[4],
-                tipo : $scope.Orden.Producto._id.split(',')[5],
+                marca : $scope.Orden.Producto._id.split(',')[2],
+                precio : parseInt($scope.Orden.Producto._id.split(',')[3]),
+                fabricado : $scope.Orden.Producto._id.split(',')[4],
+                codigo : $scope.Orden.Producto._id.split(',')[5],
+                tipo : $scope.Orden.Producto._id.split(',')[6],
                 cantidad : $scope.Orden.Producto.cantidad,
                 cantidad_faltante : $scope.Orden.Producto.cantidad,
                 cantidad_saliente : 0
