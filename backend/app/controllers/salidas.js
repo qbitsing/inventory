@@ -81,14 +81,12 @@ let crear = co.wrap(function * (req, res){
             });
           }
           for(let ele of productos){
-
             if(ele.cantidad_saliente > 0){
               if(ele.tipo == 'kit'){
                 for(let el of ele.productos){
                   let pr = yield productoModel.findById(el._id);
                   pr.apartados -= (ele.cantidad_saliente * el.cantidad);
                   pr.cantidad -= (ele.cantidad_saliente * el.cantidad);
-
                   yield productoModel.findByIdAndUpdate(pr._id, pr);
                 }
               }else{
@@ -97,7 +95,6 @@ let crear = co.wrap(function * (req, res){
                 pro.cantidad -= ele.cantidad_saliente;
                 yield productoModel.findByIdAndUpdate(pro._id, pro);                
               }
-         
             }
             if(ele.cantidad_faltante == 0) contador ++;
             req.body.orden_venta.productos.push(ele);

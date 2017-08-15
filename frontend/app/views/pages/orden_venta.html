@@ -151,8 +151,8 @@
 			        </thead>
 			        <tbody>
 			          	<tr ng-if="salida.orden_venta._id==Detalle._id" ng-show="Detalle.estado!='Activo'" ng-repeat="salida in Salidas">
-				            <td rowspan="{{salida.orden_venta.productos.length}}">{{salida.salida_consecutivo}}</td>
-				            <td rowspan="{{salida.orden_venta.productos.length}}">{{convertirFecha(salida.fecha)}}</td>
+				            <td>{{salida.salida_consecutivo}}</td>
+				            <td>{{convertirFecha(salida.fecha)}}</td>
 			            	<td> <li ng-if="producto.cantidad_saliente>0" ng-repeat="producto in salida.orden_venta.productos">{{producto.cantidad_saliente}} - {{producto.nombre}}</li></td>
 			          	</tr>
 			          	<tr ng-hide="Detalle.estado!='Activo'">

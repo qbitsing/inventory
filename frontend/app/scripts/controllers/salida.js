@@ -9,7 +9,7 @@
  */
 angular.module('frontendApp')
   .controller('SalidaCtrl', function ($state, $scope, server, $timeout, Tabla, BotonesTabla, webServer, preloader) {
-    $(document).ready(function(){
+    $(document).ready(function () {
         $('.modal').modal();
         $('.modal').modal({
             dismissible: true, // Modal can be dismissed by clicking outside of the modal
@@ -18,11 +18,12 @@ angular.module('frontendApp')
             outDuration: 200, // Transition out duration
             startingTop: '10%', // Starting top style attribute
             endingTop: '15%', // Ending top style attribute
-            ready: function(modal, trigger) {
+            ready: function (modal, trigger) {
             },
             complete: function() {  } // Callback for Modal close
         });
     });
+    $scope.fecha = Date.now();
     $scope.preloader = preloader;
     $scope.preloader.estado = false;
     $scope.panelAnimate='';
@@ -171,7 +172,7 @@ angular.module('frontendApp')
                 $scope.Salida.orden_venta.productos=[];
                 $scope.Orden='';
                 $scope.preloader.estado = false;
-                sweetAlert("Completado...", data.data.message , "success"); 
+                sweetAlert("Completado...", data.data.message , "success");
             },function(data){
                 $scope.preloader.estado = false;
                 if (data.data.noDisponibles.length>0) {
@@ -204,6 +205,11 @@ angular.module('frontendApp')
     }
 
     $scope.Imprimir = function(formato , tipo){
+        formato.orden_venta.productos = formato.orden_venta.productos.sort(function (a, b) {
+          if (!a.cantidad_saliente) a.cantidad_saliente = 0
+          if (!b.cantidad_saliente) b.cantidad_saliente = 0
+          return parseInt(a.cantidad_saliente) < parseInt(b.cantidad_saliente)
+        });
         $scope.formato = formato;
         var formatoPrint = null;
         if(tipo == 1){
@@ -227,7 +233,7 @@ angular.module('frontendApp')
         },function(data){
             w.print();
             w.close();
-            document.getElementById('superContainer').appendChild(formatoPrint);            
+            document.getElementById('superContainer').appendChild(formatoPrint);
         });
     }
     function listarOrdenes(){

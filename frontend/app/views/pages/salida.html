@@ -133,7 +133,7 @@
 						calle 73 sur no. 80j - 52 bogota - colombia - PBX: 777 77 04 <br><br>
 						pagina web: <span>www.prines.com.co</span>
 					</p>
-				</div>        
+				</div>
 				<div class="second-part">
 					<ul>
 						<li>Frabricación y distribución de herrajería para redes de CATV y HFC</li>
@@ -146,16 +146,16 @@
 				<div class="last-part">
 					<h2 class="title-last-part">Remisión</h2>
 					<div class="no-factura">
-						N° {{formato.salida_consecutivo}}                   
+						N° {{formato.salida_consecutivo}}
 					</div>
-				</div>       
+				</div>
 			</div>
 			<div class="table-header">
 				<table class="formato-table">
 					<tr>
 						<td colspan="5">Cliente: {{formato.orden_venta.cliente.nombre}}</td>
 						<td colspan="5">Nit: {{formato.orden_venta.cliente.documento}}</td>
-						<td>Fecha: {{convertirFecha(formato.fecha)}}</td>
+						<td>Fecha: {{convertirFecha(fecha)}}</td>
 					</tr>
 					<tr>
 						<td colspan="5">Direccion: {{formato.orden_venta.cliente.direccion}}</td>
@@ -169,62 +169,128 @@
 					<tr class="black">
 						<td class="width15">codigo</td>
 						<td class="width70">descripcion</td>
-						<td class="width15">cantidad</td>						
+						<td class="width15">cantidad</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[0].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[0].codigo}} - {{formato.orden_venta.productos[0].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[0].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[0].cantidad_saliente > 0? formato.orden_venta.productos[0].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[0].cantidad_saliente > 0?formato.orden_venta.productos[0].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[0].cantidad_saliente > 0?formato.orden_venta.productos[0].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[0].cantidad_saliente > 0? formato.orden_venta.productos[0].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[1].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[1].codigo}} - {{formato.orden_venta.productos[1].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[1].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[1].cantidad_saliente > 0? formato.orden_venta.productos[1].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[1].cantidad_saliente > 0?formato.orden_venta.productos[1].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[1].cantidad_saliente > 0?formato.orden_venta.productos[1].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[1].cantidad_saliente > 0? formato.orden_venta.productos[1].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[2].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[2].codigo}} - {{formato.orden_venta.productos[2].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[2].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[2].cantidad_saliente > 0? formato.orden_venta.productos[2].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[2].cantidad_saliente > 0?formato.orden_venta.productos[2].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[2].cantidad_saliente > 0?formato.orden_venta.productos[2].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[2].cantidad_saliente > 0? formato.orden_venta.productos[2].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[3].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[3].codigo}} - {{formato.orden_venta.productos[3].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[3].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[3].cantidad_saliente > 0? formato.orden_venta.productos[3].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[3].cantidad_saliente > 0?formato.orden_venta.productos[3].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[3].cantidad_saliente > 0?formato.orden_venta.productos[3].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[3].cantidad_saliente > 0? formato.orden_venta.productos[3].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[4].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[4].codigo}} - {{formato.orden_venta.productos[4].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[4].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[4].cantidad_saliente > 0? formato.orden_venta.productos[4].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[4].cantidad_saliente > 0?formato.orden_venta.productos[4].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[4].cantidad_saliente > 0?formato.orden_venta.productos[4].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[4].cantidad_saliente > 0? formato.orden_venta.productos[4].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[5].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[5].codigo}} - {{formato.orden_venta.productos[5].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[5].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[5].cantidad_saliente > 0? formato.orden_venta.productos[5].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[5].cantidad_saliente > 0?formato.orden_venta.productos[5].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[5].cantidad_saliente > 0?formato.orden_venta.productos[5].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[5].cantidad_saliente > 0? formato.orden_venta.productos[5].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[6].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[6].codigo}} - {{formato.orden_venta.productos[6].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[6].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[6].cantidad_saliente > 0? formato.orden_venta.productos[6].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[6].cantidad_saliente > 0?formato.orden_venta.productos[6].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[6].cantidad_saliente > 0?formato.orden_venta.productos[6].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[6].cantidad_saliente > 0? formato.orden_venta.productos[6].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[7].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[7].codigo}} - {{formato.orden_venta.productos[7].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[7].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[7].cantidad_saliente > 0? formato.orden_venta.productos[7].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[7].cantidad_saliente > 0?formato.orden_venta.productos[7].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[7].cantidad_saliente > 0?formato.orden_venta.productos[7].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[7].cantidad_saliente > 0? formato.orden_venta.productos[7].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[8].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[8].codigo}} - {{formato.orden_venta.productos[8].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[8].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[8].cantidad_saliente > 0? formato.orden_venta.productos[8].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[8].cantidad_saliente > 0?formato.orden_venta.productos[8].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[8].cantidad_saliente > 0?formato.orden_venta.productos[8].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[8].cantidad_saliente > 0? formato.orden_venta.productos[8].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[9].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[9].codigo}} - {{formato.orden_venta.productos[9].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[9].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[9].cantidad_saliente > 0? formato.orden_venta.productos[9].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[9].cantidad_saliente > 0?formato.orden_venta.productos[9].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[9].cantidad_saliente > 0?formato.orden_venta.productos[9].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[9].cantidad_saliente > 0? formato.orden_venta.productos[9].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[10].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[10].codigo}} - {{formato.orden_venta.productos[10].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[10].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[10].cantidad_saliente > 0? formato.orden_venta.productos[10].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[10].cantidad_saliente > 0?formato.orden_venta.productos[10].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[10].cantidad_saliente > 0?formato.orden_venta.productos[10].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[10].cantidad_saliente > 0? formato.orden_venta.productos[10].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
 						<td colspan="3">{{formato.contenido}}</td>
@@ -250,7 +316,7 @@
 						calle 73 sur no. 80j - 52 bogota - colombia - PBX: 777 77 04 <br><br>
 						pagina web: <span>www.prines.com.co</span>
 					</p>
-				</div>        
+				</div>
 				<div class="second-part">
 					<ul>
 						<li>Frabricación y distribución de herrajería para redes de CATV y HFC</li>
@@ -263,16 +329,16 @@
 				<div class="last-part">
 					<h2 class="title-last-part">Remisión</h2>
 					<div class="no-factura">
-						N° {{formato.salida_consecutivo}}                   
+						N° {{formato.salida_consecutivo}}
 					</div>
-				</div>       
+				</div>
 			</div>
 			<div class="table-header">
 				<table class="formato-table">
 					<tr>
 						<td colspan="5">Cliente: {{formato.orden_venta.cliente.nombre}}</td>
 						<td colspan="5">Nit: {{formato.orden_venta.cliente.documento}}</td>
-						<td>Fecha: {{convertirFecha(formato.fecha)}}</td>
+						<td>Fecha: {{convertirFecha(fecha)}}</td>
 					</tr>
 					<tr>
 						<td colspan="5">Direccion: {{formato.orden_venta.cliente.direccion}}</td>
@@ -286,62 +352,128 @@
 					<tr class="black">
 						<td class="width15">codigo</td>
 						<td class="width70">descripcion</td>
-						<td class="width15">cantidad</td>						
+						<td class="width15">cantidad</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[0].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[0].codigo}} - {{formato.orden_venta.productos[0].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[0].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[0].cantidad_saliente > 0? formato.orden_venta.productos[0].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[0].cantidad_saliente > 0?formato.orden_venta.productos[0].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[0].cantidad_saliente > 0?formato.orden_venta.productos[0].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[0].cantidad_saliente > 0? formato.orden_venta.productos[0].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[1].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[1].codigo}} - {{formato.orden_venta.productos[1].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[1].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[1].cantidad_saliente > 0? formato.orden_venta.productos[1].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[1].cantidad_saliente > 0?formato.orden_venta.productos[1].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[1].cantidad_saliente > 0?formato.orden_venta.productos[1].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[1].cantidad_saliente > 0? formato.orden_venta.productos[1].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[2].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[2].codigo}} - {{formato.orden_venta.productos[2].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[2].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[2].cantidad_saliente > 0? formato.orden_venta.productos[2].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[2].cantidad_saliente > 0?formato.orden_venta.productos[2].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[2].cantidad_saliente > 0?formato.orden_venta.productos[2].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[2].cantidad_saliente > 0? formato.orden_venta.productos[2].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[3].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[3].codigo}} - {{formato.orden_venta.productos[3].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[3].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[3].cantidad_saliente > 0? formato.orden_venta.productos[3].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[3].cantidad_saliente > 0?formato.orden_venta.productos[3].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[3].cantidad_saliente > 0?formato.orden_venta.productos[3].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[3].cantidad_saliente > 0? formato.orden_venta.productos[3].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[4].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[4].codigo}} - {{formato.orden_venta.productos[4].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[4].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[4].cantidad_saliente > 0? formato.orden_venta.productos[4].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[4].cantidad_saliente > 0?formato.orden_venta.productos[4].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[4].cantidad_saliente > 0?formato.orden_venta.productos[4].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[4].cantidad_saliente > 0? formato.orden_venta.productos[4].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[5].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[5].codigo}} - {{formato.orden_venta.productos[5].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[5].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[5].cantidad_saliente > 0? formato.orden_venta.productos[5].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[5].cantidad_saliente > 0?formato.orden_venta.productos[5].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[5].cantidad_saliente > 0?formato.orden_venta.productos[5].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[5].cantidad_saliente > 0? formato.orden_venta.productos[5].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[6].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[6].codigo}} - {{formato.orden_venta.productos[6].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[6].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[6].cantidad_saliente > 0? formato.orden_venta.productos[6].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[6].cantidad_saliente > 0?formato.orden_venta.productos[6].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[6].cantidad_saliente > 0?formato.orden_venta.productos[6].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[6].cantidad_saliente > 0? formato.orden_venta.productos[6].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[7].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[7].codigo}} - {{formato.orden_venta.productos[7].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[7].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[7].cantidad_saliente > 0? formato.orden_venta.productos[7].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[7].cantidad_saliente > 0?formato.orden_venta.productos[7].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[7].cantidad_saliente > 0?formato.orden_venta.productos[7].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[7].cantidad_saliente > 0? formato.orden_venta.productos[7].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[8].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[8].codigo}} - {{formato.orden_venta.productos[8].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[8].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[8].cantidad_saliente > 0? formato.orden_venta.productos[8].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[8].cantidad_saliente > 0?formato.orden_venta.productos[8].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[8].cantidad_saliente > 0?formato.orden_venta.productos[8].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[8].cantidad_saliente > 0? formato.orden_venta.productos[8].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[9].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[9].codigo}} - {{formato.orden_venta.productos[9].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[9].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[9].cantidad_saliente > 0? formato.orden_venta.productos[9].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[9].cantidad_saliente > 0?formato.orden_venta.productos[9].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[9].cantidad_saliente > 0?formato.orden_venta.productos[9].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[9].cantidad_saliente > 0? formato.orden_venta.productos[9].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
-						<td class="width15">{{formato.orden_venta.productos[10].codigo}}</td>
-						<td class="width70">{{formato.orden_venta.productos[10].codigo}} - {{formato.orden_venta.productos[10].nombre}}</td>
-						<td class="width15">{{formato.orden_venta.productos[10].cantidad}}</td>	
+						<td class="width15">{{
+							formato.orden_venta.productos[10].cantidad_saliente > 0? formato.orden_venta.productos[10].codigo : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[10].cantidad_saliente > 0?formato.orden_venta.productos[10].codigo: ''
+						}} - {{
+							formato.orden_venta.productos[10].cantidad_saliente > 0?formato.orden_venta.productos[10].nombre : ''
+						}}</td>
+						<td class="width15">{{formato.orden_venta.productos[10].cantidad_saliente > 0? formato.orden_venta.productos[10].cantidad_saliente : ''}}</td>
 					</tr>
 					<tr>
 						<td colspan="3">{{formato.contenido}}</td>
@@ -368,7 +500,7 @@
 						calle 73 sur no. 80j - 52 bogota - colombia - PBX: 777 77 04 <br><br>
 						pagina web: <span>www.prines.com.co</span>
 					</p>
-				</div>        
+				</div>
 				<div class="second-part">
 					<ul>
 						<li>Frabricación y distribución de herrajería para redes de CATV y HFC</li>
@@ -381,16 +513,16 @@
 				<div class="last-part">
 					<h2 class="title-last-part">Orden salida de almacen</h2>
 					<div class="no-factura">
-						N° {{formato.salida_consecutivo}}                    
+						N° {{formato.salida_consecutivo}}
 					</div>
-				</div>       
+				</div>
 			</div>
 			<br>
 			<div class="table-header">
 				<table class="formato-table">
 					<tr>
 						<td colspan="5">Cliente: {{formato.orden_venta.cliente.nombre}}</td>
-						<td>Fecha: {{convertirFecha(formato.fecha)}}</td>
+						<td>Fecha: {{convertirFecha(fecha)}}</td>
 					</tr>
 				</table>
 			</div>
@@ -399,52 +531,118 @@
 					<tr class="black">
 						<td class="width15">cantidad</td>
 						<td class="width70">descripcion</td>
-						<td class="width15">Contenido</td>												
+						<td class="width15">Contenido</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[0].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[0].codigo}} - {{formato.orden_venta.productos[0].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[0].cantidad_saliente > 0 ? formato.orden_venta.productos[0].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[0].cantidad_saliente > 0 ? formato.orden_venta.productos[0].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[0].cantidad_saliente > 0 ? formato.orden_venta.productos[0].nombre : ''
+						}}</td>
 						<td rowspan="11">{{formato.contenido}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[1].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[1].codigo}} - {{formato.orden_venta.productos[1].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[1].cantidad_saliente > 0 ? formato.orden_venta.productos[1].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[1].cantidad_saliente > 0 ? formato.orden_venta.productos[1].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[1].cantidad_saliente > 0 ? formato.orden_venta.productos[1].nombre : ''
+						}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[2].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[2].codigo}} - {{formato.orden_venta.productos[2].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[2].cantidad_saliente > 0 ? formato.orden_venta.productos[2].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[2].cantidad_saliente > 0 ? formato.orden_venta.productos[2].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[2].cantidad_saliente > 0 ? formato.orden_venta.productos[2].nombre : ''
+						}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[3].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[3].codigo}} - {{formato.orden_venta.productos[3].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[3].cantidad_saliente > 0 ? formato.orden_venta.productos[3].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[3].cantidad_saliente > 0 ? formato.orden_venta.productos[3].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[3].cantidad_saliente > 0 ? formato.orden_venta.productos[3].nombre : ''
+						}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[4].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[4].codigo}} - {{formato.orden_venta.productos[4].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[4].cantidad_saliente > 0 ? formato.orden_venta.productos[4].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[4].cantidad_saliente > 0 ? formato.orden_venta.productos[4].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[4].cantidad_saliente > 0 ? formato.orden_venta.productos[4].nombre : ''
+						}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[5].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[5].codigo}} - {{formato.orden_venta.productos[5].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[5].cantidad_saliente > 0 ? formato.orden_venta.productos[5].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[5].cantidad_saliente > 0 ? formato.orden_venta.productos[5].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[5].cantidad_saliente > 0 ? formato.orden_venta.productos[5].nombre : ''
+						}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[6].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[6].codigo}} - {{formato.orden_venta.productos[6].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[6].cantidad_saliente > 0 ? formato.orden_venta.productos[6].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[6].cantidad_saliente > 0 ? formato.orden_venta.productos[6].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[6].cantidad_saliente > 0 ? formato.orden_venta.productos[6].nombre : ''
+						}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[7].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[7].codigo}} - {{formato.orden_venta.productos[7].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[7].cantidad_saliente > 0 ? formato.orden_venta.productos[7].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[7].cantidad_saliente > 0 ? formato.orden_venta.productos[7].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[7].cantidad_saliente > 0 ? formato.orden_venta.productos[7].nombre : ''
+						}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[8].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[8].codigo}} - {{formato.orden_venta.productos[8].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[8].cantidad_saliente > 0 ? formato.orden_venta.productos[8].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[8].cantidad_saliente > 0 ? formato.orden_venta.productos[8].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[8].cantidad_saliente > 0 ? formato.orden_venta.productos[8].nombre : ''
+						}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[9].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[9].codigo}} - {{formato.orden_venta.productos[9].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[9].cantidad_saliente > 0 ? formato.orden_venta.productos[9].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[9].cantidad_saliente > 0 ? formato.orden_venta.productos[9].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[9].cantidad_saliente > 0 ? formato.orden_venta.productos[9].nombre : ''
+						}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[10].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[10].codigo}} - {{formato.orden_venta.productos[10].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[10].cantidad_saliente > 0 ? formato.orden_venta.productos[10].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[10].cantidad_saliente > 0 ? formato.orden_venta.productos[10].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[10].cantidad_saliente > 0 ? formato.orden_venta.productos[10].nombre : ''
+						}}</td>
 					</tr>
 				</table>
 				<table class="formato-table">
@@ -456,12 +654,12 @@
 				</table>
 			</div>
 		</div>
-		<br>		
-		<br>	
-		<br>	
-		<br>	
-		<br>	
-		<br>	
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
 		<div class="factura">
 			<div class="header">
 				<div class="first-part">
@@ -473,7 +671,7 @@
 						calle 73 sur no. 80j - 52 bogota - colombia - PBX: 777 77 04 <br><br>
 						pagina web: <span>www.prines.com.co</span>
 					</p>
-				</div>        
+				</div>
 				<div class="second-part">
 					<ul>
 						<li>Frabricación y distribución de herrajería para redes de CATV y HFC</li>
@@ -486,16 +684,16 @@
 				<div class="last-part">
 					<h2 class="title-last-part">Orden salida de almacen</h2>
 					<div class="no-factura">
-						N° {{formato.salida_consecutivo}}                    
+						N° {{formato.salida_consecutivo}}
 					</div>
-				</div>       
+				</div>
 			</div>
 			<br>
 			<div class="table-header">
 				<table class="formato-table">
 					<tr>
 						<td colspan="5">Cliente: {{formato.orden_venta.cliente.nombre}}</td>
-						<td>Fecha: {{convertirFecha(formato.fecha)}}</td>
+						<td>Fecha: {{convertirFecha(fecha)}}</td>
 					</tr>
 				</table>
 			</div>
@@ -504,52 +702,118 @@
 					<tr class="black">
 						<td class="width15">cantidad</td>
 						<td class="width70">descripcion</td>
-						<td class="width15">Contenido</td>												
+						<td class="width15">Contenido</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[0].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[0].codigo}} - {{formato.orden_venta.productos[0].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[0].cantidad_saliente > 0 ? formato.orden_venta.productos[0].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[0].cantidad_saliente > 0 ? formato.orden_venta.productos[0].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[0].cantidad_saliente > 0 ? formato.orden_venta.productos[0].nombre : ''
+						}}</td>
 						<td rowspan="11">{{formato.contenido}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[1].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[1].codigo}} - {{formato.orden_venta.productos[1].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[1].cantidad_saliente > 0 ? formato.orden_venta.productos[1].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[1].cantidad_saliente > 0 ? formato.orden_venta.productos[1].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[1].cantidad_saliente > 0 ? formato.orden_venta.productos[1].nombre : ''
+						}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[2].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[2].codigo}} - {{formato.orden_venta.productos[2].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[2].cantidad_saliente > 0 ? formato.orden_venta.productos[2].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[2].cantidad_saliente > 0 ? formato.orden_venta.productos[2].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[2].cantidad_saliente > 0 ? formato.orden_venta.productos[2].nombre : ''
+						}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[3].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[3].codigo}} - {{formato.orden_venta.productos[3].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[3].cantidad_saliente > 0 ? formato.orden_venta.productos[3].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[3].cantidad_saliente > 0 ? formato.orden_venta.productos[3].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[3].cantidad_saliente > 0 ? formato.orden_venta.productos[3].nombre : ''
+						}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[4].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[4].codigo}} - {{formato.orden_venta.productos[4].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[4].cantidad_saliente > 0 ? formato.orden_venta.productos[4].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[4].cantidad_saliente > 0 ? formato.orden_venta.productos[4].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[4].cantidad_saliente > 0 ? formato.orden_venta.productos[4].nombre : ''
+						}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[5].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[5].codigo}} - {{formato.orden_venta.productos[5].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[5].cantidad_saliente > 0 ? formato.orden_venta.productos[5].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[5].cantidad_saliente > 0 ? formato.orden_venta.productos[5].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[5].cantidad_saliente > 0 ? formato.orden_venta.productos[5].nombre : ''
+						}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[6].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[6].codigo}} - {{formato.orden_venta.productos[6].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[6].cantidad_saliente > 0 ? formato.orden_venta.productos[6].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[6].cantidad_saliente > 0 ? formato.orden_venta.productos[6].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[6].cantidad_saliente > 0 ? formato.orden_venta.productos[6].nombre : ''
+						}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[7].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[7].codigo}} - {{formato.orden_venta.productos[7].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[7].cantidad_saliente > 0 ? formato.orden_venta.productos[7].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[7].cantidad_saliente > 0 ? formato.orden_venta.productos[7].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[7].cantidad_saliente > 0 ? formato.orden_venta.productos[7].nombre : ''
+						}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[8].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[8].codigo}} - {{formato.orden_venta.productos[8].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[8].cantidad_saliente > 0 ? formato.orden_venta.productos[8].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[8].cantidad_saliente > 0 ? formato.orden_venta.productos[8].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[8].cantidad_saliente > 0 ? formato.orden_venta.productos[8].nombre : ''
+						}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[9].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[9].codigo}} - {{formato.orden_venta.productos[9].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[9].cantidad_saliente > 0 ? formato.orden_venta.productos[9].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[9].cantidad_saliente > 0 ? formato.orden_venta.productos[9].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[9].cantidad_saliente > 0 ? formato.orden_venta.productos[9].nombre : ''
+						}}</td>
 					</tr>
 					<tr >
-						<td class="width15">{{formato.orden_venta.productos[10].cantidad}}</td>	
-						<td class="width70">{{formato.orden_venta.productos[10].codigo}} - {{formato.orden_venta.productos[10].nombre}}</td>
+						<td class="width15">{{
+							formato.orden_venta.productos[10].cantidad_saliente > 0 ? formato.orden_venta.productos[10].cantidad_saliente : ''
+						}}</td>
+						<td class="width70">{{
+							formato.orden_venta.productos[10].cantidad_saliente > 0 ? formato.orden_venta.productos[10].codigo : ''
+						}} - {{
+							formato.orden_venta.productos[10].cantidad_saliente > 0 ? formato.orden_venta.productos[10].nombre : ''
+						}}</td>
 					</tr>
 				</table>
 				<table class="formato-table">

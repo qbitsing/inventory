@@ -201,6 +201,17 @@ angular.module('frontendApp')
         if(!$scope.Detalle.productos){
             $scope.Detalle.productos=[];
         }
+        $scope.Salidas.forEach(function(ele,index){
+            if (ele.orden_venta._id==$scope.Detalle._id) {
+                var contador=0;
+                ele.orden_venta.productos.forEach(function(elemento,ind){
+                    if (elemento.cantidad_saliente>0) {
+                        contador++;
+                    }
+                });
+                ele.rowspan=contador;
+            }
+        });
         $('#modaldeDetalles').modal('open');
     }
     $scope.BorrarProducto=function(index){
