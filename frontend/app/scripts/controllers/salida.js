@@ -144,9 +144,13 @@ angular.module('frontendApp')
         if ($scope.Salida.orden_venta.productos) {
             var conter=true;
             $scope.Salida.orden_venta.productos.forEach(function(ele, index){
-                ele.cantidad_saliente=angular.element('#cantidad'+ele._id).val();
-                if (ele.cantidad_faltante<ele.cantidad_saliente) {
-                    conter=false;
+                if (ele.cantidad_faltante>0) {
+                    ele.cantidad_saliente=parseInt(angular.element('#cantidad'+ele._id).val());
+                    if (ele.cantidad_faltante<ele.cantidad_saliente) {
+                        conter=false;
+                    }
+                }else{
+                    ele.cantidad_saliente=0;
                 }
             });
         }

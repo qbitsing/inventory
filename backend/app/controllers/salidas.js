@@ -64,13 +64,13 @@ let crear = co.wrap(function * (req, res){
                 let pr = yield productoModel.findById(el._id);
 
                 if(pr.cantidad < (ele.cantidad_saliente * el.cantidad)){
-                  noDisponibles.push(`No se puede realizar la salida ya que no cuenta con ${ele.cantidad * el.cantidad} de ${el.nombre}`);
+                  noDisponibles.push(`No se puede realizar la salida ya que no cuenta con ${ele.cantidad * el.cantidad} ${pr.unidad_medida.nombre} de ${el.nombre}`);
                 }
               }
             }else{
               let pro = yield productoModel.findById(ele._id);
               if(pro.cantidad < ele.cantidad_saliente){
-                noDisponibles.push(`No se puede realizar la salida ya que no cuenta con ${ele.cantidad_saliente} de ${ele.nombre}`);
+                noDisponibles.push(`No se puede realizar la salida ya que no cuenta con ${ele.cantidad_saliente} ${pro.unidad_medida.nombre} de ${ele.nombre}`);
               }
             }            
           }
