@@ -32,6 +32,7 @@ angular.module('frontendApp')
     if ($scope.Usuario.rol=='Contador') {
         $state.go('Home');
     }
+    $scope.datosProductos = [];
     $scope.estadoactivofab='En Fabricacion';
     $scope.preloader = preloader;
     $scope.preloader.estado = true;
@@ -314,14 +315,20 @@ angular.module('frontendApp')
         $scope.producto.cantidad=0;
     }
     $scope.cargarProducto=function(keyEvent){
-        $scope.Productos.forEach(function(ele , index){
-            if($scope.producto.codigo == ele.codigo){
-                $scope.producto._id=ele._id+','+ele.nombre+','+ele.marca+','+ele.fabricado;
-                if (keyEvent.which === 13){
-                    $('#Cantidad').focus();
-                }
-            }
+        var pro = $scope.Productos.find(function(_){
+            return _.codigo == $scope.producto.codigo;
         });
+
+        if(pro){
+            $scope.producto._id=pro._id+','+pro.nombre+','+pro.marca+','+pro.fabricado;
+            if (keyEvent.which === 13){
+                $('#Cantidad').focus();
+            }
+            $('#productos .infinite-autocomplete-default-input').val(pro.nombre);
+        }else{
+            $('#productos .infinite-autocomplete-default-input').val('');  
+            $scope.producto._id = '';
+        }
     }
     $scope.detectar=function(keyEvent){
         if ($scope.producto.cantidad>0) {
@@ -1193,11 +1200,29 @@ angular.module('frontendApp')
         .getResource('productos',{producto:true},'get')
         .then(function(data){
             $scope.Productos=data.data.datos;
+            $scope.datosProductos = [];
+            $scope.Productos.forEach(function (_) {
+                if(_.fabricado){
+                    $scope.datosProductos.push({
+                        text: _.nombre + ' - ' + _.marca,
+                        value: _._id+','+_.nombre+','+_.marca+','+_.fabricado
+                    });
+                }
+            });
             listarRemisiones();
         },function(data){
             $scope.Productos=[];
             listarRemisiones();
         });
+    }
+    $scope.selectAutocompleteProducto=function($element, $data){
+        $scope.producto={};
+        $scope.producto._id = $data.value;
+    }
+
+    $scope.selectAutocompleteMateria=function($element, $data){
+        $scope.salida_materia = {};
+        $scope.salida_materia.Materia = $data.value;
     }
     function listarMaterias(){
         $scope.preloader.estado = true;
@@ -1206,6 +1231,13 @@ angular.module('frontendApp')
         .then(function(data){
             $scope.Materias=data.data.datos;
             listarSalidasInsumos();
+            $scope.datosMateria = [];
+            $scope.Materias.forEach(function ( _ ) {
+                $scope.datosMateria.push({
+                    text: _.nombre,
+                    value: JSON.stringify(_)
+                });
+            });
         },function(data){
             $scope.Materias=[];
             listarSalidasInsumos();

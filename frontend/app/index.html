@@ -10,7 +10,7 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="../bower_components/materialize/bin/materialize.css" />
     <link rel="stylesheet" href="../bower_components/textAngular/dist/textAngular.css" />
-    <link rel="stylesheet" href="../bower_components/perfect-scrollbar/src/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="../bower_components/perfect-scrollbar/css/perfect-scrollbar.css" />
     <link rel="stylesheet" href="../bower_components/fullcalendar/dist/fullcalendar.css" />
     <link rel="stylesheet" href="../bower_components/c3/c3.css" />
     <link rel="stylesheet" href="../bower_components/angular-loading-bar/build/loading-bar.css" />
@@ -23,6 +23,7 @@
     <!-- endbuild -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
+      <link rel="stylesheet" href="../bower_components/angular-simple-autocomplete-directive/dist/main.css">
     <link rel="stylesheet" href="styles/main.min.css">
   </head>
   <body ng-app="frontendApp">
@@ -54,7 +55,7 @@
     <script src="../bower_components/textAngular/dist/textAngular.js"></script>
     <script src="../bower_components/textAngular/dist/textAngular-sanitize.js"></script>
     <script src="../bower_components/textAngular/dist/textAngularSetup.js"></script>
-    <script src="../bower_components/perfect-scrollbar/src/perfect-scrollbar.js"></script>
+    <script src="../bower_components/perfect-scrollbar/js/perfect-scrollbar.js"></script>
     <script src="../bower_components/angular-perfect-scrollbar-4.1.1fixed/src/angular-perfect-scrollbar.js"></script>
     <script src="../bower_components/moment/moment.js"></script>
     <script src="../bower_components/fullcalendar/dist/fullcalendar.js"></script>
@@ -76,11 +77,14 @@
     <script src="../bower_components/angular-barcode/dist/angular-barcode.min.js"></script>
     <script src="../bower_components/angular-io-barcode/build/angular-io-barcode.js"></script>
     <script src="../bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="../bower_components/ng-infinite-autocomplete/dist/index.js"></script>
     <!-- endbower -->
      <script src="../bower_components/angular-cryptography/mdo-angular-cryptography.js"></script>
+     <script src="../bower_components/angular-simple-autocomplete-directive/dist/main.js"></script>
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.min.js -->
+        <script src="scripts/external-libraries/autocomplete-jquery-ui.js"></script>
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/inicio_sesion.js"></script>
         <script src="scripts/services/webserver.js"></script>
@@ -111,6 +115,7 @@
         <script src="scripts/services/numeroaletras.js"></script>
         <script src="scripts/controllers/login.js"></script>
         <script src="scripts/services/socket.js"></script>
+    <script src="scripts/directives/myprouctsautocomplete.js"></script>
     <!-- endbuild -->
 
 </body>

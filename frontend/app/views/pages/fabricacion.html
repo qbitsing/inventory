@@ -35,11 +35,16 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="input-field col s10 m5 l5">
-								<select ng-model="producto._id" material-select watch>
-	      							<option ng-if="panel_title_form=='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in Productos" value="{{producto._id}},{{producto.nombre}},{{producto.marca}},{{producto.fabricado}}">{{producto.nombre}} - {{producto.marca}}</option>
+							<div class="input-field col s10 m5 l5" id="productos">
+								<select ng-model="producto._id"  ng-show="panel_title_form!='Registro de Fabricaciones' || fabricacion.orden_venta.productos" material-select watch>
+	      							<!--<option ng-if="panel_title_form=='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in Productos" value="{{producto._id}},{{producto.nombre}},{{producto.marca}},{{producto.fabricado}}">{{producto.nombre}} - {{producto.marca}}</option>-->
 	      							<option ng-if="panel_title_form!='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in fabricacion.productos" value="{{producto._id}},{{producto.nombre}},{{producto.marca}},{{producto.fabricado}}">{{producto.nombre}} - {{producto.marca}}</option>
 								</select>
+								<ng-infinite-autocomplete
+	      							data="datosProductos"
+	      							on-select="selectAutocompleteProducto($element, $data)"
+	      							ng-hide="panel_title_form!='Registro de Fabricaciones' || fabricacion.orden_venta.productos"
+	      						></ng-infinite-autocomplete>
 								<label>Productos *</label>
 							</div>
 							<div class="input-field col s2 m1 l1">
@@ -695,9 +700,10 @@
 	    		<div class="row">
 					<h5>Materias primas:</h5>
 					<div class="input-field col s12 m6 l6">
-						<select ng-model="salida_materia.Materia" material-select watch>
-							<option ng-repeat="materia in Materias" value="{{materia}}">{{materia.nombre}}</option>
-						</select>
+						<ng-infinite-autocomplete
+						    data="datosMateria"
+						    on-select="selectAutocompleteMateria($element, $data)"
+						></ng-infinite-autocomplete>
 						<label>Materia prima *</label>
 					</div>
 					<div class="input-field col s8 m4 l4">

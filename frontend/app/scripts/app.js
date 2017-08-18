@@ -29,7 +29,9 @@ angular
     'mdo-angular-cryptography',
     'uiCropper',
     'ui.materialize',
-    'io-barcode'
+    'io-barcode',
+    'simple-autocomplete',
+    'infinite-autocomplete'
 ])
 .config(function (localStorageServiceProvider) {
     localStorageServiceProvider

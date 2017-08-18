@@ -37,6 +37,7 @@ angular.module('frontendApp')
     $scope.button_title_form = "Registrar venta";
     $scope.noDisponible=[];
     $scope.Orden={};
+    $scope.datos=[];
     $scope.Orden.productos=[];
     $scope.Orden.Producto={};
     $scope.Orden.Producto._id='';
@@ -105,6 +106,12 @@ angular.module('frontendApp')
         .then(function(data){
             if(data.data){
                 $scope.productos=data.data.datos;
+                $scope.productos.forEach(function(_){
+                    $scope.datos.push({
+                        text:_.nombre+" "+_.marca,
+                        value: _._id+','+_.nombre+','+_.marca+','+_.precio+','+_.fabricado+','+_.codigo+','+_.tipo
+                    });
+                });
             }else{
                 $scope.productos=[];
             }
@@ -141,14 +148,21 @@ angular.module('frontendApp')
     }
     listarOrdenes();
     $scope.cargarProducto=function(keyEvent){
-        $scope.productos.forEach(function(ele , index){
-            if($scope.Orden.Producto.codigo == ele.codigo){
-                $scope.Orden.Producto._id=ele._id+','+ele.nombre+','+ele.marca+','+ele.precio+','+(ele.fabricado || '')+','+ele.codigo+','+ele.tipo;
-                if (keyEvent.which === 13){
-                    $('#Cantidad').focus();
-                }
-            }
+
+        var ele = $scope.productos.find(function(_){
+            return _.codigo == $scope.Orden.Producto.codigo;
         });
+
+        if(ele){
+            $scope.Orden.Producto._id=ele._id+','+ele.nombre+','+ele.marca+','+ele.precio+','+(ele.fabricado || '')+','+ele.codigo+','+ele.tipo;
+            $('.infinite-autocomplete-default-input').val(ele.nombre+' '+ele.marca);
+            if (keyEvent.which === 13){
+                $('#Cantidad').focus();
+            }
+        }else{
+            $('.infinite-autocomplete-default-input').val('');
+            $scope.Orden.Producto._id = '';
+        }
     }
     $scope.detectar=function(keyEvent){
         if ($scope.Orden.Producto.cantidad>0) {
@@ -189,6 +203,7 @@ angular.module('frontendApp')
             $scope.Orden.Producto={};
             $scope.Orden.Producto._id='';
             $scope.Orden.Producto.cantidad=0;
+            $('.infinite-autocomplete-default-input').val('');
             $('#codigo_barras').focus();
         }
     }
@@ -401,5 +416,11 @@ angular.module('frontendApp')
             }
         });
         return obj;
+    }
+
+    $scope.selectAutocomplete = function($element, $data){
+        $scope.Orden.Producto= {};
+        $scope.Orden.Producto._id= $data.value;
+
     }
 })
