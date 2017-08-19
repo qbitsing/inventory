@@ -8,5 +8,5 @@
  * Constant in the frontendApp.
  */
 angular.module('frontendApp')
- .constant('server', 'http://192.168.128.7:5000');
+ .constant('server', 'http://inventory:5000');
  //192.168.128.7
