@@ -27,6 +27,8 @@ angular.module('frontendApp')
     $scope.preloader = preloader;
     $scope.panelAnimate='';
     $scope.pageAnimate='';
+    $scope.datosProductos = [];
+    $scope.datosMateria = [];
     if ($scope.Usuario.rol=='Contador' || $scope.Usuario.rol=='Almacenista') {
         $state.go('Home');
     }
@@ -91,14 +93,21 @@ angular.module('frontendApp')
         $('#modalDetalles').modal('open');
     }
     $scope.cargarProducto=function(keyEvent){
-        $scope.productos.forEach(function(ele , index){
-            if($scope.Orden.Producto.codigo == ele.codigo){
-                $scope.Orden.Producto._id = ele._id+','+ele.nombre;
-                if (keyEvent.which === 13){
-                    $('#Cantidad-producto').focus();
-                }
-            }
+        var pro = $scope.productos.find(function(_){
+            console.log( $scope.Orden.Producto.codigo)
+            return _.codigo == $scope.Orden.Producto.codigo;
         });
+
+        if(pro){
+            $scope.Orden.Producto._id = pro._id+','+pro.nombre;
+            if (keyEvent.which === 13){
+                $('#Cantidad-producto').focus();
+            }
+            $('#productos .infinite-autocomplete-default-input').val(pro.nombre);
+        }else{
+            $('#productos .infinite-autocomplete-default-input').val('');  
+            $scope.Orden.Producto._id = '';
+        }
     }
     $scope.detectar=function(keyEvent){
         if ($scope.Orden.Producto.cantidad>0) {
@@ -136,6 +145,7 @@ angular.module('frontendApp')
             }
             $scope.Orden.Producto={};
             $scope.Orden.Producto._id='';
+            $('#productos .infinite-autocomplete-default-input').val('');
             $scope.Orden.Producto.cantidad=0;
             $('#codigo_barras').focus();
         }
@@ -165,6 +175,7 @@ angular.module('frontendApp')
             Materialize.toast('La cantidad se ha sumado al materia prima ya añadida', 4000);
         }
         $scope.Orden.Materia={};
+        $('#materias .infinite-autocomplete-default-input').val('');
     }
     $scope.BorrarMateria=function(index){
         $scope.Orden.materia_prima.splice(index,1);
@@ -342,6 +353,12 @@ angular.module('frontendApp')
         .getResource('materiaPrima',{},'get')
         .then(function(data){
             $scope.materias=data.data.datos;
+            $scope.materias.forEach(function (_) {
+                $scope.datosMateria.push({
+                    text: _.nombre,
+                    value: _._id + ',' + _.nombre
+                });
+            });
             listarPersonas();
         },function(data){
             $scope.materias=[];
@@ -353,6 +370,12 @@ angular.module('frontendApp')
         .getResource('productos',{producto:true},'get')
         .then(function(data){
             $scope.productos=data.data.datos;
+            $scope.productos.forEach(function (_) {
+                $scope.datosProductos.push({
+                    text: _.nombre + ' ' + _.marca,
+                    value: _._id + ',' + _.nombre
+                });
+            });
             listarMaterias();
         },function(data){
             $scope.productos=[];
@@ -374,4 +397,13 @@ angular.module('frontendApp')
         });
     }
     listarOrdenes();
+    $scope.selectAutocompleteProducto = function($element, $data){
+        $scope.Orden.Producto={};
+        $scope.Orden.Producto._id=$data.value;
+    }
+
+    $scope.selectAutocomplete = function($element, $data){
+        $scope.Orden.Materia={};
+        $scope.Orden.Materia._id=$data.value;
+    }
 })
