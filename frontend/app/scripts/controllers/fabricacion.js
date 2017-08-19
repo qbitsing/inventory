@@ -170,24 +170,29 @@ angular.module('frontendApp')
 
     $scope.CargarOrden=function(valor){
         $scope.Orden=valor;
+        $scope.fabricacion.orden_venta={};
+        $scope.fabricacion.orden_venta.productos=[];
+        $scope.fabricacion.productos=[];
         $scope.Ordenes.forEach(function(ele, index){
             if(ele._id==$scope.Orden){
                 $scope.fabricacion.orden_venta=ele;
             }
         });
-        if(!$scope.fabricacion.orden_venta.productos){
-            $scope.fabricacion.orden_venta.productos=[];
-        }
-        $scope.fabricacion.productos=$scope.fabricacion.orden_venta.productos;
-        $scope.fabricacion.productos.forEach(function(ele,index){
-            if (!ele.fabricado) {
-                $scope.fabricacion.productos.splice(index,1);
-            }else{
+        $scope.fabricacion.orden_venta.productos.forEach(function(ele,index){
+            if (ele.fabricado) {
                 ele.cantidad_disponible=ele.cantidad;
                 ele.cantidad_fabricada=0;
                 ele.cantidad_saliente=0;
+                $scope.hacerPush(ele);
             }
         });
+        if ($scope.fabricacion.productos.length<1) {
+            sweetAlert('Oops...','Esta Orden no posee productos para fabricar','error');
+            $scope.fabricacion.orden_venta={};
+        }
+    }
+    $scope.hacerPush=function(producto){
+        $scope.fabricacion.productos.push(producto);
     }
     $scope.cambiar=function(){
         $scope.fabricacion.procesos.forEach(function (ele){
@@ -313,6 +318,7 @@ angular.module('frontendApp')
         $scope.producto={};
         $scope.producto._id='';
         $scope.producto.cantidad=0;
+        $scope.Orden='';
     }
     $scope.cargarProducto=function(keyEvent){
         var pro = $scope.Productos.find(function(_){
@@ -352,7 +358,6 @@ angular.module('frontendApp')
             $scope.fabricacion.generado=$scope.Usuario;
             delete $scope.fabricacion.generado.Image;
         }else{
-            console.log($scope.fabricacion)
             metodo='put';
             ruta='fabricacion/'+$scope.fabricacion._id;
         }
