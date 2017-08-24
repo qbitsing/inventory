@@ -33,6 +33,7 @@ angular.module('frontendApp')
         $scope.pageAnimate='pageAnimate';
         $scope.panelAnimate='panelAnimate';
     },100);
+    
     $scope.panel_title_form = "Registro de venta";
     $scope.button_title_form = "Registrar venta";
     $scope.noDisponible=[];
@@ -72,7 +73,7 @@ angular.module('frontendApp')
                 cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha_recepcion)}}</div>',
                 minWidth: 150
             },
-            { 
+            {
                 field: 'estado',
                 width:'13%',
                 minWidth: 100
@@ -307,7 +308,7 @@ angular.module('frontendApp')
     function scroll(){
          $("html, body").animate({
             scrollTop: 0
-        }, 1000); 
+        }, 1000);
     }
     $scope.Editar = function(id){
         $scope.Orden=IdentificarOrden(id,$scope.Ordenes);
@@ -357,7 +358,7 @@ angular.module('frontendApp')
         $scope.Orden.productos = [];
         $scope.productos = [];
         $scope.panel_title_form = "Registro de venta";
-        $scope.button_title_form = "Registrar venta"; 
+        $scope.button_title_form = "Registrar venta";
     }
     /*Validaciones de fechas*/
     $scope.validarFechaEntrega=function(){
