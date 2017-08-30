@@ -16,10 +16,7 @@ const personaSchema = Schema({
     apellidos : String,
     direccion : String,
     telefono : String,
-    correo : {
-        type : String, 
-        unique : true
-    },
+    correo : String,
     contrasena : String,
     proveedor:Boolean,
     proveedorproductos: Boolean,

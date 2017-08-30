@@ -121,7 +121,7 @@ angular.module('frontendApp')
                 width:'30%',
                 minWidth: 200
             },
-            { 
+            {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotonesModalCategorias,
                 width:'40%',
                 minWidth: 200
@@ -139,7 +139,7 @@ angular.module('frontendApp')
                 width:'50%',
                 minWidth: 200
             },
-            { 
+            {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotonesModalUnidades,
                 width:'50%',
                 minWidth: 200
@@ -163,7 +163,7 @@ angular.module('frontendApp')
                 width:'33%',
                 minWidth: 200
             },
-            { 
+            {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotonesModalProcesos,
                 width:'34%',
                 minWidth: 200
@@ -407,6 +407,7 @@ angular.module('frontendApp')
             }
         });
     }
+  
     $scope.active=true;
     $scope.cerrarSesion=function(){
         SesionUsuario.CerrarSesion();
@@ -416,7 +417,7 @@ angular.module('frontendApp')
     function scroll(){
          $("html, body").animate({
             scrollTop: 0
-        }, 1000); 
+        }, 1000);
     }
     angular.element(".side-nav>ul>li").click(function(){
        scroll();

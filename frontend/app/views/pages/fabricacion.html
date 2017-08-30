@@ -36,20 +36,19 @@
 						</div>
 						<div class="row">
 							<div class="input-field col s10 m5 l5" id="productos">
-								<select ng-model="producto._id"  ng-show="panel_title_form!='Registro de Fabricaciones' || fabricacion.orden_venta.productos" material-select watch>
-	      							<!--<option ng-if="panel_title_form=='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in Productos" value="{{producto._id}},{{producto.nombre}},{{producto.marca}},{{producto.fabricado}}">{{producto.nombre}} - {{producto.marca}}</option>-->
-	      							<option ng-if="panel_title_form!='Registro de Fabricaciones' && producto.fabricado" ng-repeat="producto in fabricacion.productos" value="{{producto._id}},{{producto.nombre}},{{producto.marca}},{{producto.fabricado}}">{{producto.nombre}} - {{producto.marca}}</option>
+								<label class="active">Productos *</label>
+								<select ng-model="producto._id"  ng-show="panel_title_form!='Registro de Fabricaciones' || fabricacion.orden_venta.productos.length>0" material-select watch>
+	      							<option ng-if="producto.fabricado" ng-repeat="producto in fabricacion.orden_venta.productos" value="{{producto._id}},{{producto.nombre}},{{producto.marca}},{{producto.fabricado}}">{{producto.nombre}} - {{producto.marca}}</option>
 								</select>
 								<ng-infinite-autocomplete
 	      							data="datosProductos"
 	      							on-select="selectAutocompleteProducto($element, $data)"
 	      							ng-hide="panel_title_form!='Registro de Fabricaciones' || fabricacion.orden_venta.productos"
 	      						></ng-infinite-autocomplete>
-								<label>Productos *</label>
 							</div>
 							<div class="input-field col s2 m1 l1">
 								<input type="text" ng-keyup="cargarProducto($event)" ng-model="producto.codigo" id="codigo_barras" name="codigo_barras">
-								<label for="codigo_barras">codigo</label> 
+								<label for="codigo_barras">codigo</label>
 							</div>
 							<div class="input-field col s4 m4 l4">
 									<input type="number" ng-change="validarNumeroProducto()" ng-keyup="detectar($event)" ng-model="producto.cantidad" id="Cantidad" name="Cantidad">
@@ -370,7 +369,7 @@
 							<h2 class="title-header">productos industriales para telecomunicaciones e iluminación</h2>
 							<h3 class="subtitle-header">producciones industriales esperanza s.a.s.</h3>
 							<p class="nit">nit. 900.462.957-1 régimen común</p>
-						</div>        
+						</div>
 						<div class="second-part">
 							<ul>
 								<li>Frabricación y distribución de herrajería para redes de CATV y HFC</li>
@@ -383,9 +382,9 @@
 						<div class="last-part">
 							<h2 class="title-last-part">Remisión de trabajo</h2>
 							<div class="no-factura">
-								N° {{formato.remision_consecutivo}}                    
+								N° {{formato.remision_consecutivo}}
 							</div>
-						</div>       
+						</div>
 					</div>
 					<br>
 					<div class="table-header">
@@ -470,7 +469,7 @@
 							<h2 class="title-header">productos industriales para telecomunicaciones e iluminación</h2>
 							<h3 class="subtitle-header">producciones industriales esperanza s.a.s.</h3>
 							<p class="nit">nit. 900.462.957-1 régimen común</p>
-						</div>        
+						</div>
 						<div class="second-part">
 							<ul>
 								<li>Frabricación y distribución de herrajería para redes de CATV y HFC</li>
@@ -483,9 +482,9 @@
 						<div class="last-part">
 							<h2 class="title-last-part">Remisión de trabajo</h2>
 							<div class="no-factura">
-								N° {{formato.remision_consecutivo}}                   
+								N° {{formato.remision_consecutivo}}
 							</div>
-						</div>       
+						</div>
 					</div>
 					<br>
 					<div class="table-header">
@@ -676,9 +675,11 @@
     			<tr ng-if="entrada.fabricacion._id==contenido_fabricacion._id" ng-repeat="entrada in EntradasFabricaciones">
     				<td>{{entrada.entrada_remision_consecutivo}}</td>
 	    			<td><li ng-repeat="res in entrada.productos">{{res.producto.nombre}} - {{res.cantidad}}</li></td>
-	    			<td>{{entrada.remision.proceso.nombre || 'No registra'}} </td>
+	    			<td ng-if="entrada.remision">{{entrada.remision.proceso.nombre || 'No registra'}} </td>
+	    			<td ng-if="!entrada.remision">Internos</td>
     				<td ng-show="entrada.remision.proceso.array_responsables"><li ng-repeat="res in entrada.remision.proceso.array_responsables">{{res.nombre}} {{res.apellidos}}</li></td>
-    				<td ng-hide="entrada.remision.proceso.array_responsables">No registra</td>
+    				<td ng-if="entrada.remision && !entrada.remision.proceso.array_responsables">No registra</td>
+    				<td ng-if="!entrada.remision">Internos</td>
     				<td ng-if="entrada.estado!='Cancelada'"><button type="button" class="btn btn-danger" ng-click="abrircancelarentrada(entrada)">Cancelar</button></td>
     				<td ng-if="entrada.estado=='Cancelada'" class="danger-text">Entrada cancelada</td>
     				<td>{{entrada.observaciones || 'No registra'}}</td>
@@ -704,7 +705,7 @@
 						    data="datosMateria"
 						    on-select="selectAutocompleteMateria($element, $data)"
 						></ng-infinite-autocomplete>
-						<label>Materia prima *</label>
+						<label class="active">Materia prima *</label>
 					</div>
 					<div class="input-field col s8 m4 l4">
 						<input type="number" ng-change="validarNumeroSalidaMateria()" ng-model="salida_materia.cantidadMateria" id="Cantidadinsumo" name="Cantidadinsumo">
@@ -797,7 +798,7 @@
 
 <div id="superContainerFabricacion" ng-show="false">
 	<div id="containerFabricacion">
-		<link rel="stylesheet" ng-href="{{server}}/formatos/styles/remision.css">		
+		<link rel="stylesheet" ng-href="{{server}}/formatos/styles/remision.css">
 		<div class="factura">
 			<div class="header">
 				<div class="first-part">
@@ -805,7 +806,7 @@
 					<h2 class="title-header">productos industriales para telecomunicaciones e iliminacion</h2>
 					<h3 class="subtitle-header">producciones industriales esperanza s.a.s.</h3>
 					<p class="nit">nit. 900.462.957-1 régimen común</p>
-				</div>      
+				</div>
 				<div class="second-part">
 					<ul>
 						<li>Frabricación y distribución de herrajería para redes de CATV y HFC</li>
@@ -818,9 +819,9 @@
 				<div class="last-part">
 					<h2 class="title-last-part">Orden de Trabajo</h2>
 					<div class="no-factura">
-						N° {{formatoFabricacion.fabricacion_consecutivo}}                   
+						N° {{formatoFabricacion.fabricacion_consecutivo}}
 					</div>
-				</div>       
+				</div>
 			</div>
 			<br>
 			<div class="table-header">
@@ -868,7 +869,7 @@
 						</tr>
 					</thead>
 					<tbody id="contenidoTableProcess">
-					</tbody>					
+					</tbody>
 				</table>
 			</div>
 		</div>
