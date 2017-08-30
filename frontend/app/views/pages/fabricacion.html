@@ -781,7 +781,7 @@
     			<tr ng-if="salida.fabricacion._id==salida_insumos.fabricacion._id" ng-repeat="salida in SalidasInsumos">
 	    			<td ng-show="salida.productos.length>0"><li ng-repeat="res in salida.productos">{{res.producto.nombre}} - {{res.cantidad}}</li></td>
 	    			<td ng-hide="salida.productos.length>0">No registra</td>
-	    			<td ng-show="salida.materia_prima.length>0"><li ng-repeat="res in salida.materia_prima">{{res.materia.nombre}} - {{res.cantidad}}</li></td>
+	    			<td ng-show="salida.materia_prima.length>0"><li ng-repeat="res1 in salida.materia_prima">{{res1.materia.nombre}} - {{res1.cantidad}}</li></td>
 	    			<td ng-hide="salida.materia_prima.length>0">No registra</td>
     				<td ng-if="salida.estado!='Cancelada'"><button type="button" class="btn btn-danger" ng-click="abrircancelarsalidainsumos(salida)">Cancelar</button></td>
     				<td ng-if="salida.estado=='Cancelada'" class="danger-text">Salida cancelada</td>
