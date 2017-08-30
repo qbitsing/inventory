@@ -72,7 +72,7 @@ let crear = co.wrap(function * (req, res){
               if(pro.cantidad < ele.cantidad_saliente){
                 noDisponibles.push(`No se puede realizar la salida ya que no cuenta con ${ele.cantidad_saliente} ${pro.unidad_medida.nombre} de ${ele.nombre}`);
               }
-            }            
+            }
           }
 
           if(noDisponibles.length > 0){
@@ -93,7 +93,7 @@ let crear = co.wrap(function * (req, res){
                 let pro = yield productoModel.findById(ele._id);
                 pro.apartados -= ele.cantidad_saliente;
                 pro.cantidad -= ele.cantidad_saliente;
-                yield productoModel.findByIdAndUpdate(pro._id, pro);                
+                yield productoModel.findByIdAndUpdate(pro._id, pro);
               }
             }
             if(ele.cantidad_faltante == 1) contador ++;
@@ -155,7 +155,7 @@ let eliminar = co.wrap(function *(req, res){
           yield productoModel.findByIdAndUpdate(pro._id, pro);
         }
         ele.cantidad_faltante += parseInt(ele.cantidad_saliente);
-        
+
         salida.orden_venta.productos.push(ele);
       }
     }
