@@ -116,8 +116,6 @@ angular.module('frontendApp')
                     $scope.AgregarProducto();
                 }
             }
-        }else{
-            $scope.Orden.Producto.cantidad=0;
         }
     }
     $scope.AgregarProducto=function(){
@@ -300,6 +298,11 @@ angular.module('frontendApp')
     $scope.validarNumeroMateria=function(id){
         if ($scope.Orden.Materia.cantidad<0) {
             $scope.Orden.Materia.cantidad=0;
+        }
+    }
+    $scope.validarNumero=function(){
+        if($scope.Orden.Producto.cantidad<0){
+            $scope.Orden.Producto.cantidad=0;
         }
     }
     /*Fin de las validaciones*/
