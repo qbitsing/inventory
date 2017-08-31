@@ -17,7 +17,7 @@
 									<label for="stock">Stock</label>
 							    </p>
 							</div>
-							<div ng-show="panel_title_form=='Registro de Fabricaciones'" class="input-field col s12 m6 l6" ng-show="check=='orden'">
+							<div ng-show="panel_title_form=='Registro de Fabricaciones' && check=='orden'" class="input-field col s12 m6 l6">
 								<select id="ordenn" ng-change="CargarOrden(Orden)" ng-model="Orden" material-select watch>
 	      							<option ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.orden_venta_consecutivo}}-{{orden.cliente.nombre}}</option>
 								</select>
@@ -37,13 +37,13 @@
 						<div class="row">
 							<div class="input-field col s10 m5 l5" id="productos">
 								<label class="active">Productos *</label>
-								<select ng-model="producto._id"  ng-show="panel_title_form!='Registro de Fabricaciones' || fabricacion.orden_venta.productos.length>0" material-select watch>
+								<select ng-model="producto._id"  ng-show="(panel_title_form!='Registro de Fabricaciones' && fabricacion.orden_venta.productos.length>0) || fabricacion.orden_venta.productos.length>0" material-select watch>
 	      							<option ng-if="producto.fabricado" ng-repeat="producto in fabricacion.orden_venta.productos" value="{{producto._id}},{{producto.nombre}},{{producto.marca}},{{producto.fabricado}}">{{producto.nombre}} - {{producto.marca}}</option>
 								</select>
 								<ng-infinite-autocomplete
 	      							data="datosProductos"
 	      							on-select="selectAutocompleteProducto($element, $data)"
-	      							ng-hide="panel_title_form!='Registro de Fabricaciones' || fabricacion.orden_venta.productos"
+	      							ng-hide="(panel_title_form!='Registro de Fabricaciones' && fabricacion.orden_venta.productos.length>0) || fabricacion.orden_venta.productos.length>0"
 	      						></ng-infinite-autocomplete>
 							</div>
 							<div class="input-field col s2 m1 l1">
