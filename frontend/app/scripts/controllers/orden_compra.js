@@ -116,6 +116,8 @@ angular.module('frontendApp')
                     $scope.AgregarProducto();
                 }
             }
+        }else{
+            $scope.Orden.Producto.cantidad=0;
         }
     }
     $scope.AgregarProducto=function(){

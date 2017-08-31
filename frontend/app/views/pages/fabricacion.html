@@ -17,7 +17,7 @@
 									<label for="stock">Stock</label>
 							    </p>
 							</div>
-							<div class="input-field col s12 m6 l6" ng-show="check=='orden'">
+							<div ng-show="panel_title_form=='Registro de Fabricaciones'" class="input-field col s12 m6 l6" ng-show="check=='orden'">
 								<select id="ordenn" ng-change="CargarOrden(Orden)" ng-model="Orden" material-select watch>
 	      							<option ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.orden_venta_consecutivo}}-{{orden.cliente.nombre}}</option>
 								</select>
@@ -164,6 +164,7 @@
 							<th data-field="marca">Marca</th>
 							<th data-field="cantidad">Cantidad</th>
 							<th data-field="cantidad_saliente">Cantidad en areas externas</th>
+							<th data-field="cantidad_saliente">Cantidad interna</th>
 							<th data-field="cantidad_fabricada">Cantidad fabricada</th>
 						</tr>
 					</thead>
@@ -173,6 +174,7 @@
 							<td>{{producto.marca}}</td>
 							<td>{{producto.cantidad}}</td>
 							<td>{{producto.cantidad_saliente}}</td>
+							<td>{{producto.cantidad_disponible}}</td>
 							<td>{{producto.cantidad_fabricada}}</td>
 						</tr>
 					</tbody>
@@ -372,7 +374,7 @@
 						</div>
 						<div class="second-part">
 							<ul>
-								<li>Frabricación y distribución de herrajería para redes de CATV y HFC</li>
+								<li>Fabricación y distribución de herrajería para redes de CATV y HFC</li>
 								<li>Implementacion y montaje de redes de comunicación, seguridad y televisión</li>
 								<li>Asesorias y mantenimiento en mecánica hidráulica y neumática</li>
 								<li>Asesorias, montajes y diseño de redes HFC</li>
