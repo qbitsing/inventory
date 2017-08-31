@@ -49,19 +49,29 @@ let listarById = co.wrap(function * (req, res){
 let crear = co.wrap(function * (req, res){
     try {
         let salida = new salidaModel(req.body);
+        let productos = [];
+        let materias = [];
         for(let producto of salida.productos){
-            yield productosModel.findByIdAndUpdate(producto.producto._id, producto.producto);
+            let productoToEdit = yield productosModel.findById(producto.producto._id);
+            productoToEdit.cantidad -= producto.cantidad;
+            yield productosModel.findByIdAndUpdate(productoToEdit._id, productoToEdit);
+            productos.push(productoToEdit);
         }
 
         for(let materia of salida.materia_prima){
-            yield materiaModel.findByIdAndUpdate(materia.materia._id, materia.materia);
+            let materiaToEdit = yield materiaModel.findById(materia.materia._id);
+            materiaToEdit.cantidad -= materia.cantidad;
+            yield materiaModel.findByIdAndUpdate(materiaToEdit._id, materiaToEdit);
+            materias.push(materiaToEdit);
         }
 
         let datos = yield salida.save();
 
         return res.status(200).send({
             message: 'Salida registrada con exito',
-            datos
+            datos,
+            productos,
+            materias
         });
 
     } catch (e) {
@@ -74,19 +84,29 @@ let crear = co.wrap(function * (req, res){
 let eliminar = co.wrap(function * (req, res){
     try {
         let salida = req.body;
+        let productos = [];
+        let materias = [];
         salida.estado = 'Cancelada';
         for(let producto of salida.productos){
-            yield productosModel.findByIdAndUpdate(producto.producto._id, producto.producto);
+          let productoToEdit = yield productosModel.findById(producto.producto._id);
+          productoToEdit.cantidad += producto.cantidad;
+          yield productosModel.findByIdAndUpdate(productoToEdit._id, productoToEdit);
+          productos.push(productoToEdit);
         }
 
         for(let materia of salida.materia_prima){
-            yield materiaModel.findByIdAndUpdate(materia.materia._id, materia.materia);
+          let materiaToEdit = yield materiaModel.findById(materia.materia._id);
+          materiaToEdit.cantidad += materia.cantidad;
+          yield materiaModel.findByIdAndUpdate(materiaToEdit._id, materiaToEdit);
+          materias.push(materiaToEdit);
         }
 
         yield salidaModel.findByIdAndUpdate(salida._id, salida);
 
         return res.status(200).send({
-            message: 'Salida cancelada con exito'
+            message: 'Salida cancelada con exito',
+            productos,
+            materias
         });
 
     } catch (e) {
