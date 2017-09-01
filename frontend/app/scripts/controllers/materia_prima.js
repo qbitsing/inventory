@@ -139,18 +139,6 @@ angular.module('frontendApp')
         $scope.button_title_form = "Registrar Materia Prima";
         $scope.Materia={};
     }
-    /*Validaciones de numeros*/
-    $scope.validarNumeroMinStock=function(id){
-        if ($scope.Materia.min_stock<1) {
-            $scope.Materia.min_stock=1;
-        }
-    }
-    $scope.validarNumero=function(id){
-        if ($scope.Materia.cantidad<1) {
-            $scope.Materia.cantidad=1;
-        }
-    }
-    /*Fin de las validaciones*/
     $scope.abrirModal=function(_id){
         swal({
             title: "Confirmar Eliminación",

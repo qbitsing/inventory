@@ -378,29 +378,6 @@ angular.module('frontendApp')
         $scope.button_title_form = "Registrar Producto";
     }
 
-    /*Validaciones de numeros*/
-    $scope.validarNumeroMinStock=function(){
-      if ($scope.Producto.min_stock<0) {
-          $scope.Producto.min_stock=0;
-      }
-    }
-    $scope.validarNumeroPrecio=function(){
-      if ($scope.Producto.precio<0) {
-          $scope.Producto.precio=0;
-      }
-    }
-    $scope.validarNumeroCantidad=function(){
-      if ($scope.Producto.cantidad<0) {
-          $scope.Producto.cantidad=0;
-      }
-    }
-    $scope.validarNumeroInsumo=function(){
-      if ($scope.producto.Insumo.cantidad<0) {
-          $scope.producto.Insumo.cantidad=0;
-      }
-    }
-    /*Fin de las validaciones*/
-
     $scope.openModalBarCode = function(){
         $('#modalBarCode').modal('open');
     }

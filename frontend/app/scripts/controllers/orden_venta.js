@@ -359,12 +359,6 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Registro de venta";
         $scope.button_title_form = "Registrar venta";
     }
-    /*Validaciones de numeros*/
-    $scope.validarNumero=function(){
-        if($scope.Orden.Producto.cantidad<0){
-            $scope.Orden.Producto.cantidad=0;
-        }
-    }
     /*Validaciones de fechas*/
     $scope.validarFechaEntrega=function(){
         if ($scope.Orden.fecha_entrega) {

@@ -101,32 +101,6 @@ angular.module('frontendApp')
     }
     angular.extend($scope.gridOptions , Tabla);
 
-    /*Validaciones de numeros*/
-    $scope.validarNumeroRemision=function(){
-        if ($scope.modal_salida.cantidad<0) {
-            $scope.modal_salida.cantidad=0;
-        }
-    }
-    $scope.validarNumeroEntrada=function(){
-        if ($scope.modal_entrada.cantidad<0) {
-            $scope.modal_entrada.cantidad=0;
-        }
-    }
-    $scope.validarNumeroProductoEntrada=function(id){
-        if (parseInt(angular.element('#cantidad'+id).val())<0) {
-            angular.element('#cantidad'+id).val(0);
-        }
-    }
-    $scope.validarNumeroSalidaMateria=function(){
-        if ($scope.salida_insumos.cantidadMateria<0) {
-            $scope.salida_insumos.cantidadMateria=0;
-        }
-    }
-    $scope.validarNumeroSalidaProducto=function(){
-        if ($scope.salida_productos.cantidad<0) {
-            $scope.salida_productos.cantidad=0;
-        }
-    }
     /*Validaciones de fechas*/
     $scope.validarFechaEntrega=function(){
         if ($scope.modal_salida.fecha_entrega) {
