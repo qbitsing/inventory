@@ -63,6 +63,7 @@ angular.module('frontendApp')
             complete: function() {  } // Callback for Modal close
         });
     });
+
     $scope.preloader = preloader;
     $scope.$state=$state;
     $scope.server=server;
@@ -407,7 +408,7 @@ angular.module('frontendApp')
             }
         });
     }
-  
+
     $scope.active=true;
     $scope.cerrarSesion=function(){
         SesionUsuario.CerrarSesion();
