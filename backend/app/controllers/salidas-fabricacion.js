@@ -96,7 +96,7 @@ let eliminar = co.wrap(function * (req, res){
 
         for(let materia of salida.materia_prima){
           let materiaToEdit = yield materiaModel.findById(materia.materia._id);
-          materiaToEdit.cantidad -= materia.cantidad;
+          materiaToEdit.cantidad += materia.cantidad;
           yield materiaModel.findByIdAndUpdate(materiaToEdit._id, materiaToEdit);
           materias.push(materiaToEdit);
         }

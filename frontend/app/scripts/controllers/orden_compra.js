@@ -300,6 +300,11 @@ angular.module('frontendApp')
             $scope.Orden.Materia.cantidad=0;
         }
     }
+    $scope.validarNumero=function(){
+        if($scope.Orden.Producto.cantidad<0){
+            $scope.Orden.Producto.cantidad=0;
+        }
+    }
     /*Fin de las validaciones*/
     $scope.convertirFecha = function(fecha){
         var date = new Date(fecha).getDate();

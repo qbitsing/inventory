@@ -33,7 +33,7 @@ let listarById = co.wrap(function * (req, res){
 
         if(!datos){
             return res.status(404).send({
-                message:'El id indicaco con coincide con ninguna entrada en la base de datos'
+                message:'El id indicado con coincide con ninguna entrada en la base de datos'
             });
         }
 
@@ -50,6 +50,7 @@ let listarById = co.wrap(function * (req, res){
 let crear = co.wrap(function * (req, res){
     let entrada = req.body;
     try {
+        let remision
         if(entrada.productos.length > 0){
             for(var pro of entrada.productos){
                 yield productosModel.findByIdAndUpdate(pro.producto._id, {$inc: {cantidad : pro.cantidad}});
@@ -62,7 +63,26 @@ let crear = co.wrap(function * (req, res){
 
         if(entrada.remision){
             entrada.typeRemision = true;
-            yield remisionModel.findByIdAndUpdate(entrada.remision._id, entrada.remision);            
+            let oldREmision = yield remisionModel.findById(entrada.remision._id);
+            let contador=0;
+            for (let p1 of entrada.productos){
+                for (let i = 0; i < oldREmision.productos.length; i++){
+                    let p2 = oldREmision.productos[i];
+                    if (p2.producto._id==p1.producto._id) {
+                        oldREmision.productos[i].cantidad_faltante-=parseInt(p1.cantidad);
+                    }
+                    if(oldREmision.productos[i].cantidad_faltante==0){
+                        contador++;
+                    }
+                }
+            }
+            oldREmision.estado='Con Entrada';
+            if (contador==oldREmision.productos.length){
+                oldREmision.estado='Completada';
+            }
+            entrada.remision=oldREmision;
+            yield remisionModel.findByIdAndUpdate(entrada.remision._id, oldREmision);            
+            remision  = yield remisionModel.findById(entrada.remision._id);
         }
 
         yield fabricacionModel.findByIdAndUpdate(entrada.fabricacion._id, entrada.fabricacion);
@@ -71,9 +91,11 @@ let crear = co.wrap(function * (req, res){
 
         let datos = yield newEntrada.save();
 
+
         return res.status(200).send({
             message: 'Entrada registrada con exito',
-            datos
+            datos,
+            remision
         });
 
     } catch (e) {
