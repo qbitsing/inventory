@@ -702,7 +702,7 @@
     		<form name="formSalidaInsumos" ng-submit="enviarSalidaInsumos()">
 	    		<div class="row">
 					<h5>Materias primas:</h5>
-					<div class="input-field col s12 m6 l6">
+					<div class="input-field col s12 m6 l6" id="selectAutocompleteMateria">
 						<ng-infinite-autocomplete
 						    data="datosMateria"
 						    on-select="selectAutocompleteMateria($element, $data)"
@@ -733,11 +733,15 @@
 	    		</table>
 				<div class="row">
 					<h5>Productos:</h5>
-					<div class="input-field col s12 m6 l6">
-						<select ng-model="salida_productos.producto" material-select watch>
+					<div class="input-field col s12 m6 l6" id="selectAutocompleteMateriaProducto">
+						<!-- <select ng-model="salida_productos.producto" material-select watch>
 							<option ng-repeat="producto in Productos" value="{{producto}}">{{producto.nombre}} - {{producto.marca}}</option>
-						</select>
-						<label>Producto *</label>
+						</select> -->
+						<ng-infinite-autocomplete
+						    data="datosProductos"
+						    on-select="selectAutocompleteMateriaProducto($element, $data)"
+						></ng-infinite-autocomplete>
+						<label class="active">Producto *</label>
 					</div>
 					<div class="input-field col s8 m4 l4">
 						<input type="number" ng-change="validarNumeroSalidaProducto()" ng-model="salida_productos.cantidad" id="Cantidadproductoinsumo" name="Cantidadproductoinsumo">

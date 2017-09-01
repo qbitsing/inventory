@@ -38,7 +38,7 @@ module.exports = function(config) {
       '../bower_components/textAngular/dist/textAngular.js',
       '../bower_components/textAngular/dist/textAngular-sanitize.js',
       '../bower_components/textAngular/dist/textAngularSetup.js',
-      '../bower_components/perfect-scrollbar/src/perfect-scrollbar.js',
+      '../bower_components/perfect-scrollbar/js/perfect-scrollbar.js',
       '../bower_components/angular-perfect-scrollbar-4.1.1fixed/src/angular-perfect-scrollbar.js',
       '../bower_components/moment/moment.js',
       '../bower_components/fullcalendar/dist/fullcalendar.js',
