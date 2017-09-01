@@ -22,6 +22,18 @@ angular.module('frontendApp')
             },
             complete: function() {  } // Callback for Modal close
         });
+        $('form').on('focus', 'input[type=number]', function (e) {
+          $(this).on('mousewheel.disableScroll', function (e) {
+          e.preventDefault();
+          })
+        });
+
+        $('input[type=number]').on('keypress', function (evt){
+          var charCode = (evt.which) ? evt.which : event.keyCode
+             if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+             return true;
+        });
     });
     $scope.preloader = preloader;
 	$scope.panelAnimate='';
@@ -49,7 +61,7 @@ angular.module('frontendApp')
                 width:'30%',
                 minWidth: 160
             },
-            { 
+            {
                 field: 'min_stock',
                 width:'20%',
                 minWidth: 160
@@ -60,7 +72,7 @@ angular.module('frontendApp')
                 cellTemplate: '<div>{{row.entity.cantidad}} {{row.entity.unidad_medida.nombre}}</div>',
                 minWidth: 250
             },
-            { 
+            {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
                 width:'30%',
                 minWidth: 230
@@ -114,7 +126,7 @@ angular.module('frontendApp')
     function scroll(){
          $("html, body").animate({
             scrollTop: 0
-        }, 1000); 
+        }, 1000);
     }
     $scope.Editar = function(id){
         $scope.Materia=IdentificarMateria(id,$scope.Materias);
