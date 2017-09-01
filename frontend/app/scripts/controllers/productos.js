@@ -32,8 +32,8 @@ angular.module('frontendApp')
     });
     $scope.preloader = preloader;
     $scope.preloader.estado = false;
-	$scope.panelAnimate='';
-	$scope.pageAnimate='';  
+  	$scope.panelAnimate='';
+  	$scope.pageAnimate='';
 	$timeout(function () {
 		$scope.pageAnimate='pageAnimate';
 		$scope.panelAnimate='panelAnimate';
@@ -92,6 +92,7 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptions , Tabla);
+    
     function listarInsumos(){
         webServer
         .getResource('materiaPrima',{},'get')
@@ -339,7 +340,7 @@ angular.module('frontendApp')
     function scroll(){
         $("html, body").animate({
             scrollTop: 0
-        }, 1000); 
+        }, 1000);
     }
     $scope.Editar = function(id){
         $scope.panel_title_form = "Edicion de Producto";
@@ -379,24 +380,24 @@ angular.module('frontendApp')
 
     /*Validaciones de numeros*/
     $scope.validarNumeroMinStock=function(){
-        if ($scope.Producto.min_stock<0) {
-            $scope.Producto.min_stock=0;
-        }
+      if ($scope.Producto.min_stock<0) {
+          $scope.Producto.min_stock=0;
+      }
     }
     $scope.validarNumeroPrecio=function(){
-        if ($scope.Producto.precio<0) {
-            $scope.Producto.precio=0;
-        }
+      if ($scope.Producto.precio<0) {
+          $scope.Producto.precio=0;
+      }
     }
     $scope.validarNumeroCantidad=function(){
-        if ($scope.Producto.cantidad<0) {
-            $scope.Producto.cantidad=0;
-        }
+      if ($scope.Producto.cantidad<0) {
+          $scope.Producto.cantidad=0;
+      }
     }
     $scope.validarNumeroInsumo=function(){
-        if ($scope.producto.Insumo.cantidad<0) {
-            $scope.producto.Insumo.cantidad=0;
-        }
+      if ($scope.producto.Insumo.cantidad<0) {
+          $scope.producto.Insumo.cantidad=0;
+      }
     }
     /*Fin de las validaciones*/
 

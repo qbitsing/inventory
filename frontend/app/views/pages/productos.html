@@ -17,7 +17,7 @@
 						    </p>
 						</div>
 						<div class="row">
-							<div class="input-field col s12 m6 l6" >								
+							<div class="input-field col s12 m6 l6" >
 								<input type="text" ng-model="Producto.nombre" id="Nombre" name="Nombre" required>
 								<label for="Nombre">Nombre *</label>
 							</div>
@@ -34,7 +34,7 @@
 								<label for="marca">Marca *</label>
 							</div>
 							<div class="input-field col s12 m6 l6" ng-show="check=='producto'">
-								<input type="number" ng-change="validarNumeroMinStock()" ng-model="Producto.min_stock" id="min_stock" name="min_stock" ng-required="check=='producto'">
+								<input type="number" numbervalidation ng-model="Producto.min_stock" id="min_stock" name="min_stock" ng-required="check=='producto'">
 								<label for="min_stock">Min stock *</label>
 							</div>
 						</div>
@@ -109,7 +109,7 @@
 								<input type="text" ng-keyup="cargarProducto($event)" ng-model="Kit.codigo" id="codigo_barras" name="codigo_barras">
 							</div>
 							<div class="input-field col s8 m4 l4">
-								<input type="number" ng-keyup="detectar($event)" 
+								<input type="number" ng-keyup="detectar($event)"
 								ng-model="Kit.producto.cantidad" id="Cantidad" name="Cantidad">
 								<label for="Cantidad">Cantidad</label>
 							</div>
@@ -160,7 +160,7 @@
 										</tr>
 									</tbody>
 						      	</table>
-							</div>							
+							</div>
 						</div>
 						<div class="row">
 							<div class="col">
