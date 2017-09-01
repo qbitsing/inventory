@@ -149,7 +149,6 @@ angular.module('frontendApp')
     }
     listarOrdenes();
     $scope.cargarProducto=function(keyEvent){
-
         var ele = $scope.productos.find(function(_){
             return _.codigo == $scope.Orden.Producto.codigo;
         });
@@ -359,6 +358,12 @@ angular.module('frontendApp')
         $scope.productos = [];
         $scope.panel_title_form = "Registro de venta";
         $scope.button_title_form = "Registrar venta";
+    }
+    /*Validaciones de numeros*/
+    $scope.validarNumero=function(){
+        if($scope.Orden.Producto.cantidad<0){
+            $scope.Orden.Producto.cantidad=0;
+        }
     }
     /*Validaciones de fechas*/
     $scope.validarFechaEntrega=function(){

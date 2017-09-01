@@ -46,7 +46,7 @@
 							</div>
 							<div class="col s12 m6 l6">
 								<div class="input-field col s8 m8 l8">
-									<input type="number" ng-keyup="detectar($event)" ng-model="Orden.Producto.cantidad" id="Cantidad-producto" name="Cantidad-producto">
+									<input type="number" ng-keyup="detectar($event)" ng-change="validarNumero()" ng-model="Orden.Producto.cantidad" id="Cantidad-producto" name="Cantidad-producto">
 									<label for="Cantidad-producto">Cantidad *</label>
 								</div>
 								<button type="button" class="btn btn-success col s4 m4 l4" ng-disabled="!(Orden.Producto._id) || !(Orden.Producto.cantidad)" ng-click="AgregarProducto()">Añadir</button>
