@@ -87,7 +87,7 @@ angular.module('frontendApp')
                 width:'15%',
                 minWidth: 100
             },
-            { 
+            {
                 field: 'estado',
                 width:'15%',
                 minWidth: 100
@@ -100,7 +100,7 @@ angular.module('frontendApp')
         ]
     }
     angular.extend($scope.gridOptions , Tabla);
-    
+
     /*Validaciones de numeros*/
     $scope.validarNumeroRemision=function(){
         if ($scope.modal_salida.cantidad<0) {
@@ -327,7 +327,7 @@ angular.module('frontendApp')
             }
             $('#productos .infinite-autocomplete-default-input').val(pro.nombre);
         }else{
-            $('#productos .infinite-autocomplete-default-input').val('');  
+            $('#productos .infinite-autocomplete-default-input').val('');
             $scope.producto._id = '';
         }
     }
@@ -377,7 +377,7 @@ angular.module('frontendApp')
             $scope.producto._id='';
             $scope.producto.cantidad=0;
             $scope.modal={};
-            $scope.modal.proceso={};    
+            $scope.modal.proceso={};
             $scope.modal.proceso.array_responsables=[];
             $scope.panel_title_form = "Registro de Fabricacion";
             $scope.button_title_form = "Registrar fabricación";
@@ -386,7 +386,7 @@ angular.module('frontendApp')
         },function(data){
             $scope.preloader.estado = false;
             swal("Oops...", data.data.message , "error");
-        }); 
+        });
     }
     $scope.AgregarProducto=function(){
         if ($scope.producto._id!='' && $scope.producto.cantidad>0) {
@@ -417,6 +417,7 @@ angular.module('frontendApp')
             $scope.producto._id='';
             $scope.producto.cantidad=0;
             $('#codigo_barras').focus();
+            $('#productos .infinite-autocomplete-default-input').val(' ');
         }
     }
     $scope.AgregarProceso=function(){
@@ -436,7 +437,7 @@ angular.module('frontendApp')
         if(!controler){
             $scope.fabricacion.procesos.push(proceso);
         }else{
-            Materialize.toast('El proceso ya esta añadido', 4000);  
+            Materialize.toast('El proceso ya esta añadido', 4000);
         }
         $scope.proceso={};
     }
@@ -444,12 +445,12 @@ angular.module('frontendApp')
         var responsables = $scope.fabricacion.procesos[index].array_responsables;
         $scope.fabricacion.procesos.splice(index,1);
     }
-    
+
     $scope.AbrirModal = function(proceso){
         $scope.modal.proceso=proceso;
         $('#modalResponsables').modal('open');
     }
-    
+
     $scope.addresponsable = function(){
         var contadorresponsables=false;
         if ($scope.modal.proceso.tipo=='Interno') {
@@ -492,7 +493,7 @@ angular.module('frontendApp')
     }
     $scope.CerrarModalSalidas=function(){
         $scope.contenido_fabricacion.productos.forEach(function(ele , i){
-            $scope.modal_salida.productos.forEach(function(elemento , index){   
+            $scope.modal_salida.productos.forEach(function(elemento , index){
                 if(ele._id==elemento.producto._id) {
                     ele.cantidad_disponible+=parseInt(elemento.cantidad);
                     ele.cantidad_saliente-=elemento.cantidad;
@@ -965,13 +966,14 @@ angular.module('frontendApp')
                 }
             });
             $scope.salida_materia={};
+            $('#selectAutocompleteMateria .infinite-autocomplete-default-input').val(' ');
         }
     }
     $scope.addproductoinsumo=function(){
         if ($scope.salida_productos.cantidad>0) {
             var controlador=false;
             var cantidadP=0;
-            var producto=JSON.parse($scope.salida_productos.producto);
+            var producto=$scope.salida_productos.producto;
             var obj={
                 producto : producto,
                 cantidad : $scope.salida_productos.cantidad
@@ -1004,6 +1006,7 @@ angular.module('frontendApp')
                 }
             });
             $scope.salida_productos={};
+            $('#selectAutocompleteMateriaProducto .infinite-autocomplete-default-input').val(' ');
         }else{
             Materialize.toast("Ingrese una cantidad valida",4000);
         }
@@ -1213,6 +1216,13 @@ angular.module('frontendApp')
     $scope.selectAutocompleteMateria=function($element, $data){
         $scope.salida_materia = {};
         $scope.salida_materia.Materia = $data.value;
+    }
+    $scope.selectAutocompleteMateriaProducto = function($element, $data){
+        var producto = $scope.Productos.find(function(ele){
+          return ele._id == $data.value.split(',')[0];
+        });
+        $scope.salida_productos = {};
+        $scope.salida_productos.producto = producto;
     }
     function listarMaterias(){
         $scope.preloader.estado = true;
