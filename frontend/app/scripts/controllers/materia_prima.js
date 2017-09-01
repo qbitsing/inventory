@@ -22,18 +22,6 @@ angular.module('frontendApp')
             },
             complete: function() {  } // Callback for Modal close
         });
-        $('form').on('focus', 'input[type=number]', function (e) {
-          $(this).on('mousewheel.disableScroll', function (e) {
-          e.preventDefault();
-          })
-        });
-
-        $('input[type=number]').on('keypress', function (evt){
-          var charCode = (evt.which) ? evt.which : event.keyCode
-             if (charCode > 31 && (charCode < 48 || charCode > 57))
-                return false;
-             return true;
-        });
     });
     $scope.preloader = preloader;
 	$scope.panelAnimate='';
