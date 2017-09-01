@@ -295,7 +295,7 @@ angular.module('frontendApp')
         $scope.button_title_form = "Registrar compra";
     }
     /*Validaciones de numeros*/
-    $scope.validarNumeroMateria=function(id){
+    $scope.validarNumeroMateria=function(){
         if ($scope.Orden.Materia.cantidad<0) {
             $scope.Orden.Materia.cantidad=0;
         }
