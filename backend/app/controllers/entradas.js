@@ -84,12 +84,12 @@ let crear = co.wrap(function * (req, res){
 					yield productoModel.findByIdAndUpdate(ele._id, {$inc: {cantidad : ele.cantidad_entrante}});
 					req.body.orden_compra.productos.push(ele);
 
-					if(ele.cantidad_faltante == 0) contadorProductos ++;					
+					if(ele.cantidad_faltante == 0) contadorProductos ++;
 				}
 			}
 
 			req.body.orden_compra.estado = 'Con Entradas'
-			
+
 			if((contadorMateria == req.body.orden_compra.materia_prima.length) && (contadorProductos == req.body.orden_compra.productos.length))
 				req.body.orden_compra.estado = 'Finalizado';
 
@@ -129,7 +129,7 @@ let eliminar = co.wrap(function *(req, res){
 			for(var ele of materia){
 				if(ele.ingresanMas){
 					ele.cantidad -= ele.ingresanMas;
-					ele.cantidad_faltante += parseInt(ele.cantidad_entrante) - parseInt(ele.ingresanMas);
+					ele.cantidad_faltante += (parseInt(ele.cantidad_entrante) - parseInt(ele.ingresanMas));
 				}else{
 					ele.cantidad_faltante += parseInt(ele.cantidad_entrante);
 				}
@@ -145,7 +145,7 @@ let eliminar = co.wrap(function *(req, res){
 			for(var ele of productos){
 				if(ele.ingresanMas){
 					ele.cantidad -= ele.ingresanMas;
-					ele.cantidad_faltante += parseInt(ele.cantidad_entrante) - parseInt(ele.ingresanMas);
+					ele.cantidad_faltante += (parseInt(ele.cantidad_entrante) - parseInt(ele.ingresanMas));
 				}else{
 					ele.cantidad_faltante += parseInt(ele.cantidad_entrante);
 				}
@@ -156,13 +156,14 @@ let eliminar = co.wrap(function *(req, res){
 
 		entrada.orden_compra.estado = 'Con Entradas';
 
-		yield ordenModel.findByIdAndUpdate(entrada.orden_compra._id , entrada.orden_compra);
+		let orden = yield ordenModel.findByIdAndUpdate(entrada.orden_compra._id , entrada.orden_compra);
 
 		yield entradaModel.findByIdAndRemove(entrada._id);
 
 		return res.status(200).send({
 			message : 'Entrada anulada con exito, los cambios han sido revertidos en la base de datos',
-			datos : entrada
+			datos : entrada,
+			orden
 		});
 	} catch (e) {
 		return res.status(500).send({
