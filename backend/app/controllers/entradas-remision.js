@@ -71,17 +71,20 @@ let crear = co.wrap(function * (req, res){
                     if (p2.producto._id==p1.producto._id) {
                         oldREmision.productos[i].cantidad_faltante-=parseInt(p1.cantidad);
                     }
-                    if(oldREmision.productos[i].cantidad_faltante==0){
-                        contador++;
-                    }
+
                 }
             }
+
+            for (let pro of oldREmision.productos){
+              if (pro.cantidad_faltante == 0) contador ++
+            }
+
             oldREmision.estado='Con Entrada';
             if (contador==oldREmision.productos.length){
                 oldREmision.estado='Completada';
             }
             entrada.remision=oldREmision;
-            yield remisionModel.findByIdAndUpdate(entrada.remision._id, oldREmision);            
+            yield remisionModel.findByIdAndUpdate(entrada.remision._id, oldREmision);
             remision  = yield remisionModel.findById(entrada.remision._id);
         }
 
@@ -118,7 +121,7 @@ let eliminar = co.wrap(function * (req, res){
         }
 
         for(var pro of entrada.productos){
-            yield productosModel.findByIdAndUpdate(pro.producto._id, {$inc: {cantidad : (pro.cantidad * -1)}});            
+            yield productosModel.findByIdAndUpdate(pro.producto._id, {$inc: {cantidad : (pro.cantidad * -1)}});
         }
         entrada.typeRemision ? yield remisionModel.findByIdAndUpdate(entrada.remision._id, remision) : null;
 
