@@ -183,13 +183,15 @@
 				<table class="bordered striped" ng-hide="Detalle.procesos.length<1">
 					<thead>
 						<tr>
-							<th data-field="id">Nombre</th>
-							<th data-field="name">Responsable(s)</th>
+							<th>Nombre</th>
+							<th>Tipo</th>
+							<th>Responsable(s)</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="proceso in Detalle.procesos">
 							<td>{{proceso.nombre}}</td>
+							<td>{{proceso.tipo}}</td>
 							<td><li ng-repeat="res in proceso.array_responsables">{{res.nombre}} {{res.apellidos}}</li></td>
 						</tr>
 					</tbody>

@@ -353,7 +353,7 @@ angular.module('frontendApp')
             $scope.modal={};
             $scope.modal.proceso={};
             $scope.modal.proceso.array_responsables=[];
-            $scope.panel_title_form = "Registro de Fabricacion";
+            $scope.panel_title_form = "Registro de Fabricaciones";
             $scope.button_title_form = "Registrar fabricación";
             $scope.preloader.estado = false;
             swal("Completado...", data.data.message , "success");
