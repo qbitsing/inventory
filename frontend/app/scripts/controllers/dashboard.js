@@ -62,8 +62,7 @@ angular.module('frontendApp')
             endingTop: '10%', // Ending top style attribute
             complete: function() {  } // Callback for Modal close
         });
-    });
-
+      });
     $scope.preloader = preloader;
     $scope.$state=$state;
     $scope.server=server;

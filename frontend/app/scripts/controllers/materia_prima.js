@@ -49,7 +49,7 @@ angular.module('frontendApp')
                 width:'30%',
                 minWidth: 160
             },
-            { 
+            {
                 field: 'min_stock',
                 width:'20%',
                 minWidth: 160
@@ -60,7 +60,7 @@ angular.module('frontendApp')
                 cellTemplate: '<div>{{row.entity.cantidad}} {{row.entity.unidad_medida.nombre}}</div>',
                 minWidth: 250
             },
-            { 
+            {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
                 width:'30%',
                 minWidth: 230
@@ -114,7 +114,7 @@ angular.module('frontendApp')
     function scroll(){
          $("html, body").animate({
             scrollTop: 0
-        }, 1000); 
+        }, 1000);
     }
     $scope.Editar = function(id){
         $scope.Materia=IdentificarMateria(id,$scope.Materias);
@@ -127,18 +127,6 @@ angular.module('frontendApp')
         $scope.button_title_form = "Registrar Materia Prima";
         $scope.Materia={};
     }
-    /*Validaciones de numeros*/
-    $scope.validarNumeroMinStock=function(id){
-        if ($scope.Materia.min_stock<1) {
-            $scope.Materia.min_stock=1;
-        }
-    }
-    $scope.validarNumero=function(id){
-        if ($scope.Materia.cantidad<1) {
-            $scope.Materia.cantidad=1;
-        }
-    }
-    /*Fin de las validaciones*/
     $scope.abrirModal=function(_id){
         swal({
             title: "Confirmar Eliminación",

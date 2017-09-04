@@ -229,12 +229,6 @@ angular.module('frontendApp')
         $scope.panel_title_form = "Registro de Empleados";
         $scope.button_title_form = "Registrar Empleado";
     }
-    /*Validaciones de numeros*/
-    $scope.validarNumero=function(id){
-        if ($scope.Empleado.telefono<0) {
-            $scope.Empleado.telefono=0;
-        }
-    }
     /*Fin de las validaciones*/
     function listarpersonas(){
         $scope.preloader.estado=true;

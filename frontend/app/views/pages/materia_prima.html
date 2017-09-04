@@ -26,13 +26,13 @@
 								<label for="marca">Marca *</label>
 							</div>
 							<div class="input-field col s12 m6 l6">								
-								<input type="number" ng-change="validarNumeroMinStock()" ng-model="Materia.min_stock" id="min_stock" name="min_stock" required>
+								<input type="number" numbervalidation ng-model="Materia.min_stock" id="min_stock" name="min_stock" required>
 								<label for="min_stock">Min stock *</label>
 							</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-								<input type="number" ng-change="validarNumero()" ng-model="Materia.cantidad" id="Cantidad" name="Cantidad" required>
+								<input type="number" numbervalidation ng-model="Materia.cantidad" id="Cantidad" name="Cantidad" required>
 								<label for="Cantidad">Cantidad *</label>
 							</div>
 						</div>

@@ -31,7 +31,7 @@
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<label for="Telefono">Telefono *</label>
-								<input type="text" ng-change="validarNumeroTelefono()" ng-model="Persona.telefono" id="Telefono" name="Telefono" required>
+								<input type="text" ng-model="Persona.telefono" id="Telefono" name="Telefono" required>
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="Correo">Correo</label>
@@ -41,7 +41,7 @@
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<label for="Fax">Fax</label>
-								<input type="number" ng-change="validarNumeroFax()" ng-model="Persona.fax" id="Fax" name="Fax">
+								<input type="number" numbervalidation ng-model="Persona.fax" id="Fax" name="Fax">
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="Contacto">Contacto</label>
