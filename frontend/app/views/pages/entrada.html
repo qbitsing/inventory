@@ -124,7 +124,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-if="materia.cantidad_entrante>1" ng-repeat="materia in Detalle.orden_compra.materia_prima">
+						<tr ng-if="materia.cantidad_entrante>0" ng-repeat="materia in Detalle.orden_compra.materia_prima">
 							<td>{{materia.nombre}}</td>
 							<td>{{materia.cantidad_entrante}}</td>
 						</tr>
@@ -140,7 +140,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-if="producto.cantidad_entrante>1" ng-repeat="producto in Detalle.orden_compra.productos">
+						<tr ng-if="producto.cantidad_entrante>0" ng-repeat="producto in Detalle.orden_compra.productos">
 							<td>{{producto.nombre}}</td>
 							<td>{{producto.marca}}</td>
 							<td>{{producto.cantidad_entrante}}</td>
