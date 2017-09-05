@@ -140,13 +140,15 @@
 							<th data-field="nombre">Nombre</th>
 							<th data-field="cantidad">Cantidad</th>
 							<th data-field="pendiente">Cantidad pendiente</th>
+							<th data-field="ingresan">Ingresanron Mas</th>
 			          	</tr>
 			        </thead>
 			        <tbody>
 			          	<tr ng-repeat="materia in Detalle.materia_prima">
 				            <td>{{materia.nombre}}</td>
 				            <td>{{materia.cantidad}}</td>
-				            <td>{{materia.cantidad_faltante || '0'}}</td>
+										<td>{{materia.cantidad_faltante || '0'}}</td>
+				            <td>{{materia.ingresanMas || 'No Aplica'}}</td>
 			          	</tr>
 			        </tbody>
 			    </table>
@@ -158,6 +160,7 @@
 							<th data-field="marca">Marca</th>
 							<th data-field="cantidad">Cantidad</th>
 							<th data-field="pendiente">Cantidad pendiente</th>
+							<th data-field="ingresan">Ingresan Mas</th>
 			          	</tr>
 			        </thead>
 			        <tbody>
@@ -165,7 +168,8 @@
 				            <td>{{producto.nombre}}</td>
 				            <td>{{producto.marca}}</td>
 				            <td>{{producto.cantidad}}</td>
-				            <td>{{producto.cantidad_faltante || '0'}}</td>
+										<td>{{producto.cantidad_faltante || '0'}}</td>
+				            <td>{{producto.ingresanMas || 'No Aplica'}}</td>
 			          	</tr>
 			        </tbody>
 			    </table>

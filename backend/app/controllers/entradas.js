@@ -58,7 +58,6 @@ let crear = co.wrap(function * (req, res){
 				req.body.orden_compra.materia_prima = [];
 				for(var ele of materia){
 					if(ele.cantidad_entrante > ele.cantidad_faltante){
-						ele.cantidad +=  parseInt(ele.cantidad_entrante) - parseInt(ele.cantidad_faltante);
 						ele.ingresanMas = parseInt(ele.cantidad_entrante) - parseInt(ele.cantidad_faltante);
 						ele.cantidad_faltante = 0;
 					}else{
@@ -75,7 +74,6 @@ let crear = co.wrap(function * (req, res){
 				req.body.orden_compra.productos = [];
 				for(var ele of productos){
 					if(ele.cantidad_entrante > ele.cantidad_faltante){
-						ele.cantidad +=  parseInt(ele.cantidad_entrante) - parseInt(ele.cantidad_faltante);
 						ele.ingresanMas = parseInt(ele.cantidad_entrante) - parseInt(ele.cantidad_faltante);
 						ele.cantidad_faltante = 0;
 					}else{
@@ -122,48 +120,57 @@ let eliminar = co.wrap(function *(req, res){
 	try {
 		let entradaId = req.params.id;
 		let entrada = yield entradaModel.findById(entradaId);
+		let orden = yield ordenModel.findById(entrada.orden_compra._id);
 
 		if(entrada.orden_compra.materia_prima.length > 0){
 			let materia = entrada.orden_compra.materia_prima;
 			entrada.orden_compra.materia_prima = [];
-			for(var ele of materia){
-				if(ele.ingresanMas){
-					ele.cantidad -= ele.ingresanMas;
-					ele.cantidad_faltante += (parseInt(ele.cantidad_entrante) - parseInt(ele.ingresanMas));
+			for(let ele of materia){
+				let ele2 = orden.materia_prima.filter(x => x._id == ele._id)[0];
+				if(ele2.ingresanMas){
+					ele2.ingresanMas -= (parseInt(ele.cantidad_entrante));
+					if(ele2.ingresanMas < 0){
+						ele2.cantidad_faltante = (ele2.ingresanMas * -1);
+						ele2.ingresanMas = null;
+					}
 				}else{
-					ele.cantidad_faltante += parseInt(ele.cantidad_entrante);
+					ele2.cantidad_faltante += parseInt(ele.cantidad_entrante);
 				}
 
 				yield materiaModel.findByIdAndUpdate(ele._id, {$inc: {cantidad : (ele.cantidad_entrante * -1)}});
-				entrada.orden_compra.materia_prima.push(ele);
+				entrada.orden_compra.materia_prima.push(ele2);
 			}
 		}
 
 		if(entrada.orden_compra.productos.length > 0){
 			let productos = entrada.orden_compra.productos;
 			entrada.orden_compra.productos = [];
-			for(var ele of productos){
-				if(ele.ingresanMas){
-					ele.cantidad -= ele.ingresanMas;
-					ele.cantidad_faltante += (parseInt(ele.cantidad_entrante) - parseInt(ele.ingresanMas));
+			for(let ele of productos){
+				let ele2 = orden.productos.filter(x => x._id == ele._id)[0];
+				if(ele2.ingresanMas){
+					ele2.ingresanMas -= (parseInt(ele.cantidad_entrante));
+
+					if(ele2.ingresanMas < 0){
+						ele2.cantidad_faltante = (ele2.ingresanMas * -1);
+						ele2.ingresanMas = null;
+					}
 				}else{
-					ele.cantidad_faltante += parseInt(ele.cantidad_entrante);
+					ele2.cantidad_faltante += parseInt(ele.cantidad_entrante);
 				}
 				yield productoModel.findByIdAndUpdate(ele._id, {$inc: {cantidad : (ele.cantidad_entrante * -1)}});
-				entrada.orden_compra.productos.push(ele);
+				entrada.orden_compra.productos.push(ele2);
 			}
 		}
 
 		entrada.orden_compra.estado = 'Con Entradas';
 
-		let orden = yield ordenModel.findByIdAndUpdate(entrada.orden_compra._id , entrada.orden_compra);
+		yield ordenModel.findByIdAndUpdate(entrada.orden_compra._id , entrada.orden_compra);
 
 		yield entradaModel.findByIdAndRemove(entrada._id);
 
 		return res.status(200).send({
 			message : 'Entrada anulada con exito, los cambios han sido revertidos en la base de datos',
-			datos : entrada,
-			orden
+			datos : entrada
 		});
 	} catch (e) {
 		return res.status(500).send({
