@@ -64,7 +64,7 @@ angular.module('frontendApp')
                 cellTemplate: '<div>{{grid.appScope.convertirFecha(row.entity.fecha)}}</div>',
                 minWidth: 150
             },
-            { 
+            {
                 field: 'estado',
                 width:'15%',
                 minWidth: 150
@@ -105,7 +105,7 @@ angular.module('frontendApp')
             }
             $('#productos .infinite-autocomplete-default-input').val(pro.nombre);
         }else{
-            $('#productos .infinite-autocomplete-default-input').val('');  
+            $('#productos .infinite-autocomplete-default-input').val('');
             $scope.Orden.Producto._id = '';
         }
     }
@@ -262,7 +262,7 @@ angular.module('frontendApp')
     function scroll(){
          $("html, body").animate({
             scrollTop: 0
-        }, 1000); 
+        }, 1000);
     }
     $scope.Editar = function(id){
         $scope.Orden=IdentificarOrden(id,$scope.Ordenes);
