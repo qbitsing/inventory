@@ -39,7 +39,7 @@
 						<div class="row">
 							<div class="col s12 m6 l6">
 								<div class="input-field col s8 m8 l8">
-									<input type="number" numbervalidation ng-model="Orden.Materia.cantidad" id="Cantidad-materia" name="Cantidad-materia">
+									<input type="number" numbervalidation noenter ng-model="Orden.Materia.cantidad" id="Cantidad-materia" name="Cantidad-materia">
 									<label for="Cantidad-materia">Cantidad *</label>
 								</div>
 								<button type="button" class="btn btn-success col s4 m4 l4" ng-disabled="!(Orden.Materia._id) || !(Orden.Materia.cantidad)" ng-click="AgregarMateria()">Añadir</button>

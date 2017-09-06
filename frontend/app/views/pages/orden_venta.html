@@ -19,21 +19,21 @@
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<label for="orden-cliente">Numero de orden cliente</label>
-								<input type="text" name="orden-cliente" id="orden-cliente" ng-model="Orden.orden_compra_cliente">
+								<input type="text" noenter name="orden-cliente" id="orden-cliente" ng-model="Orden.orden_compra_cliente">
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="lugar_entrega">Lugar entrega *</label>
-								<input type="text" name="lugar_entrega" ng-model="Orden.lugar_entrega" id="lugar_entrega" required>
+								<input type="text" noenter name="lugar_entrega" ng-model="Orden.lugar_entrega" id="lugar_entrega" required>
 							</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
 								<label for="fecha_recepcion" class="active">Fecha de recepción *</label>
-								<input type="date" id="fecha_recepcion" ng-change="validarFechaRecepcion()" ng-model="Orden.fecha_recepcion" required>
+								<input type="date" noenter id="fecha_recepcion" ng-change="validarFechaRecepcion()" ng-model="Orden.fecha_recepcion" required>
 							</div>
 							<div class="input-field col s12 m6 l6">
 								<label for="fecha_entrega" class="active">Fecha de entrega *</label>
-								<input type="date" id="fecha_entrega" ng-change="validarFechaEntrega()" ng-model="Orden.fecha_entrega" required>
+								<input type="date" noenter id="fecha_entrega" ng-change="validarFechaEntrega()" ng-model="Orden.fecha_entrega" required>
 							</div>
 						</div>
 						<div class="row">
@@ -51,7 +51,7 @@
 							</div>
 							<div class="col s12 m6 l6">
 								<div class="input-field col s8 m8 l8">
-									<input type="number" ng-keyup="detectar($event)" numbervalidation ng-model="Orden.Producto.cantidad" id="Cantidad" name="Cantidad">
+									<input type="number" ng-keyup="detectar($event)" noenter numbervalidation ng-model="Orden.Producto.cantidad" id="Cantidad" name="Cantidad">
 									<label for="Cantidad">Cantidad *</label>
 								</div>
 								<button type="button" class="btn btn-success col s4 m4 l4" ng-disabled="!(Orden.Producto._id) || !(Orden.Producto.cantidad)" ng-click="AgregarProducto()">Añadir</button>
