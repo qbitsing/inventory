@@ -8,7 +8,7 @@ date_default_timezone_set('Europe/London');
 $so = 'Excel5';
 if(isset($_GET['so'])) $so = $_GET['so'];
 
-$URL = "http://localhost:5000/productos/valance";
+$URL = "http://192.168.128.7:5000/productos/valance";
 
 $peticion = curl_init();
 
