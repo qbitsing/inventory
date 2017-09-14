@@ -95,7 +95,9 @@ let crear = co.wrap(function * (req, res){
                 pro.cantidad -= ele.cantidad_saliente;
                 yield productoModel.findByIdAndUpdate(pro._id, pro);
               }
+              ele.cantidad_faltante -= ele.cantidad_saliente;
             }
+
             if(ele.cantidad_faltante < 1) contador ++;
             req.body.orden_venta.productos.push(ele);
           }
