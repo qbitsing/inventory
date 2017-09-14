@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 /**
  * @ngdoc service
@@ -9,35 +9,33 @@
  */
 angular.module('frontendApp')
   .service('webServer', function ($http) {
-	return{
-		getResource: function(resource , data, metodo) {
-			var URL = "http://inventory:5000/"+resource;
-			//var URL = "http://192.168.128.7:5000/"+resource;
-			if(data == undefined)
-				data = {};
-			if(metodo=="get"){
-				var req = {
-	                method : 'GET',
-	                url : URL,
-	                params : data
+    return {
+      getResource: function (resource, data, metodo) {
+      //var URL = 'http://inventory:5000/' + resource
+      var URL = "http://192.168.128.7:5000/"+resource;
+        if (data == undefined) { data = {} }
+        if (metodo == 'get') {
+          var req = {
+	                method: 'GET',
+	                url: URL,
+	                params: data
 	            }
-	            return $http(req);
-			}
-			if(metodo=="post"){
-				var req = {
-					method : 'POST',
-					url : URL,
-					data : data
-				}
-				return $http(req);
-			}
-			if(metodo=="put"){
-				return $http.put(URL, data);
-			}
-			if(metodo=="delete"){
-				return $http.delete(URL, data);
-			}
-
+	            return $http(req)
+        }
+        if (metodo == 'post') {
+          var req = {
+            method: 'POST',
+            url: URL,
+            data: data
+          }
+          return $http(req)
+        }
+        if (metodo == 'put') {
+          return $http.put(URL, data)
+        }
+        if (metodo == 'delete') {
+          return $http.delete(URL, data)
+        }
 		  }
-		};
-})
+    }
+  })
