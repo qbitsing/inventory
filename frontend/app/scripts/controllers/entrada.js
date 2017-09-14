@@ -165,10 +165,10 @@ angular.module('frontendApp')
         }
         $scope.Entrada.estado='Activo';
         if (contadorcantidades) {
+            $scope.Entrada.fecha=new Date(Date.now());
             webServer
             .getResource('entradas',$scope.Entrada,'post')
             .then(function(data){
-                $scope.Entrada.fecha=new Date(Date.now());
                 $scope.Entrada._id=data.data.datos._id;
                 $scope.Entrada.entrada_consecutivo=data.data.datos.entrada_consecutivo;
                 $scope.Entradas.unshift($scope.Entrada);
