@@ -223,10 +223,8 @@ angular.module('frontendApp')
     }
 
     $scope.Imprimir = function(formato , tipo){
-        formato.orden_venta.productos = formato.orden_venta.productos.sort(function (a, b) {
-          if (!a.cantidad_saliente) a.cantidad_saliente = 0
-          if (!b.cantidad_saliente) b.cantidad_saliente = 0
-          return parseInt(a.cantidad_saliente) < parseInt(b.cantidad_saliente)
+        formato.orden_venta.productos = formato.orden_venta.productos.filter(function (a) {
+          return a.cantidad_saliente > 0
         });
         $scope.formato = formato;
         var formatoPrint = null;
