@@ -143,8 +143,9 @@ angular.module('frontendApp')
         delete $scope.Salida.generado.Image;
         var contadorcantidades=false;
         var contadorproductos=false;
-        if ($scope.Salida.orden_venta.productos) {            
-            var conter=true;
+        var conter=false;
+        if ($scope.Salida.orden_venta.productos) {
+            conter=true;            
             $scope.Salida.orden_venta.productos.forEach(function(ele, index){
                 if (ele.cantidad_faltante>0) {
                     contadorproductos=true;
@@ -164,13 +165,10 @@ angular.module('frontendApp')
             if (conter) {
                 if (contadorcantidades) {
                     $scope.preloader.estado = true;
-                    $scope.Salida.orden_venta.productos.forEach(function(ele, index){
-                        ele.cantidad_faltante=parseInt(ele.cantidad_faltante)-parseInt(ele.cantidad_saliente);
-                    });
+                    $scope.Salida.fecha=new Date(Date.now());
                     webServer
                     .getResource("salidas",$scope.Salida,"post")
                     .then(function(data){
-                        $scope.Salida.fecha=new Date(Date.now());
                         $scope.Salida.salida_consecutivo=data.data.datos.salida_consecutivo;
                         $scope.Salida._id=data.data.datos._id;
                         $scope.Salidas.unshift($scope.Salida);
@@ -223,10 +221,8 @@ angular.module('frontendApp')
     }
 
     $scope.Imprimir = function(formato , tipo){
-        formato.orden_venta.productos = formato.orden_venta.productos.sort(function (a, b) {
-          if (!a.cantidad_saliente) a.cantidad_saliente = 0
-          if (!b.cantidad_saliente) b.cantidad_saliente = 0
-          return parseInt(a.cantidad_saliente) < parseInt(b.cantidad_saliente)
+        formato.orden_venta.productos = formato.orden_venta.productos.filter(function (a) {
+          return a.cantidad_saliente > 0
         });
         $scope.formato = formato;
         var formatoPrint = null;
