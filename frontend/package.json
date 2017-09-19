@@ -60,6 +60,7 @@
   },
   "scripts": {
     "test": "karma start test/karma.conf.js",
-    "lint": "standard"
+    "lint": "standard",
+    "start-dev": "gulp serve"
   }
 }
