@@ -55,7 +55,9 @@ angular.module('frontendApp')
             {
                 name:'No. de orden',field: 'orden_venta_consecutivo',
                 width:'10%',
-                minWidth: 100
+                minWidth: 100,
+                type: 'number',
+                enableSorting: true
             },
             {
                 name:'cliente',field: 'cliente.nombre',

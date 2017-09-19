@@ -51,7 +51,9 @@ angular.module('frontendApp')
             {
                 name:'No. de orden',field: 'orden_compra_consecutivo',
                 width:'10%',
-                minWidth: 100
+                minWidth: 100,
+                type: 'number',
+                enableSorting: true
             },
             {
                 name:'proveedor',field: 'proveedor.nombre',

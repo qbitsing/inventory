@@ -61,7 +61,9 @@ angular.module('frontendApp')
             {
                 field: 'codigo',
                 width:'15%',
-                minWidth: 160
+                minWidth: 160,
+                type: 'number',
+                enableSorting: true
             },
             {
                 field: 'nombre',
@@ -82,7 +84,9 @@ angular.module('frontendApp')
                 name:'cantidad',
                 width:'20%',
                 cellTemplate: '<div>{{row.entity.cantidad}} {{row.entity.unidad_medida.nombre}}</div>',
-                minWidth: 250
+                minWidth: 250,
+                type: 'number',
+                enableSorting: true
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,

@@ -52,13 +52,17 @@ angular.module('frontendApp')
             {
                 field: 'min_stock',
                 width:'20%',
-                minWidth: 160
+                minWidth: 160,
+                type: 'number',
+                enableSorting: true
             },
             {
                 name:'cantidad',
                 width:'20%',
                 cellTemplate: '<div>{{row.entity.cantidad}} {{row.entity.unidad_medida.nombre}}</div>',
-                minWidth: 250
+                minWidth: 250,
+                type: 'number',
+                enableSorting: true
             },
             {
                 name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,
