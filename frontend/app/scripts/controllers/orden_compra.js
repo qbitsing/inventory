@@ -29,6 +29,7 @@ angular.module('frontendApp')
     $scope.pageAnimate='';
     $scope.datosProductos = [];
     $scope.datosMateria = [];
+    $scope.arrayProveedores=[];
     if ($scope.Usuario.rol=='Contador' || $scope.Usuario.rol=='Almacenista') {
         $state.go('Home');
     }
@@ -256,6 +257,7 @@ angular.module('frontendApp')
             $scope.Orden.materia_prima=[];
             $scope.preloader.estado = false;
             sweetAlert("Completado...", data.data.message , "success");
+            $('#proveedor .infinite-autocomplete-default-input').val('');
         },function(data){
             $scope.preloader.estado = false;
             sweetAlert("Oops...", data.data.message , "error");
@@ -295,6 +297,7 @@ angular.module('frontendApp')
         $scope.materias=[];
         $scope.panel_title_form = "Registro de Compra";
         $scope.button_title_form = "Registrar compra";
+        $('#proveedor .infinite-autocomplete-default-input').val('');
     }
     $scope.convertirFecha = function(fecha){
         var date = new Date(fecha).getDate();
@@ -327,10 +330,20 @@ angular.module('frontendApp')
         .then(function(data){
             $scope.proveedores = data.data.datos;
             listarEntradas();
+            $scope.arrayProveedores = $scope.proveedores.map(function(ele){
+                return {
+                    text: ele.nombre,
+                    value: ele._id
+                }
+            });
         },function(data){
             $scope.proveedores = [];
             listarEntradas();
         });
+    }
+    $scope.selectAutocompleteProveedor = function(_ , $data){   
+        $scope.Orden.proveedor = {};
+        $scope.Orden.proveedor._id = $data.value;
     }
     function listarEntradas(){
         webServer

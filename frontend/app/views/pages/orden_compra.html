@@ -9,11 +9,15 @@
 				<div class="panel-body" >
 					<form name="formOrdenCompra" novalidate ng-submit="EnviarOrden()">
 						<div class="row">
-							<div class="input-field col s12 m12 l12">
-								<select ng-model="Orden.proveedor._id" material-select watch required>
+							<div class="input-field col s12 m12 l12" id="proveedor">
+								<!--<select ng-model="Orden.proveedor._id" material-select watch required>
 	      							<option ng-repeat="proveedor in proveedores" value="{{proveedor._id}}">{{proveedor.nombre}} {{proveedor.apellidos}}</option>
-								</select>
-								<label>Proveedor*</label>
+								</select>-->
+								<label class="active">Proveedor*</label>
+								<ng-infinite-autocomplete
+									data="arrayProveedores"
+									on-select="selectAutocompleteProveedor($element, $data)"
+								></ng-infinite-autocomplete>
 							</div>
 						</div>
 						<div class="row">
@@ -100,7 +104,7 @@
 						</div>
 						<div class="row">
 							<div class="col">
-								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formOrdenCompra.$invalid || (Orden.productos.length<1 && Orden.materia_prima.length<1)">{{button_title_form}}</button>
+								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formOrdenCompra.$invalid || (Orden.productos.length<1 && Orden.materia_prima.length<1) || !Orden.proveedor._id">{{button_title_form}}</button>
 							</div>
 							<div class="col">
 								<button type="button" class="btn btn-large btn-danger" ng-click="CancelarEditar()">Cancelar</button>

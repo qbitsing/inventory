@@ -24,6 +24,8 @@ angular.module('frontendApp')
         });
     });
     $scope.preloader = preloader;
+    $scope.arrayDep = [];
+    $scope.arrayCiud = [];
     $scope.panelAnimate='';
     $scope.pageAnimate='';
     if ($scope.Usuario.rol=='Almacenista') {
@@ -97,6 +99,7 @@ angular.module('frontendApp')
             $scope.panel_title_form = "Registro de clientes y proveedores";
             $scope.button_title_form = "Registrar Persona";
             $scope.preloader.estado = false;
+            $('.infinite-autocomplete-default-input').val('');
             sweetAlert("Completado...", data.data.message , "success");
         },function(data){
             $scope.preloader.estado = false;
@@ -168,6 +171,7 @@ angular.module('frontendApp')
     }
     
     $scope.CancelarEditar=function(){
+        $('.infinite-autocomplete-default-input').val('');
         $scope.Persona={};
         $scope.Persona.proveedor=false;
         $scope.panel_title_form = "Registro de clientes y proveedores";
@@ -204,15 +208,39 @@ angular.module('frontendApp')
         .then(function(data){
             if(data.data.datos){
                 $scope.Departamentos=data.data.datos;
-                $scope.Persona.departamento = $scope.Departamentos[0]._id;
             }else{
                 $scope.Departamentos=[];
             }
             listarCiudades();
+            $scope.arrayDep = $scope.Departamentos.map(function(ele){
+                return {
+                    text: ele.nombre,
+                    value: ele._id
+                };
+            });
         },function(data){
             $scope.Departamentos=[];
             listarCiudades();
         });
+    }
+    $scope.selectAutocompleteDepartamento = function($element, $data){
+        $scope.Persona.departamento = $data.value;
+        $scope.calcularArrayCiud($data.value);
+    }
+    $scope.calcularArrayCiud = function(id){
+        $scope.arrayCiud = $scope.Ciudades.filter(function(x){
+            return x.departamento._id == id;
+        }).map(function(ele){
+            return {
+                text: ele.nombre,
+                value: ele._id
+            }
+        });
+        console.log($scope.arrayCiud);
+    } 
+    $scope.selectAutocompleteCiudad= function($element, $data){
+        $scope.Persona.ciudad = {};
+        $scope.Persona.ciudad._id = $data.value;
     }
     listarPersonas();
     function IdentificarPersona (id , arrObj){

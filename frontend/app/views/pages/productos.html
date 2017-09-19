@@ -66,11 +66,16 @@
 						</div>
 						<h4 ng-show="Producto.fabricado && check=='producto'">Insumos de fabricación:</h4>
 						<div class="row" ng-show="check=='producto' && Producto.fabricado">
-							<div class="input-field col s12 m6 l6">
-								<select ng-model="producto.Insumo._id" material-select watch>
+							<div class="input-field col s12 m6 l6" id="insumos">
+								<!--<select ng-model="producto.Insumo._id" material-select watch>
 	      							<option ng-repeat="insumo in Insumos" value="{{insumo._id}},{{insumo.nombre}}">{{insumo.nombre}}</option>
-								</select>
-								<label>Insumos</label>
+								</select>-->
+								<label class="active">Insumos</label>
+								<ng-infinite-autocomplete
+									data="arrayMateria"
+									on-select="selectAutocompleteMateria($element, $data)"
+							   		name="materia">
+							   	</ng-infinite-autocomplete>
 							</div>
 							<div class="input-field col s8 m4 l4">
 								<input type="number" numbervalidation ng-model="producto.Insumo.cantidad" id="Cantidad-insumo" name="Cantidad-insumo">
@@ -99,11 +104,16 @@
 							</div>
 						</div>
 						<div class="row" ng-hide="check=='producto' && !Producto.fabricado">
-							<div class="input-field col s10 m5 l5" >
-								<select ng-model="Kit.producto._id" material-select watch>
+							<div class="input-field col s10 m5 l5" id="productosAutocomplete">
+								<!--<select ng-model="Kit.producto._id" material-select watch>
 	      							<option ng-repeat="producto in ProductosSelect" value="{{producto._id}},{{producto.nombre}}">{{producto.nombre}}</option>
-								</select>
-								<label>Productos</label>
+								</select>-->
+								<label class="active">Productos</label>
+								<ng-infinite-autocomplete
+									data="arrayProductos"
+									on-select="selectAutocompleteProductos($element, $data)"
+								   	name="productos">
+							   </ng-infinite-autocomplete>
 							</div>
 							<div class="input-field col s2 m1 l1">
 								<input type="text" ng-keyup="cargarProducto($event)" ng-model="Kit.codigo" id="codigo_barras" name="codigo_barras">

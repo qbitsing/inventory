@@ -50,16 +50,26 @@
 						</div>
 						<div class="row">
 							<div class="input-field col s12 m6 l6">
-								<select ng-model="Persona.departamento" material-select watch>
+								<!--<select ng-model="Persona.departamento" material-select watch>
 	      							<option ng-repeat="departamento in Departamentos" value="{{departamento._id}}">{{departamento.nombre}}</option>
-								</select>
-								<label>Departamento *</label>
+								</select>-->
+								<label for="departamento" class="active">Departamento *</label>
+								<ng-infinite-autocomplete
+								    data="arrayDep"
+								    on-select="selectAutocompleteDepartamento($element, $data)"
+								   name="departamento">
+								   </ng-infinite-autocomplete>
 							</div>
 							<div class="input-field col s12 m6 l6" >
-								<select ng-model="Persona.ciudad._id" required material-select watch>
+								<!--<select ng-model="Persona.ciudad._id" required material-select watch>
 									<option ng-repeat="ciudad in Ciudades" ng-if="ciudad.departamento._id == Persona.departamento" value="{{ciudad._id}}">{{ciudad.nombre}}</option>
-								</select>
-								<label>Ciudad *</label>
+								</select>-->
+								<label for="ciudad" class="active">Ciudad *</label>
+								<ng-infinite-autocomplete
+									data="arrayCiud"
+									on-select="selectAutocompleteCiudad($element, $data)"
+							   		name="ciudad">
+							   	</ng-infinite-autocomplete>
 							</div>
 						</div>
 						<div class="row">
@@ -82,7 +92,7 @@
 						</div>
 						<div class="row">
 							<div class="col">
-								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formPersonas.$invalid || (!Persona.cliente && !Persona.proveedor)">{{button_title_form}}</button>
+								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formPersonas.$invalid || (!Persona.cliente && !Persona.proveedor) || !Persona.ciudad._id">{{button_title_form}}</button>
 							</div>
 							<div class="col">
 								<button type="button" class="btn btn-large btn-danger" ng-click="CancelarEditar()">Cancelar</button>

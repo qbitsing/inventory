@@ -39,6 +39,7 @@ angular.module('frontendApp')
     $scope.noDisponible=[];
     $scope.Orden={};
     $scope.datos=[];
+    $scope.arrayClientes=[];
     $scope.Orden.productos=[];
     $scope.Orden.Producto={};
     $scope.Orden.Producto._id='';
@@ -98,10 +99,20 @@ angular.module('frontendApp')
         .then(function(data){
             $scope.clientes = data.data.datos;
             listarProductos();
+            $scope.arrayClientes = $scope.clientes.map(function(ele){
+                return {
+                    text: ele.nombre,
+                    value: ele._id
+                }
+            });
         },function(data){
             $scope.clientes = [];
             listarProductos();
         });
+    }
+    $scope.selectAutocompleteCliente = function(_ , $data){
+        $scope.Orden.cliente= {};
+        $scope.Orden.cliente._id = $data.value;
     }
     function listarProductos(){
         webServer
@@ -205,7 +216,7 @@ angular.module('frontendApp')
             $scope.Orden.Producto={};
             $scope.Orden.Producto._id='';
             $scope.Orden.Producto.cantidad=0;
-            $('.infinite-autocomplete-default-input').val('');
+            $('#Productos .infinite-autocomplete-default-input').val('');
             $('#codigo_barras').focus();
         }
     }
@@ -284,6 +295,7 @@ angular.module('frontendApp')
             }
             $scope.Orden={};
             $scope.Orden.productos=[];
+            $('#Cliente .infinite-autocomplete-default-input').val('');
             $scope.preloader.estado = false;
             if (data.data.noDisponible.length>0) {
                 $scope.noDisponible=data.data.noDisponible;
@@ -360,6 +372,7 @@ angular.module('frontendApp')
         $scope.productos = [];
         $scope.panel_title_form = "Registro de venta";
         $scope.button_title_form = "Registrar venta";
+        $('#Clientes .infinite-autocomplete-default-input').val('');
     }
     /*Validaciones de fechas*/
     $scope.validarFechaEntrega=function(){

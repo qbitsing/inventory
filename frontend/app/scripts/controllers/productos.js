@@ -44,6 +44,7 @@ angular.module('frontendApp')
     $scope.Producto.unidad_medida={};
     $scope.Producto.categoria={};
     $scope.Producto.Insumos=[];
+    $scope.arrayMateria=[];
     $scope.Producto.productos=[];
     $scope.Producto.procesos=[];
     $scope.producto={}
@@ -103,10 +104,20 @@ angular.module('frontendApp')
         .then(function(data){
             $scope.Insumos=data.data.datos;
             listarProductosSelect();
+            $scope.arrayMateria = $scope.Insumos.map(function(ele){
+                return {
+                    text: ele.nombre,
+                    value: ele._id+','+ele.nombre
+                }
+            });
         },function(data){
             $scope.Insumos=[];
             listarProductosSelect();
         });
+    }
+    $scope.selectAutocompleteMateria = function(_, $data){
+        $scope.producto.Insumo = {};
+        $scope.producto.Insumo._id = $data.value;
     }
     function listarProductos(){
         $scope.preloader.estado = true;
@@ -133,21 +144,38 @@ angular.module('frontendApp')
         .then(function(data){
             $scope.ProductosSelect=data.data.datos;
             $scope.preloader.estado = false;
+            $scope.arrayProductos = $scope.ProductosSelect.map(function(ele){
+                return {
+                    text: ele.nombre,
+                    value: ele._id+','+ele.nombre
+                }
+            });
         },function(data){
             $scope.ProductosSelect=[];
             $scope.preloader.estado = false;
         });
     }
+    $scope.selectAutocompleteProductos = function(_, $data){
+        $scope.Kit = {};
+        $scope.Kit.producto={};
+        $scope.Kit.producto._id = $data.value;
+    }
     listarProductos();
-    $scope.cargarProducto=function(){
-        $scope.Productos.forEach(function(ele , index){
-            if($scope.Kit.codigo == ele.codigo){
-                $scope.Kit.producto._id=ele._id+','+ele.nombre;
-            }
+    $scope.cargarProducto=function(keyEvent){
+        var ele = $scope.Productos.find(function(ele){
+            return ele.codigo == $scope.Kit.codigo
+        });
+        if(ele){
+            $scope.Kit.producto._id=ele._id+','+ele.nombre;
+            $('#productosAutocomplete .infinite-autocomplete-default-input').val(ele.nombre);
             if (keyEvent.which === 13){
                 $('#Cantidad').focus();
             }
-        });
+        }else{
+            $scope.Kit.producto._id='';
+            $('#productosAutocomplete .infinite-autocomplete-default-input').val('');
+        }
+        
     }
     $scope.detectar=function(keyEvent){
         if ($scope.Kit.producto.cantidad>0) {
@@ -177,6 +205,7 @@ angular.module('frontendApp')
         }
         $scope.producto.Insumo._id='';
         $scope.producto.Insumo.cantidad=0;
+        $('#insumos .infinite-autocomplete-default-input').val('');
     }
     $scope.AgregarProceso=function(){
         var controlador=false;
@@ -260,6 +289,8 @@ angular.module('frontendApp')
             $scope.Kit.producto={};
             $scope.Kit.producto._id='';
             $scope.Kit.producto.cantidad=0;
+            $('#productosAutocomplete .infinite-autocomplete-default-input').val('');
+            $scope.Kit.codigo = '';     
         }
     }
     $scope.Borrarkit=function(index){

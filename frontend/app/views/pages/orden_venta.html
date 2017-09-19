@@ -9,11 +9,17 @@
 				<div class="panel-body" >
 					<form name="formMateriaPrima" novalidate ng-submit="EnviarOrden()">
 						<div class="row">
-							<div class="input-field col s12 m12 l12">
-								<select ng-model="Orden.cliente._id" material-select watch required>
+							<div class="input-field col s12 m12 l12" id="Clientes">
+								<!--<select ng-model="Orden.cliente._id" material-select watch required>
 	      							<option ng-repeat="cliente in clientes" value="{{cliente._id}}">{{cliente.nombre}} {{cliente.apellidos}}</option>
-								</select>
-								<label>Cliente*</label>
+								</select>-->
+								<label class="active">Cliente*</label>
+								<ng-infinite-autocomplete
+									data="arrayClientes"
+									on-select="selectAutocompleteCliente($element, $data)"
+							   		name="producto">
+							   	</ng-infinite-autocomplete>
+								
 							</div>
 						</div>
 						<div class="row">
@@ -37,7 +43,7 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="input-field col s10 m5 l5">
+							<div class="input-field col s10 m5 l5" id="Productos">
 								<label for="producto" class="active">Producto</label>
 								<ng-infinite-autocomplete
 								    data="datos"
@@ -85,7 +91,7 @@
 						</div>
 						<div class="row">
 						<div class="col">
-							<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formMateriaPrima.$invalid || Orden.productos.length<1">{{button_title_form}}</button>
+							<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formMateriaPrima.$invalid || Orden.productos.length<1 || !Orden.cliente._id">{{button_title_form}}</button>
 						</div>
 						<div class="col">
 							<button type="button" class="btn btn-large btn-danger" ng-click="CancelarEditar()">Cancelar</button>
