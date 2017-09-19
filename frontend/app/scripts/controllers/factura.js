@@ -44,7 +44,9 @@
         {
             name:'no. orden',field: 'consecutivo',
             width:'10%',
-            minWidth: 100
+            minWidth: 100,
+            type: 'number',
+            enableSorting: true
         },
         {
             name:'fecha',
@@ -55,7 +57,9 @@
         {
             field:  'subtotal',
             width:'15%',
-            minWidth: 100
+            minWidth: 100,
+            type: 'number',
+            enableSorting: true
         },
         { 
             name: 'Iva',
@@ -66,7 +70,9 @@
         { 
             field: 'total',
             width:'15%',
-            minWidth: 100
+            minWidth: 100,
+            type: 'number',
+            enableSorting: true
         },
         {
             name: 'Opciones', enableFiltering: false, cellTemplate :casillaDeBotones,

@@ -49,7 +49,9 @@ angular.module('frontendApp')
             {
                 name:'No. entrada',field: 'entrada_consecutivo',
                 width:'15%',
-                minWidth: 100
+                minWidth: 100,
+                type: 'number',
+                enableSorting: true
             },
             {
                 name:'orden de compra',field: 'orden_compra.orden_compra_consecutivo',

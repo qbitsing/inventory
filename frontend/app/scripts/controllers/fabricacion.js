@@ -73,7 +73,9 @@ angular.module('frontendApp')
             {
                 name:'no. orden',field: 'fabricacion_consecutivo',
                 width:'10%',
-                minWidth: 100
+                minWidth: 100,
+                type: 'number',
+                enableSorting: true
             },
             {
                 name:'fecha de solicitud',
