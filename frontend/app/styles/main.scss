@@ -67,6 +67,26 @@ input[type=number]::-webkit-outer-spin-button {
 [type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:before, [type="radio"].with-gap:checked + label:after{
   border: 2px solid $azul;
 }
+.collapsible li {
+  list-style: none;
+}
+.collapsible-header {
+  position: fixed;
+  display: inline-block;
+  margin-top: 7.5px;
+  height: 45px;
+  top:0;
+  right: 1rem;
+  padding: 0;
+  background-color: transparent;
+  border-bottom:none;
+  i{
+    font-size: 2rem;
+    margin-right: 0;
+    color: #ffffff;
+  }
+  
+}
 .content{
   position: absolute;
   top: 0;
