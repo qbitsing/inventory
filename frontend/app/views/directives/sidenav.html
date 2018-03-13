@@ -54,15 +54,7 @@
 						<i class="tooltipped material-icons" tooltipped data-position="right" data-delay="50" data-tooltip="Orden de venta">monetization_on</i>
 					Orden de venta
 					</a>
-				</li>
-
-				<li ng-if="Usuario.rol!='Almacenista'" ng-class="{activate: $state.includes('Factura')}">
-					<a ui-sref="Factura">
-						<i class="tooltipped material-icons" tooltipped data-position="right" data-delay="50" data-tooltip="Facturación">local_atm</i>
-					Facturación
-					</a>
-				</li>
-				
+				</li>				
 				<li ng-if="Usuario.rol!='Contador'" ng-class="{activate: $state.includes('Fabricacion')}">
 					<a ui-sref="Fabricacion">
 						<i class="tooltipped material-icons" tooltipped data-position="right" data-delay="50" data-tooltip="Fabricacion">build</i>
