@@ -13,6 +13,6 @@ angular.module('frontendApp')
 		modifierKeysToMultiSelectCells: true,
 		enableFiltering: true,
 		paginationPageSizes: [10, 20, 30, 40, 50, 100],
-		paginationPageSize: 10,
+		paginationPageSize: 25,
 		enableColumnResizing: true
 	})
