@@ -169,6 +169,14 @@ angular.module('frontendApp')
             $scope.Materias=data.data.datos;
             $scope.gridOptions.data = $scope.Materias;
             $scope.preloader.estado = false;
+            let height
+            if ($scope.gridOptions.data.length >= 25 ){
+                height = (30 * 25) + 140
+            }
+            else {
+                height = (30 * $scope.gridOptions.data.length) + 140
+            }
+            $('.grid').height(height)
         },function(data){
             $scope.Materias=[];
             $scope.gridOptions.data = $scope.Materias;

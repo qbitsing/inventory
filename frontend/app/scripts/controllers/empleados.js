@@ -238,6 +238,14 @@ angular.module('frontendApp')
             $scope.Empleados=data.data.datos;
             $scope.gridOptions.data = data.data.datos;
             $scope.preloader.estado=false;
+            let height
+            if ($scope.gridOptions.data.length >= 25 ){
+                height = (30 * 25) + 140
+            }
+            else {
+                height = (30 * $scope.gridOptions.data.length) + 140
+            }
+            $('.grid').height(height)
         },function(data){
             $scope.Empleados=[];
             $scope.preloader.estado=false;

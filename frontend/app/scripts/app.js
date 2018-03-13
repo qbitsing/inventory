@@ -155,4 +155,6 @@ angular
         templateUrl: 'views/pages/historial.html',
         controller: 'HistorialCtrl'
     })
-})
+}).config(['$qProvider', function ($qProvider) {
+    $qProvider.errorOnUnhandledRejections(false);
+}])

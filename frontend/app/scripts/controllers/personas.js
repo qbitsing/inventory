@@ -185,6 +185,14 @@ angular.module('frontendApp')
         .then(function(data){
             $scope.Personas = data.data.datos;
             $scope.gridOptions.data = data.data.datos;
+            let height
+            if ($scope.gridOptions.data.length >= 25 ){
+                height = (30 * 25) + 140
+            }
+            else {
+                height = (30 * $scope.gridOptions.data.length) + 140
+            }
+            $('.grid').height(height)
             listarDepartamentos();
         },function(data){
             $scope.Personas = [];

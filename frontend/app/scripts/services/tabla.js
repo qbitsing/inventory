@@ -12,7 +12,8 @@ angular.module('frontendApp')
 		enableSorting: true,
 		modifierKeysToMultiSelectCells: true,
 		enableFiltering: true,
-		paginationPageSizes: [10, 20, 30, 40, 50, 100],
+		paginationPageSizes: [25, 35, 45, 55, 100],
 		paginationPageSize: 25,
-		enableColumnResizing: true
+		enableColumnResizing: true,
+		minRowsToShow:10,
 	})
