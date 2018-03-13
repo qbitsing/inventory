@@ -88,7 +88,7 @@ angular.module('frontendApp')
             }
         ]
     }
-    angular.extend($scope.gridOptions , Tabla);
+    angular.extend($scope.gridOptions, Tabla)
     $scope.Orden={};
     $scope.Orden.productos=[];
     $scope.productos=[];
@@ -153,6 +153,14 @@ angular.module('frontendApp')
         .then(function(data){
             $scope.Ordenes=data.data.datos;
             $scope.gridOptions.data=$scope.Ordenes;
+            let height
+            if ($scope.Ordenes.length >= 25 ){
+                height = (30 * 25) + 140
+            }
+            else {
+                height = (30 * $scope.Ordenes.length) + 140
+            }
+            $('.grid').height(height)
             listarPersonas();
         },function(data){
             $scope.Ordenes=[];

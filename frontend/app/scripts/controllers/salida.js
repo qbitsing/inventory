@@ -286,6 +286,14 @@ angular.module('frontendApp')
         .then(function(data){
             $scope.Salidas=data.data.datos;
             $scope.gridOptions.data=$scope.Salidas;
+            let height
+            if ($scope.gridOptions.data.length >= 25 ){
+                height = (30 * 25) + 140
+            }
+            else {
+                height = (30 * $scope.gridOptions.data.length) + 140
+            }
+            $('.grid').height(height)
             listarOrdenes();
         },function(data){
             $scope.Salidas=[];
