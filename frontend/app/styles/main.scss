@@ -537,6 +537,10 @@ preloader{
 .row{
   margin-bottom: 0;
 }
+.grid {
+  min-height: 450px;
+  // height: 900px;
+}
 .ui-grid-filter-container input[type=text]{
   height: 2em;
   padding: 0 5px;
