@@ -53,6 +53,14 @@ angular.module('frontendApp')
             if(state.name == e) state.class = 'active'
             else state.class = ''
         })
+        let height
+        if (Orders.length >= 25 ){
+            height = (30 * 25) + 160
+        }
+        else {
+            height = (30 * Orders.length) + 160
+        }
+        $('.grid').height(height)
         $scope.gridOptions.data = Orders
     }
     $scope.arrayClientes=[];
@@ -166,14 +174,6 @@ angular.module('frontendApp')
         .then(function(data){
             $scope.Ordenes = data.data.datos;
             $scope.changeState('Activo')
-            let height
-            if ($scope.Ordenes.length >= 25 ){
-                height = (30 * 25) + 140
-            }
-            else {
-                height = (30 * $scope.Ordenes.length) + 140
-            }
-            $('.grid').height(height)
             listarPersonas();
         },function(data){
             $scope.Ordenes=[];

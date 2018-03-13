@@ -57,6 +57,30 @@ angular.module('frontendApp')
     $scope.fecha_hoy=new Date(Date.now());
     $scope.producto={};
     $scope.producto._id='';
+    $scope.estados = [
+        {name: 'Completa', class: 'active'},
+        {name: 'Incompleta', class: ''},
+        {name: 'En Fabricacion', class: ''}
+    ]
+    $scope.changeState = function(e) {
+        let Orders = []
+        $scope.Fabricaciones.forEach(order => {
+            if(order.estado == e) Orders.push(order)
+        })
+        $scope.estados.forEach(state => {
+            if(state.name == e) state.class = 'active'
+            else state.class = ''
+        })
+        let height
+        if (Orders.length >= 25 ){
+            height = (30 * 25) + 160
+        }
+        else {
+            height = (30 * Orders.length) + 160
+        }
+        $('.grid').height(height)
+        $scope.gridOptions.data = Orders
+    }
     var casillaDeBotones;
     casillaDeBotones = '<div>'+BotonesTabla.Detalles;
     if ($scope.Usuario.rol == 'Super Administrador') {
@@ -266,7 +290,6 @@ angular.module('frontendApp')
             swal("Oops...", data.data.message , "error");
         });
     }
-
     $scope.Editar = function(id){
         $scope.panel_title_form = "Edicion de Fabricación";
         $scope.button_title_form = "Actualizar Fabricación";
@@ -629,7 +652,6 @@ angular.module('frontendApp')
             });
         }
     }
-
     $scope.AbrirModalEntrada=function(_id){
         $scope.Fabricaciones.forEach(function(ele , i){
             if(_id == ele._id){
@@ -931,7 +953,6 @@ angular.module('frontendApp')
             $scope.cancelarlaentrada();
         });
     }
-
     $scope.AbrirModalMateriaPrima=function(_id){
         $scope.salida_insumos={};
         $scope.Fabricaciones.forEach(function(ele , i){
@@ -1170,15 +1191,7 @@ angular.module('frontendApp')
         .getResource('fabricacion',{},'get')
         .then(function(data){
             $scope.Fabricaciones=data.data.datos;
-            $scope.gridOptions.data=$scope.Fabricaciones;
-            let height
-            if ($scope.gridOptions.data.length >= 25 ){
-                height = (30 * 25) + 140
-            }
-            else {
-                height = (30 * $scope.gridOptions.data.length) + 140
-            }
-            $('.grid').height(height)
+            $scope.changeState('Completa')
             listarMaterias();
         },function(data){
             $scope.Fabricaciones=[];
