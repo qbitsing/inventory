@@ -543,6 +543,12 @@ preloader{
 .row{
   margin-bottom: 0;
 }
+.tabs .tab a {
+  cursor: pointer;
+}
+.tabs .tab a.active {
+  border-bottom: 3px solid red;
+}
 .grid {
   min-height: 450px;
 }

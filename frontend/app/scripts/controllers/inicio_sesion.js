@@ -23,9 +23,12 @@ angular.module('frontendApp')
             if(SesionUsuario.CrearSesion(data.data.datos)){
                 $state.go('Home');
             }
-  		},function(data){
-            $scope.preloader.estado = false;
-            sweetAlert("Oops...", data.data.message, "error");
-  		});
+        },function(data){
+          $scope.preloader.estado = false;
+          sweetAlert("Oops...", data.data.message, "error");
+        })
+        .catch(e => {
+            sweetAlert("Oops...", 'Error al conectarse con el servidor', "error")
+        })
   	}
 })

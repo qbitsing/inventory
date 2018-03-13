@@ -39,6 +39,29 @@ angular.module('frontendApp')
     $scope.noDisponible=[];
     $scope.Orden={};
     $scope.datos=[];
+    $scope.estados = [
+        {name: 'Activo', data: [], class: 'active'},
+        {name: 'Inactivo', data: [], class: ''},
+        {name: 'Con Salidas', data: [], class: ''}
+    ]
+    $scope.changeState = function(e) {
+        let i
+        if(e.name == 'Activo') {
+            i = 0
+            $scope.estados[1].class = ''
+            $scope.estados[2].class = ''
+        } else if(e.name == 'Inactivo') {
+            i = 1
+            $scope.estados[0].class = ''
+            $scope.estados[2].class = ''
+        } else if (e.name == 'Con Salidas') {
+            i = 2
+            $scope.estados[0].class = ''
+            $scope.estados[1].class = ''
+        }
+        $scope.estados[i].class = 'active'        
+        $scope.gridOptions.data = $scope.estados[i].data;
+    }
     $scope.arrayClientes=[];
     $scope.Orden.productos=[];
     $scope.Orden.Producto={};
@@ -151,7 +174,13 @@ angular.module('frontendApp')
         webServer
         .getResource('orden_venta',{Salidas:true, Finalizado:true, Activo:true},'get')
         .then(function(data){
-            $scope.Ordenes=data.data.datos;
+            data.data.datos.forEach(e => {
+                if(e.estado == 'Activo') $scope.estados[0].data.push(e)
+                else if(e.estado == 'Inactivo') $scope.estados[1].data.push(e)
+                else if(e.estado == 'Con Salidas') $scope.estados[2].data.push(e)
+            })
+            $scope.Ordenes = $scope.estados[0].data;
+            console.log($scope.estados)
             $scope.gridOptions.data=$scope.Ordenes;
             let height
             if ($scope.Ordenes.length >= 25 ){
