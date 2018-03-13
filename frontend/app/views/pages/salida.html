@@ -2,84 +2,90 @@
 <div class="contenido">
 	<div class="row">
 		<div class="col s12">
-			<div class="card-panel {{panelAnimate}}">
-				<div class="panel-heading blue accent-4">
-					<h3 class="panel-title">{{panel_title_form}}</h3>
-				</div>
-				<div class="panel-body" >
-					<form name="formSalida" ng-submit="EnviarSalida()">
-						<div class="row">
-							<div class="input-field col s12 m6 l6">
-								<select ng-change="CargarOrden()" id="orden" ng-model="Orden" material-select watch>
-	      							<option ng-if="orden.estado!='Finalizado'" ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.orden_venta_consecutivo}}-{{orden.cliente.nombre}} {{orden.cliente.apellidos}}</option>
-								</select>
-								<label for="orden">Orden de venta *</label>
+			<div class="card-panel {{panelAnimate}} collapsible" data-collapsible="accordion">
+				<li>
+					<div class="panel-heading blue accent-4">
+						<h3 class="panel-title">{{panel_title_form}}</h3>
+					</div>
+					<a class=" waves-light collapsible-header" accordion><i class="material-icons">expand_more</i></a>				
+					<div class="panel-body collapsible-body" >
+						<form name="formSalida" ng-submit="EnviarSalida()">
+							<div class="row">
+								<div class="input-field col s12 m6 l6">
+									<select ng-change="CargarOrden()" id="orden" ng-model="Orden" material-select watch>
+										<option ng-if="orden.estado!='Finalizado'" ng-repeat="orden in Ordenes" value="{{orden._id}}">{{orden.orden_venta_consecutivo}}-{{orden.cliente.nombre}} {{orden.cliente.apellidos}}</option>
+									</select>
+									<label for="orden">Orden de venta *</label>
+								</div>
+								<div class="input-field col s12 m6 l6">
+									<label for="consecutivo">Numero de orden interna *</label>
+									<input type="text" ng-disabled="true" ng-model="Salida.orden_venta.orden_venta_consecutivo" id="consecutivo" name="consecutivo" required>
+								</div>
 							</div>
-							<div class="input-field col s12 m6 l6">
-								<label for="consecutivo">Numero de orden interna *</label>
-								<input type="text" ng-disabled="true" ng-model="Salida.orden_venta.orden_venta_consecutivo" id="consecutivo" name="consecutivo" required>
+							<div class="row">
+								<div class="input-field col s12 m6 l6">
+									<label for="Cliente">Cliente *</label>
+									<input type="text" ng-disabled="true" ng-model="Salida.orden_venta.cliente.nombre" id="Cliente" name="Cliente" required>
+								</div>
+								<div class="input-field col s12 m6 l6">
+									<label for="Contenido">Contenido</label>
+									<input type="text" ng-model="Salida.contenido" id="Contenido" name="Contenido">
+								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="input-field col s12 m6 l6">
-								<label for="Cliente">Cliente *</label>
-								<input type="text" ng-disabled="true" ng-model="Salida.orden_venta.cliente.nombre" id="Cliente" name="Cliente" required>
+							<div class="row">
+								<div class="input-field col s12 m6 l6" ng-hide="Salida.orden_venta.productos.length<1">
+									<table class="bordered striped">
+										<thead>
+											<tr>
+												<th data-field="producto">Producto</th>
+												<th data-field="marca">Marca</th>
+												<th data-field="cantidad">Cantidad</th>
+												<th data-field="faltante">Cantidad faltante</th>
+												<th data-field="entrante">Cantidad saliente</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-if="producto.cantidad_faltante>0" ng-repeat="producto in Salida.orden_venta.productos">
+												<td>{{producto.nombre}}</td>
+												<td>{{producto.marca}}</td>
+												<td>{{producto.cantidad}}</td>
+												<td>{{producto.cantidad_faltante}}</td>
+												<td><input type="number" numbervalidation value="0" id="cantidad{{producto._id}}" name="cantidad" placeholder="cantidad a enviar" required></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="input-field col s12 m6 l6">
+									<textarea id="observaciones" ng-model="Salida.observaciones" class="materialize-textarea" data-length="120"></textarea>
+									<label for="observaciones">Observaciones</label>
+								</div>
 							</div>
-							<div class="input-field col s12 m6 l6">
-								<label for="Contenido">Contenido</label>
-								<input type="text" ng-model="Salida.contenido" id="Contenido" name="Contenido">
+							<div class="row">
+								<div class="col">
+									<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formSalida.$invalid">{{button_title_form}}</button>
+								</div>
+								<div class="col">
+									<button type="button" ng-click="cancelarEditar()" class="btn btn-large btn-danger">Cancelar</button>
+								</div>
 							</div>
-				        </div>
-				        <div class="row">
-							<div class="input-field col s12 m6 l6" ng-hide="Salida.orden_venta.productos.length<1">
-								<table class="bordered striped">
-							        <thead>
-							        	<tr>
-											<th data-field="producto">Producto</th>
-											<th data-field="marca">Marca</th>
-											<th data-field="cantidad">Cantidad</th>
-											<th data-field="faltante">Cantidad faltante</th>
-											<th data-field="entrante">Cantidad saliente</th>
-							          	</tr>
-							        </thead>
-							        <tbody>
-							          	<tr ng-if="producto.cantidad_faltante>0" ng-repeat="producto in Salida.orden_venta.productos">
-								            <td>{{producto.nombre}}</td>
-								            <td>{{producto.marca}}</td>
-											<td>{{producto.cantidad}}</td>
-								            <td>{{producto.cantidad_faltante}}</td>
-								            <td><input type="number" numbervalidation value="0" id="cantidad{{producto._id}}" name="cantidad" placeholder="cantidad a enviar" required></td>
-							          	</tr>
-							        </tbody>
-						      	</table>
-							</div>
-							<div class="input-field col s12 m6 l6">
-					            <textarea id="observaciones" ng-model="Salida.observaciones" class="materialize-textarea" data-length="120"></textarea>
-					            <label for="observaciones">Observaciones</label>
-				          	</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formSalida.$invalid">{{button_title_form}}</button>
-							</div>
-							<div class="col">
-								<button type="button" ng-click="cancelarEditar()" class="btn btn-large btn-danger">Cancelar</button>
-							</div>
-						</div>
-					</form>
-				</div>
+						</form>
+					</div>
+				</li>
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col s12">
-			<div class="card-panel {{panelAnimate}}">
-				<div class="panel-heading blue accent-4">
-					<h3 class="panel-title">Lista de Salidas</h3>
-				</div>
-				<div class="panel-body">
-					<div class="gridStyle grid" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
-				</div>
+			<div class="card-panel {{panelAnimate}} collapsible" data-collapsible="accordion">
+				<li>
+					<div class="panel-heading blue accent-4">
+						<h3 class="panel-title">Lista de Salidas</h3>
+					</div>
+					<a class=" waves-light collapsible-header active" accordion><i class="material-icons">expand_less</i></a>					
+					<div class="panel-body collapsible-body">
+						<div class="gridStyle grid" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
+					</div>
+				</li>
 			</div>
 		</div>
 	</div>

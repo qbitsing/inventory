@@ -2,115 +2,121 @@
 <div class="contenido">
 	<div class="row" ng-hide="Usuario.rol!='Super Administrador'">
 		<div class="col s12">
-			<div class="card-panel panel-default {{panelAnimate}}">
-				<div class="panel-heading blue accent-4">
-					<h3 class="panel-title">{{panel_title_form}}</h3>
-				</div>
-				<div class="panel-body" >
-					<form name="formMateriaPrima" novalidate ng-submit="EnviarOrden()">
-						<div class="row">
-							<div class="input-field col s12 m12 l12" id="Clientes">
-								<!--<select ng-model="Orden.cliente._id" material-select watch required>
-	      							<option ng-repeat="cliente in clientes" value="{{cliente._id}}">{{cliente.nombre}} {{cliente.apellidos}}</option>
-								</select>-->
-								<label class="active">Cliente*</label>
-								<ng-infinite-autocomplete
-									data="arrayClientes"
-									on-select="selectAutocompleteCliente($element, $data)"
-							   		name="producto">
-							   	</ng-infinite-autocomplete>
-								
-							</div>
-						</div>
-						<div class="row">
-							<div class="input-field col s12 m6 l6">
-								<label for="orden-cliente">Numero de orden cliente</label>
-								<input type="text" noenter name="orden-cliente" id="orden-cliente" ng-model="Orden.orden_compra_cliente">
-							</div>
-							<div class="input-field col s12 m6 l6">
-								<label for="lugar_entrega">Lugar entrega *</label>
-								<input type="text" noenter name="lugar_entrega" ng-model="Orden.lugar_entrega" id="lugar_entrega" required>
-							</div>
-						</div>
-						<div class="row">
-							<div class="input-field col s12 m6 l6">
-								<label for="fecha_recepcion" class="active">Fecha de recepción *</label>
-								<input type="date" noenter id="fecha_recepcion" ng-change="validarFechaRecepcion()" ng-model="Orden.fecha_recepcion" required>
-							</div>
-							<div class="input-field col s12 m6 l6">
-								<label for="fecha_entrega" class="active">Fecha de entrega *</label>
-								<input type="date" noenter id="fecha_entrega" ng-change="validarFechaEntrega()" ng-model="Orden.fecha_entrega" required>
-							</div>
-						</div>
-						<div class="row">
-							<div class="input-field col s10 m5 l5" id="Productos">
-								<label for="producto" class="active">Producto</label>
-								<ng-infinite-autocomplete
-								    data="datos"
-								    on-select="selectAutocomplete($element, $data)"
-								   name="producto">
-								   </ng-infinite-autocomplete>
-							</div>
-							<div class="input-field col s2 m1 l1">
-								<input type="text" ng-keyup="cargarProducto($event)" ng-model="Orden.Producto.codigo" id="codigo_barras" name="codigo_barras">
-								<label for="codigo_barras">codigo</label>
-							</div>
-							<div class="col s12 m6 l6">
-								<div class="input-field col s8 m8 l8">
-									<input type="number" ng-keyup="detectar($event)" noenter numbervalidation ng-model="Orden.Producto.cantidad" id="Cantidad" name="Cantidad">
-									<label for="Cantidad">Cantidad *</label>
+			<div class="card-panel panel-default {{panelAnimate}} collapsible" data-collapsible="accordion">
+				<li>
+					<div class="panel-heading blue accent-4">
+						<h3 class="panel-title">{{panel_title_form}}</h3>
+					</div>
+					<a class=" waves-light collapsible-header" accordion><i class="material-icons">expand_more</i></a>				
+					<div class="panel-body collapsible-body" >
+						<form name="formMateriaPrima" novalidate ng-submit="EnviarOrden()">
+							<div class="row">
+								<div class="input-field col s12 m12 l12" id="Clientes">
+									<!--<select ng-model="Orden.cliente._id" material-select watch required>
+										<option ng-repeat="cliente in clientes" value="{{cliente._id}}">{{cliente.nombre}} {{cliente.apellidos}}</option>
+									</select>-->
+									<label class="active">Cliente*</label>
+									<ng-infinite-autocomplete
+										data="arrayClientes"
+										on-select="selectAutocompleteCliente($element, $data)"
+										name="producto">
+									</ng-infinite-autocomplete>
+									
 								</div>
-								<button type="button" class="btn btn-success col s4 m4 l4" ng-disabled="!(Orden.Producto._id) || !(Orden.Producto.cantidad)" ng-click="AgregarProducto()">Añadir</button>
 							</div>
-						</div>
-						<div class="row">
-							<div class="input-field col s12 m6 l6">
-							<table class="bordered striped" ng-hide="Orden.productos.length<1">
-						        <thead>
-						        	<tr>
-										<th data-field="insumo">Producto</th>
-										<th data-field="marca">Marca</th>
-										<th data-field="cantidad">Cantidad</th>
-										<th data-field="opcion">Opción</th>
-						          	</tr>
-						        </thead>
-						        <tbody>
-						          	<tr ng-repeat="producto in Orden.productos">
-							            <td>{{producto.nombre}}</td>
-							            <td>{{producto.marca}}</td>
-							            <td>{{producto.cantidad}}</td>
-							            <td><a class="btn btn-danger" class="cursor" ng-click="BorrarProducto($index)">Eliminar</a></td>
-						          	</tr>
-						        </tbody>
-						      </table>
+							<div class="row">
+								<div class="input-field col s12 m6 l6">
+									<label for="orden-cliente">Numero de orden cliente</label>
+									<input type="text" noenter name="orden-cliente" id="orden-cliente" ng-model="Orden.orden_compra_cliente">
+								</div>
+								<div class="input-field col s12 m6 l6">
+									<label for="lugar_entrega">Lugar entrega *</label>
+									<input type="text" noenter name="lugar_entrega" ng-model="Orden.lugar_entrega" id="lugar_entrega" required>
+								</div>
 							</div>
-							<div class="input-field col s12 m6 l6">
-					            <textarea id="observaciones" class="materialize-textarea" ng-model="Orden.observaciones" data-length="120"></textarea>
-					            <label for="observaciones">Observaciones</label>
-				        	</div>
-						</div>
-						<div class="row">
-						<div class="col">
-							<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formMateriaPrima.$invalid || Orden.productos.length<1 || !Orden.cliente._id">{{button_title_form}}</button>
-						</div>
-						<div class="col">
-							<button type="button" class="btn btn-large btn-danger" ng-click="CancelarEditar()">Cancelar</button>
-						</div>
-						</div>
-					</form>
-				</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l6">
+									<label for="fecha_recepcion" class="active">Fecha de recepción *</label>
+									<input type="date" noenter id="fecha_recepcion" ng-change="validarFechaRecepcion()" ng-model="Orden.fecha_recepcion" required>
+								</div>
+								<div class="input-field col s12 m6 l6">
+									<label for="fecha_entrega" class="active">Fecha de entrega *</label>
+									<input type="date" noenter id="fecha_entrega" ng-change="validarFechaEntrega()" ng-model="Orden.fecha_entrega" required>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s10 m5 l5" id="Productos">
+									<label for="producto" class="active">Producto</label>
+									<ng-infinite-autocomplete
+										data="datos"
+										on-select="selectAutocomplete($element, $data)"
+									name="producto">
+									</ng-infinite-autocomplete>
+								</div>
+								<div class="input-field col s2 m1 l1">
+									<input type="text" ng-keyup="cargarProducto($event)" ng-model="Orden.Producto.codigo" id="codigo_barras" name="codigo_barras">
+									<label for="codigo_barras">codigo</label>
+								</div>
+								<div class="col s12 m6 l6">
+									<div class="input-field col s8 m8 l8">
+										<input type="number" ng-keyup="detectar($event)" noenter numbervalidation ng-model="Orden.Producto.cantidad" id="Cantidad" name="Cantidad">
+										<label for="Cantidad">Cantidad *</label>
+									</div>
+									<button type="button" class="btn btn-success col s4 m4 l4" ng-disabled="!(Orden.Producto._id) || !(Orden.Producto.cantidad)" ng-click="AgregarProducto()">Añadir</button>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l6">
+								<table class="bordered striped" ng-hide="Orden.productos.length<1">
+									<thead>
+										<tr>
+											<th data-field="insumo">Producto</th>
+											<th data-field="marca">Marca</th>
+											<th data-field="cantidad">Cantidad</th>
+											<th data-field="opcion">Opción</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="producto in Orden.productos">
+											<td>{{producto.nombre}}</td>
+											<td>{{producto.marca}}</td>
+											<td>{{producto.cantidad}}</td>
+											<td><a class="btn btn-danger" class="cursor" ng-click="BorrarProducto($index)">Eliminar</a></td>
+										</tr>
+									</tbody>
+								</table>
+								</div>
+								<div class="input-field col s12 m6 l6">
+									<textarea id="observaciones" class="materialize-textarea" ng-model="Orden.observaciones" data-length="120"></textarea>
+									<label for="observaciones">Observaciones</label>
+								</div>
+							</div>
+							<div class="row">
+							<div class="col">
+								<button type="submit" class="btn btn-large blue accent-4" ng-disabled="formMateriaPrima.$invalid || Orden.productos.length<1 || !Orden.cliente._id">{{button_title_form}}</button>
+							</div>
+							<div class="col">
+								<button type="button" class="btn btn-large btn-danger" ng-click="CancelarEditar()">Cancelar</button>
+							</div>
+							</div>
+						</form>
+					</div>
+				</li>
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col s12">
-			<div class="card-panel panel-default {{panelAnimate}}">
-				<div class="panel-heading blue accent-4">
-					<h3 class="panel-title">Lista de Ordenes de Venta</h3>
-				</div>
-				<div class="panel-body" >
-					<div class="gridStyle grid" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
-				</div>
+			<div class="card-panel panel-default {{panelAnimate}} collapsible" data-collapsible="accordion">
+				<li>
+					<div class="panel-heading blue accent-4">
+						<h3 class="panel-title">Lista de Ordenes de Venta</h3>
+					</div>
+					<a class=" waves-light collapsible-header active" accordion><i class="material-icons">expand_less</i></a>
+					<div class="panel-body collapsible-body" >
+						<div class="gridStyle grid" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
+					</div>
+				</li>
 			</div>
 		</div>
 	</div>
