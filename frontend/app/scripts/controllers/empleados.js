@@ -22,11 +22,6 @@ angular.module('frontendApp')
             },
             complete: function() {  } // Callback for Modal close
         });
-        $('.collapsible').collapsible({
-            accordion: true, // A setting that changes the collapsible behavior to expandable instead of the default accordion style
-            onOpen: function(el) { alert(el); }, // Callback for Collapsible open
-            onClose: function(el) { alert('Closed'); } // Callback for Collapsible close
-          });
     });
     $scope.server=server;
     $scope.preloader = preloader;

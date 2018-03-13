@@ -7,7 +7,7 @@
 					<div class="panel-heading blue accent-4 ">
 						<h3 class="panel-title">{{panel_title_form}}</h3>
 					</div>
-					<a class=" waves-light collapsible-header"><i class="material-icons">expand_more</i></a>
+					<a class=" waves-light collapsible-header" accordion><i class="material-icons">expand_more</i></a>
 					<div class="panel-body collapsible-body" >
 						<form name="formEmpleados" novalidate ng-submit="EnviarEmpleado()">
 							<div class="row">
@@ -80,13 +80,17 @@
 	</div>
 	<div class="row">
 		<div class="col s12">
-			<div class="card-panel {{panelAnimate}}">
-				<div class="panel-heading blue accent-4">
-					<h3 class="panel-title">Lista de Empleados</h3>
-				</div>
-				<div class="panel-body" >
-					<div class="gridStyle grid" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
-				</div>
+			<div class="card-panel {{panelAnimate}} collapsible" data-collapsible="accordion">
+				<li>
+					<div class="panel-heading blue accent-4">
+						<h3 class="panel-title">Lista de Empleados</h3>
+					</div>
+					<a class=" waves-light collapsible-header active" accordion><i class="material-icons">expand_less</i></a>
+					<div class="panel-body collapsible-body" >
+						<div class="gridStyle grid" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns></div>
+					</div>
+				</li>
+				
 			</div>
 		</div>
 	</div>
