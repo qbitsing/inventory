@@ -47,6 +47,30 @@ angular.module('frontendApp')
     $scope.Orden.Producto={};
     $scope.Orden.Producto._id='';
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles+BotonesTabla.Editarorden+BotonesTabla.Borrarorden+'</div>';
+    $scope.estados = [
+        {name: 'Activo', class: 'active'},
+        {name: 'Finalizado', class: ''},
+        {name: 'Con Entradas', class: ''}
+    ]
+    $scope.changeState = function(e) {
+        let Orders = []
+        $scope.Ordenes.forEach(order => {
+            if(order.estado == e) Orders.push(order)
+        })
+        $scope.estados.forEach(state => {
+            if(state.name == e) state.class = 'active'
+            else state.class = ''
+        })
+        let height
+        if (Orders.length >= 25 ){
+            height = (30 * 25) + 160
+        }
+        else {
+            height = (30 * Orders.length) + 160
+        }
+        $('.grid').height(height)
+        $scope.gridOptions.data = Orders
+    }
     $scope.gridOptions = {
         columnDefs: [
             {
@@ -396,15 +420,7 @@ angular.module('frontendApp')
         .getResource('orden_compra',{Entradas:true, Finalizado:true, Activo:true},'get')
         .then(function(data){
             $scope.Ordenes=data.data.datos;
-            $scope.gridOptions.data=$scope.Ordenes;
-            let height
-            if ($scope.gridOptions.data.length >= 25 ){
-                height = (30 * 25) + 140
-            }
-            else {
-                height = (30 * $scope.gridOptions.data.length) + 140
-            }
-            $('.grid').height(height)
+            $scope.changeState('Activo')
             listarProductos();
         },function(data){
             $scope.Ordenes=[];

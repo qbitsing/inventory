@@ -544,8 +544,21 @@ preloader{
 .row{
   margin-bottom: 0;
 }
+.tabs .tab a {
+  cursor: pointer;
+}
+.tabs .tab a{
+  color: $azul;
+  &:hover {
+    color: $azul;
+  }
+}
+.tabs .tab a.active {
+  color: $azul;  
+  border-bottom: 3px solid $azul;
+}
 .grid {
-  min-height: 450px;
+  min-height: 350px;
 }
 .ui-grid-filter-container input[type=text]{
   height: 2em;

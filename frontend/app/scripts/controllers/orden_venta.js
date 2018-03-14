@@ -39,6 +39,30 @@ angular.module('frontendApp')
     $scope.noDisponible=[];
     $scope.Orden={};
     $scope.datos=[];
+    $scope.estados = [
+        {name: 'Activo', class: 'active'},
+        {name: 'Finalizado', class: ''},
+        {name: 'Con Salidas', class: ''}
+    ]
+    $scope.changeState = function(e) {
+        let Orders = []
+        $scope.Ordenes.forEach(order => {
+            if(order.estado == e) Orders.push(order)
+        })
+        $scope.estados.forEach(state => {
+            if(state.name == e) state.class = 'active'
+            else state.class = ''
+        })
+        let height
+        if (Orders.length >= 25 ){
+            height = (30 * 25) + 160
+        }
+        else {
+            height = (30 * Orders.length) + 160
+        }
+        $('.grid').height(height)
+        $scope.gridOptions.data = Orders
+    }
     $scope.arrayClientes=[];
     $scope.Orden.productos=[];
     $scope.Orden.Producto={};
@@ -46,9 +70,6 @@ angular.module('frontendApp')
     var casillaDeBotones = '<div>'+BotonesTabla.Detalles;
     if ($scope.Usuario.rol=='Super Administrador') {
         casillaDeBotones+=BotonesTabla.Editarorden+BotonesTabla.Finalizar;
-    }
-    if ($scope.Usuario.rol!='Almacenista') {
-        casillaDeBotones+=BotonesTabla.Factura;
     }
     casillaDeBotones+='</div>';
     $scope.gridOptions = {
@@ -151,16 +172,8 @@ angular.module('frontendApp')
         webServer
         .getResource('orden_venta',{Salidas:true, Finalizado:true, Activo:true},'get')
         .then(function(data){
-            $scope.Ordenes=data.data.datos;
-            $scope.gridOptions.data=$scope.Ordenes;
-            let height
-            if ($scope.Ordenes.length >= 25 ){
-                height = (30 * 25) + 140
-            }
-            else {
-                height = (30 * $scope.Ordenes.length) + 140
-            }
-            $('.grid').height(height)
+            $scope.Ordenes = data.data.datos;
+            $scope.changeState('Activo')
             listarPersonas();
         },function(data){
             $scope.Ordenes=[];
