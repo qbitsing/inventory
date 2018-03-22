@@ -63,23 +63,29 @@ angular.module('frontendApp')
         {name: 'En Fabricacion', class: ''}
     ]
     $scope.changeState = function(e) {
-        let Orders = []
-        $scope.Fabricaciones.forEach(order => {
-            if(order.estado == e) Orders.push(order)
+        var Orders = [];
+        $scope.Fabricaciones.forEach( function (order) {
+            if(order.estado == e) {
+                Orders.push(order);
+            }
         })
-        $scope.estados.forEach(state => {
-            if(state.name == e) state.class = 'active'
-            else state.class = ''
+        $scope.estados.forEach(function (state) {
+            if(state.name == e) {
+                state.class = 'active';
+            }
+            else { 
+                state.class = '';
+            }
         })
-        let height
+        var height;
         if (Orders.length >= 25 ){
-            height = (30 * 25) + 160
+            height = (30 * 25) + 160;
         }
         else {
-            height = (30 * Orders.length) + 160
+            height = (30 * Orders.length) + 160;
         }
-        $('.grid').height(height)
-        $scope.gridOptions.data = Orders
+        $('.grid').height(height);
+        $scope.gridOptions.data = Orders;
     }
     var casillaDeBotones;
     casillaDeBotones = '<div>'+BotonesTabla.Detalles;
@@ -1191,7 +1197,7 @@ angular.module('frontendApp')
         .getResource('fabricacion',{},'get')
         .then(function(data){
             $scope.Fabricaciones=data.data.datos;
-            $scope.changeState('Completa')
+            $scope.changeState('Completa');
             listarMaterias();
         },function(data){
             $scope.Fabricaciones=[];

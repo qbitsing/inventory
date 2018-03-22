@@ -27,8 +27,5 @@ angular.module('frontendApp')
           $scope.preloader.estado = false;
           sweetAlert("Oops...", data.data.message, "error");
         })
-        .catch(e => {
-            sweetAlert("Oops...", 'Error al conectarse con el servidor', "error")
-        })
   	}
 })

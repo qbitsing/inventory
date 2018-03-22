@@ -62,6 +62,7 @@
   "scripts": {
     "test": "karma start test/karma.conf.js",
     "lint": "standard",
+    "build": "gulp build",
     "start-dev": "gulp serve",
     "bower": "bower install && bower install angular-cryptography"
   }

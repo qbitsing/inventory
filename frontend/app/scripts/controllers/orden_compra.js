@@ -51,25 +51,31 @@ angular.module('frontendApp')
         {name: 'Activo', class: 'active'},
         {name: 'Finalizado', class: ''},
         {name: 'Con Entradas', class: ''}
-    ]
+    ];
     $scope.changeState = function(e) {
-        let Orders = []
-        $scope.Ordenes.forEach(order => {
-            if(order.estado == e) Orders.push(order)
+        var Orders = [];
+        $scope.Ordenes.forEach(function (order) {
+            if(order.estado == e) {
+                Orders.push(order);
+            }
         })
-        $scope.estados.forEach(state => {
-            if(state.name == e) state.class = 'active'
-            else state.class = ''
+        $scope.estados.forEach(function (state) {
+            if(state.name == e) {
+                state.class = 'active';
+            }
+            else {
+                state.class = '';
+            }
         })
-        let height
+        var height;
         if (Orders.length >= 25 ){
-            height = (30 * 25) + 160
+            height = (30 * 25) + 160;
         }
         else {
-            height = (30 * Orders.length) + 160
+            height = (30 * Orders.length) + 160;
         }
-        $('.grid').height(height)
-        $scope.gridOptions.data = Orders
+        $('.grid').height(height);
+        $scope.gridOptions.data = Orders;
     }
     $scope.gridOptions = {
         columnDefs: [
@@ -102,7 +108,7 @@ angular.module('frontendApp')
                 minWidth: 150
             }
         ]
-    }
+    };
     angular.extend($scope.gridOptions , Tabla);
 
     $scope.Detalles = function(id){

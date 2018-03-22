@@ -185,7 +185,7 @@ angular.module('frontendApp')
         .then(function(data){
             $scope.Personas = data.data.datos;
             $scope.gridOptions.data = data.data.datos;
-            let height
+            var height
             if ($scope.gridOptions.data.length >= 25 ){
                 height = (30 * 25) + 140
             }

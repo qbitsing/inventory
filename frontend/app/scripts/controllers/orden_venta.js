@@ -45,23 +45,29 @@ angular.module('frontendApp')
         {name: 'Con Salidas', class: ''}
     ]
     $scope.changeState = function(e) {
-        let Orders = []
-        $scope.Ordenes.forEach(order => {
-            if(order.estado == e) Orders.push(order)
-        })
-        $scope.estados.forEach(state => {
-            if(state.name == e) state.class = 'active'
-            else state.class = ''
-        })
-        let height
+        var Orders = [];
+        $scope.Ordenes.forEach(function (order) {
+            if(order.estado == e) {
+                Orders.push(order);
+            }
+        });
+        $scope.estados.forEach(function (state) {
+            if(state.name == e) {
+                state.class = 'active';
+            }
+            else {
+                state.class = '';
+            }
+        });
+        var height;
         if (Orders.length >= 25 ){
-            height = (30 * 25) + 160
+            height = (30 * 25) + 160;
         }
         else {
-            height = (30 * Orders.length) + 160
+            height = (30 * Orders.length) + 160;
         }
-        $('.grid').height(height)
-        $scope.gridOptions.data = Orders
+        $('.grid').height(height);
+        $scope.gridOptions.data = Orders;
     }
     $scope.arrayClientes=[];
     $scope.Orden.productos=[];
@@ -108,8 +114,8 @@ angular.module('frontendApp')
                 minWidth: 420
             }
         ]
-    }
-    angular.extend($scope.gridOptions, Tabla)
+    };
+    angular.extend($scope.gridOptions, Tabla);
     $scope.Orden={};
     $scope.Orden.productos=[];
     $scope.productos=[];
@@ -173,7 +179,7 @@ angular.module('frontendApp')
         .getResource('orden_venta',{Salidas:true, Finalizado:true, Activo:true},'get')
         .then(function(data){
             $scope.Ordenes = data.data.datos;
-            $scope.changeState('Activo')
+            $scope.changeState('Activo');
             listarPersonas();
         },function(data){
             $scope.Ordenes=[];
